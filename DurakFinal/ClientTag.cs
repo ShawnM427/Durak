@@ -31,6 +31,12 @@ namespace Durak.Common
             get { return myAddress; }
         }
 
+        public ClientTag(string name)
+        {
+            myName = name;
+            myAddress = null;
+        }
+
         /// <summary>
         /// Writes this client tag to an outgoing message
         /// </summary>

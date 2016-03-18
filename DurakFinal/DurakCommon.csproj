@@ -63,7 +63,9 @@
     <Compile Include="GameMove.cs" />
     <Compile Include="GameState.cs" />
     <Compile Include="Logger.cs" />
+    <Compile Include="MessagePacketDefinitions.cs" />
     <Compile Include="NetSettings.cs" />
+    <Compile Include="NetUtils.cs" />
     <Compile Include="ServerState.cs" />
     <Compile Include="MessageType.cs" />
     <Compile Include="Player.cs" />

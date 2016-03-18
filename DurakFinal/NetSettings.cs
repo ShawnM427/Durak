@@ -15,5 +15,6 @@ namespace Durak.Common
         public const float DEFAULT_SERVER_TIMEOUT = 5.0f;
         public const string APP_IDENTIFIER = "DURAK_0.0";
         public const string DEFAULT_SERVER_SHUTDOWN_MESSAGE = "Server is shutting down...";
+        public const string DEFAULT_CLIENT_SHUTDOWN_MESSAGE = "Client is shutting down...";
     }
 }

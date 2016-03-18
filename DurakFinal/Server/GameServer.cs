@@ -38,6 +38,14 @@ namespace Durak.Server
         private Player myGameHost;
 
         /// <summary>
+        /// Gets the server's IP address
+        /// </summary>
+        public IPAddress IP
+        {
+            get { return myAddress; }
+        }
+
+        /// <summary>
         /// Creates a new instance of a game server
         /// </summary>
         public GameServer()
@@ -97,6 +105,8 @@ namespace Durak.Server
 
             // Allow incoming connections
             netConfig.AcceptIncomingConnections = true;
+            // Set the ping interval
+            netConfig.PingInterval = NetSettings.DEFAULT_SERVER_TIMEOUT / 10.0f;
             // Set the address
             netConfig.LocalAddress = myAddress;
             // Set the timeout between heartbeats before a client is considered disconnected
@@ -303,8 +313,17 @@ namespace Durak.Server
                         myServer.SendMessage(outMsg, inMessage.SenderConnection, NetDeliveryMethod.ReliableOrdered);
                         break;
 
+                    case MessageType.HostReqStart:
+
+                        bool start = inMessage.ReadBoolean();
+                        inMessage.ReadPadBits();
+
+                        Log("Host requesting game start");
+                        break;
+
                     default:
-                        Logger.Write("Invalid message received from \"{0}\" ({1})", myPlayers[inMessage.SenderConnection].Name, inMessage.SenderEndPoint);
+                        Log("Invalid message received from \"{0}\" ({1})", myPlayers[inMessage.SenderConnection].Name, inMessage.SenderEndPoint);
+                        inMessage.ReadBytes(inMessage.LengthBytes - inMessage.PositionInBytes);
                         break;
                 }
             }

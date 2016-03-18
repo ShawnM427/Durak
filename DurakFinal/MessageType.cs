@@ -12,12 +12,12 @@ namespace Durak.Common
     public enum MessageType
     {
         /// <summary>
-        /// Sent by the host client to request that the game start
-        /// 
-        /// Payload:
-        ///     boolean - start
+        /// Sent by the host client to request that the game start      
+        ///                                                             
+        /// Payload:                                                    
+        ///     boolean - start                                         
         /// </summary>
-        HostReqStart                = 31,
+        HostReqStart = 31,
         /// <summary>
         /// Sent by the host client to request that a bot is added
         /// 
