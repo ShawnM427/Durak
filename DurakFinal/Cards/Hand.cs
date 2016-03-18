@@ -6,11 +6,38 @@ using System.Threading.Tasks;
 
 namespace Durak.Common.Cards
 {
-    public class Hand
+    public class Hand : List<PlayingCard>, ICloneable
     {
+        public object Clone()
+        {
+            Hand newCards = new Hand();
+            foreach (PlayingCard sourceCard in this)
+            {
+                newCards.Add(sourceCard.Clone() as PlayingCard);
+            }
+            return newCards;
+        }
+
         internal bool ContainsCards(PlayingCard move)
         {
             throw new NotImplementedException();
         }
+
+        // Utility method for copying card instances into another Cards
+        // instance - used in Deck.Shuffle(). This implementation assumes that
+        // source and target collections are the same size.
+        public void CopyTo(Hand targetCards)
+        {
+            for (int index = 0; index < this.Count; index++)
+            {
+                targetCards[index] = this[index];
+            }
+        }
+
+        public void Discard(PlayingCard card)
+        {
+            Remove(card);
+        }
+
     }
 }

@@ -53,10 +53,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cards\CardEventArgs.cs" />
+    <Compile Include="Cards\CardOutOfRangeException.cs" />
     <Compile Include="Cards\CardRank.cs" />
-    <Compile Include="Cards\CardSuit.cs" />
-    <Compile Include="Cards\Deck.cs" />
     <Compile Include="Cards\Hand.cs" />
+    <Compile Include="Cards\CardSuit.cs" />
+    <Compile Include="Cards\ComputerPlayer.cs" />
+    <Compile Include="Cards\ComputerSkillLevel.cs" />
+    <Compile Include="Cards\Deck.cs" />
     <Compile Include="Cards\PlayingCard.cs" />
     <Compile Include="ClientTag.cs" />
     <Compile Include="Client\GameClient.cs" />
