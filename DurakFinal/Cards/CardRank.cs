@@ -8,7 +8,7 @@
  * @since       23 Feb 2016
  */
 
-namespace DurakFinal.Common.Cards
+namespace Durak.Common.Cards
 {
     /// <summary>
     /// CardRank Enumeration

@@ -6,7 +6,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DurakFinal.Common
+namespace Durak.Common
 {
     /// <summary>
     /// Represents client tag data, such as player name, IP, type, etc...

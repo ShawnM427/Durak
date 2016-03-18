@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DurakFinal.Common
+namespace Durak.Common
 {
     /// <summary>
     /// Stores a list of all players for a game, this is used to look up

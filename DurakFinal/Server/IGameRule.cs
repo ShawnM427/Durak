@@ -1,6 +1,6 @@
-﻿using DurakFinal.Common;
+﻿using Durak.Common;
 
-namespace DurakFinal.Server
+namespace Durak.Server
 {
     /// <summary>
     /// Represents the interface for a game rule that is used by the game logic

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DurakFinal.Common;
+using Durak.Common;
 
-namespace DurakFinal.Server.Rules
+namespace Durak.Server.Rules
 {
     public class CheckWonBattle : IGameRule
     {

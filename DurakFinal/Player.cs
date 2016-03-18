@@ -1,8 +1,8 @@
-﻿using DurakFinal.Common.Cards;
+﻿using Durak.Common.Cards;
 using Lidgren.Network;
 using System;
 
-namespace DurakFinal.Common
+namespace Durak.Common
 {
     /// <summary>
     /// Represents a single durak player. This basically conatins all of a single player's candle

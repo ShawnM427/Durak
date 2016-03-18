@@ -1,21 +1,25 @@
-﻿using DurakFinal.Common;
+﻿using Durak.Common;
 using Lidgren.Network;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
-namespace DurakFinal.Server
+namespace Durak.Server
 {
     /// <summary>
     /// Represents a game server that handles networking clients and running the game logic
     /// </summary>
     public class GameServer
     {
-
+        private IPAddress myAddress;
+        // The output text box for the server log
+        private RichTextBox myOutput;
         // Stores this server's server tag
         private ServerTag myTag;
         // Stores the list of rules to use
@@ -60,6 +64,15 @@ namespace DurakFinal.Server
         }
 
         /// <summary>
+        /// Sets the control to send log output to
+        /// </summary>
+        /// <param name="control">The control to log to</param>
+        public void SetOutput(RichTextBox control)
+        {
+            myOutput = control;
+        }
+
+        /// <summary>
         /// Initializes the server 
         /// </summary>
         private void InitServer()
@@ -67,8 +80,25 @@ namespace DurakFinal.Server
             // Create a new net config
             NetPeerConfiguration netConfig = new NetPeerConfiguration(NetSettings.APP_IDENTIFIER);
 
+            // Gets the IP's associated with this server
+            IPAddress[] IpList = Dns.GetHostAddresses(Dns.GetHostName());
+
+            // Iterate over them
+            foreach (IPAddress IP in IpList)
+            {
+                // Gets the Internetwork IP
+                if (IP.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                {
+                    // Assign to myAddress
+                    myAddress = IP;
+                    break;
+                }
+            }
+
             // Allow incoming connections
             netConfig.AcceptIncomingConnections = true;
+            // Set the address
+            netConfig.LocalAddress = myAddress;
             // Set the timeout between heartbeats before a client is considered disconnected
             netConfig.ConnectionTimeout = NetSettings.DEFAULT_SERVER_TIMEOUT;
             // Set the maximum number of connections to the number of players
@@ -101,8 +131,12 @@ namespace DurakFinal.Server
         /// </summary>
         public void Run()
         {
+            Log("Starting server");
+
             // Simply start the server
             myServer.Start();
+            
+            Log("Server Started on {0}:{1}", myAddress, myServer.Configuration.Port);
         }
 
         /// <summary>
@@ -112,6 +146,20 @@ namespace DurakFinal.Server
         {
             // Shut down the underlying server
             myServer.Shutdown(NetSettings.DEFAULT_SERVER_SHUTDOWN_MESSAGE);
+
+            Log("Stopping server");
+        }
+
+        /// <summary>
+        /// Log a message
+        /// </summary>
+        /// <param name="message">The message to log</param>
+        private void Log(string message, params object[] format)
+        {
+            Logger.Write(message, format);
+
+            if (myOutput != null)
+                myOutput.AppendText(string.Format(message, format) + "\n");
         }
 
         /// <summary>
@@ -142,6 +190,8 @@ namespace DurakFinal.Server
                                 break;
                         }
 
+                        Log("Connection status updated for connection from {0}: {1}", inMsg.SenderEndPoint, status);
+
                         break;
 
                     // Handle when a player is trying to join
@@ -159,17 +209,23 @@ namespace DurakFinal.Server
                             {
                                 // Go ahead and try to join that playa
                                 PlayerJoined(clientTag, inMsg.SenderConnection);
+
+                                Log("Player \"{0}\" joined from {1}", clientTag.Name, clientTag.Address);
                             }
                             else
                             {
                                 // Fuck you brah!
                                 inMsg.SenderConnection.Deny("Password authentication failed");
+
+                                Log("Player \"{0}\" failed to connect (password failed) from {1}", clientTag.Name, clientTag.Address);
                             }
                         }
                         else
                         {
                             // We are mid-way through a game
                             inMsg.SenderConnection.Deny("Game has already started");
+
+                            Log("Player \"{0}\" attempted to connect mid game from {1}", clientTag.Name, clientTag.Address);
                         }
                         break;
 
@@ -182,6 +238,9 @@ namespace DurakFinal.Server
                         myTag.WriteToPacket(msg);
                         // Send the response
                         myServer.SendDiscoveryResponse(msg, inMsg.SenderEndPoint);
+
+                        Log("Pinged discovery response to {0}", inMsg.SenderEndPoint);
+
                         break;
 
                     // Handles when the server has received data
@@ -194,7 +253,7 @@ namespace DurakFinal.Server
             catch(Exception e)
             {
                 // Log the exception
-                Logger.Write("Encountered exception parsing packet from {0}:\n\t{1}", inMsg.SenderEndPoint, e);
+                Log("Encountered exception parsing packet from {0}:\n\t{1}", inMsg.SenderEndPoint, e);
             }
         }
         
@@ -222,11 +281,12 @@ namespace DurakFinal.Server
                             if (move.Player == myPlayers[inMessage.SenderConnection]) // Check that the move came from the right client before handling
                                 HandleMove(move); // Handle the move
                             else
-                                Logger.Write("Bad packet received from \"{0}\" ({1})", myPlayers[inMessage.SenderConnection].Name, inMessage.SenderEndPoint);
+                                Log("Bad packet received from \"{0}\" ({1})", myPlayers[inMessage.SenderConnection].Name, inMessage.SenderEndPoint);
                         }
                         else
                         {
                             NotifyBadState(inMessage.SenderConnection, "Game is not currently running");
+                            Log("Player \"{0}\" attempted move during non-game state", myPlayers[inMessage.SenderConnection].Name, inMessage.SenderEndPoint);
                         }
                         break;
 

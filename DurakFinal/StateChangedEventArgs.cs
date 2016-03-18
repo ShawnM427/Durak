@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DurakFinal.Common
+namespace Durak.Common
 {
     /// <summary>
     /// Represents the event arguments for a state change event

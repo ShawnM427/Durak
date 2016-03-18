@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DurakFinal.Common
+namespace Durak.Common
 {
     /// <summary>
     /// Contains usefull extension methods for security

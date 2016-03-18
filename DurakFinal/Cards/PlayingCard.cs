@@ -11,7 +11,7 @@
 using System;
 using System.Drawing; // (Add a reference) needed for System.Drawing.Image
 
-namespace DurakFinal.Common.Cards
+namespace Durak.Common.Cards
 {
     public class PlayingCard : ICloneable, // Supports Cloning, which creates a new
             // instance of a class with the same value as an existing instance.
@@ -238,7 +238,7 @@ namespace DurakFinal.Common.Cards
                 imageName = mySuit.ToString() + "_" + myRank.ToString(); // enumerations are handy!
             }
             // set the image to the appropriate object we get from the resources file
-            cardImage = Properties.Resources.ResourceManager.GetObject(imageName) as Image;
+            cardImage = Durak.Common.Properties.Resources.ResourceManager.GetObject(imageName) as Image;
             //return the image
             return cardImage;
         }

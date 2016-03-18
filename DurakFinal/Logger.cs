@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DurakFinal.Common
+namespace Durak.Common
 {
     /// <summary>
     /// A utility for logging information to a human-readable text file

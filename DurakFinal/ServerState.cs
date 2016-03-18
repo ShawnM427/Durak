@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DurakFinal.Common
+namespace Durak.Common
 {
     /// <summary>
     /// Represents the state of a game server

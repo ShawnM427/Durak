@@ -1,4 +1,4 @@
-﻿using DurakFinal.Common.Cards;
+﻿using Durak.Common.Cards;
 using Lidgren.Network;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DurakFinal.Common
+namespace Durak.Common
 {
     /// <summary>
     /// Represents a single move made by a player

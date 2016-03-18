@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DurakFinal.Common
+namespace Durak.Common
 {
     /// <summary>
     /// Represents the type for a given message
@@ -141,5 +141,14 @@ namespace DurakFinal.Common
         ///     byte    - card suit
         /// </summary>
         SucessfullMove              = 152,
+
+        /// <summary>
+        /// Sent by the clients and the server for chat messages
+        /// 
+        /// Payload:
+        ///     byte    - playerId
+        ///     String  - message
+        /// </summary>
+        PlayerChat                  = 200
     }
 }

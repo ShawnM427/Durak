@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DurakFinal.Common.Cards
+namespace Durak.Common.Cards
 {
     public class Deck
     {

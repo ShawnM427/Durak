@@ -1,11 +1,11 @@
-﻿using DurakFinal.Common.Cards;
+﻿using Durak.Common.Cards;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DurakFinal.Common
+namespace Durak.Common
 {
     /// <summary>
     /// Represents the state of a game. This is a re-usable class that can be used by any card game
