@@ -15,6 +15,7 @@ namespace Durak.Common
         public Hand Hand { get; private set; }
         public int NumCards { get; set; }
         public bool IsBot { get; set; }
+        public bool IsReady { get; set; }
 
         /// <summary>
         /// Creates a new client-side player instance

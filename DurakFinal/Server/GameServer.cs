@@ -313,12 +313,49 @@ namespace Durak.Server
                         myServer.SendMessage(outMsg, inMessage.SenderConnection, NetDeliveryMethod.ReliableOrdered);
                         break;
 
+                    case MessageType.PlayerReady:
+
+                        break;
+
+                    // A client is requesting the game to start
                     case MessageType.HostReqStart:
 
+                        // Read the boolean and the padding bits
                         bool start = inMessage.ReadBoolean();
                         inMessage.ReadPadBits();
 
-                        Log("Host requesting game start");
+                        // Ensure the sending player is the host
+                        if (myPlayers[inMessage.SenderConnection] == myGameHost)
+                        {
+                            // Log the request
+                            Log("Host requesting game start");
+
+                            bool isLobbyReady = true;
+
+                            // Loop through the players
+                            for (byte index = 0; index < myPlayers.Count; index++)
+                            {
+                                // Check for null players, the host and bots. They are exluded from the check
+                                if (myPlayers[index] != null && myPlayers[index] != myGameHost && !myPlayers[index].IsBot)
+                                {
+                                    // If the player is not ready, we cannot continue, break out of the loop
+                                    if (!myPlayers[index].IsReady)
+                                    {
+                                        isLobbyReady = false;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            // If everyone is ready proceed to game
+                            if (isLobbyReady)
+                                SetGameState(ServerState.InGame);
+                        }
+                        else
+                        {
+                            Log("Someone who's not host is requesting game start");
+                        }
+
                         break;
 
                     default:
@@ -327,6 +364,25 @@ namespace Durak.Server
                         break;
                 }
             }
+        }
+
+        /// <summary>
+        /// Sets the game state for the server and updates all the clients
+        /// </summary>
+        /// <param name="state">The new server state</param>
+        /// <param name="reason">The reason for the state change</param>
+        private void SetGameState(ServerState state, string reason = "Game Started")
+        {
+            myState = state;
+
+            NetOutgoingMessage updateMessage = myServer.CreateMessage();
+
+            updateMessage.Write((byte)state);
+            updateMessage.Write(reason);
+
+            Log("Starting game");
+
+            myServer.SendMessage(updateMessage, myServer.Connections, NetDeliveryMethod.ReliableOrdered, 0);
         }
 
         /// <summary>
@@ -418,6 +474,14 @@ namespace Durak.Server
 
                 // Add the player to the player list
                 myPlayers[player.PlayerId] = player;
+
+                // If this is the first player, they are immediately the host
+                if (id == 0)
+                {
+                    myGameHost = player;
+                    Log("Setting host to \"{0}\"", player.Name);
+                }
+
             }
             else
             {
