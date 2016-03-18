@@ -11,7 +11,7 @@ namespace Durak.Common
     {
         public byte PlayerId { get; private set; }
         public NetConnection Connection { get; private set; }
-        public string Name { get; private set; }
+        public virtual string Name { get; private set; }
         public Hand Hand { get; private set; }
         public int NumCards { get; set; }
         public bool IsBot { get; set; }

@@ -3,20 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-//namespace Durak.Common.Cards
-//{
+namespace Durak.Common.Cards
+{
 //  [Serializable]
-//  public class ComputerPlayer : Player
-//  {
-//    private Random _random = new Random();
+    //public class ComputerPlayer : Player
+    //{
+    //    private Random _random = new Random();
 
-//    public ComputerSkillLevel Skill { get; set; }
+    //    public ComputerSkillLevel Skill { get; set; }
 
-//    public override string PlayerName
-//    {
-//      get { return string.Format("Computer {0}", Index); }
-//      set { /* Do nothing, name is calculated */ }
-//    }
+    //    public override string Name
+    //    {
+    //        get { return string.Format("Computer {0}", PlayerId); }
+    //    }
 
 //    public void PerformDraw(Deck deck, PlayingCard availableCard)
 //    {
@@ -115,6 +114,5 @@ using System.Text;
 //      }
 //      return currentSuit;
 //    }
-//  }
-
-//}
+    //}
+}

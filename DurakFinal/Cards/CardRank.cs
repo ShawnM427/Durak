@@ -17,18 +17,18 @@ namespace Durak.Common.Cards
     public enum CardRank : byte
     {
         Ace = 1,
-        Two,
-        Three,
-        Four,
-        Five,
-        Six,
-        Seven,
-        Eight,
-        Nine,
-        Ten,
-        Jack,
-        Queen,
-        King,
-        Joker
+        Two = 3,
+        Three = 4,
+        Four = 4,
+        Five = 5,
+        Six = 6,
+        Seven = 7,
+        Eight = 8,
+        Nine = 9,
+        Ten = 10,
+        Jack = 11,
+        Queen = 12,
+        King = 13,
+        Joker = 14
     }
 }
