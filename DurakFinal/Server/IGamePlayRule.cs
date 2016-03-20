@@ -6,8 +6,13 @@ namespace Durak.Server
     /// Represents the interface for a game rule that is used by the game logic
     /// server
     /// </summary>
-    public interface IGameRule
+    public interface IGamePlayRule
     {
+        /// <summary>
+        /// Gets or sets whether this rule is enabled
+        /// </summary>
+        bool IsEnabled { get; set; }
+
         /// <summary>
         /// Gets a human readable name for this game rule. Used for debugging
         /// as well as logging and options

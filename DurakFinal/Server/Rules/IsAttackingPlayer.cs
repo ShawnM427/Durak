@@ -7,8 +7,14 @@ using Durak.Common;
 
 namespace Durak.Server.Rules
 {
-    public class IsAttackingPlayer : IGameRule
+    public class IsAttackingPlayer : IGamePlayRule
     {
+        public bool IsEnabled
+        {
+            get;
+            set;
+        }
+
         public string ReadableName
         {
             get
@@ -19,9 +25,9 @@ namespace Durak.Server.Rules
 
         public bool IsValidMove(GameMove move, GameState currentState, ref string reason)
         {
-            if (currentState.GetValueByte("attacking_player_id") == move.Player.PlayerId || currentState.GetValueBool("player_req_help"))
+           // if (currentState.GetValueByte("attacking_player_id") == move.Player.PlayerId || currentState.GetValueBool("player_req_help"))
                 return true;
-            else
+            //else
             {
                 reason = "It is not the player's turn to attack";
                 return false;

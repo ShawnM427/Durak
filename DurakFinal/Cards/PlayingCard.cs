@@ -238,7 +238,7 @@ namespace Durak.Common.Cards
                 imageName = mySuit.ToString() + "_" + myRank.ToString(); // enumerations are handy!
             }
             // set the image to the appropriate object we get from the resources file
-            cardImage = Durak.Common.Properties.Resources.ResourceManager.GetObject(imageName) as Image;
+            cardImage = Durak.Properties.Resources.ResourceManager.GetObject(imageName) as Image;
             //return the image
             return cardImage;
         }

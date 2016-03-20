@@ -32,12 +32,14 @@
             this.rtbServerOutput = new System.Windows.Forms.RichTextBox();
             this.btnKillServer = new System.Windows.Forms.Button();
             this.grpClientControls = new System.Windows.Forms.GroupBox();
-            this.lblFromClient = new System.Windows.Forms.Label();
-            this.cmbFromClient = new System.Windows.Forms.ComboBox();
-            this.lblMessage = new System.Windows.Forms.Label();
-            this.cmbMessageType = new System.Windows.Forms.ComboBox();
-            this.grpMessageParams = new System.Windows.Forms.GroupBox();
             this.btnSend = new System.Windows.Forms.Button();
+            this.grpMessageParams = new System.Windows.Forms.GroupBox();
+            this.cmbMessageType = new System.Windows.Forms.ComboBox();
+            this.lblMessage = new System.Windows.Forms.Label();
+            this.cmbFromClient = new System.Windows.Forms.ComboBox();
+            this.lblFromClient = new System.Windows.Forms.Label();
+            this.chkLogRules = new System.Windows.Forms.CheckBox();
+            this.btnClear = new System.Windows.Forms.Button();
             this.grpClientControls.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -85,32 +87,24 @@
             this.grpClientControls.TabStop = false;
             this.grpClientControls.Text = "Client Controls";
             // 
-            // lblFromClient
+            // btnSend
             // 
-            this.lblFromClient.AutoSize = true;
-            this.lblFromClient.Location = new System.Drawing.Point(7, 20);
-            this.lblFromClient.Name = "lblFromClient";
-            this.lblFromClient.Size = new System.Drawing.Size(62, 13);
-            this.lblFromClient.TabIndex = 0;
-            this.lblFromClient.Text = "From Client:";
+            this.btnSend.Location = new System.Drawing.Point(283, 15);
+            this.btnSend.Name = "btnSend";
+            this.btnSend.Size = new System.Drawing.Size(75, 23);
+            this.btnSend.TabIndex = 5;
+            this.btnSend.Text = "Send";
+            this.btnSend.UseVisualStyleBackColor = true;
+            this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
             // 
-            // cmbFromClient
+            // grpMessageParams
             // 
-            this.cmbFromClient.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbFromClient.FormattingEnabled = true;
-            this.cmbFromClient.Location = new System.Drawing.Point(75, 17);
-            this.cmbFromClient.Name = "cmbFromClient";
-            this.cmbFromClient.Size = new System.Drawing.Size(121, 21);
-            this.cmbFromClient.TabIndex = 1;
-            // 
-            // lblMessage
-            // 
-            this.lblMessage.AutoSize = true;
-            this.lblMessage.Location = new System.Drawing.Point(16, 47);
-            this.lblMessage.Name = "lblMessage";
-            this.lblMessage.Size = new System.Drawing.Size(53, 13);
-            this.lblMessage.TabIndex = 2;
-            this.lblMessage.Text = "Message:";
+            this.grpMessageParams.Location = new System.Drawing.Point(10, 71);
+            this.grpMessageParams.Name = "grpMessageParams";
+            this.grpMessageParams.Size = new System.Drawing.Size(348, 206);
+            this.grpMessageParams.TabIndex = 4;
+            this.grpMessageParams.TabStop = false;
+            this.grpMessageParams.Text = "Message Params";
             // 
             // cmbMessageType
             // 
@@ -122,40 +116,75 @@
             this.cmbMessageType.TabIndex = 3;
             this.cmbMessageType.SelectedIndexChanged += new System.EventHandler(this.cmbMessageType_SelectedIndexChanged);
             // 
-            // grpMessageParams
+            // lblMessage
             // 
-            this.grpMessageParams.Location = new System.Drawing.Point(10, 71);
-            this.grpMessageParams.Name = "grpMessageParams";
-            this.grpMessageParams.Size = new System.Drawing.Size(348, 206);
-            this.grpMessageParams.TabIndex = 4;
-            this.grpMessageParams.TabStop = false;
-            this.grpMessageParams.Text = "Message Params";
+            this.lblMessage.AutoSize = true;
+            this.lblMessage.Location = new System.Drawing.Point(16, 47);
+            this.lblMessage.Name = "lblMessage";
+            this.lblMessage.Size = new System.Drawing.Size(53, 13);
+            this.lblMessage.TabIndex = 2;
+            this.lblMessage.Text = "Message:";
             // 
-            // btnSend
+            // cmbFromClient
             // 
-            this.btnSend.Location = new System.Drawing.Point(283, 15);
-            this.btnSend.Name = "btnSend";
-            this.btnSend.Size = new System.Drawing.Size(75, 23);
-            this.btnSend.TabIndex = 5;
-            this.btnSend.Text = "Send";
-            this.btnSend.UseVisualStyleBackColor = true;
-            this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
+            this.cmbFromClient.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbFromClient.FormattingEnabled = true;
+            this.cmbFromClient.Location = new System.Drawing.Point(75, 17);
+            this.cmbFromClient.Name = "cmbFromClient";
+            this.cmbFromClient.Size = new System.Drawing.Size(121, 21);
+            this.cmbFromClient.TabIndex = 1;
+            // 
+            // lblFromClient
+            // 
+            this.lblFromClient.AutoSize = true;
+            this.lblFromClient.Location = new System.Drawing.Point(7, 20);
+            this.lblFromClient.Name = "lblFromClient";
+            this.lblFromClient.Size = new System.Drawing.Size(62, 13);
+            this.lblFromClient.TabIndex = 0;
+            this.lblFromClient.Text = "From Client:";
+            // 
+            // chkLogRules
+            // 
+            this.chkLogRules.AutoSize = true;
+            this.chkLogRules.Checked = true;
+            this.chkLogRules.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkLogRules.Location = new System.Drawing.Point(175, 17);
+            this.chkLogRules.Name = "chkLogRules";
+            this.chkLogRules.Size = new System.Drawing.Size(101, 17);
+            this.chkLogRules.TabIndex = 4;
+            this.chkLogRules.Text = "Log Long Rules";
+            this.chkLogRules.UseVisualStyleBackColor = true;
+            this.chkLogRules.CheckedChanged += new System.EventHandler(this.chkLogRules_CheckedChanged);
+            // 
+            // btnClear
+            // 
+            this.btnClear.Location = new System.Drawing.Point(282, 13);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(75, 23);
+            this.btnClear.TabIndex = 5;
+            this.btnClear.Text = "Clear";
+            this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(874, 442);
+            this.Controls.Add(this.btnClear);
+            this.Controls.Add(this.chkLogRules);
             this.Controls.Add(this.grpClientControls);
             this.Controls.Add(this.btnKillServer);
             this.Controls.Add(this.rtbServerOutput);
             this.Controls.Add(this.btnInitServer);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.grpClientControls.ResumeLayout(false);
             this.grpClientControls.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -171,6 +200,8 @@
         private System.Windows.Forms.Label lblFromClient;
         private System.Windows.Forms.GroupBox grpMessageParams;
         private System.Windows.Forms.Button btnSend;
+        private System.Windows.Forms.CheckBox chkLogRules;
+        private System.Windows.Forms.Button btnClear;
     }
 }
 

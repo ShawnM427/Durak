@@ -23,12 +23,14 @@ namespace DurakTester
         ClientButtonsTag[] myButtonTags;
         IPAddress myServerAddress;
         List<MessageInput> myInputs;
+        List<ServerTag> discoveredServers;
 
         public Form1()
         {
             InitializeComponent();
 
             myInputs = new List<MessageInput>();
+            discoveredServers = new List<ServerTag>();
 
             myClients = new GameClient[4];
             myButtonTags = new ClientButtonsTag[4];
@@ -56,11 +58,19 @@ namespace DurakTester
                 clientConnectButton.Left = clientEndButton.Right + 5;
                 clientConnectButton.Top = clientEndButton.Top;
 
+                Button clientDisconnectButton = new Button();
+                clientDisconnectButton.Text = "Disconnect";
+                clientDisconnectButton.Enabled = false;
+                clientDisconnectButton.Click += btnClientDisconnect_Click;
+                clientDisconnectButton.Left = clientConnectButton.Right + 5;
+                clientDisconnectButton.Top = clientConnectButton.Top;
+
                 ClientButtonsTag tag = new ClientButtonsTag()
                 {
                     Start = clientStartButton,
                     End = clientEndButton,
                     Connect = clientConnectButton,
+                    Disconnect = clientDisconnectButton,
                     ClientIndex = index
                 };
 
@@ -69,12 +79,14 @@ namespace DurakTester
                 clientStartButton.Tag = tag;
                 clientEndButton.Tag = tag;
                 clientConnectButton.Tag = tag;
+                clientDisconnectButton.Tag = tag;
 
                 this.Controls.Add(clientStartButton);
                 this.Controls.Add(clientEndButton);
                 this.Controls.Add(clientConnectButton);
+                this.Controls.Add(clientDisconnectButton);
 
-                cmbFromClient.Items.Add(index);
+                cmbFromClient.Items.Add((byte)index);
             }
 
             cmbFromClient.SelectedIndex = 0;
@@ -96,6 +108,8 @@ namespace DurakTester
 
             if (myServerAddress == null)
                 myServerAddress = myServer.IP;
+
+            myServer.LogLongRules = chkLogRules.Checked;
 
             btnInitServer.Enabled = false;
             btnKillServer.Enabled = true;
@@ -127,7 +141,8 @@ namespace DurakTester
                         myClients[index].Disconnect();
                     }
 
-                    tag.Connect.Enabled = false;
+                    tag.Connect.Enabled = true;
+                    tag.Disconnect.Enabled = false;
                 }
             }
         }
@@ -146,9 +161,10 @@ namespace DurakTester
 
                     if (myClients[index] != null)
                     {
-                        myClients[index].ConnectTo(myServerAddress);
+                        myClients[index].ConnectTo(discoveredServers[0]);
 
                         tag.Connect.Enabled = false;
+                        tag.Disconnect.Enabled = true;
                     }
                     
                 }
@@ -169,13 +185,14 @@ namespace DurakTester
 
                     if (myClients[index] != null)
                     {
-                        myClients[index].Terminate();
+                        myClients[index].Stop();
                         myClients[index] = null;
                     }
 
                     tag.Start.Enabled = true;
                     tag.End.Enabled = false;
                     tag.Connect.Enabled = false;
+                    tag.Disconnect.Enabled = false;
                 }
             }
         }
@@ -193,18 +210,20 @@ namespace DurakTester
                     int index = tag.ClientIndex;
 
                     if (myClients[index] != null)
-                        myClients[index].Terminate();
+                        myClients[index].Stop();
 
                     ClientTag cTag = new ClientTag("Player " + index);
 
                     myClients[index] = new GameClient(cTag);
-                    myClients[index].Tag = tag;
                     myClients[index].OnDisconnected += Form1_OnDisconnected;
                     myClients[index].OnConnectionFailed += Form1_OnConnectionFailed;
                     myClients[index].OnConnectionTimedOut += Form1_OnConnectionTimedOut;
+                    myClients[index].OnServerDiscovered += Form1_OnServerDiscovered;
                     myClients[index].Initialize();
                     myClients[index].Run();
                     myClients[index].DiscoverServers();
+
+                    myClients[index].Tag = tag;
 
                     tag.Start.Enabled = false;
                     tag.End.Enabled = true;
@@ -213,21 +232,33 @@ namespace DurakTester
             }
         }
 
+        private void Form1_OnServerDiscovered(object sender, ServerTag tag)
+        {
+            if (!discoveredServers.Contains(tag))
+                discoveredServers.Add(tag);
+        }
+
         private void Form1_OnConnectionTimedOut(object sender, EventArgs e)
         {
             MessageBox.Show("Connection timed out");
+
+            ClientButtonsTag tag = (sender as GameClient).Tag as ClientButtonsTag;
+            tag.Connect.Enabled = true;
+            tag.Disconnect.Enabled = false;
         }
 
         private void Form1_OnConnectionFailed(object sender, string e)
         {
             ClientButtonsTag tag = (sender as GameClient).Tag as ClientButtonsTag;
             tag.Connect.Enabled = true;
+            tag.Disconnect.Enabled = false;
         }
 
         private void Form1_OnDisconnected(object sender, EventArgs e)
         {
             ClientButtonsTag tag = (sender as GameClient).Tag as ClientButtonsTag;
             tag.Connect.Enabled = true;
+            tag.Disconnect.Enabled = false;
         }
 
         private class ClientButtonsTag
@@ -235,6 +266,7 @@ namespace DurakTester
             public Button Start;
             public Button End;
             public Button Connect;
+            public Button Disconnect;
             public int ClientIndex;
         }
 
@@ -246,97 +278,106 @@ namespace DurakTester
 
             MessagePacketDefinitions.PayloadParameter[] currentParams = MessagePacketDefinitions.GetParams(type);
 
+            int counter = 0;
+
             for(int index = 0; index < currentParams.Length; index ++)
             {
-                Label label = new Label();
-                label.Text = currentParams[index].Name;
-
-                Control selector;
-
-                switch(currentParams[index].ParamType)
+                if (currentParams[index].ParamType != MessagePacketDefinitions.PayloadParamType.PlayerID)
                 {
-                    case MessagePacketDefinitions.PayloadParamType.Boolean:
-                        ComboBox tfSelector = new ComboBox();
-                        tfSelector.DropDownStyle = ComboBoxStyle.DropDownList;
-                        tfSelector.Items.Add(true);
-                        tfSelector.Items.Add(false);
-                        tfSelector.SelectedIndex = 0;
-                        selector = tfSelector;
-                        break;
+                    Label label = new Label();
+                    label.Text = currentParams[index].Name;
 
-                    case MessagePacketDefinitions.PayloadParamType.BotDifficulty:
-                        ComboBox difSelector = new ComboBox();
-                        difSelector.DropDownStyle = ComboBoxStyle.DropDownList;
-                        difSelector.Items.Add(0);
-                        difSelector.Items.Add(1);
-                        difSelector.Items.Add(2);
-                        difSelector.Items.Add(3);
-                        difSelector.SelectedIndex = 0;
-                        selector = difSelector;
-                        break;
+                    Control selector;
 
-                    case MessagePacketDefinitions.PayloadParamType.Byte:
-                        NumericUpDown nud = new NumericUpDown();
-                        nud.Minimum = 0;
-                        nud.Maximum = 255;
-                        selector = nud;
-                        break;
+                    switch (currentParams[index].ParamType)
+                    {
+                        case MessagePacketDefinitions.PayloadParamType.Boolean:
+                            ComboBox tfSelector = new ComboBox();
+                            tfSelector.DropDownStyle = ComboBoxStyle.DropDownList;
+                            tfSelector.Items.Add(true);
+                            tfSelector.Items.Add(false);
+                            tfSelector.SelectedIndex = 0;
+                            selector = tfSelector;
+                            break;
 
-                    case MessagePacketDefinitions.PayloadParamType.CardRank:
-                        ComboBox rnkSelector = new ComboBox();
-                        rnkSelector.DropDownStyle = ComboBoxStyle.DropDownList;
-                        rnkSelector.Items.AddRange(Enum.GetValues(typeof(CardRank)).OfType<object>().ToArray());
-                        rnkSelector.SelectedIndex = 0;
-                        selector = rnkSelector;
-                        break;
+                        case MessagePacketDefinitions.PayloadParamType.BotDifficulty:
+                            ComboBox difSelector = new ComboBox();
+                            difSelector.DropDownStyle = ComboBoxStyle.DropDownList;
+                            difSelector.Items.Add(0);
+                            difSelector.Items.Add(1);
+                            difSelector.Items.Add(2);
+                            difSelector.Items.Add(3);
+                            difSelector.SelectedIndex = 0;
+                            selector = difSelector;
+                            break;
 
-                    case MessagePacketDefinitions.PayloadParamType.CardSuit:
-                        ComboBox suitSelector = new ComboBox();
-                        suitSelector.DropDownStyle = ComboBoxStyle.DropDownList;
-                        suitSelector.Items.AddRange(Enum.GetValues(typeof(CardSuit)).OfType<object>().ToArray());
-                        suitSelector.SelectedIndex = 0;
-                        selector = suitSelector;
-                        break;
+                        case MessagePacketDefinitions.PayloadParamType.Byte:
+                            NumericUpDown nud = new NumericUpDown();
+                            nud.Minimum = 0;
+                            nud.Maximum = 255;
+                            selector = nud;
+                            break;
 
-                    case MessagePacketDefinitions.PayloadParamType.Integer:
-                        NumericUpDown nudInt = new NumericUpDown();
-                        selector = nudInt;
-                        break;
+                        case MessagePacketDefinitions.PayloadParamType.CardRank:
+                            ComboBox rnkSelector = new ComboBox();
+                            rnkSelector.DropDownStyle = ComboBoxStyle.DropDownList;
+                            rnkSelector.Items.AddRange(Enum.GetValues(typeof(CardRank)).OfType<object>().ToArray());
+                            rnkSelector.SelectedIndex = 0;
+                            selector = rnkSelector;
+                            break;
 
-                    case MessagePacketDefinitions.PayloadParamType.ServerState:
-                        ComboBox stateSelector = new ComboBox();
-                        stateSelector.DropDownStyle = ComboBoxStyle.DropDownList;
-                        stateSelector.Items.AddRange(Enum.GetValues(typeof(ServerState)).OfType<object>().ToArray());
-                        stateSelector.SelectedIndex = 0;
-                        selector = stateSelector;
-                        break;
+                        case MessagePacketDefinitions.PayloadParamType.CardSuit:
+                            ComboBox suitSelector = new ComboBox();
+                            suitSelector.DropDownStyle = ComboBoxStyle.DropDownList;
+                            suitSelector.Items.AddRange(Enum.GetValues(typeof(CardSuit)).OfType<object>().ToArray());
+                            suitSelector.SelectedIndex = 0;
+                            selector = suitSelector;
+                            break;
 
-                    case MessagePacketDefinitions.PayloadParamType.String:
-                        TextBox textIn = new TextBox();
-                        selector = textIn;
-                        break;
+                        case MessagePacketDefinitions.PayloadParamType.Integer:
+                            NumericUpDown nudInt = new NumericUpDown();
+                            selector = nudInt;
+                            break;
 
-                    default:
-                        selector = new Panel();
-                        break;
+                        case MessagePacketDefinitions.PayloadParamType.ServerState:
+                            ComboBox stateSelector = new ComboBox();
+                            stateSelector.DropDownStyle = ComboBoxStyle.DropDownList;
+                            stateSelector.Items.AddRange(Enum.GetValues(typeof(ServerState)).OfType<object>().ToArray());
+                            stateSelector.SelectedIndex = 0;
+                            selector = stateSelector;
+                            break;
+
+                        case MessagePacketDefinitions.PayloadParamType.String:
+                            TextBox textIn = new TextBox();
+                            selector = textIn;
+                            break;
+
+                        default:
+                            selector = new Panel();
+                            break;
+                    }
+
+                    label.Top = 24 + 24 * counter;
+                    label.Left = 5;
+
+                    selector.Top = 24 + 24 * counter;
+                    selector.Left = 24 + label.Right + 5;
+
+                    grpMessageParams.Controls.Add(label);
+                    grpMessageParams.Controls.Add(selector);
+
+                    myInputs.Add(new MessageInput() { Type = currentParams[index].ParamType, InputControl = selector });
+
+                    counter++;
                 }
-
-                label.Top = 24 + 24 * index;
-                label.Left = 5;
-
-                selector.Top = 24 + 24 * index;
-                selector.Left = 24 + label.Right + 5;
-
-                grpMessageParams.Controls.Add(label);
-                grpMessageParams.Controls.Add(selector);
-
-                myInputs.Add(new MessageInput() { Type = currentParams[index].ParamType, InputControl = selector });
+                else
+                    myInputs.Add(new MessageInput() { Type = MessagePacketDefinitions.PayloadParamType.PlayerID, InputControl = null });
             }
         }
 
         private void btnSend_Click(object sender, EventArgs e)
         {
-            int clientId = (int)cmbFromClient.SelectedItem;
+            int clientId = (byte)cmbFromClient.SelectedItem;
 
             GameClient client = myClients[clientId];
 
@@ -395,6 +436,11 @@ namespace DurakTester
                             msg.Write(text.Text);
                             break;
 
+                        case MessagePacketDefinitions.PayloadParamType.PlayerID:
+                            byte cId = (byte)(cmbFromClient.SelectedItem);
+                            msg.Write((byte)(myClients[cId] != null ? myClients[cId].PlayerId : 255));
+                            break;
+
                         default:
                             break;
                     }
@@ -408,6 +454,17 @@ namespace DurakTester
         {
             public MessagePacketDefinitions.PayloadParamType Type;
             public Control InputControl;
+        }
+
+        private void chkLogRules_CheckedChanged(object sender, EventArgs e)
+        {
+            if (myServer != null)
+                myServer.LogLongRules = chkLogRules.Checked;
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            rtbServerOutput.Text = "";
         }
     }
 }

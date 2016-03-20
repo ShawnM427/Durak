@@ -95,12 +95,15 @@ namespace Durak.Common
         /// <param name="player">The player to remove</param>
         public void Remove(Player player)
         {
-            for (int index = 0; index < myPlayers.Length; index++)
+            if (player != null)
             {
-                if (myPlayers[index].Equals(player))
+                for (int index = 0; index < myPlayers.Length; index++)
                 {
-                    myPlayers[index] = null;
-                    return;
+                    if (myPlayers[index] != null && myPlayers[index].Equals(player))
+                    {
+                        myPlayers[index] = null;
+                        return;
+                    }
                 }
             }
         }

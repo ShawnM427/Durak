@@ -23,5 +23,24 @@ namespace Durak.Common
             unusedPort = Enumerable.Range(portStartIndex, count).Where(port => !usedPorts.Contains(port)).FirstOrDefault();
             return unusedPort;
         }
+
+        public static IPAddress GetAddress()
+        {
+            // Gets the IP's associated with this server
+            IPAddress[] IpList = Dns.GetHostAddresses(Dns.GetHostName());
+
+            // Iterate over them
+            foreach (IPAddress IP in IpList)
+            {
+                // Gets the Internetwork IP
+                if (IP.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                {
+                    // Assign to myAddress
+                    return IP;
+                }
+            }
+
+            throw new NetworkInformationException();
+        }
     }
 }

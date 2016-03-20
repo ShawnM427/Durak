@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Lidgren.Network;
 
 namespace Durak.Common
 {
@@ -15,19 +16,45 @@ namespace Durak.Common
         /// <summary>
         /// Stores the dictionary of parameters
         /// </summary>
-        private Dictionary<string, object> myParameters;
+        private Dictionary<string, StateParameter> myParameters;
 
         /// <summary>
         /// Invoked when a single state withing this game state is changed
         /// </summary>
-        public event EventHandler<StateChangedEventArgs> OnStateChanged;
+        public event EventHandler<StateParameter> OnStateChanged;
+        
+        /// <summary>
+        /// Gets or sets whether the state should not raise events when parmaeters are set.
+        /// Usefull for initialization
+        /// </summary>
+        public bool SilentSets
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Creates a new instance of a game state
         /// </summary>
         public GameState()
         {
-            myParameters = new Dictionary<string, object>();
+            myParameters = new Dictionary<string, StateParameter>();
+        }
+
+        /// <summary>
+        /// Clears this game state for re-use
+        /// </summary>
+        public void Clear()
+        {
+            myParameters.Clear();
+        }
+
+        public StateParameter GetParameter(string name, Type defaultType)
+        {
+            if (!myParameters.ContainsKey(name))
+                myParameters.Add(name, StateParameter.Construct(name, Activator.CreateInstance(defaultType)));
+
+            return myParameters[name];
         }
 
         /// <summary>
@@ -40,19 +67,19 @@ namespace Durak.Common
         {
             // If the parameter does not exist, add it, otherwise update it
             if (!myParameters.ContainsKey(name))
-                myParameters.Add(name, value);
+                myParameters.Add(name, StateParameter.Construct(name, value));
             else
             {
                 // Make sure it is the same type, or throw an exception
-                if (myParameters[name].GetType() == typeof(T))
-                    myParameters[name] = value;
+                if (myParameters[name].RawValue.GetType().IsAssignableFrom(typeof(T)))
+                    myParameters[name].SetValueInternal((T)value);
                 else
                     throw new InvalidCastException(string.Format("Cannot cast parameter of type {0} to {1}", myParameters[name].GetType().Name, typeof(T).Name));
             }
 
             // invoke the state change if an event is attached
-            if (OnStateChanged != null)
-                OnStateChanged.Invoke(this, new StateChangedEventArgs(name, value));
+            if (!SilentSets && OnStateChanged != null)
+                OnStateChanged.Invoke(this, StateParameter.Construct(name, value));
         }
 
         /// <summary>
@@ -157,10 +184,10 @@ namespace Durak.Common
             if (myParameters.ContainsKey(name))
             {
                 // Get the object value
-                object value = myParameters[name];
+                object value = myParameters[name].RawValue;
 
                 // Verify type before returning
-                if (value is T)
+                if (typeof(T).IsAssignableFrom(value.GetType()))
                     return (T)value;
                 else
                     throw new InvalidCastException(string.Format("Cannot cast {0} to {1}", value.GetType().Name, typeof(T).Name));
@@ -169,8 +196,8 @@ namespace Durak.Common
             else
             {
                 // Add and return a default parameter of type T
-                myParameters.Add(name, default(T));
-                return (T)myParameters[name];
+                myParameters.Add(name, StateParameter.Construct(name, default(T)));
+                return myParameters[name].GetValueInternal<T>();
             }
         }
         
@@ -262,6 +289,44 @@ namespace Durak.Common
         public PlayingCard GetCard(string name)
         {
             return GetValueInternal<PlayingCard>(name);
+        }
+
+        /// <summary>
+        /// Encodes this game state to a network message
+        /// </summary>
+        /// <param name="msg">The message to encode to</param>
+        public void Encode(NetOutgoingMessage msg)
+        {
+            msg.Write(myParameters.Count);
+
+            foreach(StateParameter p in myParameters.Values)
+            {
+                p.Encode(msg);
+            }
+        }
+
+        /// <summary>
+        /// Decodes this game state from the given message
+        /// </summary>
+        /// <param name="msg">the message to read from</param>
+        public void Decode(NetIncomingMessage msg)
+        {
+            int numParams = msg.ReadInt32();
+
+            for (int index = 0; index < numParams; index++)
+                StateParameter.Decode(msg, this);
+        }
+
+        /// <summary>
+        /// Decodes a game state from the given message
+        /// </summary>
+        /// <param name="msg">the message to read from</param>
+        /// <returns>A game state decoded from the message</returns>
+        public static GameState CreateDecode(NetIncomingMessage msg)
+        {
+            GameState result = new GameState();
+            result.Decode(msg);
+            return result;
         }
     }
 }

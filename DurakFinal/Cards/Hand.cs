@@ -17,12 +17,7 @@ namespace Durak.Common.Cards
             }
             return newCards;
         }
-
-        internal bool ContainsCards(PlayingCard move)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         // Utility method for copying card instances into another Cards
         // instance - used in Deck.Shuffle(). This implementation assumes that
         // source and target collections are the same size.

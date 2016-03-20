@@ -7,8 +7,14 @@ using Durak.Common;
 
 namespace Durak.Server.Rules
 {
-    public class CheckWonBattle : IGameRule
+    public class CheckWonBattle : IGamePlayRule
     {
+        public bool IsEnabled
+        {
+            get;
+            set;
+        }
+
         public string ReadableName
         {
             get
@@ -19,14 +25,14 @@ namespace Durak.Server.Rules
 
         public bool IsValidMove(GameMove move, GameState currentState, ref string reason)
         {
-            if (move.Move.Suit == currentState.GetValueCardSuit("defending_card_suit") && move.Move.Rank > currentState.GetValueCardRank("defending_card_rank"))
+            //if (move.Move.Suit == currentState.GetValueCardSuit("defending_card_suit") && move.Move.Rank > currentState.GetValueCardRank("defending_card_rank"))
             {
-                currentState.Set("round_winner", move.Player.PlayerId);
-                currentState.Set("current_round", currentState.GetValueByte("current_round") + 1);
+               // currentState.Set("round_winner", move.Player.PlayerId);
+              //  currentState.Set("current_round", (byte)(currentState.GetValueByte("current_round") + 1));
 
                 return true;
             }
-            else
+            //else
             {
                 reason = "Move is not valid";
                 return false;

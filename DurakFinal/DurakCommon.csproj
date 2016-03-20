@@ -7,7 +7,7 @@
     <ProjectGuid>{491019DA-8910-431F-9142-AC6EA10ED4CA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Durak.Common</RootNamespace>
+    <RootNamespace>Durak</RootNamespace>
     <AssemblyName>DurakCommon</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -62,25 +62,28 @@
     <Compile Include="Cards\ComputerSkillLevel.cs" />
     <Compile Include="Cards\Deck.cs" />
     <Compile Include="Cards\PlayingCard.cs" />
-    <Compile Include="ClientTag.cs" />
+    <Compile Include="Common\ClientTag.cs" />
     <Compile Include="Client\GameClient.cs" />
-    <Compile Include="GameMove.cs" />
-    <Compile Include="GameState.cs" />
-    <Compile Include="Logger.cs" />
-    <Compile Include="NetSettings.cs" />
-    <Compile Include="NetUtils.cs" />
-    <Compile Include="ServerState.cs" />
-    <Compile Include="MessageType.cs" />
-    <Compile Include="Player.cs" />
-    <Compile Include="PlayerCollection.cs" />
-    <Compile Include="SecurityUtils.cs" />
-    <Compile Include="ServerTag.cs" />
-    <Compile Include="StateChangedEventArgs.cs" />
+    <Compile Include="Common\GameMove.cs" />
+    <Compile Include="Common\GameState.cs" />
+    <Compile Include="Common\Logger.cs" />
+    <Compile Include="Common\NetSettings.cs" />
+    <Compile Include="Common\NetUtils.cs" />
+    <Compile Include="Common\ServerState.cs" />
+    <Compile Include="Common\MessageType.cs" />
+    <Compile Include="Common\Player.cs" />
+    <Compile Include="Common\PlayerCollection.cs" />
+    <Compile Include="Common\SecurityUtils.cs" />
+    <Compile Include="Common\ServerTag.cs" />
+    <Compile Include="Server\IGameInitRule.cs" />
+    <Compile Include="Server\IGameStateRule.cs" />
+    <Compile Include="Common\StateParameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server\GameServer.cs" />
-    <Compile Include="Server\IGameRule.cs" />
+    <Compile Include="Server\IGamePlayRule.cs" />
     <Compile Include="Server\Rules\CheckWonBattle.cs" />
     <Compile Include="Server\Rules\IsAttackingPlayer.cs" />
+    <Compile Include="Server\Rules\SampleInitRule.cs" />
     <Compile Include="Server\Rules\VerifyCardInHand.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

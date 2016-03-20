@@ -112,6 +112,14 @@ namespace Durak.Common
         ///     string - reason
         /// </summary>
         PlayerKicked                = 133,
+        /// <summary>
+        /// Send by the server to a client once it connects
+        /// 
+        /// Payload:
+        ///     byte    - playerId
+        ///     boolean - isHost
+        /// </summary>
+        PlayerConnectInfo = 134,
 
         /// <summary>
         /// Sent by the client to request a card to be played

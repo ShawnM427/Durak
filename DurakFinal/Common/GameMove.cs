@@ -60,6 +60,7 @@ namespace Durak.Common
 
             result.myPlayer = players[playerId];
             result.myMove = new PlayingCard((CardRank)moveRank, (CardSuit)moveSuit);
+            result.myMove.FaceUp = true;
 
             return result;
         }

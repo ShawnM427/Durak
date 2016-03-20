@@ -87,7 +87,7 @@ namespace Durak.Common
         /// <returns>The server tag as read from the packet</returns>
         public static ServerTag ReadFromPacket(NetIncomingMessage inMessage)
         {
-            ServerTag result;
+            ServerTag result = new ServerTag();
 
             result.myPlayerCount = inMessage.ReadInt32();
             result.isInGame = inMessage.ReadBoolean();
@@ -97,6 +97,35 @@ namespace Durak.Common
             result.myAddress = inMessage.SenderEndPoint;
 
             return result;
+        }
+
+        /// <summary>
+        /// Checks to see if this object is equal to another
+        /// </summary>
+        /// <param name="obj">The object to check against</param>
+        /// <returns>True if the objects are equal, false if otherwise</returns>
+        public override bool Equals(object obj)
+        {
+            return obj is ServerTag && (obj as ServerTag?).Value == this;
+        }
+
+        /// <summary>
+        /// Gets a semi-unique hash code for this instance
+        /// </summary>
+        /// <returns>A semi-unique hashcode</returns>
+        public override int GetHashCode()
+        {
+            return 0;
+        }
+
+        public static bool operator ==(ServerTag left, ServerTag right)
+        {
+            return left.Address == right.Address && left.Name == right.Name;
+        }
+
+        public static bool operator !=(ServerTag left, ServerTag right)
+        {
+            return !(left.Address == right.Address);
         }
     }
 }

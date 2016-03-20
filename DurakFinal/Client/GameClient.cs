@@ -20,7 +20,10 @@ namespace Durak.Client
         private ClientTag myTag;
         private NetPeer myPeer;
         private IPAddress myAddress;
-        private ServerTag myConnectedServer;
+        private ServerTag? myConnectedServer;
+
+        private byte myPlayerId;
+        private bool isHost;
 
         public event EventHandler OnConnected;
         public event EventHandler<string> OnConnectionFailed;
@@ -37,6 +40,11 @@ namespace Durak.Client
         {
             get;
             set;
+        }
+
+        public byte PlayerId
+        {
+            get { return myPlayerId; }
         }
 
         /// <summary>
@@ -91,23 +99,34 @@ namespace Durak.Client
             myPeer.RegisterReceivedCallback(new SendOrPostCallback(MessageReceived));
         }
 
-        public void Terminate()
+        public void Stop()
         {
             myPeer.Shutdown(NetSettings.DEFAULT_CLIENT_SHUTDOWN_MESSAGE);
         }
 
         public void Disconnect()
         {
-            myPeer.GetConnection(myConnectedServer.Address).Disconnect(NetSettings.DEFAULT_CLIENT_SHUTDOWN_MESSAGE);
+            if (myPeer.ConnectionsCount > 0)
+            {
+                if (myConnectedServer != null)
+                {
+                    myPeer.GetConnection(myConnectedServer.Value.Address).Disconnect(NetSettings.DEFAULT_CLIENT_SHUTDOWN_MESSAGE);
+                    myConnectedServer = null;
+                }
+            }
         }
 
-        public void ConnectTo(IPAddress ip)
+        public void ConnectTo(ServerTag server)
         {
             NetOutgoingMessage hailMessage = myPeer.CreateMessage();
             myTag.WriteToPacket(hailMessage);
             hailMessage.Write("");
 
-            myPeer.Connect(ip.ToString(), NetSettings.DEFAULT_SERVER_PORT, hailMessage);
+            myConnectedServer = server;
+
+            System.Diagnostics.Debug.WriteLine(server.Address.ToString());
+
+            myPeer.Connect(server.Address, hailMessage);
         }
 
         private void MessageReceived(object state)
@@ -191,9 +210,23 @@ namespace Durak.Client
             }
         }
 
-        private void HandleMessage(NetIncomingMessage inMsg)
+        public void ConnectTo(object p)
         {
             throw new NotImplementedException();
+        }
+
+        private void HandleMessage(NetIncomingMessage inMsg)
+        {
+            MessageType type = (MessageType)inMsg.ReadByte();
+
+            switch (type)
+            {
+                case MessageType.PlayerConnectInfo:
+                    myPlayerId = inMsg.ReadByte();
+                    isHost = inMsg.ReadBoolean();
+                    inMsg.ReadPadBits();
+                    break;
+            }
         }
 
         /// <summary>
