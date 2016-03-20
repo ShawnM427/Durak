@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Durak.Common
 {
@@ -12,8 +8,14 @@ namespace Durak.Common
     /// </summary>
     public static class SecurityUtils
     {
+        /// <summary>
+        /// Stores the hashing algorithm to use
+        /// </summary>
         private static HashAlgorithm myHashAlgorithm;
 
+        /// <summary>
+        /// Static constructor
+        /// </summary>
         static SecurityUtils()
         {
             myHashAlgorithm = new SHA256CryptoServiceProvider();

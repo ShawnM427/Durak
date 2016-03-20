@@ -9,15 +9,11 @@
  */
 
 using System;
-using System.Drawing; // (Add a reference) needed for System.Drawing.Image
+using System.Drawing;
 
 namespace Durak.Common.Cards
 {
-    public class PlayingCard : ICloneable, // Supports Cloning, which creates a new
-            // instance of a class with the same value as an existing instance.
-                               IComparable // Defines a generalized type-specific
-            // comparison method that a class implements
-    // to sort its instances
+    public class PlayingCard : ICloneable, IComparable
     {
 
         #region FIELDS AND PROPERTIES

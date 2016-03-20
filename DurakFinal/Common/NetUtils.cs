@@ -1,29 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Durak.Common
 {
+    /// <summary>
+    /// A utility class for networking
+    /// </summary>
     public static class NetUtils
     {
-        public static int GetOpenPort(int startPort = 2555)
+        /// <summary>
+        /// Gets the first open port
+        /// </summary>
+        /// <param name="startPort">The port to start searching from</param>
+        /// <returns>The first open port</returns>
+        public static int GetOpenPort(int startPort = NetSettings.DEFAULT_SERVER_PORT)
         {
+            // Get the range
             int portStartIndex = startPort;
             int count = 99;
+
+            // Get the list of active UDP listeners
             IPGlobalProperties properties = IPGlobalProperties.GetIPGlobalProperties();
             IPEndPoint[] udpEndPoints = properties.GetActiveUdpListeners();
 
+            // Get a list of all ports being used
             List<int> usedPorts = udpEndPoints.Select(p => p.Port).ToList<int>();
-            int unusedPort = 0;
 
-            unusedPort = Enumerable.Range(portStartIndex, count).Where(port => !usedPorts.Contains(port)).FirstOrDefault();
+            // Define the result (return 0 by default)
+            int unusedPort = Enumerable.Range(portStartIndex, count).Where(port => !usedPorts.Contains(port)).FirstOrDefault();
+
+            // Return the result
             return unusedPort;
         }
 
+        /// <summary>
+        /// Gets the local machine's IP address
+        /// </summary>
+        /// <returns>This machine's IP address</returns>
         public static IPAddress GetAddress()
         {
             // Gets the IP's associated with this server
@@ -40,6 +55,7 @@ namespace Durak.Common
                 }
             }
 
+            // We didn't have any InterNetwork IP
             throw new NetworkInformationException();
         }
     }

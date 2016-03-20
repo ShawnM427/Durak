@@ -1,14 +1,8 @@
 ﻿using Durak.Common;
 using Lidgren.Network;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Net.Sockets;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Durak.Client
 {
@@ -17,58 +11,91 @@ namespace Durak.Client
     /// </summary>
     public class GameClient
     {
+        /// <summary>
+        /// Stores this client's tag
+        /// </summary>
         private ClientTag myTag;
+        /// <summary>
+        /// Stores the Lidgren networking peer
+        /// </summary>
         private NetPeer myPeer;
+        /// <summary>
+        /// Stores the client's IP address
+        /// </summary>
         private IPAddress myAddress;
+        /// <summary>
+        /// The connected server's server tag
+        /// </summary>
         private ServerTag? myConnectedServer;
 
+        /// <summary>
+        /// Stores the client's player ID
+        /// </summary>
         private byte myPlayerId;
+        /// <summary>
+        /// Stores whether or not this client is the host
+        /// </summary>
         private bool isHost;
 
+        /// <summary>
+        /// Invoked when the client connects to a server
+        /// </summary>
         public event EventHandler OnConnected;
+        /// <summary>
+        /// Invoked when the connection to a server has failed
+        /// </summary>
         public event EventHandler<string> OnConnectionFailed;
+        /// <summary>
+        /// Invoked when the client has disconnected from the server
+        /// </summary>
         public event EventHandler OnDisconnected;
+        /// <summary>
+        /// Invoked when the connection to a server has timed out
+        /// </summary>
         public event EventHandler OnConnectionTimedOut;
+        /// <summary>
+        /// Invoked when a server has been discovered, note that 1 server can be discovered multiple times
+        /// </summary>
         public event ServerDiscoveredEvent OnServerDiscovered;
 
-        public GameClient(ClientTag tag)
-        {
-            myTag = tag;
-        }
-
+        /// <summary>
+        /// Gets or sets an object tag for this client
+        /// </summary>
         public object Tag
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets this game client's player ID
+        /// </summary>
         public byte PlayerId
         {
             get { return myPlayerId; }
         }
 
         /// <summary>
-        /// Initializes the server 
+        /// Creates a new game client with the given client tag
         /// </summary>
-        public void Initialize()
+        /// <param name="tag">The client tag for this game client</param>
+        public GameClient(ClientTag tag)
+        {
+            myTag = tag;
+
+            Initialize();
+        }
+        
+        /// <summary>
+        /// Initializes a client
+        /// </summary>
+        private void Initialize()
         {
             // Create a new net config
             NetPeerConfiguration netConfig = new NetPeerConfiguration(NetSettings.APP_IDENTIFIER);
 
-            // Gets the IP's associated with this server
-            IPAddress[] IpList = Dns.GetHostAddresses(Dns.GetHostName());
-
-            // Iterate over them
-            foreach (IPAddress IP in IpList)
-            {
-                // Gets the Internetwork IP
-                if (IP.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
-                {
-                    // Assign to myAddress
-                    myAddress = IP;
-                    break;
-                }
-            }
+            // Gets the IP for this client
+            myAddress = NetUtils.GetAddress();
 
             // Allow incoming connections
             netConfig.AcceptIncomingConnections = true;
@@ -99,36 +126,60 @@ namespace Durak.Client
             myPeer.RegisterReceivedCallback(new SendOrPostCallback(MessageReceived));
         }
 
+        /// <summary>
+        /// Shuts down this game client
+        /// </summary>
         public void Stop()
         {
             myPeer.Shutdown(NetSettings.DEFAULT_CLIENT_SHUTDOWN_MESSAGE);
         }
 
+        /// <summary>
+        /// Disconnects this client from the currently connected server
+        /// </summary>
         public void Disconnect()
         {
+            // If we are connected
             if (myPeer.ConnectionsCount > 0)
             {
+                // If we are connected to a server
                 if (myConnectedServer != null)
                 {
+                    // Disconnect and set the server tag to null
                     myPeer.GetConnection(myConnectedServer.Value.Address).Disconnect(NetSettings.DEFAULT_CLIENT_SHUTDOWN_MESSAGE);
                     myConnectedServer = null;
                 }
             }
         }
 
-        public void ConnectTo(ServerTag server)
+        /// <summary>
+        /// Connects to a specified server
+        /// </summary>
+        /// <param name="server">The server tag to connect to</param>
+        /// <param name="serverPassword">The SHA256 encrypted password to connect to the server</param>
+        public void ConnectTo(ServerTag server, string serverPassword = "")
         {
-            NetOutgoingMessage hailMessage = myPeer.CreateMessage();
-            myTag.WriteToPacket(hailMessage);
-            hailMessage.Write("");
+            if (myConnectedServer == null)
+            {
+                // Write the hail message and send it
+                NetOutgoingMessage hailMessage = myPeer.CreateMessage();
+                myTag.WriteToPacket(hailMessage);
+                hailMessage.Write(serverPassword);
 
-            myConnectedServer = server;
+                // Update our connected tag
+                myConnectedServer = server;
 
-            System.Diagnostics.Debug.WriteLine(server.Address.ToString());
-
-            myPeer.Connect(server.Address, hailMessage);
+                // Attempt the connection
+                myPeer.Connect(server.Address, hailMessage);
+            }
+            else
+                throw new InvalidOperationException("Cannot connect when this client is already connected");
         }
 
+        /// <summary>
+        /// Invoked when the network peer has received a message
+        /// </summary>
+        /// <param name="state">The object that invoked this (NetPeer)</param>
         private void MessageReceived(object state)
         {
             // Get the incoming message
@@ -175,9 +226,12 @@ namespace Durak.Client
                                 
                                 break;
 
+                            // We connected 
                             case NetConnectionStatus.Connected:
+                                // invoked the onConnected event
                                 if (OnConnected != null)
                                     OnConnected(this, EventArgs.Empty);
+
                                 break;
                                 
                         }
@@ -186,14 +240,13 @@ namespace Durak.Client
                                                 
                     // Handle when the server has received a discovery request
                     case NetIncomingMessageType.DiscoveryResponse:
-
+                        // Read the server tag from the packet
                         ServerTag serverTag = ServerTag.ReadFromPacket(inMsg);
 
+                        // Notify that we discovered a server
                         if (OnServerDiscovered != null)
                             OnServerDiscovered(this, serverTag);
-
-                        myConnectedServer = serverTag;
-                            
+                                                    
                         break;
 
                     // Handles when the server has received data
@@ -206,25 +259,27 @@ namespace Durak.Client
             catch (Exception e)
             {
                 // Log the exception
-
+                Logger.Write(e.Message);
             }
         }
 
-        public void ConnectTo(object p)
-        {
-            throw new NotImplementedException();
-        }
-
+        /// <summary>
+        /// Handles an incoming data message
+        /// </summary>
+        /// <param name="inMsg">The message to handle</param>
         private void HandleMessage(NetIncomingMessage inMsg)
         {
+            // Read the message type
             MessageType type = (MessageType)inMsg.ReadByte();
 
             switch (type)
             {
                 case MessageType.PlayerConnectInfo:
+                    // Reads the welcome message in
                     myPlayerId = inMsg.ReadByte();
                     isHost = inMsg.ReadBoolean();
                     inMsg.ReadPadBits();
+
                     break;
             }
         }
@@ -238,22 +293,40 @@ namespace Durak.Client
             myPeer.Start();
         }
 
+        /// <summary>
+        /// Sends discovery packets to all servers on the local network
+        /// </summary>
         public void DiscoverServers()
         {
+            // Discover local peers :D
             myPeer.DiscoverLocalPeers(NetSettings.DEFAULT_SERVER_PORT);
         }
 
-        public delegate void ServerDiscoveredEvent(object sender, ServerTag tag);
-
+        /// <summary>
+        /// Prepare messages for debug purposes. This should not be used in final code
+        /// </summary>
+        /// <returns>A network message that you can write data to</returns>
         public NetOutgoingMessage PrepareDebugMessage()
         {
             return myPeer.CreateMessage();
         }
 
+        /// <summary>
+        /// Sends a message to this client's connections
+        /// </summary>
+        /// <param name="msg">The network message to send</param>
         public void SendMessageDebug(NetOutgoingMessage msg)
         {
+            // If we're connected, we sent it
             if (myPeer.Connections.Count > 0)
                 myPeer.SendMessage(msg, myPeer.Connections, NetDeliveryMethod.ReliableOrdered, 0);
         }
     }
+
+    /// <summary>
+    /// Delegate for handling when a new server is discovered
+    /// </summary>
+    /// <param name="sender">The object that raised the event</param>
+    /// <param name="tag">The server tag of the server that was discovered</param>
+    public delegate void ServerDiscoveredEvent(object sender, ServerTag tag);
 }

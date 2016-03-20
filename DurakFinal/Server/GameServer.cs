@@ -5,10 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Durak.Server
@@ -18,26 +15,53 @@ namespace Durak.Server
     /// </summary>
     public class GameServer
     {
+        /// <summary>
+        /// Stores this server's IP address
+        /// </summary>
         private IPAddress myAddress;
-        // The output text box for the server log
+        /// <summary>
+        /// The output text box for the server log
+        /// </summary>
         private RichTextBox myOutput;
-        // Stores this server's server tag
+        /// <summary>
+        /// Stores this server's server tag
+        /// </summary>
         private ServerTag myTag;
-        // Stores the list of rules to use
+        /// <summary>
+        /// Stores the list of gameplay rules to use
+        /// </summary>
         private List<IGamePlayRule> myPlayRules;
+        /// <summary>
+        /// Stores the list of game state rules to use
+        /// </summary>
         private List<IGameStateRule> myStateRules;
+        /// <summary>
+        /// Stores the list of game initialization rules to use
+        /// </summary>
         private List<IGameInitRule> myInitRules;
-        // Stores the list of players currently connected
+        /// <summary>
+        /// Stores the list of players currently connected
+        /// </summary>
         private PlayerCollection myPlayers;
-        // Stores the network peer
+        /// <summary>
+        /// Stores the network peer
+        /// </summary>
         private NetPeer myServer;
-        // Stores the SHA256 of the server's password
+        /// <summary>
+        /// Stores the SHA256 of the server's password
+        /// </summary>
         private string myPassword;
-        // Stores the server's current state
+        /// <summary>
+        /// Stores the server's current state
+        /// </summary>
         private ServerState myState;
-        // Stores the game's state
+        /// <summary>
+        /// Stores the game's state
+        /// </summary>
         private GameState myGameState;
-        // Stores the player that has control over this game
+        /// <summary>
+        /// Stores the player that has control over this game
+        /// </summary>
         private Player myGameHost;
 
         /// <summary>
@@ -47,7 +71,9 @@ namespace Durak.Server
         {
             get { return myAddress; }
         }
-
+        /// <summary>
+        /// Gets or sets whether this server should long each rule
+        /// </summary>
         public bool LogLongRules
         {
             get;
@@ -64,6 +90,7 @@ namespace Durak.Server
             myPlayRules = new List<IGamePlayRule>();
             myStateRules = new List<IGameStateRule>();
             myInitRules = new List<IGameInitRule>();
+
             myPlayers = new PlayerCollection();
 
             myState = ServerState.InLobby;
@@ -134,10 +161,18 @@ namespace Durak.Server
             // Register the callback function. Lidgren will handle the threading for us
             myServer.RegisterReceivedCallback(new SendOrPostCallback(MessageReceived));
 
-            // Collect the rule types
-            FillTypeList(myPlayRules);
-            FillTypeList(myStateRules);
-            FillTypeList(myInitRules);
+            // Collect the rule types from tis assembly
+            LoadRules();
+        }
+
+        /// <summary>
+        /// Loads all the game rules
+        /// </summary>
+        private void LoadRules()
+        {
+            FillTypeList(AppDomain.CurrentDomain, myPlayRules);
+            FillTypeList(AppDomain.CurrentDomain, myStateRules);
+            FillTypeList(AppDomain.CurrentDomain, myInitRules);
         }
 
         /// <summary>
@@ -145,11 +180,11 @@ namespace Durak.Server
         /// </summary>
         /// <typeparam name="T">The type to load</typeparam>
         /// <param name="result">The list to load the result into</param>
-        private void FillTypeList<T>(List<T> result)
+        private void FillTypeList<T>(AppDomain domain, List<T> result)
         {
             // Modified from http://stackoverflow.com/questions/857705/get-all-derived-types-of-a-type
             Type[] types = (
-                from domainAssembly in AppDomain.CurrentDomain.GetAssemblies()  // Get the referenced assemblies
+                from domainAssembly in domain.GetAssemblies()  // Get the referenced assemblies
                 from assemblyType in domainAssembly.GetTypes()                  // Get all types in assembly
                 where typeof(T).IsAssignableFrom(assemblyType)      // Check to see if the type is a game rule
                 where assemblyType.GetConstructor(Type.EmptyTypes) != null      // Make sure there is an empty constructor
@@ -193,8 +228,10 @@ namespace Durak.Server
         /// <param name="message">The message to log</param>
         private void Log(string message, params object[] format)
         {
+            // Log it
             Logger.Write(message, format);
 
+            // If we have an output control, log the text
             if (myOutput != null)
                 myOutput.AppendText(string.Format(message, format) + "\n");
         }
@@ -222,15 +259,18 @@ namespace Durak.Server
                         // Depending on the status, we handle players joining or leaving
                         switch (status)
                         {
+                            // A player has disconnected
                             case NetConnectionStatus.Disconnected:
                                 PlayerLeft(myPlayers[inMsg.SenderConnection], reason);
                                 break;
+                            // A player is connecting
                             case NetConnectionStatus.Connected:
                                 // Send the welcome packet
                                 SendWelcomePacket(myPlayers[inMsg.SenderConnection].PlayerId);
                                 break;
                         }
 
+                        // Log the message
                         Log("Connection status updated for connection from {0}: {1}", inMsg.SenderEndPoint, status);
 
                         break;
@@ -313,19 +353,23 @@ namespace Durak.Server
                 // Switch message type to select proper message handling
                 switch(messageType)
                 {
-                    case MessageType.SendMove: // A player has requested a move to be made
+                    // A player has requested a move to be made
+                    case MessageType.SendMove: 
+                        // Reads move from the packet
+                        GameMove move = GameMove.ReadFromPacket(inMessage, myPlayers);
 
-                        GameMove move = GameMove.ReadFromPacket(inMessage, myPlayers); // Get the move from the packet
-
+                        // We only handle moves in game
                         if (myState == ServerState.InGame)
                         {
-                            if (move.Player == myPlayers[inMessage.SenderConnection]) // Check that the move came from the right client before handling
+                            // Check that the move came from the right client before handling
+                            if (move.Player == myPlayers[inMessage.SenderConnection]) 
                                 HandleMove(move); // Handle the move
                             else
                                 Log("Bad packet received from \"{0}\" ({1})", myPlayers[inMessage.SenderConnection].Name, inMessage.SenderEndPoint);
                         }
                         else
                         {
+                            // We are not in the right state, notify client
                             NotifyBadState(inMessage.SenderConnection, "Game is not currently running");
                             Log("Player \"{0}\" attempted move during non-game state", myPlayers[inMessage.SenderConnection].Name, inMessage.SenderEndPoint);
                         }
@@ -344,23 +388,29 @@ namespace Durak.Server
                         myServer.SendMessage(outMsg, inMessage.SenderConnection, NetDeliveryMethod.ReliableOrdered);
                         break;
 
+                    // Player is readying up
                     case MessageType.PlayerReady:
+                        // Read the packet
                         byte playerId = inMessage.ReadByte();
                         bool isReady = inMessage.ReadBoolean();
                         inMessage.ReadPadBits();
 
+                        // If the message came from the right client
                         if (myPlayers[playerId] == myPlayers[inMessage.SenderConnection])
                         {
+                            // Update the player's state
                             myPlayers[playerId].IsReady = isReady;
 
-                            NetOutgoingMessage forward = myServer.CreateMessage();
-                            forward.Write(playerId);
-                            forward.Write(isReady);
-                            forward.WritePadBits();
+                            // Prepare the message
+                            NetOutgoingMessage msg = myServer.CreateMessage();
+                            msg.Write(playerId);
+                            msg.Write(isReady);
+                            msg.WritePadBits();
 
                             Log("Player \"{0}\" is {1}", myPlayers[playerId].Name, isReady ? "ready" : "not ready");
 
-                            myServer.SendMessage(forward, myServer.Connections, NetDeliveryMethod.ReliableOrdered, 0);
+                            // Send to all clients
+                            SendToAll(msg);
                         }
                         else
                             Log("Bad ready packet: from: {0} for: {1} status: {2}", myPlayers[inMessage.SenderConnection].PlayerId, playerId, isReady);
@@ -427,10 +477,13 @@ namespace Durak.Server
         {
             if (myState == ServerState.InGame)
             {
+                // Prepare the game state changed
                 NetOutgoingMessage msg = myServer.CreateMessage();
                 msg.Write((byte)MessageType.GameStateChanged);
                 e.Encode(msg);
-                myServer.SendMessage(msg, myServer.Connections, NetDeliveryMethod.ReliableOrdered, 0);
+
+                // Send to all clients
+                SendToAll(msg);
             }
         }
         /// <summary>
@@ -440,16 +493,19 @@ namespace Durak.Server
         /// <param name="reason">The reason for the state change</param>
         private void SetServerState(ServerState state, string reason = "Game Started")
         {
+            // Only update if the state actually changed
             if (myState != state)
             {
+                // update the state
                 myState = state;
 
                 // Notify clients
                 NetOutgoingMessage updateMessage = myServer.CreateMessage();
                 updateMessage.Write((byte)state);
                 updateMessage.Write(reason);
-                myServer.SendMessage(updateMessage, myServer.Connections, NetDeliveryMethod.ReliableOrdered, 0);
-
+                SendToAll(updateMessage);
+                
+                // If we are now in game
                 if (state == ServerState.InGame)
                 {
                     Log("Starting game");
@@ -475,12 +531,18 @@ namespace Durak.Server
             }
         }
 
+        /// <summary>
+        /// Transfer the entire game state to all clients
+        /// </summary>
         private void TransferGameState()
         {
+            // Prepare the message
             NetOutgoingMessage msg = myServer.CreateMessage();
             msg.Write((byte)MessageType.FullGameStateTransfer);
             myGameState.Encode(msg);
-            myServer.SendMessage(msg, myServer.Connections, NetDeliveryMethod.ReliableOrdered, 0);            
+
+            // Sends to all clients
+            SendToAll(msg);       
         }
 
         /// <summary>
@@ -510,30 +572,22 @@ namespace Durak.Server
         {
             // Remove that player!
             myPlayers.Remove(player);
+            
+            // Create the outgioing message
+            NetOutgoingMessage outMsg = myServer.CreateMessage();
 
-            int playersLeft = 0;
+            // Write the header and player ID 
+            outMsg.Write((byte)MessageType.PlayerLeft);
+            outMsg.Write(player.PlayerId);
+            outMsg.Write(reason);
 
-            // Iterate over all clients
-            for (int index = 0; index < myPlayers.Count; index++)
-            {
-                // Only send to not-null players
-                if (myPlayers[(byte)index] != null && !myPlayers[(byte)index].IsBot)
-                {
-                    // Create the outgioing message
-                    NetOutgoingMessage outMsg = myServer.CreateMessage();
+            // Send to all clients
+            SendToAll(outMsg);
+            
+            // Get the player count
+            int playersLeft = myServer.Connections.Count;
 
-                    // Write the header and player ID 
-                    outMsg.Write((byte)MessageType.PlayerLeft);
-                    outMsg.Write(player.PlayerId);
-                    outMsg.Write(reason);
-
-                    // Send the message to the player
-                    myServer.SendMessage(outMsg, myPlayers[(byte)index].Connection, NetDeliveryMethod.ReliableOrdered);
-
-                    playersLeft++;
-                }
-            }
-
+            // If there's no-one left, we return to lobby
             if (playersLeft == 0)
             {
                 Log("All players left, returning to lobby");
@@ -556,30 +610,22 @@ namespace Durak.Server
             {
                 // Create the serverside player isntance
                 Player player = new Player(clientTag, connection, (byte)id);
+                
+                // Create the outgioing message
+                NetOutgoingMessage outMsg = myServer.CreateMessage();
+
+                // Write the header and move to the message
+                outMsg.Write((byte)MessageType.PlayerJoined);
+                outMsg.Write(player.PlayerId);
+                outMsg.Write(player.Name);
+                outMsg.Write(player.IsBot);
+
+                // Send to all clients
+                SendToAll(outMsg);
 
                 // Client can connect
                 connection.Approve();
-
-                // Iterate over all clients
-                for (int index = 0; index < myPlayers.Count; index++)
-                {
-                    // Only send to not-null players
-                    if (myPlayers[(byte)index] != null)
-                    {
-                        // Create the outgioing message
-                        NetOutgoingMessage outMsg = myServer.CreateMessage();
-
-                        // Write the header and move to the message
-                        outMsg.Write((byte)MessageType.PlayerJoined);
-                        outMsg.Write(player.PlayerId);
-                        outMsg.Write(player.Name);
-                        outMsg.Write(player.IsBot);
-
-                        // Send the message to the player
-                        myServer.SendMessage(outMsg, myPlayers[(byte)index].Connection, NetDeliveryMethod.ReliableOrdered);
-                    }
-                }
-
+                
                 // Add the player to the player list
                 myPlayers[player.PlayerId] = player;
 
@@ -604,16 +650,17 @@ namespace Durak.Server
         /// <param name="playerId">The ID of the player to send the message to</param>
         private void SendWelcomePacket(byte playerId)
         {
-            NetOutgoingMessage msg = myServer.CreateMessage();
-
-            msg.Write((byte)MessageType.PlayerConnectInfo);
-
+            // Gets the player with the given player ID
             Player player = myPlayers[playerId];
 
+            // Prepare the message
+            NetOutgoingMessage msg = myServer.CreateMessage();
+            msg.Write((byte)MessageType.PlayerConnectInfo);
             msg.Write((byte)playerId);
             msg.Write((bool)(player == myGameHost));
             msg.WritePadBits();
 
+            // Send the message to the client
             myServer.SendMessage(msg, player.Connection, NetDeliveryMethod.ReliableOrdered);
         }
 
@@ -634,7 +681,9 @@ namespace Durak.Server
                 // If the move is valid, continue, otherwise a rule was violated
                 if (!myPlayRules[index].IsValidMove(move, myGameState, ref failReason))
                 {
-                    NotifyInvalidMove(move, failReason); // Notify the source user
+                    // Notify the source user
+                    NotifyInvalidMove(move, failReason); 
+
                     if (LogLongRules)
                         Log("\tFailed rule \"{0}\": {1}", myPlayRules[index].ReadableName, failReason);
                         return; // Do not send to other clients, so break out of method
@@ -647,24 +696,16 @@ namespace Durak.Server
 
             Log("Move played");
 
-            // Iterate over all clients
-            for (int index = 0; index < myPlayers.Count; index ++)
-            {
-                // Only send to not-null players
-                if (myPlayers[(byte)index] != null)
-                {
-                    // Create the outgioing message
-                    NetOutgoingMessage outMsg = myServer.CreateMessage();
+            // Create the outgioing message
+            NetOutgoingMessage outMsg = myServer.CreateMessage();
 
-                    // Write the header and move to the message
-                    outMsg.Write((byte)MessageType.SucessfullMove);
-                    move.WriteToPacket(outMsg);
+            // Write the header and move to the message
+            outMsg.Write((byte)MessageType.SucessfullMove);
+            move.WriteToPacket(outMsg);
 
-                    // Send the message to the player
-                    myServer.SendMessage(outMsg, myPlayers[(byte)index].Connection, NetDeliveryMethod.ReliableOrdered);
-                }
-            }
-
+            // Send to all connected clients
+            SendToAll(outMsg);
+            
             // Validate and update state rules
             for(int index = 0; index < myStateRules.Count; index ++)
             {
@@ -688,6 +729,16 @@ namespace Durak.Server
 
             // Send the packet
             myServer.SendMessage(outMsg, move.Player.Connection, NetDeliveryMethod.ReliableOrdered);
+        }
+
+        /// <summary>
+        /// Sends a given network message to all connected clients
+        /// </summary>
+        /// <param name="msg">The message to send</param>
+        private void SendToAll(NetOutgoingMessage msg)
+        {
+            if (myServer.Connections.Count > 0)
+                myServer.SendMessage(msg, myServer.Connections, NetDeliveryMethod.ReliableOrdered, 0);
         }
     }
 }

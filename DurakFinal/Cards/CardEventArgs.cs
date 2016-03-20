@@ -5,8 +5,14 @@ using System.Text;
 
 namespace Durak.Common.Cards
 {
-  public class CardEventArgs : EventArgs
-  {
-    public PlayingCard Card { get; set; }
-  }
+    /// <summary>
+    /// Represents an event argument for playing cards
+    /// </summary>
+    public class CardEventArgs : EventArgs
+    {
+        /// <summary>
+        /// Get's or sets the card for this event
+        /// </summary>
+        public PlayingCard Card { get; set; }
+    }
 }

@@ -1,9 +1,6 @@
 ﻿using Durak.Common.Cards;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Lidgren.Network;
 
 namespace Durak.Common
@@ -49,11 +46,19 @@ namespace Durak.Common
             myParameters.Clear();
         }
 
+        /// <summary>
+        /// Gets the state parameter with the given name
+        /// </summary>
+        /// <param name="name">The name of the parameter</param>
+        /// <param name="defaultType">The type to use if the parameter does not exist</param>
+        /// <returns>The parameter with the given name</returns>
         public StateParameter GetParameter(string name, Type defaultType)
         {
+            // If we don't have that parameter, make it
             if (!myParameters.ContainsKey(name))
                 myParameters.Add(name, StateParameter.Construct(name, Activator.CreateInstance(defaultType)));
 
+            // Get the parameter
             return myParameters[name];
         }
 
@@ -91,7 +96,6 @@ namespace Durak.Common
         {
             InternalSet(name, value);
         }
-
         /// <summary>
         /// Sets the given parameter to a character value
         /// </summary>
@@ -101,7 +105,6 @@ namespace Durak.Common
         {
             InternalSet(name, value);
         }
-
         /// <summary>
         /// Sets the given parameter to a 16 bit integer value
         /// </summary>
@@ -111,7 +114,6 @@ namespace Durak.Common
         {
             InternalSet(name, value);
         }
-
         /// <summary>
         /// Sets the given parameter to a 32 bit integer value
         /// </summary>
@@ -121,7 +123,6 @@ namespace Durak.Common
         {
             InternalSet(name, value);
         }
-
         /// <summary>
         /// Sets the given parameter to a boolean value
         /// </summary>
@@ -131,7 +132,6 @@ namespace Durak.Common
         {
             InternalSet(name, value);
         }
-
         /// <summary>
         /// Sets the given parameter to a card suit
         /// </summary>
@@ -141,7 +141,6 @@ namespace Durak.Common
         {
             InternalSet(name, value);
         }
-
         /// <summary>
         /// Sets the given parameter to a card rank
         /// </summary>
@@ -151,7 +150,6 @@ namespace Durak.Common
         {
             InternalSet(name, value);
         }
-
         /// <summary>
         /// Sets the given parameter to a string value
         /// </summary>
@@ -160,8 +158,7 @@ namespace Durak.Common
         public void Set(string name, string value)
         {
             InternalSet(name, value);
-        }
-        
+        }        
         /// <summary>
         /// Sets the given parameter to a card 
         /// </summary>
@@ -210,7 +207,6 @@ namespace Durak.Common
         {
             return GetValueInternal<byte>(name);
         }
-
         /// <summary>
         /// Gets the parameter with the given name as a character
         /// </summary>
@@ -220,7 +216,6 @@ namespace Durak.Common
         {
             return GetValueInternal<char>(name);
         }
-
         /// <summary>
         /// Gets the parameter with the given name as a 16 bit integer
         /// </summary>
@@ -230,7 +225,6 @@ namespace Durak.Common
         {
             return GetValueInternal<short>(name);
         }
-
         /// <summary>
         /// Gets the parameter with the given name as a 32 bit integer
         /// </summary>
@@ -240,7 +234,6 @@ namespace Durak.Common
         {
             return GetValueInternal<int>(name);
         }
-
         /// <summary>
         /// Gets the parameter with the given name as a boolean
         /// </summary>
@@ -250,7 +243,6 @@ namespace Durak.Common
         {
             return GetValueInternal<bool>(name);
         }
-
         /// <summary>
         /// Gets the parameter with the given name as a card rank
         /// </summary>
@@ -260,7 +252,6 @@ namespace Durak.Common
         {
             return GetValueInternal<CardRank>(name);
         }
-
         /// <summary>
         /// Gets the parameter with the given name as a card suit
         /// </summary>
@@ -270,7 +261,6 @@ namespace Durak.Common
         {
             return GetValueInternal<CardSuit>(name);
         }
-
         /// <summary>
         /// Gets the parameter with the given name as a string
         /// </summary>
@@ -280,7 +270,6 @@ namespace Durak.Common
         {
             return GetValueInternal<string>(name);
         }
-
         /// <summary>
         /// Gets the parameter with the given name as a playing card
         /// </summary>
@@ -297,12 +286,12 @@ namespace Durak.Common
         /// <param name="msg">The message to encode to</param>
         public void Encode(NetOutgoingMessage msg)
         {
+            // Write the number of parameters
             msg.Write(myParameters.Count);
 
+            // Write each parameter
             foreach(StateParameter p in myParameters.Values)
-            {
                 p.Encode(msg);
-            }
         }
 
         /// <summary>
@@ -311,8 +300,10 @@ namespace Durak.Common
         /// <param name="msg">the message to read from</param>
         public void Decode(NetIncomingMessage msg)
         {
+            // Read the number of parameters
             int numParams = msg.ReadInt32();
 
+            // Read each parameter
             for (int index = 0; index < numParams; index++)
                 StateParameter.Decode(msg, this);
         }

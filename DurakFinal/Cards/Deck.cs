@@ -1,38 +1,67 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Durak.Common.Cards
 {
-
+    /// <summary>
+    /// A delegate used to handle when the last card is drawn from a given deck
+    /// </summary>
+    /// <param name="currentDeck">The deck that raised the event</param>
     public delegate void LastCardDrawnHandler(Deck currentDeck);
 
+    /// <summary>
+    /// Represents a card deck that contains all possible cards on creation
+    /// </summary>
     public class Deck : ICloneable
     {
-        #region Event added in section "Expanding and Using CardLib"
-        public event LastCardDrawnHandler LastCardDrawn;
-        #endregion
+        /// <summary>
+        /// Invoked when the last card is drawn from this deck
+        /// </summary>
+        public event LastCardDrawnHandler OnLastCardDrawn;
 
-        private Hand cards = new Hand();
+        /// <summary>
+        /// The internal card collection
+        /// </summary>
+        private CardCollection cards = new CardCollection();
 
+        /// <summary>
+        /// Creates a new card deck
+        /// </summary>
         public Deck()
         {
-            InsertAllCards();
+            InsertCards(1, 14);
         }
 
-        private void InsertAllCards()
+        /// <summary>
+        /// Creates a new card deck
+        /// </summary>
+        /// <param name="minRankIndex">The minimum rank</param>
+        /// <param name="maxRankIndex">The maximum rank</param>
+        public Deck(CardRank minRankIndex, CardRank maxRank)
+        {
+            InsertCards((int)minRankIndex, (int)maxRank + 1);
+        }
+
+        /// <summary>
+        /// Insert every card into this deck
+        /// </summary>
+        /// <param name="minRankIndex">The minimum rank index</param>
+        /// <param name="maxRankIndex">The maximum rank index</param>
+        private void InsertCards(int minRankIndex, int maxRankIndex)
         {
             for (int suitVal = 0; suitVal < 4; suitVal++)
             {
-                for (int rankVal = 1; rankVal < 14; rankVal++)
+                for (int rankVal = minRankIndex; rankVal < maxRankIndex; rankVal++)
                 {
                     cards.Add(new PlayingCard((CardRank)rankVal, (CardSuit)suitVal));
                 }
             }
         }
 
+        /// <summary>
+        /// Inserts all cards except those from an exempt list
+        /// </summary>
+        /// <param name="except">The cards to NOT add to this deck</param>
         private void InsertAllCards(List<PlayingCard> except)
         {
             for (int suitVal = 0; suitVal < 4; suitVal++)
@@ -40,79 +69,75 @@ namespace Durak.Common.Cards
                 for (int rankVal = 1; rankVal < 14; rankVal++)
                 {
                     var card = new PlayingCard((CardRank)rankVal, (CardSuit)suitVal);
+
                     if (except.Contains(card))
                         continue;
+
                     cards.Add(card);
                 }
             }
         }
 
+        /// <summary>
+        /// Gets the number of cards remaining in this deck
+        /// </summary>
         public int CardsInDeck
         {
             get { return cards.Count; }
         }
 
-        private Deck(Hand newCards)
+        /// <summary>
+        /// Creates a deck from the given collection
+        /// </summary>
+        /// <param name="newCards">The collection to use</param>
+        private Deck(CardCollection newCards)
         {
             cards = newCards;
         }
-
-
-        public PlayingCard GetCard(int cardNum)
-        {
-            if (cardNum >= 0 && cardNum <= 51)
-            {
-                // Code modified in section "Expanding and Using CardLib"
-                if ((cardNum == 51) && (LastCardDrawn != null))
-                    LastCardDrawn(this);
-                return cards[cardNum];
-            }
-            else
-                throw new CardOutOfRangeException(cards.Clone() as Hand);
-        }
-
+        
+        /// <summary>
+        /// Shuffles the cards in this deck
+        /// </summary>
         public void Shuffle()
         {
-            Hand newDeck = new Hand();
-            bool[] assigned = new bool[cards.Count];
-            Random sourceGen = new Random();
-            for (int i = 0; i < cards.Count; i++)
-            {
-                int sourceCard = 0;
-                bool foundCard = false;
-                while (foundCard == false)
-                {
-                    sourceCard = sourceGen.Next(cards.Count);
-                    if (assigned[sourceCard] == false)
-                        foundCard = true;
-                }
-                assigned[sourceCard] = true;
-                newDeck.Add(cards[sourceCard]);
-            }
-            newDeck.CopyTo(cards);
+            cards.Shuffle();
         }
 
-        public void ReshuffleDiscarded(List<PlayingCard> cardsInPlay)
-        {
-            InsertAllCards(cardsInPlay);
-            Shuffle();
-        }
+        /// <summary>
+        /// Draws the next card in this deck
+        /// </summary>
+        /// <returns>The next card in the deck</returns>
         public PlayingCard Draw()
         {
+            // If there are no cards, don't return anything
             if (cards.Count == 0)
                 return null;
             else
             {
+                // Gets the first card, then removes it
                 var card = cards[0];
                 cards.RemoveAt(0);
+
+                // If this wwas the last card, inoke our event
+                if (cards.Count == 0 && OnLastCardDrawn != null)
+                    OnLastCardDrawn(this);
+                
+                // return the result
                 return card;
             }
         }
 
+        /// <summary>
+        /// Attempts to select a card of a specific suit from the deck
+        /// </summary>
+        /// <param name="suit">The target suit</param>
+        /// <returns>The best card that fits the suit, note that this will return a random card if no cards of that suit are available</returns>
         public PlayingCard SelectCardOfSpecificSuit(CardSuit suit)
         {
+            // Get the result
             PlayingCard selectedCard = null;
 
+            // Try to get a card of the suit
             foreach (PlayingCard card in cards)
             {
                 if (card.Suit == suit)
@@ -121,18 +146,25 @@ namespace Durak.Common.Cards
                     break;
                 }
             }
+
+            // If the card is null, draw a random one
             if (selectedCard == null)
-                return Draw(); // Can't cheat, no cards of the correct Suit
+                return Draw();
+            // If we found a card, make sure to remove it from the deck
             else
-            {
                 cards.Remove(selectedCard);
-            }
+
+            // Return the result
             return selectedCard;
         }
 
+        /// <summary>
+        /// Clones this card deck
+        /// </summary>
+        /// <returns>A clone of this deck</returns>
         public object Clone()
         {
-            Deck newDeck = new Deck(cards.Clone() as Hand);
+            Deck newDeck = new Deck(cards.Clone() as CardCollection);
             return newDeck;
         }
     }

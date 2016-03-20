@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Durak.Common.Cards
+﻿namespace Durak.Common.Cards
 {
-     [Serializable]
+    /// <summary>
+    /// Represents a computer player's skill level
+    /// </summary>
      public enum ComputerSkillLevel
      {
         Dumb = 0,

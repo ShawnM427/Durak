@@ -1,9 +1,4 @@
 ﻿using Lidgren.Network;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Durak.Common
 {
@@ -43,11 +38,10 @@ namespace Durak.Common
         {
             get
             {
+                // Iterate and compare connections
                 for(int index = 0; index < myPlayers.Length; index ++)
-                {
                     if (myPlayers[index] != null && myPlayers[index].Connection == connection)
                         return myPlayers[index];
-                }
 
                 return null;
             }
@@ -82,6 +76,7 @@ namespace Durak.Common
         /// <returns>The next available ID, or -1 if no slot is open</returns>
         public int GetNextAvailableId()
         {
+            // Gets the next available ID
             for (int index = 0; index < myPlayers.Length; index++)
                 if (myPlayers[index] == null)
                     return index;
@@ -95,17 +90,14 @@ namespace Durak.Common
         /// <param name="player">The player to remove</param>
         public void Remove(Player player)
         {
+            // Make sure the player exists, then remove him
             if (player != null)
-            {
                 for (int index = 0; index < myPlayers.Length; index++)
-                {
                     if (myPlayers[index] != null && myPlayers[index].Equals(player))
                     {
                         myPlayers[index] = null;
                         return;
                     }
-                }
-            }
         }
     }
 }

@@ -1,10 +1,5 @@
 ﻿using Lidgren.Network;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Durak.Common
 {
@@ -13,11 +8,29 @@ namespace Durak.Common
     /// </summary>
     public struct ServerTag
     {
+        /// <summary>
+        /// Gets the number of connected players
+        /// </summary>
         private int myPlayerCount;
-        private bool isInGame;
+        /// <summary>
+        /// S the server is in game
+        /// </summary>
+        private ServerState myState;
+        /// <summary>
+        /// The server's name
+        /// </summary>
         private string myName;
+        /// <summary>
+        /// The server's IP address
+        /// </summary>
         private IPEndPoint myAddress;
+        /// <summary>
+        /// The server's description
+        /// </summary>
         private string myDescription;
+        /// <summary>
+        /// Whether this server is password protected
+        /// </summary>
         private bool isPasswordProtected;
 
         /// <summary>
@@ -29,12 +42,12 @@ namespace Durak.Common
             set { myPlayerCount = value; }
         }
         /// <summary>
-        /// Gets whether or not this server is currently in a game
+        /// Getsor sets this server's state
         /// </summary>
-        public bool InGame
+        public ServerState State
         {
-            get { return isInGame; }
-            set { isInGame = value; }
+            get { return myState; }
+            set { myState = value; }
         }
         /// <summary>
         /// Gets this server's name
@@ -74,7 +87,7 @@ namespace Durak.Common
         public void WriteToPacket(NetOutgoingMessage outMessage)
         {
             outMessage.Write(myPlayerCount);
-            outMessage.Write(isInGame);
+            outMessage.Write((byte)myState);
             outMessage.Write(myName);
             outMessage.Write(myDescription);
             outMessage.Write(isPasswordProtected);
@@ -90,7 +103,7 @@ namespace Durak.Common
             ServerTag result = new ServerTag();
 
             result.myPlayerCount = inMessage.ReadInt32();
-            result.isInGame = inMessage.ReadBoolean();
+            result.myState = (ServerState)inMessage.ReadByte();
             result.myName = inMessage.ReadString();
             result.myDescription = inMessage.ReadString();
             result.isPasswordProtected = inMessage.ReadBoolean();
@@ -118,11 +131,23 @@ namespace Durak.Common
             return 0;
         }
 
+        /// <summary>
+        /// Check to see if one server tag is equal to another
+        /// </summary>
+        /// <param name="left">The left hand operand</param>
+        /// <param name="right">The right hand operand</param>
+        /// <returns>Whether the left is equal to the right</returns>
         public static bool operator ==(ServerTag left, ServerTag right)
         {
             return left.Address == right.Address && left.Name == right.Name;
         }
 
+        /// <summary>
+        /// Check to see if one server tag is not equal to another
+        /// </summary>
+        /// <param name="left">The left hand operand</param>
+        /// <param name="right">The right hand operand</param>
+        /// <returns>Whether the left is not equal to the right</returns>
         public static bool operator !=(ServerTag left, ServerTag right)
         {
             return !(left.Address == right.Address);

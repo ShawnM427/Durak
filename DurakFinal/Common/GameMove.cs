@@ -1,10 +1,5 @@
 ﻿using Durak.Common.Cards;
 using Lidgren.Network;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Durak.Common
 {
@@ -13,7 +8,13 @@ namespace Durak.Common
     /// </summary>
     public struct GameMove
     {
+        /// <summary>
+        /// Stores the player that made the move
+        /// </summary>
         private Player myPlayer;
+        /// <summary>
+        /// Stores the card to be played
+        /// </summary>
         private PlayingCard myMove;
 
         /// <summary>
@@ -37,8 +38,10 @@ namespace Durak.Common
         /// <param name="outMessage">The message to write to</param>
         public void WriteToPacket(NetOutgoingMessage outMessage)
         {
+            // Just transfer that name
             outMessage.Write(myPlayer.PlayerId);
 
+            // Write the card's info
             outMessage.Write((byte)myMove.Rank);
             outMessage.Write((byte)myMove.Suit);
         }
@@ -53,11 +56,14 @@ namespace Durak.Common
         {
             GameMove result;
 
+            // Get the player ID
             byte playerId = inMessage.ReadByte();
 
+            // Get the playing card
             int moveRank = inMessage.ReadByte();
             int moveSuit = inMessage.ReadByte();
 
+            // Build the result
             result.myPlayer = players[playerId];
             result.myMove = new PlayingCard((CardRank)moveRank, (CardSuit)moveSuit);
             result.myMove.FaceUp = true;

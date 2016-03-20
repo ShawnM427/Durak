@@ -1,10 +1,5 @@
 ﻿using Lidgren.Network;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Durak.Common
 {
@@ -13,7 +8,13 @@ namespace Durak.Common
     /// </summary>
     public struct ClientTag
     {
+        /// <summary>
+        /// Stores the client's player name
+        /// </summary>
         private string myName;
+        /// <summary>
+        /// Stores the client's IP address
+        /// </summary>
         private IPEndPoint myAddress;
 
         /// <summary>
@@ -31,6 +32,10 @@ namespace Durak.Common
             get { return myAddress; }
         }
 
+        /// <summary>
+        /// Creates a new client tag with the given player name
+        /// </summary>
+        /// <param name="name">The player's name</param>
         public ClientTag(string name)
         {
             myName = name;

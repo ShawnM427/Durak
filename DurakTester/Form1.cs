@@ -219,7 +219,6 @@ namespace DurakTester
                     myClients[index].OnConnectionFailed += Form1_OnConnectionFailed;
                     myClients[index].OnConnectionTimedOut += Form1_OnConnectionTimedOut;
                     myClients[index].OnServerDiscovered += Form1_OnServerDiscovered;
-                    myClients[index].Initialize();
                     myClients[index].Run();
                     myClients[index].DiscoverServers();
 
