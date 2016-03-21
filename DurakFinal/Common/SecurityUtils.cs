@@ -30,5 +30,10 @@ namespace Durak.Common
         {
             return Encoding.ASCII.GetString(myHashAlgorithm.ComputeHash(Encoding.ASCII.GetBytes(text)));
         }
+
+        public static bool BitAt(this byte b, int index)
+        {
+            return (b & (1 << (7 - index))) != 0;
+        }
     }
 }

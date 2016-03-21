@@ -154,12 +154,16 @@ namespace DurakTester
                 {
                     int index = tag.ClientIndex;
 
-                    if (myClients[index] != null)
+                    if (myClients[index] != null && discoveredServers.Count > 0)
                     {
                         myClients[index].ConnectTo(discoveredServers[0]);
 
                         tag.Connect.Enabled = false;
                         tag.Disconnect.Enabled = true;
+                    }
+                    else
+                    {
+                        MessageBox.Show("No servers discovered");
                     }
                     
                 }

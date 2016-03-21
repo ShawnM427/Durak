@@ -1,7 +1,10 @@
 ﻿using Durak.Common;
 using Lidgren.Network;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Threading;
 
 namespace Durak.Client
@@ -300,6 +303,24 @@ namespace Durak.Client
         {
             // Discover local peers :D
             myPeer.DiscoverLocalPeers(NetSettings.DEFAULT_SERVER_PORT);
+
+
+            IPSegment segment = new IPSegment(NetUtils.GetGateway(myAddress).ToString(), NetUtils.GetSubnetMask(myAddress).ToString());
+
+            IEnumerable<uint> hosts = segment.Hosts();
+
+            foreach(uint host in hosts)
+            {
+                myPeer.DiscoverKnownPeer(host.ToIpString(), NetSettings.DEFAULT_SERVER_PORT);
+            }
+
+            // Get subnet
+            // Use subnet to determine prefix
+            // Calculate number of IP's in network
+
+            // Iterate over all IP's
+            //  Send a discovery
+
         }
 
         /// <summary>

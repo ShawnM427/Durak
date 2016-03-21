@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Durak.Common;
+﻿using Durak.Common;
+using Durak.Server;
 
-namespace Durak.Server.Rules
+namespace DurakTester.Rules
 {
     public class IsAttackingPlayer : IGamePlayRule
     {
