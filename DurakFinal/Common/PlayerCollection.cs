@@ -1,4 +1,5 @@
 ﻿using Lidgren.Network;
+using System.Linq;
 
 namespace Durak.Common
 {
@@ -53,6 +54,14 @@ namespace Durak.Common
         public int Count
         {
             get { return myPlayers.Length; }
+        }
+
+        /// <summary>
+        /// Gets the number of not-null players
+        /// </summary>
+        public byte PlayerCount
+        {
+            get { return (byte)myPlayers.Where(X => X != null).Count(); }
         }
 
         /// <summary>

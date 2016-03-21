@@ -203,7 +203,7 @@ namespace Durak.Common
         /// </summary>
         /// <param name="name">The name of the parameter to get</param>
         /// <returns>The parameter with the given name</returns>
-        public int GetValueByte(string name)
+        public byte GetValueByte(string name)
         {
             return GetValueInternal<byte>(name);
         }
@@ -212,7 +212,7 @@ namespace Durak.Common
         /// </summary>
         /// <param name="name">The name of the parameter to get</param>
         /// <returns>The parameter with the given name</returns>
-        public int GetValueChar(string name)
+        public char GetValueChar(string name)
         {
             return GetValueInternal<char>(name);
         }
@@ -221,7 +221,7 @@ namespace Durak.Common
         /// </summary>
         /// <param name="name">The name of the parameter to get</param>
         /// <returns>The parameter with the given name</returns>
-        public int GetValueShort(string name)
+        public short GetValueShort(string name)
         {
             return GetValueInternal<short>(name);
         }

@@ -23,11 +23,22 @@ namespace Durak.Server.Rules
             }
         }
 
-        public bool IsValidMove(GameMove move, GameState currentState, ref string reason)
+        public bool IsValidMove(PlayerCollection players, GameMove move, GameState currentState, ref string reason)
         {
-           // if (currentState.GetValueByte("attacking_player_id") == move.Player.PlayerId || currentState.GetValueBool("player_req_help"))
+            byte attackingPlayerId = currentState.GetValueByte("attacking_player_id");
+
+            if (attackingPlayerId == move.Player.PlayerId || currentState.GetValueBool("player_req_help"))
+            {
+                attackingPlayerId++;
+
+                if (attackingPlayerId >= players.PlayerCount)
+                    attackingPlayerId = (byte)0;
+
+                currentState.Set("attacking_player_id", attackingPlayerId);
+
                 return true;
-            //else
+            }
+            else
             {
                 reason = "It is not the player's turn to attack";
                 return false;

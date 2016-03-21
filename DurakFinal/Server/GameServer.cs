@@ -679,7 +679,7 @@ namespace Durak.Server
             for (int index = 0; index < myPlayRules.Count; index++)
             {
                 // If the move is valid, continue, otherwise a rule was violated
-                if (!myPlayRules[index].IsValidMove(move, myGameState, ref failReason))
+                if (!myPlayRules[index].IsValidMove(myPlayers, move, myGameState, ref failReason))
                 {
                     // Notify the source user
                     NotifyInvalidMove(move, failReason); 

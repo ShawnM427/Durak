@@ -23,7 +23,7 @@ namespace Durak.Server.Rules
             }
         }
 
-        public bool IsValidMove(GameMove move, GameState currentState, ref string reason)
+        public bool IsValidMove(PlayerCollection players, GameMove move, GameState currentState, ref string reason)
         {
             //if (move.Move.Suit == currentState.GetValueCardSuit("defending_card_suit") && move.Move.Rank > currentState.GetValueCardRank("defending_card_rank"))
             {

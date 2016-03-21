@@ -23,7 +23,7 @@ namespace Durak.Server.Rules
             }
         }
 
-        public bool IsValidMove(GameMove move, GameState currentState, ref string reason)
+        public bool IsValidMove(PlayerCollection players, GameMove move, GameState currentState, ref string reason)
         {
             if (!move.Player.Hand.Contains(move.Move))
             {
