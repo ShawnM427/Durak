@@ -60,6 +60,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rules\CheckWonBattle.cs" />
+    <Compile Include="Rules\InitRoundStates.cs" />
     <Compile Include="Rules\IsAttackingPlayer.cs" />
     <Compile Include="Rules\SampleInitRule.cs" />
     <Compile Include="Rules\VerifyCardInHand.cs" />

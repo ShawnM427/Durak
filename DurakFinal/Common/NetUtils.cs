@@ -93,6 +93,11 @@ namespace Durak.Common
             throw new NetworkInformationException();
         }
 
+        /// <summary>
+        /// Get the default gateway for a given IP address
+        /// </summary>
+        /// <param name="address">The address to return the IP of, must be on local machine</param>
+        /// <returns>The default gateway for the IP</returns>
         internal static IPAddress GetGateway(IPAddress address)
         {
             // Modified from

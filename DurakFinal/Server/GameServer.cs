@@ -39,6 +39,8 @@ namespace Durak.Server
         /// Stores the list of game initialization rules to use
         /// </summary>
         private List<IGameInitRule> myInitRules;
+
+        private Dictionary<MessageType, PacketHandler> myMessageHandlers;
         /// <summary>
         /// Stores the list of players currently connected
         /// </summary>
@@ -97,8 +99,12 @@ namespace Durak.Server
             myGameState = new GameState();
             myGameState.OnStateChanged += MyGameState_OnStateChanged;
 
+            myMessageHandlers = new Dictionary<MessageType, PacketHandler>();
+
             InitServer();
         }
+
+        #region Initialization
 
         /// <summary>
         /// Sets the password for this server
@@ -163,6 +169,15 @@ namespace Durak.Server
 
             // Collect the rule types from tis assembly
             LoadRules();
+
+            // Add the message handlers... Would be nicer w/ reflection and custom attributes, but whatever
+            myMessageHandlers.Add(MessageType.SendMove, HandleGameMove);
+            myMessageHandlers.Add(MessageType.HostReqStart, HandleHostReqStart);
+            myMessageHandlers.Add(MessageType.RequestServerState, HandleStateRequest);
+            myMessageHandlers.Add(MessageType.PlayerReady, HandlePlayerReady);
+            myMessageHandlers.Add(MessageType.HostReqAddBot, HandleHostReqBot);
+            myMessageHandlers.Add(MessageType.HostReqKick, HandleHostReqKick);
+            myMessageHandlers.Add(MessageType.PlayerChat, HandlePlayerChat);
         }
 
         /// <summary>
@@ -222,251 +237,9 @@ namespace Durak.Server
             Log("Stopping server");
         }
 
-        /// <summary>
-        /// Log a message
-        /// </summary>
-        /// <param name="message">The message to log</param>
-        private void Log(string message, params object[] format)
-        {
-            // Log it
-            Logger.Write(message, format);
+        #endregion
 
-            // If we have an output control, log the text
-            if (myOutput != null)
-                myOutput.AppendText(string.Format(message, format) + "\n");
-        }
-
-        /// <summary>
-        /// Handles when the server has received a message
-        /// </summary>
-        private void MessageReceived(object peer)
-        {
-            // Get the incoming message
-            NetIncomingMessage inMsg = ((NetPeer)peer).ReadMessage();
-
-            // We don't want the server to crash on one bad packet
-            try
-            {
-                // Determine the message type to correctly handle it
-                switch (inMsg.MessageType)
-                {
-                    // Handle when a client's status has changed
-                    case NetIncomingMessageType.StatusChanged:
-                        // Gets the status and reason
-                        NetConnectionStatus status = (NetConnectionStatus)inMsg.ReadByte();
-                        string reason = inMsg.ReadString();
-
-                        // Depending on the status, we handle players joining or leaving
-                        switch (status)
-                        {
-                            // A player has disconnected
-                            case NetConnectionStatus.Disconnected:
-                                PlayerLeft(myPlayers[inMsg.SenderConnection], reason);
-                                break;
-                            // A player is connecting
-                            case NetConnectionStatus.Connected:
-                                // Send the welcome packet
-                                SendWelcomePacket(myPlayers[inMsg.SenderConnection].PlayerId);
-                                break;
-                        }
-
-                        // Log the message
-                        Log("Connection status updated for connection from {0}: {1}", inMsg.SenderEndPoint, status);
-
-                        break;
-
-                    // Handle when a player is trying to join
-                    case NetIncomingMessageType.ConnectionApproval:
-
-                        // Get the client's info an hashed password from the packet
-                        ClientTag clientTag = ClientTag.ReadFromPacket(inMsg);
-                        string hashedPass = inMsg.ReadString();
-
-                        // Make sure we are in the lobby when joining new players
-                        if (myState == ServerState.InLobby)
-                        {
-                            // Check the password if applicable
-                            if ((myTag.PasswordProtected && myPassword.Equals(hashedPass)) | (!myTag.PasswordProtected))
-                            {
-                                // Go ahead and try to join that playa
-                                PlayerJoined(clientTag, inMsg.SenderConnection);
-
-                                Log("Player \"{0}\" joined from {1}", clientTag.Name, clientTag.Address);
-                            }
-                            else
-                            {
-                                // Fuck you brah!
-                                inMsg.SenderConnection.Deny("Password authentication failed");
-
-                                Log("Player \"{0}\" failed to connect (password failed) from {1}", clientTag.Name, clientTag.Address);
-                            }
-                        }
-                        else
-                        {
-                            // We are mid-way through a game
-                            inMsg.SenderConnection.Deny("Game has already started");
-
-                            Log("Player \"{0}\" attempted to connect mid game from {1}", clientTag.Name, clientTag.Address);
-                        }
-                        break;
-
-                    // Handle when the server has received a discovery request
-                    case NetIncomingMessageType.DiscoveryRequest:
-
-                        // Prepare the response
-                        NetOutgoingMessage msg = myServer.CreateMessage();
-                        // Write the tag to the response
-                        myTag.WriteToPacket(msg);
-                        // Send the response
-                        myServer.SendDiscoveryResponse(msg, inMsg.SenderEndPoint);
-
-                        Log("Pinged discovery response to {0}", inMsg.SenderEndPoint);
-
-                        break;
-
-                    // Handles when the server has received data
-                    case NetIncomingMessageType.Data:
-                        HandleMessage(inMsg);
-                        break;
-                }
-            }
-            // An exception has occured parsing the packet
-            catch(Exception e)
-            {
-                // Log the exception
-                Log("Encountered exception parsing packet from {0}:\n\t{1}", inMsg.SenderEndPoint, e);
-            }
-        }
-                
-        /// <summary>
-        /// Handles an incoming network message that has already been determined to be data
-        /// </summary>
-        /// <param name="inMessage">The message to handle</param>
-        private void HandleMessage(NetIncomingMessage inMessage)
-        {
-            // Keep trying to read as long as we have bytes available
-            while(inMessage.PositionInBytes < inMessage.LengthBytes)
-            {
-                // Get the next message type
-                MessageType messageType = (MessageType)inMessage.ReadByte();
-
-                // Switch message type to select proper message handling
-                switch(messageType)
-                {
-                    // A player has requested a move to be made
-                    case MessageType.SendMove: 
-                        // Reads move from the packet
-                        GameMove move = GameMove.ReadFromPacket(inMessage, myPlayers);
-
-                        // We only handle moves in game
-                        if (myState == ServerState.InGame)
-                        {
-                            // Check that the move came from the right client before handling
-                            if (move.Player == myPlayers[inMessage.SenderConnection]) 
-                                HandleMove(move); // Handle the move
-                            else
-                                Log("Bad packet received from \"{0}\" ({1})", myPlayers[inMessage.SenderConnection].Name, inMessage.SenderEndPoint);
-                        }
-                        else
-                        {
-                            // We are not in the right state, notify client
-                            NotifyBadState(inMessage.SenderConnection, "Game is not currently running");
-                            Log("Player \"{0}\" attempted move during non-game state", myPlayers[inMessage.SenderConnection].Name, inMessage.SenderEndPoint);
-                        }
-                        break;
-
-                    // The client has requested the server's state
-                    case MessageType.RequestServerState:
-                        // Create the message
-                        NetOutgoingMessage outMsg = myServer.CreateMessage();
-
-                        // Write the header and the bad move to the packet
-                        outMsg.Write((byte)MessageType.NotifyServerStateChanged);
-                        outMsg.Write((byte)myState);
-
-                        // Send the packet
-                        myServer.SendMessage(outMsg, inMessage.SenderConnection, NetDeliveryMethod.ReliableOrdered);
-                        break;
-
-                    // Player is readying up
-                    case MessageType.PlayerReady:
-                        // Read the packet
-                        byte playerId = inMessage.ReadByte();
-                        bool isReady = inMessage.ReadBoolean();
-                        inMessage.ReadPadBits();
-
-                        // If the message came from the right client
-                        if (myPlayers[playerId] == myPlayers[inMessage.SenderConnection])
-                        {
-                            // Update the player's state
-                            myPlayers[playerId].IsReady = isReady;
-
-                            // Prepare the message
-                            NetOutgoingMessage msg = myServer.CreateMessage();
-                            msg.Write(playerId);
-                            msg.Write(isReady);
-                            msg.WritePadBits();
-
-                            Log("Player \"{0}\" is {1}", myPlayers[playerId].Name, isReady ? "ready" : "not ready");
-
-                            // Send to all clients
-                            SendToAll(msg);
-                        }
-                        else
-                            Log("Bad ready packet: from: {0} for: {1} status: {2}", myPlayers[inMessage.SenderConnection].PlayerId, playerId, isReady);
-
-                        break;
-
-                    // A client is requesting the game to start
-                    case MessageType.HostReqStart:
-
-                        // Read the boolean and the padding bits
-                        bool start = inMessage.ReadBoolean();
-                        inMessage.ReadPadBits();
-
-                        // Ensure the sending player is the host
-                        if (myPlayers[inMessage.SenderConnection] == myGameHost)
-                        {
-                            // Log the request
-                            Log("Host requesting game start");
-
-                            bool isLobbyReady = true;
-
-                            // Loop through the players
-                            for (byte index = 0; index < myPlayers.Count; index++)
-                            {
-                                // Check for null players, the host and bots. They are exluded from the check
-                                if (myPlayers[index] != null && myPlayers[index] != myGameHost && !myPlayers[index].IsBot)
-                                {
-                                    // If the player is not ready, we cannot continue, break out of the loop
-                                    if (!myPlayers[index].IsReady)
-                                    {
-                                        isLobbyReady = false;
-                                        break;
-                                    }
-                                }
-                            }
-
-                            // If everyone is ready proceed to game
-                            if (isLobbyReady)
-                                SetServerState(ServerState.InGame);
-                            else
-                                Log("Cannot start game, all players not ready");
-                        }
-                        else
-                        {
-                            Log("Someone who's not host is requesting game start");
-                        }
-
-                        break;
-
-                    default:
-                        Log("Invalid message received from \"{0}\" ({1})", myPlayers[inMessage.SenderConnection].Name, inMessage.SenderEndPoint);
-                        inMessage.ReadBytes(inMessage.LengthBytes - inMessage.PositionInBytes);
-                        break;
-                }
-            }
-        }
+        #region Utilities
 
         /// <summary>
         /// Invoked by game state when a parameter has changed
@@ -486,6 +259,21 @@ namespace Durak.Server
                 SendToAll(msg);
             }
         }
+
+        /// <summary>
+        /// Log a message
+        /// </summary>
+        /// <param name="message">The message to log</param>
+        private void Log(string message, params object[] format)
+        {
+            // Log it
+            Logger.Write(message, format);
+
+            // If we have an output control, log the text
+            if (myOutput != null)
+                myOutput.AppendText(string.Format(message, format) + "\n");
+        }
+
         /// <summary>
         /// Sets the game state for the server and updates all the clients
         /// </summary>
@@ -544,7 +332,7 @@ namespace Durak.Server
             // Sends to all clients
             SendToAll(msg);       
         }
-
+        
         /// <summary>
         /// Notifies a connection that the server is currently in the wrong state for that message
         /// </summary>
@@ -740,5 +528,319 @@ namespace Durak.Server
             if (myServer.Connections.Count > 0)
                 myServer.SendMessage(msg, myServer.Connections, NetDeliveryMethod.ReliableOrdered, 0);
         }
+
+        #endregion
+
+        #region Message Handling
+
+        /// <summary>
+        /// Handles when the server has received a message
+        /// </summary>
+        private void MessageReceived(object peer)
+        {
+            // Get the incoming message
+            NetIncomingMessage inMsg = ((NetPeer)peer).ReadMessage();
+
+            // We don't want the server to crash on one bad packet
+            try
+            {
+                // Determine the message type to correctly handle it
+                switch (inMsg.MessageType)
+                {
+                    // Handle when a client's status has changed
+                    case NetIncomingMessageType.StatusChanged:
+                        // Gets the status and reason
+                        NetConnectionStatus status = (NetConnectionStatus)inMsg.ReadByte();
+                        string reason = inMsg.ReadString();
+
+                        // Depending on the status, we handle players joining or leaving
+                        switch (status)
+                        {
+                            // A player has disconnected
+                            case NetConnectionStatus.Disconnected:
+                                PlayerLeft(myPlayers[inMsg.SenderConnection], reason);
+                                break;
+                            // A player is connecting
+                            case NetConnectionStatus.Connected:
+                                // Send the welcome packet
+                                SendWelcomePacket(myPlayers[inMsg.SenderConnection].PlayerId);
+                                break;
+                        }
+
+                        // Log the message
+                        Log("Connection status updated for connection from {0}: {1}", inMsg.SenderEndPoint, status);
+
+                        break;
+
+                    // Handle when a player is trying to join
+                    case NetIncomingMessageType.ConnectionApproval:
+
+                        // Get the client's info an hashed password from the packet
+                        ClientTag clientTag = ClientTag.ReadFromPacket(inMsg);
+                        string hashedPass = inMsg.ReadString();
+
+                        // Make sure we are in the lobby when joining new players
+                        if (myState == ServerState.InLobby)
+                        {
+                            // Check the password if applicable
+                            if ((myTag.PasswordProtected && myPassword.Equals(hashedPass)) | (!myTag.PasswordProtected))
+                            {
+                                // Go ahead and try to join that playa
+                                PlayerJoined(clientTag, inMsg.SenderConnection);
+
+                                Log("Player \"{0}\" joined from {1}", clientTag.Name, clientTag.Address);
+                            }
+                            else
+                            {
+                                // Fuck you brah!
+                                inMsg.SenderConnection.Deny("Password authentication failed");
+
+                                Log("Player \"{0}\" failed to connect (password failed) from {1}", clientTag.Name, clientTag.Address);
+                            }
+                        }
+                        else
+                        {
+                            // We are mid-way through a game
+                            inMsg.SenderConnection.Deny("Game has already started");
+
+                            Log("Player \"{0}\" attempted to connect mid game from {1}", clientTag.Name, clientTag.Address);
+                        }
+                        break;
+
+                    // Handle when the server has received a discovery request
+                    case NetIncomingMessageType.DiscoveryRequest:
+
+                        // Prepare the response
+                        NetOutgoingMessage msg = myServer.CreateMessage();
+                        // Write the tag to the response
+                        myTag.WriteToPacket(msg);
+                        // Send the response
+                        myServer.SendDiscoveryResponse(msg, inMsg.SenderEndPoint);
+
+                        Log("Pinged discovery response to {0}", inMsg.SenderEndPoint);
+
+                        break;
+
+                    // Handles when the server has received data
+                    case NetIncomingMessageType.Data:
+                        HandleMessage(inMsg);
+                        break;
+                }
+            }
+            // An exception has occured parsing the packet
+            catch(Exception e)
+            {
+                // Log the exception
+                Log("Encountered exception parsing packet from {0}:\n\t{1}", inMsg.SenderEndPoint, e);
+            }
+        }
+                
+        /// <summary>
+        /// Handles an incoming network message that has already been determined to be data
+        /// </summary>
+        /// <param name="inMessage">The message to handle</param>
+        private void HandleMessage(NetIncomingMessage inMessage)
+        {
+            // Keep trying to read as long as we have bytes available
+            while(inMessage.PositionInBytes < inMessage.LengthBytes)
+            {
+                // Get the next message type
+                MessageType messageType = (MessageType)inMessage.ReadByte();
+
+                if (myMessageHandlers.ContainsKey(messageType))
+                    myMessageHandlers[messageType].Invoke(inMessage);
+                else
+                {
+                    // Logs the message
+                    Log("Invalid message received from \"{0}\" ({1})", myPlayers[inMessage.SenderConnection].Name, inMessage.SenderEndPoint);
+                    inMessage.ReadBytes(inMessage.LengthBytes - inMessage.PositionInBytes);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Handles the message received when the player requests a game move to be made
+        /// </summary>
+        /// <param name="msg">The message to handle</param>
+        private void HandleGameMove(NetIncomingMessage msg)
+        {
+            // Reads move from the packet
+            GameMove move = GameMove.ReadFromPacket(msg, myPlayers);
+
+            // We only handle moves in game
+            if (myState == ServerState.InGame)
+            {
+                // Check that the move came from the right client before handling
+                if (move.Player == myPlayers[msg.SenderConnection])
+                    HandleMove(move); // Handle the move
+                else
+                    Log("Bad packet received from \"{0}\" ({1})", myPlayers[msg.SenderConnection].Name, msg.SenderEndPoint);
+            }
+            else
+            {
+                // We are not in the right state, notify client
+                NotifyBadState(msg.SenderConnection, "Game is not currently running");
+                Log("Player \"{0}\" attempted move during non-game state", myPlayers[msg.SenderConnection].Name, msg.SenderEndPoint);
+            }
+        }
+
+        /// <summary>
+        /// Handles the message received when the host requests the game to start
+        /// </summary>
+        /// <param name="msg">The message to handle</param>
+        private void HandleHostReqStart(NetIncomingMessage msg)
+        {
+            // Read the boolean and the padding bits
+            bool start = msg.ReadBoolean();
+            msg.ReadPadBits();
+
+            // Ensure the sending player is the host
+            if (myPlayers[msg.SenderConnection] == myGameHost)
+            {
+                // Log the request
+                Log("Host requesting game start");
+
+                bool isLobbyReady = true;
+
+                // Loop through the players
+                for (byte index = 0; index < myPlayers.Count; index++)
+                {
+                    // Check for null players, the host and bots. They are exluded from the check
+                    if (myPlayers[index] != null && myPlayers[index] != myGameHost && !myPlayers[index].IsBot)
+                    {
+                        // If the player is not ready, we cannot continue, break out of the loop
+                        if (!myPlayers[index].IsReady)
+                        {
+                            isLobbyReady = false;
+                            break;
+                        }
+                    }
+                }
+
+                // If everyone is ready proceed to game
+                if (isLobbyReady)
+                    SetServerState(ServerState.InGame);
+                else
+                    Log("Cannot start game, all players not ready");
+            }
+            else
+            {
+                Log("Someone who's not host is requesting game start");
+            }
+        }
+
+        /// <summary>
+        /// Handles the message received when a client requests the server state
+        /// </summary>
+        /// <param name="msg">The message to handle</param>
+        private void HandleStateRequest(NetIncomingMessage msg)
+        {
+            // Create the message
+            NetOutgoingMessage outMsg = myServer.CreateMessage();
+
+            // Write the header and the bad move to the packet
+            outMsg.Write((byte)MessageType.NotifyServerStateChanged);
+            outMsg.Write((byte)myState);
+
+            // Send the packet
+            myServer.SendMessage(outMsg, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered);
+        }
+
+        /// <summary>
+        /// Handles the message received when a player wants to ready up
+        /// </summary>
+        /// <param name="msg">The message to handle</param>
+        private void HandlePlayerReady(NetIncomingMessage msg)
+        {
+            // Read the packet
+            byte playerId = msg.ReadByte();
+            bool isReady = msg.ReadBoolean();
+            msg.ReadPadBits();
+
+            // If the message came from the right client
+            if (myPlayers[playerId] == myPlayers[msg.SenderConnection])
+            {
+                // Update the player's state
+                myPlayers[playerId].IsReady = isReady;
+
+                // Prepare the message
+                NetOutgoingMessage outMsg = myServer.CreateMessage();
+                outMsg.Write(playerId);
+                outMsg.Write(isReady);
+                outMsg.WritePadBits();
+
+                Log("Player \"{0}\" is {1}", myPlayers[playerId].Name, isReady ? "ready" : "not ready");
+
+                // Send to all clients
+                SendToAll(outMsg);
+            }
+            else
+                Log("Bad ready packet: from: {0} for: {1} status: {2}", myPlayers[msg.SenderConnection].PlayerId, playerId, isReady);
+
+        }
+
+        /// <summary>
+        /// Handles when the host requests for a bot to be added
+        /// </summary>
+        /// <param name="msg">The message to handle</param>
+        private void HandleHostReqBot(NetIncomingMessage msg)
+        {
+            byte difficulty = msg.ReadByte();
+            string botName = msg.ReadString();
+
+            // TODO: handle bots
+        }
+
+        /// <summary>
+        /// Handles when the host wants to kick a player
+        /// </summary>
+        /// <param name="msg">The message to handle</param>
+        private void HandleHostReqKick(NetIncomingMessage msg)
+        {
+            // Get the message data
+            byte playerId = msg.ReadByte();
+            string reason = msg.ReadString();
+
+            // Confirm that this came from the host, they are refering to a player, and they aren't kick themselves
+            if (myPlayers[msg.SenderConnection] == myGameHost && myPlayers[playerId] != null && playerId != myGameHost.PlayerId)
+            {
+                // Prepare the outgoing message
+                NetOutgoingMessage send = myServer.CreateMessage();
+                send.Write((byte)MessageType.PlayerKicked);
+                send.Write(playerId);
+                send.Write(reason);
+
+                // Kick the player
+                myPlayers[playerId].Connection.Disconnect("You have been kicked: " + reason);
+
+                // Send the message to all clients
+                SendToAll(send);
+            }
+
+        }
+
+        /// <summary>
+        /// Handles when a player has sent a chat message
+        /// </summary>
+        /// <param name="msg">The message to handle</param>
+        private void HandlePlayerChat(NetIncomingMessage msg)
+        {
+            // Read packet info
+            byte playerId = msg.ReadByte();
+            string message = msg.ReadString();
+
+            // Prepare message
+            NetOutgoingMessage send = myServer.CreateMessage();
+            send.Write((byte)MessageType.PlayerChat);
+            send.Write(playerId);
+            send.Write(message);
+
+            // Forward to all clients
+            SendToAll(send);
+        }
+
+        #endregion
     }
+
+    public delegate void PacketHandler(NetIncomingMessage msg);
 }
