@@ -179,11 +179,11 @@ namespace Durak.Common
         /// <summary>
         /// Stores the source IP as an integer
         /// </summary>
-        private UInt32 myIp;
+        private uint myIp;
         /// <summary>
         /// Stores the network mask as an integer
         /// </summary>
-        private UInt32 myMask;
+        private uint myMask;
 
         /// <summary>
         /// Creates a new IP segment from a given IP and mask
@@ -224,13 +224,12 @@ namespace Durak.Common
         /// Gets an enumeraable collection of IP's in this IP range
         /// </summary>
         /// <returns>An enumerable list of IPs</returns>
-        public IEnumerable<UInt32> Hosts()
+        public IEnumerable<uint> Hosts()
         {
             for (var host = NetworkAddress + 1; host < BroadcastAddress; host++)
             {
                 yield return host;
             }
         }
-
     }
 }

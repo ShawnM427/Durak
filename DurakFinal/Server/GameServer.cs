@@ -199,9 +199,9 @@ namespace Durak.Server
         {
             // Modified from http://stackoverflow.com/questions/857705/get-all-derived-types-of-a-type
             Type[] types = (
-                from domainAssembly in domain.GetAssemblies()  // Get the referenced assemblies
+                from domainAssembly in domain.GetAssemblies()                   // Get the referenced assemblies
                 from assemblyType in domainAssembly.GetTypes()                  // Get all types in assembly
-                where typeof(T).IsAssignableFrom(assemblyType)      // Check to see if the type is a game rule
+                where typeof(T).IsAssignableFrom(assemblyType)                  // Check to see if the type is a game rule
                 where assemblyType.GetConstructor(Type.EmptyTypes) != null      // Make sure there is an empty constructor
                 select assemblyType).ToArray();                                 // Convert IEnumerable to array
 
@@ -834,6 +834,8 @@ namespace Durak.Server
             send.Write((byte)MessageType.PlayerChat);
             send.Write(playerId);
             send.Write(message);
+
+            Log("[{0}]: {1}", myPlayers[msg.SenderConnection], message);
 
             // Forward to all clients
             SendToAll(send);
