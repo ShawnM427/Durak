@@ -94,11 +94,11 @@ namespace Durak.Common
         }
 
         /// <summary>
-        /// Gets the gateway for the specified IP address
+        /// Get the default gateway for a given IP address
         /// </summary>
-        /// <param name="address">The address to search get the gateway for</param>
-        /// <returns>The addresses gateway</returns>
-        internal static IPAddress GetGateway(IPAddress address)
+        /// <param name="address">The address to return the IP of, must be on local machine</param>
+        /// <returns>The default gateway for the IP</returns>
+        public static IPAddress GetGateway(IPAddress address)
         {
             // Modified from
             // http://www.java2s.com/Code/CSharp/Network/GetSubnetMask.htm

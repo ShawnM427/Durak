@@ -11,6 +11,11 @@ namespace Durak.Common
     public class GameState
     {
         /// <summary>
+        /// Stores the string format for array element naming
+        /// </summary>
+        private const string ARRAY_FORMAT = "@{0}_{1}";
+
+        /// <summary>
         /// Stores the dictionary of parameters
         /// </summary>
         private Dictionary<string, StateParameter> myParameters;
@@ -86,87 +91,35 @@ namespace Durak.Common
             if (!SilentSets && OnStateChanged != null)
                 OnStateChanged.Invoke(this, StateParameter.Construct(name, value));
         }
+        
+        /// <summary>
+        /// Sets the given parameter to a value
+        /// </summary>
+        /// <param name="name">The name of the parameter to set</param>
+        /// <param name="value">The value to set</param>
+        public void Set<T>(string name, T value)
+        {
+            if (string.IsNullOrWhiteSpace(name) || name[0] == '@')
+                throw new ArgumentException("Invalid name, cannot be empty or start with @");
+
+            if (!StateParameter.SUPPORTED_TYPES.ContainsKey(typeof(T)))
+                throw new ArgumentException("Type " + typeof(T) + " is not a supported type");
+
+            InternalSet(name, value);
+        }
 
         /// <summary>
-        /// Sets the given parameter to a byte value
+        /// Sets the given parameter array slot to a value
         /// </summary>
         /// <param name="name">The name of the parameter to set</param>
+        /// <param name="index">The index in the array</param>
         /// <param name="value">The value to set</param>
-        public void Set(string name, byte value)
+        public void Set<T>(string name, int index, T value)
         {
-            InternalSet(name, value);
-        }
-        /// <summary>
-        /// Sets the given parameter to a character value
-        /// </summary>
-        /// <param name="name">The name of the parameter to set</param>
-        /// <param name="value">The value to set</param>
-        public void Set(string name, char value)
-        {
-            InternalSet(name, value);
-        }
-        /// <summary>
-        /// Sets the given parameter to a 16 bit integer value
-        /// </summary>
-        /// <param name="name">The name of the parameter to set</param>
-        /// <param name="value">The value to set</param>
-        public void Set(string name, short value)
-        {
-            InternalSet(name, value);
-        }
-        /// <summary>
-        /// Sets the given parameter to a 32 bit integer value
-        /// </summary>
-        /// <param name="name">The name of the parameter to set</param>
-        /// <param name="value">The value to set</param>
-        public void Set(string name, int value)
-        {
-            InternalSet(name, value);
-        }
-        /// <summary>
-        /// Sets the given parameter to a boolean value
-        /// </summary>
-        /// <param name="name">The name of the parameter to set</param>
-        /// <param name="value">The value to set</param>
-        public void Set(string name, bool value)
-        {
-            InternalSet(name, value);
-        }
-        /// <summary>
-        /// Sets the given parameter to a card suit
-        /// </summary>
-        /// <param name="name">The name of the parameter to set</param>
-        /// <param name="value">The value to set</param>
-        public void Set(string name, CardSuit value)
-        {
-            InternalSet(name, value);
-        }
-        /// <summary>
-        /// Sets the given parameter to a card rank
-        /// </summary>
-        /// <param name="name">The name of the parameter to set</param>
-        /// <param name="value">The value to set</param>
-        public void Set(string name, CardRank value)
-        {
-            InternalSet(name, value);
-        }
-        /// <summary>
-        /// Sets the given parameter to a string value
-        /// </summary>
-        /// <param name="name">The name of the parameter to set</param>
-        /// <param name="value">The value to set</param>
-        public void Set(string name, string value)
-        {
-            InternalSet(name, value);
-        }        
-        /// <summary>
-        /// Sets the given parameter to a card 
-        /// </summary>
-        /// <param name="name">The name of the parameter to set</param>
-        /// <param name="value">The value to set</param>
-        public void Set(string name, PlayingCard value)
-        {
-            InternalSet(name, value);
+            if (!StateParameter.SUPPORTED_TYPES.ContainsKey(typeof(T)))
+                throw new ArgumentException("Type " + typeof(T) + " is not a supported type");
+
+            InternalSet(string.Format(ARRAY_FORMAT, name, index), value);
         }
 
         /// <summary>

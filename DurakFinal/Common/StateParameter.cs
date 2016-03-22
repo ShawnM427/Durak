@@ -14,7 +14,7 @@ namespace Durak.Common
         /// <summary>
         /// Gets the supported types. I don't like this ATM
         /// </summary>
-        private static readonly Dictionary<System.Type, Type> SUPPORTED_TYPES = new Dictionary<System.Type, Type>()
+        public static readonly Dictionary<System.Type, Type> SUPPORTED_TYPES = new Dictionary<System.Type, Type>()
         {
             { typeof(byte), Type.Byte },
             { typeof(char), Type.Char },
@@ -304,8 +304,13 @@ namespace Durak.Common
                     msg.Write((string)myValue);
                     break;
                 case Type.PlayingCard:
-                    msg.Write((byte)(myValue as PlayingCard).Rank);
-                    msg.Write((byte)(myValue as PlayingCard).Suit);
+                    msg.Write(myValue == null);
+
+                    if (myValue != null)
+                    {
+                        msg.Write((byte)(myValue as PlayingCard).Rank);
+                        msg.Write((byte)(myValue as PlayingCard).Suit);
+                    }
                     break;
             }
 
@@ -350,7 +355,10 @@ namespace Durak.Common
                     result = new StateParameter(name, msg.ReadString());
                     break;
                 case Type.PlayingCard:
-                    result = new StateParameter(name, new PlayingCard((CardRank)msg.ReadByte(), (CardSuit)msg.ReadByte()) { FaceUp = true });
+                    if (msg.ReadBoolean())
+                        result = new StateParameter(name, new PlayingCard((CardRank)msg.ReadByte(), (CardSuit)msg.ReadByte()) { FaceUp = true });
+                    else
+                        result = StateParameter.Construct<PlayingCard>(name, null);
                     break;
             }
 

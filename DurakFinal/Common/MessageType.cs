@@ -114,7 +114,7 @@ namespace Durak.Common
         ///     byte    - playerId
         ///     boolean - isHost
         /// </summary>
-        PlayerConnectInfo = 134,
+        PlayerConnectInfo           = 134,
 
         /// <summary>
         /// Sent by the client to request a card to be played
