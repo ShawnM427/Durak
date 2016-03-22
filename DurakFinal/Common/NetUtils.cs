@@ -93,6 +93,11 @@ namespace Durak.Common
             throw new NetworkInformationException();
         }
 
+        /// <summary>
+        /// Gets the gateway for the specified IP address
+        /// </summary>
+        /// <param name="address">The address to search get the gateway for</param>
+        /// <returns>The addresses gateway</returns>
         internal static IPAddress GetGateway(IPAddress address)
         {
             // Modified from
@@ -125,55 +130,16 @@ namespace Durak.Common
             }
 
             // We could not find this IP address
-            return null;
-
-            // We could not find this IP address
-            return null;
-        }
-    }
-
-    //http://stackoverflow.com/questions/14327022/calculate-ip-range-by-subnet-mask
-
-    class IPSegment
-    {
-
-        private UInt32 _ip;
-        private UInt32 _mask;
-
-        public IPSegment(string ip, string mask)
-        {
-            _ip = ip.ParseIp();
-            _mask = mask.ParseIp();
+            return null;            
         }
 
-        public UInt32 NumberOfHosts
-        {
-            get { return ~_mask + 1; }
-        }
-
-        public UInt32 NetworkAddress
-        {
-            get { return _ip & _mask; }
-        }
-
-        public UInt32 BroadcastAddress
-        {
-            get { return NetworkAddress + ~_mask; }
-        }
-
-        public IEnumerable<UInt32> Hosts()
-        {
-            for (var host = NetworkAddress + 1; host < BroadcastAddress; host++)
-            {
-                yield return host;
-            }
-        }
-
-    }
-
-    public static class IpHelpers
-    {
-        public static string ToIpString(this UInt32 value)
+        /// <summary>
+        /// Converts an integer IP to a string
+        /// </summary>
+        /// <see cref="http://stackoverflow.com/questions/14327022/calculate-ip-range-by-subnet-mask"/>
+        /// <param name="value">The IP to convert</param>
+        /// <returns>The IP in the format #.#.#.#</returns>
+        public static string ToIpString(this uint value)
         {
             var bitmask = 0xff000000;
             var parts = new string[4];
@@ -183,18 +149,88 @@ namespace Durak.Common
                 bitmask >>= 8;
                 parts[i] = masked.ToString(CultureInfo.InvariantCulture);
             }
-            return String.Join(".", parts);
+            return string.Join(".", parts);
         }
 
-        public static UInt32 ParseIp(this string ipAddress)
+        /// <summary>
+        /// Parses an integer IP from a string
+        /// </summary>
+        /// <see cref="http://stackoverflow.com/questions/14327022/calculate-ip-range-by-subnet-mask"/>
+        /// <param name="ipAddress">The IP address to parse</param>
+        /// <returns>An integer representation of the IP</returns>
+        public static uint ParseIp(this string ipAddress)
         {
             var splitted = ipAddress.Split('.');
-            UInt32 ip = 0;
+            uint ip = 0;
             for (var i = 0; i < 4; i++)
             {
-                ip = (ip << 8) + UInt32.Parse(splitted[i]);
+                ip = (ip << 8) + uint.Parse(splitted[i]);
             }
             return ip;
         }
+    }
+
+    /// <summary>
+    /// Represents a range of IP addresses
+    /// </summary>
+    /// <see cref="http://stackoverflow.com/questions/14327022/calculate-ip-range-by-subnet-mask"/>
+    public class IPSegment
+    { 
+        /// <summary>
+        /// Stores the source IP as an integer
+        /// </summary>
+        private UInt32 myIp;
+        /// <summary>
+        /// Stores the network mask as an integer
+        /// </summary>
+        private UInt32 myMask;
+
+        /// <summary>
+        /// Creates a new IP segment from a given IP and mask
+        /// </summary>
+        /// <param name="ip">The IP to get the network group from</param>
+        /// <param name="mask">The subnet mask to search</param>
+        public IPSegment(string ip, string mask)
+        {
+            this.myIp = ip.ParseIp();
+            this.myMask = mask.ParseIp();
+        }
+
+        /// <summary>
+        /// Gets the number of hosts in this range
+        /// </summary>
+        public uint NumberOfHosts
+        {
+            get { return ~myMask + 1; }
+        }
+
+        /// <summary>
+        /// Gets the network address for this IP range
+        /// </summary>
+        public uint NetworkAddress
+        {
+            get { return myIp & myMask; }
+        }
+
+        /// <summary>
+        /// Gets the broadcast address for this IP range
+        /// </summary>
+        public uint BroadcastAddress
+        {
+            get { return NetworkAddress + ~myMask; }
+        }
+
+        /// <summary>
+        /// Gets an enumeraable collection of IP's in this IP range
+        /// </summary>
+        /// <returns>An enumerable list of IPs</returns>
+        public IEnumerable<UInt32> Hosts()
+        {
+            for (var host = NetworkAddress + 1; host < BroadcastAddress; host++)
+            {
+                yield return host;
+            }
+        }
+
     }
 }
