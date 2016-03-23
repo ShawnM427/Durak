@@ -69,12 +69,17 @@
     <Compile Include="Common\Logger.cs" />
     <Compile Include="Common\NetSettings.cs" />
     <Compile Include="Common\NetUtils.cs" />
+    <Compile Include="Common\Rules.cs" />
     <Compile Include="Common\ServerState.cs" />
     <Compile Include="Common\MessageType.cs" />
     <Compile Include="Common\Player.cs" />
     <Compile Include="Common\PlayerCollection.cs" />
     <Compile Include="Common\SecurityUtils.cs" />
     <Compile Include="Common\ServerTag.cs" />
+    <Compile Include="Common\Utils.cs" />
+    <Compile Include="Server\AIMoveProposal.cs" />
+    <Compile Include="Server\BotPlayer.cs" />
+    <Compile Include="Server\IAIRule.cs" />
     <Compile Include="Server\IGameInitRule.cs" />
     <Compile Include="Server\IGameStateRule.cs" />
     <Compile Include="Common\StateParameter.cs" />

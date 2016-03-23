@@ -234,6 +234,17 @@ namespace Durak.Common
         }
 
         /// <summary>
+        /// Checks if a state parameter is equal to a value
+        /// </summary>
+        /// <param name="name">The name of the parameter to check</param>
+        /// <param name="value">The value to check against</param>
+        /// <returns>True if the objects are equal, false if otherwise</returns>
+        public bool Equals(string name, object value)
+        {
+            return GetParameter(name, value.GetType()).RawValue.Equals(value);
+        }
+
+        /// <summary>
         /// Encodes this game state to a network message
         /// </summary>
         /// <param name="msg">The message to encode to</param>
