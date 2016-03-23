@@ -93,6 +93,7 @@ namespace DurakTester
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            BotPlayer.SimulateThinkTime = false;
         }
 
         private void btnInitServer_Click(object sender, EventArgs e)
@@ -299,14 +300,11 @@ namespace DurakTester
                             break;
 
                         case MessagePacketDefinitions.PayloadParamType.BotDifficulty:
-                            ComboBox difSelector = new ComboBox();
-                            difSelector.DropDownStyle = ComboBoxStyle.DropDownList;
-                            difSelector.Items.Add(0);
-                            difSelector.Items.Add(1);
-                            difSelector.Items.Add(2);
-                            difSelector.Items.Add(3);
-                            difSelector.SelectedIndex = 0;
-                            selector = difSelector;
+                            TrackBar bar = new TrackBar();
+                            bar.Minimum = 0;
+                            bar.Maximum = 255;
+                            bar.TickFrequency = 1;
+                            selector = bar;
                             break;
 
                         case MessagePacketDefinitions.PayloadParamType.Byte:
@@ -400,8 +398,8 @@ namespace DurakTester
                             break;
 
                         case MessagePacketDefinitions.PayloadParamType.BotDifficulty:
-                            box = (ComboBox)myInputs[index].InputControl;
-                            msg.Write((byte)box.SelectedItem);
+                            TrackBar control = (TrackBar)myInputs[index].InputControl;
+                            msg.Write((byte)(control.Value));
                             break;
 
                         case MessagePacketDefinitions.PayloadParamType.Byte:

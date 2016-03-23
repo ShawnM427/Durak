@@ -80,11 +80,7 @@ namespace Durak.Common
                 myParameters.Add(name, StateParameter.Construct(name, value));
             else
             {
-                // Make sure it is the same type, or throw an exception
-                if (myParameters[name].RawValue.GetType().IsAssignableFrom(typeof(T)))
-                    myParameters[name].SetValueInternal((T)value);
-                else
-                    throw new InvalidCastException(string.Format("Cannot cast parameter of type {0} to {1}", myParameters[name].GetType().Name, typeof(T).Name));
+                myParameters[name].SetValueInternal(value);
             }
 
             // invoke the state change if an event is attached
@@ -137,7 +133,9 @@ namespace Durak.Common
                 object value = myParameters[name].RawValue;
 
                 // Verify type before returning
-                if (typeof(T).IsAssignableFrom(value.GetType()))
+                if (value == null)
+                    return default(T);
+                else if (typeof(T).IsAssignableFrom(value.GetType()))
                     return (T)value;
                 else
                     throw new InvalidCastException(string.Format("Cannot cast {0} to {1}", value.GetType().Name, typeof(T).Name));
@@ -161,6 +159,16 @@ namespace Durak.Common
             return GetValueInternal<byte>(name);
         }
         /// <summary>
+        /// Gets the parameter in an array with the given name as a byte
+        /// </summary>
+        /// <param name="name">The name of the parameter to get</param>
+        /// <param name="index">The index in the array</param>
+        /// <returns>The parameter with the given name</returns>
+        public byte GetValueByte(string name, int index)
+        {
+            return GetValueInternal<byte>(string.Format(ARRAY_FORMAT, name, index));
+        }
+        /// <summary>
         /// Gets the parameter with the given name as a character
         /// </summary>
         /// <param name="name">The name of the parameter to get</param>
@@ -168,6 +176,16 @@ namespace Durak.Common
         public char GetValueChar(string name)
         {
             return GetValueInternal<char>(name);
+        }
+        /// <summary>
+        /// Gets the parameter in an array with the given name as a character
+        /// </summary>
+        /// <param name="name">The name of the parameter to get</param>
+        /// <param name="index">The index in the array</param>
+        /// <returns>The parameter with the given name</returns>
+        public char GetValueChar(string name, int index)
+        {
+            return GetValueInternal<char>(string.Format(ARRAY_FORMAT, name, index));
         }
         /// <summary>
         /// Gets the parameter with the given name as a 16 bit integer
@@ -179,6 +197,16 @@ namespace Durak.Common
             return GetValueInternal<short>(name);
         }
         /// <summary>
+        /// Gets the parameter in an array with the given name as a 16 bit integer
+        /// </summary>
+        /// <param name="name">The name of the parameter to get</param>
+        /// <param name="index">The index in the array</param>
+        /// <returns>The parameter with the given name</returns>
+        public short GetValueShort(string name, int index)
+        {
+            return GetValueInternal<short>(string.Format(ARRAY_FORMAT, name, index));
+        }
+        /// <summary>
         /// Gets the parameter with the given name as a 32 bit integer
         /// </summary>
         /// <param name="name">The name of the parameter to get</param>
@@ -186,6 +214,16 @@ namespace Durak.Common
         public int GetValueInt(string name)
         {
             return GetValueInternal<int>(name);
+        }
+        /// <summary>
+        /// Gets the parameter in an array with the given name as a 32 bit integer
+        /// </summary>
+        /// <param name="name">The name of the parameter to get</param>
+        /// <param name="index">The index in the array</param>
+        /// <returns>The parameter with the given name</returns>
+        public int GetValueInt(string name, int index)
+        {
+            return GetValueInternal<int>(string.Format(ARRAY_FORMAT, name, index));
         }
         /// <summary>
         /// Gets the parameter with the given name as a boolean
@@ -197,6 +235,16 @@ namespace Durak.Common
             return GetValueInternal<bool>(name);
         }
         /// <summary>
+        /// Gets the parameter in an array with the given name as a boolean
+        /// </summary>
+        /// <param name="name">The name of the parameter to get</param>
+        /// <param name="index">The index in the array</param>
+        /// <returns>The parameter with the given name</returns>
+        public bool GetValueBool(string name, int index)
+        {
+            return GetValueInternal<bool>(string.Format(ARRAY_FORMAT, name, index));
+        }
+        /// <summary>
         /// Gets the parameter with the given name as a card rank
         /// </summary>
         /// <param name="name">The name of the parameter to get</param>
@@ -204,6 +252,15 @@ namespace Durak.Common
         public CardRank GetValueCardRank(string name)
         {
             return GetValueInternal<CardRank>(name);
+        }
+        /// <summary>
+        /// Gets the parameter in an array with the given name as a card rank
+        /// </summary>
+        /// <param name="name">The name of the parameter to get</param>
+        /// <returns>The parameter with the given name</returns>
+        public CardRank GetValueCardRank(string name, int index)
+        {
+            return GetValueInternal<CardRank>(string.Format(ARRAY_FORMAT, name, index));
         }
         /// <summary>
         /// Gets the parameter with the given name as a card suit
@@ -215,6 +272,16 @@ namespace Durak.Common
             return GetValueInternal<CardSuit>(name);
         }
         /// <summary>
+        /// Gets the parameter in an array with the given name as a card suit
+        /// </summary>
+        /// <param name="name">The name of the parameter to get</param>
+        /// <param name="index">The index in the array</param>
+        /// <returns>The parameter with the given name</returns>
+        public CardSuit GetValueCardSuit(string name, int index)
+        {
+            return GetValueInternal<CardSuit>(string.Format(ARRAY_FORMAT, name, index));
+        }
+        /// <summary>
         /// Gets the parameter with the given name as a string
         /// </summary>
         /// <param name="name">The name of the parameter to get</param>
@@ -224,13 +291,33 @@ namespace Durak.Common
             return GetValueInternal<string>(name);
         }
         /// <summary>
+        /// Gets the parameter in an array with the given name as a string
+        /// </summary>
+        /// <param name="name">The name of the parameter to get</param>
+        /// <param name="index">The index in the array</param>
+        /// <returns>The parameter with the given name</returns>
+        public string GetValueString(string name, int index)
+        {
+            return GetValueInternal<string>(string.Format(ARRAY_FORMAT, name, index));
+        }
+        /// <summary>
         /// Gets the parameter with the given name as a playing card
         /// </summary>
         /// <param name="name">The name of the parameter to get</param>
         /// <returns>The parameter with the given name</returns>
-        public PlayingCard GetCard(string name)
+        public PlayingCard GetValueCard(string name)
         {
             return GetValueInternal<PlayingCard>(name);
+        }
+        /// <summary>
+        /// Gets the parameter in an array with the given name as a playing card
+        /// </summary>
+        /// <param name="name">The name of the parameter to get</param>
+        /// <param name="index">The index in the array</param>
+        /// <returns>The parameter with the given name</returns>
+        public PlayingCard GetValueCard(string name, int index)
+        {
+            return GetValueInternal<PlayingCard>(string.Format(ARRAY_FORMAT, name, index));
         }
 
         /// <summary>

@@ -1,5 +1,6 @@
 ﻿using Lidgren.Network;
 using System.Linq;
+using System;
 
 namespace Durak.Common
 {
@@ -107,6 +108,15 @@ namespace Durak.Common
                         myPlayers[index] = null;
                         return;
                     }
+        }
+
+        /// <summary>
+        /// Clears this player collection
+        /// </summary>
+        internal void Clear()
+        {
+            for (int index = 0; index < myPlayers.Length; index++)
+                myPlayers[index] = null;
         }
     }
 }

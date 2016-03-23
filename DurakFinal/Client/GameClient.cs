@@ -226,6 +226,8 @@ namespace Durak.Client
                                     if (OnConnectionFailed != null)
                                         OnConnectionFailed(this, reason);
                                 }
+
+                                myConnectedServer = null;
                                 
                                 break;
 

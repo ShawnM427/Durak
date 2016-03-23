@@ -265,8 +265,11 @@ namespace Durak.Common.Cards
         /// <returns></returns>
         public static bool operator ==(PlayingCard left, PlayingCard right)
         {
-            // return the result of CardA == CardB
-            return (left.CardValue == right.CardValue);
+            if (!object.ReferenceEquals(left, null) && !object.ReferenceEquals(right, null))
+                // return the result of CardA == CardB
+                return (left.CardValue == right.CardValue);
+            else
+                return object.ReferenceEquals(left, null) && object.ReferenceEquals(left, null);
         }
 
         /// <summary>
@@ -277,8 +280,7 @@ namespace Durak.Common.Cards
         /// <returns></returns>
         public static bool operator !=(PlayingCard left, PlayingCard right)
         {
-            // return the result of CardA != CardB
-            return (left.CardValue != right.CardValue);
+            return !(left == null);
         }
 
         /// <summary>

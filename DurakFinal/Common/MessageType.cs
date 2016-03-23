@@ -120,30 +120,27 @@ namespace Durak.Common
         /// Sent by the client to request a card to be played
         /// 
         /// Payload:
-        ///     byte    - playerId
-        ///     byte    - card rank
-        ///     byte    - card suit
+        ///     byte     - playerId
+        ///     GameMove - move
         /// </summary>
-        SendMove                    = 150,
+        SendMove = 150,
         /// <summary>
         /// Sent by the server to notify a client that their requested move is invalid
         /// 
         /// Payload:
-        ///     byte    - playerId
-        ///     byte    - card rank
-        ///     byte    - card suit
-        ///     string  - reason
+        ///     byte     - playerId
+        ///     GameMove - move
+        ///     string   - reason
         /// </summary>
-        InvalidMove                 = 151,
+        InvalidMove = 151,
         /// <summary>
         /// Sent by the server to ntify clients that a player has made a game move
         /// 
         /// Payload:
-        ///     byte    - playerId
-        ///     byte    - card rank
-        ///     byte    - card suit
+        ///     byte     - playerId
+        ///     GameMove - move
         /// </summary>
-        SucessfullMove              = 152,
+        SucessfullMove = 152,
 
         /// <summary>
         /// Sent by the clients and the server for chat messages

@@ -1,4 +1,5 @@
 ﻿using Durak.Common;
+using Durak.Common.Cards;
 using Lidgren.Network;
 using System;
 using System.Collections.Generic;
@@ -65,6 +66,10 @@ namespace Durak.Server
         /// Stores the player that has control over this game
         /// </summary>
         private Player myGameHost;
+        /// <summary>
+        /// Stores all the bots operating on this server
+        /// </summary>
+        private List<BotPlayer> myBots;
 
         /// <summary>
         /// Gets the server's IP address
@@ -81,11 +86,18 @@ namespace Durak.Server
             get;
             set;
         }
+        /// <summary>
+        /// Get's this server's game state
+        /// </summary>
+        public GameState GameState
+        {
+            get { return myGameState; }
+        }
 
         /// <summary>
         /// Creates a new instance of a game server
         /// </summary>
-        public GameServer()
+        public GameServer(int numPlayers = 4)
         {
             myTag = new ServerTag();
 
@@ -93,7 +105,8 @@ namespace Durak.Server
             myStateRules = new List<IGameStateRule>();
             myInitRules = new List<IGameInitRule>();
 
-            myPlayers = new PlayerCollection();
+            myPlayers = new PlayerCollection(numPlayers);
+            myBots = new List<BotPlayer>();
 
             myState = ServerState.InLobby;
             myGameState = new GameState();
@@ -219,6 +232,36 @@ namespace Durak.Server
         #region Utilities
 
         /// <summary>
+        /// Gets whether a player can play a card, this simply returns true or false, and does not excecute or log it
+        /// </summary>
+        /// <param name="player">The player that wants to play the move</param>
+        /// <param name="card">The card to play</param>
+        /// <returns>True if the move can be played, false if otherwise</returns>
+        public bool CanPlayMove(Player player, PlayingCard card)
+        {
+            // Make sure it's face up... we prolly don't even need faceup in card anymore serverside
+            card.FaceUp = true;
+
+            // Make the move
+            GameMove move = new GameMove(player, card);
+
+            // We need this :/
+            string failReason = "";
+
+            // Iterate over each game rule
+            for (int index = 0; index < myPlayRules.Count; index++)
+            {
+                // If the move is valid, continue, otherwise a rule was violated
+                if (!myPlayRules[index].IsValidMove(myPlayers, move, myGameState, ref failReason))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
         /// Invoked by game state when a parameter has changed
         /// </summary>
         /// <param name="sender">The object to invoke this method</param>
@@ -292,6 +335,8 @@ namespace Durak.Server
                 {
                     // We clear the game state
                     myGameState.Clear();
+                    myBots.Clear();
+                    myPlayers.Clear();
                 }
             }
         }
@@ -361,6 +406,25 @@ namespace Durak.Server
         }
 
         /// <summary>
+        /// Notifies all connected clients that a new player has joined the game
+        /// </summary>
+        /// <param name="player">The player that has joined</param>
+        private void NotifyPlayerJoined(Player player)
+        {
+            // Create the outgioing message
+            NetOutgoingMessage outMsg = myServer.CreateMessage();
+
+            // Write the header and move to the message
+            outMsg.Write((byte)MessageType.PlayerJoined);
+            outMsg.Write(player.PlayerId);
+            outMsg.Write(player.Name);
+            outMsg.Write(player.IsBot);
+
+            // Send to all clients
+            SendToAll(outMsg);
+        }
+
+        /// <summary>
         /// Handles when a player has joined this server
         /// </summary>
         /// <param name="clientTag">The client's tag</param>
@@ -375,18 +439,9 @@ namespace Durak.Server
             {
                 // Create the serverside player isntance
                 Player player = new Player(clientTag, connection, (byte)id);
-                
-                // Create the outgioing message
-                NetOutgoingMessage outMsg = myServer.CreateMessage();
 
-                // Write the header and move to the message
-                outMsg.Write((byte)MessageType.PlayerJoined);
-                outMsg.Write(player.PlayerId);
-                outMsg.Write(player.Name);
-                outMsg.Write(player.IsBot);
-
-                // Send to all clients
-                SendToAll(outMsg);
+                // Notify other players
+                NotifyPlayerJoined(player);
 
                 // Client can connect
                 connection.Approve();
@@ -470,11 +525,11 @@ namespace Durak.Server
 
             // Send to all connected clients
             SendToAll(outMsg);
-            
-            // Validate and update state rules
-            for(int index = 0; index < myStateRules.Count; index ++)
+
+            // Update all the sucessfull move states
+            for(int index = 0; index < Rules.MOVE_SUCCESS_RULES.Count; index ++)
             {
-                myStateRules[index].ValidateState(myPlayers, myGameState);
+                Rules.MOVE_SUCCESS_RULES[index].UpdateState(move, myPlayers, myGameState);
             }
         }
 
@@ -493,7 +548,8 @@ namespace Durak.Server
             outMsg.Write(reason);
 
             // Send the packet
-            myServer.SendMessage(outMsg, move.Player.Connection, NetDeliveryMethod.ReliableOrdered);
+            if (move.Player.Connection != null)
+                myServer.SendMessage(outMsg, move.Player.Connection, NetDeliveryMethod.ReliableOrdered);
         }
 
         /// <summary>
@@ -562,10 +618,19 @@ namespace Durak.Server
                             // Check the password if applicable
                             if ((myTag.PasswordProtected && myPassword.Equals(hashedPass)) | (!myTag.PasswordProtected))
                             {
-                                // Go ahead and try to join that playa
-                                PlayerJoined(clientTag, inMsg.SenderConnection);
-
-                                Log("Player \"{0}\" joined from {1}", clientTag.Name, clientTag.Address);
+                                // Check to see if the lobby is full
+                                if (myPlayers.GetNextAvailableId() != -1)
+                                {
+                                    // Go ahead and try to join that playa
+                                    PlayerJoined(clientTag, inMsg.SenderConnection);
+                                    Log("Player \"{0}\" joined from {1}", clientTag.Name, clientTag.Address);
+                                }
+                                else
+                                {
+                                    // Deny connection if lobby is full
+                                    inMsg.SenderConnection.Deny("Game is full");
+                                    Log("Player \"{0}\" was denied access to full game from {1}", clientTag.Name, clientTag.Address);
+                                }
                             }
                             else
                             {
@@ -609,6 +674,31 @@ namespace Durak.Server
             {
                 // Log the exception
                 Log("Encountered exception parsing packet from {0}:\n\t{1}", inMsg.SenderEndPoint, e);
+            }
+
+            // If we are in game, we should update the state
+            if (myState == ServerState.InGame)
+            {
+                // Iterate over the rules and validate them all
+                foreach (IGameStateRule stateRule in Rules.STATE_RULES)
+                {
+                    stateRule.ValidateState(myPlayers, myGameState);
+                }
+            }
+
+            // Handle the bots
+            foreach(BotPlayer botPlayer in myBots)
+            {
+                // Make bots detect if they are in a valid place to move
+                botPlayer.StateUpdated(myGameState);
+
+                // If the bot's move is ready
+                if (botPlayer.ShouldInvoke)
+                {
+                    // Get and play the move
+                    PlayingCard move = botPlayer.DetermineMove();
+                    HandleMove(new GameMove(botPlayer.Player, move));
+                }
             }
         }
                 
@@ -762,10 +852,47 @@ namespace Durak.Server
         /// <param name="msg">The message to handle</param>
         private void HandleHostReqBot(NetIncomingMessage msg)
         {
+            // Read the bot data
             byte difficulty = msg.ReadByte();
             string botName = msg.ReadString();
 
-            // TODO: handle bots
+            // We can only add bots in lobby
+            if (myState == ServerState.InLobby)
+            {
+                // Try to get an open Player ID
+                int playerID = myPlayers.GetNextAvailableId();
+
+                Log("Attempting to add bot \"{0}\" with difficulty {1}", botName, difficulty / 255.0f);
+
+                // If there is a slot open, add bot
+                if (playerID != -1)
+                {
+                    // Make the player instance
+                    Player botPlayer = new Player(new ClientTag(botName), (byte)playerID) { IsBot = true };
+                    // Make the bot instance
+                    BotPlayer bot = new BotPlayer(this, botPlayer, (difficulty / 256.0f));
+
+                    // Add the bot player
+                    myPlayers[(byte)playerID] = botPlayer;
+
+                    // Ad the bot instance
+                    myBots.Add(bot);
+
+                    // Notify all players that a bot has joined
+                    NotifyPlayerJoined(botPlayer);
+
+                    Log("Bot added");
+                }
+                else
+                {
+                    Log("Failed to add bot, lobby full");
+                }
+            }
+            else
+            {
+                NotifyBadState(msg.SenderConnection, "Cannot add bot outside of lobby");
+                Log("Failed to add bot during game");
+            }
         }
 
         /// <summary>

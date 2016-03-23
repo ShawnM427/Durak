@@ -26,12 +26,6 @@ namespace DurakTester.Rules
                 reason = "Card is not in players hand";
                 return false;
             }
-            else
-            {
-                move.Player.Hand.Remove(move.Move);
-                int round = 0; // currentState.GetValueInt("current_round");
-                currentState.Set("round_" + round + "_attack", move.Move);
-            }
 
             return true;
         }

@@ -59,10 +59,14 @@
     <Compile Include="MessagePacketDefinitions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rules\CardPlayed.cs" />
+    <Compile Include="Rules\SampleAIRule.cs" />
+    <Compile Include="Rules\BotRule.cs" />
     <Compile Include="Rules\CheckWonBattle.cs" />
     <Compile Include="Rules\InitRoundStates.cs" />
-    <Compile Include="Rules\IsAttackingPlayer.cs" />
+    <Compile Include="Rules\VerifyTurnRule.cs" />
     <Compile Include="Rules\SampleInitRule.cs" />
+    <Compile Include="Rules\SampleStateRule.cs" />
     <Compile Include="Rules\VerifyCardInHand.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

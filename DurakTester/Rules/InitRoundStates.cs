@@ -23,7 +23,12 @@ namespace DurakTester.Rules
 
         public void InitState(PlayerCollection players, GameState state)
         {
-            for(int index = 0; index < 6; index ++)
+            state.Set("IsAttacking", true);
+
+            state.Set<byte>("attacking_player_id", 0);
+            state.Set<byte>("defending_player_id", 1);
+
+            for (int index = 0; index < 6; index ++)
             {
                 state.Set<PlayingCard>("defending_card", index, null);
                 state.Set<PlayingCard>("attacking_card", index, null);

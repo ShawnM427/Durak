@@ -74,6 +74,7 @@ namespace Durak.Common
             myPayloads.Add(MessageType.SendMove,
             new PayloadParameter[] {
                 new PayloadParameter("Player ID", PayloadParamType.PlayerID),
+                new PayloadParameter("Has Value", PayloadParamType.Boolean),
                 new PayloadParameter("Card Rank", PayloadParamType.CardRank),
                 new PayloadParameter("Card Suit", PayloadParamType.CardSuit)
             });

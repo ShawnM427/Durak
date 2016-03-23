@@ -1,5 +1,6 @@
 ﻿using Durak.Common.Cards;
 using Lidgren.Network;
+using System.Linq;
 
 namespace Durak.Common
 {
@@ -16,6 +17,17 @@ namespace Durak.Common
         /// Stores the card to be played
         /// </summary>
         private PlayingCard myMove;
+
+        /// <summary>
+        /// Creates a new game move with the given playerID
+        /// </summary>
+        /// <param name="player">The player to make this move</param>
+        /// <param name="move">The card to move</param>
+        public GameMove(Player player, PlayingCard move) : this()
+        {
+            myPlayer = player;
+            myMove = move;
+        }
 
         /// <summary>
         /// Gets the player that performed this move
@@ -41,9 +53,15 @@ namespace Durak.Common
             // Just transfer that name
             outMessage.Write(myPlayer.PlayerId);
 
+            outMessage.Write(myMove != null);
+            outMessage.WritePadBits();
+
             // Write the card's info
-            outMessage.Write((byte)myMove.Rank);
-            outMessage.Write((byte)myMove.Suit);
+            if (myMove != null)
+            {
+                outMessage.Write((byte)myMove.Rank);
+                outMessage.Write((byte)myMove.Suit);
+            }            
         }
 
         /// <summary>
@@ -54,19 +72,27 @@ namespace Durak.Common
         /// <returns>The Game Move read from the packet</returns>
         public static GameMove ReadFromPacket(NetIncomingMessage inMessage, PlayerCollection players)
         {
-            GameMove result;
+            GameMove result = new GameMove();
 
             // Get the player ID
             byte playerId = inMessage.ReadByte();
-
-            // Get the playing card
-            int moveRank = inMessage.ReadByte();
-            int moveSuit = inMessage.ReadByte();
-
+            
             // Build the result
             result.myPlayer = players[playerId];
-            result.myMove = new PlayingCard((CardRank)moveRank, (CardSuit)moveSuit);
-            result.myMove.FaceUp = true;
+            
+            bool hasValue = inMessage.ReadBoolean();
+            inMessage.ReadPadBits();
+
+            // Read if not null
+            if (hasValue)
+            {
+                // Get the playing card
+                int moveRank = inMessage.ReadByte();
+                int moveSuit = inMessage.ReadByte();
+
+                result.myMove = new PlayingCard((CardRank)moveRank, (CardSuit)moveSuit);
+                result.myMove.FaceUp = true;
+            }
 
             return result;
         }

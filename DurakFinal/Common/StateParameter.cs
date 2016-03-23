@@ -70,6 +70,7 @@ namespace Durak.Common
         private StateParameter(string name, object value)
         {
             myName = name;
+            myType = SUPPORTED_TYPES[value.GetType()];
             SetValueInternal(value);
         }
 
@@ -84,7 +85,8 @@ namespace Durak.Common
             StateParameter result = new StateParameter();
 
             result.myName = name;
-            result.SetValueInternal(value);
+            result.myType = SUPPORTED_TYPES[typeof(T)];
+            result.myValue = value;
 
             return result;
         }
@@ -183,10 +185,9 @@ namespace Durak.Common
         internal void SetValueInternal<T>(T value)
         {
             // Make sure type is supported
-            if (SUPPORTED_TYPES.ContainsKey(typeof(T)))
+            if (SUPPORTED_TYPES.ContainsKey(typeof(T)) && myType == SUPPORTED_TYPES[typeof(T)])
             {
                 // update myType and myValue
-                myType = SUPPORTED_TYPES[typeof(T)];
                 myValue = value;
             }
             else

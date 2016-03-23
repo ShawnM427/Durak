@@ -48,6 +48,7 @@ namespace Durak.Common
             PlayerId = playerId;
             Name = tag.Name;
             IsBot = false;
+            Hand = new CardCollection();
         }
 
         /// <summary>
@@ -60,7 +61,6 @@ namespace Durak.Common
             : this(tag, playerId)
         {
             Connection = connection;
-            Hand = new CardCollection();
         }
     }
 }

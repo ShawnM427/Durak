@@ -4,11 +4,17 @@ using Durak.Common.Cards;
 
 namespace Durak.Server
 {
-    public class IAIRule
+    /// <summary>
+    /// Represents a rule an AI bot uses to determine the card to play
+    /// </summary>
+    public interface IAIRule
     {
-        public AIMoveProposal Propose(GameState state, CardCollection hand)
-        {
-            throw new NotImplementedException();
-        }
+        /// <summary>
+        /// Determines a proposed move from the given state and current hand
+        /// </summary>
+        /// <param name="state">The current game state</param>
+        /// <param name="hand">The bot's current hand</param>
+        /// <returns>The proposed move</returns>
+        AIMoveProposal Propose(GameState state, CardCollection hand);
     }
 }
