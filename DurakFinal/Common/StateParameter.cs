@@ -24,7 +24,8 @@ namespace Durak.Common
             { typeof(CardSuit), Type.CardSuit },
             { typeof(CardRank), Type.CardRank },
             { typeof(string), Type.String },
-            { typeof(PlayingCard), Type.PlayingCard }
+            { typeof(PlayingCard), Type.PlayingCard },
+            { typeof(CardCollection), Type.CardCollection }
         };
 
         /// <summary>
@@ -98,7 +99,9 @@ namespace Durak.Common
         /// <returns>myValue as T</returns>
         internal T GetValueInternal<T>()
         {
-            if (myValue is T)
+            if (myValue == null)
+                return default(T);
+            else if (myValue is T)
                 return (T)myValue;
             else
                 throw new InvalidCastException(string.Format("Cannot cast {0} to {1}", myValue.GetType().Name, typeof(T).Name));
@@ -175,6 +178,14 @@ namespace Durak.Common
         public PlayingCard GetValuePlayingCard()
         {
             return GetValueInternal<PlayingCard>();
+        }
+        /// <summary>
+        /// Get's this parameter's value as a playing card
+        /// </summary>
+        /// <returns>myValue as a PlayingCard</returns>
+        public CardCollection GetValueCardCollection()
+        {
+            return GetValueInternal<CardCollection>();
         }
 
         /// <summary>
@@ -266,6 +277,14 @@ namespace Durak.Common
         {
             SetValueInternal(value);
         }
+        /// <summary>
+        /// Set's this parameter to a card collection
+        /// </summary>
+        /// <param name="value">The value to set</param>
+        public void SetValue(CardCollection value)
+        {
+            SetValueInternal(value);
+        }
 
         /// <summary>
         /// Encodes this state parameter to a network message
@@ -311,6 +330,20 @@ namespace Durak.Common
                     {
                         msg.Write((byte)(myValue as PlayingCard).Rank);
                         msg.Write((byte)(myValue as PlayingCard).Suit);
+                    }
+                    break;
+                case Type.CardCollection:
+                    msg.Write((myValue as CardCollection).Count);
+
+                    foreach(PlayingCard card in (myValue as CardCollection))
+                    {
+                        msg.Write(card == null);
+
+                        if (card != null)
+                        {
+                            msg.Write((byte)card.Rank);
+                            msg.Write((byte)card.Suit);
+                        }
                     }
                     break;
             }
@@ -361,6 +394,23 @@ namespace Durak.Common
                     else
                         result = StateParameter.Construct<PlayingCard>(name, null);
                     break;
+                case Type.CardCollection:
+                    CardCollection resultCollection = new CardCollection();
+
+                    int numCards = msg.ReadInt32();
+
+                    for (int index = 0; index < numCards; index++)
+                    {
+                        bool hasValue = msg.ReadBoolean();
+
+                        if (hasValue)
+                        {
+                            resultCollection.Add(new PlayingCard((CardRank)msg.ReadByte(), (CardSuit)msg.ReadByte()));
+                        }
+                    }
+                    result = new StateParameter(name, resultCollection);
+                    break;
+
             }
 
             // Read the padding bits
@@ -424,7 +474,8 @@ namespace Durak.Common
             CardSuit,
             CardRank,
             String,
-            PlayingCard
+            PlayingCard,
+            CardCollection
         }
     }
 }

@@ -49,6 +49,10 @@ namespace Durak.Server
         /// Stores the timer instance for waiting on callback result. We wait for the timer before updating our shouldInvoke
         /// </summary>
         private Timer myTimer;
+        /// <summary>
+        /// Stores a dictionary of proposed moves, wiped when determining new move
+        /// </summary>
+        private Dictionary<PlayingCard, float> myProposedMoves;
 
         /// <summary>
         /// Gets or sets the difficulty for this bot in the range of 0-1
@@ -94,6 +98,32 @@ namespace Durak.Server
             myRandom = new Random(player.PlayerId + DateTime.Now.Millisecond);
             myTimer = new Timer();
             myTimer.Elapsed += TimerElapsed;
+
+            myProposedMoves = new Dictionary<PlayingCard, float>();
+            player.Hand.OnCardRemoved += CardRemoved;
+            player.Hand.OnCardAdded += CardAdded;
+        }
+
+        /// <summary>
+        /// Invoked when a card has been removed from the player's hand
+        /// </summary>
+        /// <param name="sender">The object that invoked the event</param>
+        /// <param name="e">The card that has been removed</param>
+        private void CardRemoved(object sender, CardEventArgs e)
+        {
+            if (myProposedMoves.ContainsKey(e.Card))
+                myProposedMoves.Remove(e.Card);
+        }
+
+        /// <summary>
+        /// Invoked when a card has been added to the player's hand
+        /// </summary>
+        /// <param name="sender">The object that invoked the event</param>
+        /// <param name="e">The card that has been added</param>
+        private void CardAdded(object sender, CardEventArgs e)
+        {
+            if (!myProposedMoves.ContainsKey(e.Card))
+                myProposedMoves.Add(e.Card, 0.0f);
         }
 
         /// <summary>
@@ -150,7 +180,8 @@ namespace Durak.Server
         public PlayingCard DetermineMove()
         {
             // Prepare a list of proposed moves
-            Dictionary<PlayingCard, float> proposedMoves = new Dictionary<PlayingCard, float>();
+            for(int index = 0; index < myProposedMoves.Values.Count; index ++)
+                myProposedMoves[myProposedMoves.Keys.ElementAt(index)] = 0;
 
             // The confidence of making no move
             float noMoveConfidence = -1;
@@ -159,21 +190,16 @@ namespace Durak.Server
             foreach(IAIRule rule in Rules.AI_RULES)
             {
                 // Get the proposed move
-                AIMoveProposal proposal = rule.Propose(myServer.GameState, myPlayer.Hand);
+                rule.Propose(myProposedMoves, myServer.GameState, myPlayer.Hand);             
+            }
 
-                float confidence = proposal.Confidence * (float)((myRandom.NextDouble() - 0.5d) * (1 - myDifficulty));
-
-                // If the move exists, increase confidence
-                if (proposal.Move == null)
-                    noMoveConfidence += confidence;
-                else if (proposedMoves.ContainsKey(proposal.Move))
-                    proposedMoves[proposal.Move] += confidence;
-                else
-                    proposedMoves.Add(proposal.Move, confidence);
+            for(int index = 0; index < myProposedMoves.Count; index ++)
+            {
+                myProposedMoves[myProposedMoves.Keys.ElementAt(index)] *= (float)((myRandom.NextDouble() - 0.5d) * (1 - myDifficulty));
             }
 
             // Sort the list
-            List<KeyValuePair<PlayingCard, float>> sortedList = proposedMoves.ToList();
+            List<KeyValuePair<PlayingCard, float>> sortedList = myProposedMoves.ToList();
             sortedList.Sort((X, Y) => -(X.Value.CompareTo(Y.Value)));
 
             // Reset this to avoid infinite loops, should be set too false when state updates though

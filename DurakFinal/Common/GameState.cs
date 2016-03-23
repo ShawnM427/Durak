@@ -321,6 +321,16 @@ namespace Durak.Common
         }
 
         /// <summary>
+        /// Gets the parameter with the given name as a playing card collection
+        /// </summary>
+        /// <param name="name">The name of the parameter to get</param>
+        /// <returns>The parameter with the given name</returns>
+        public CardCollection GetValueCardCollection(string name)
+        {
+            return GetValueInternal<CardCollection>(name);
+        }
+
+        /// <summary>
         /// Checks if a state parameter is equal to a value
         /// </summary>
         /// <param name="name">The name of the parameter to check</param>

@@ -12,7 +12,7 @@ namespace DurakTester.Rules
     {
         public void UpdateState(GameMove move, PlayerCollection players, GameState state)
         {
-            move.Player.Hand.Remove(move.Move);
+            move.Player.Hand.Discard(move.Move);
 
             if (state.GetValueBool("IsAttacking"))
             {

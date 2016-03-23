@@ -19,9 +19,13 @@ namespace DurakTester.Rules
 
         public void InitState(PlayerCollection players, GameState state)
         {
-            for (byte index = 0; index < 4; index ++)
+            for (byte index = 0; index < 4; index++)
                 if (players[index] != null)
-                    players[index].Hand.Add(new PlayingCard(CardRank.Ace, CardSuit.Clubs));
+                {
+                    for (int cIndex = 0; cIndex < 10; cIndex++)
+                        //players[index].Hand.Add(new PlayingCard((CardRank)cIndex, CardSuit.Clubs));
+                        players[index].Hand.Add(new Deck(state.GetValueCardCollection("source_deck")).Draw());
+                }
         }
     }
 }

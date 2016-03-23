@@ -1,6 +1,7 @@
 ﻿using System;
 using Durak.Common;
 using Durak.Common.Cards;
+using System.Collections.Generic;
 
 namespace Durak.Server
 {
@@ -12,9 +13,10 @@ namespace Durak.Server
         /// <summary>
         /// Determines a proposed move from the given state and current hand
         /// </summary>
+        /// <param name="proposalTable">The currently proposed moves, will contain records for all cards in hand</param>
         /// <param name="state">The current game state</param>
         /// <param name="hand">The bot's current hand</param>
         /// <returns>The proposed move</returns>
-        AIMoveProposal Propose(GameState state, CardCollection hand);
+        void Propose(Dictionary<PlayingCard, float> proposalTable, GameState state, CardCollection hand);
     }
 }

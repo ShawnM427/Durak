@@ -14,5 +14,14 @@ namespace Durak.Common.Cards
         /// Get's or sets the card for this event
         /// </summary>
         public PlayingCard Card { get; set; }
+
+        /// <summary>
+        /// Creates a new card event args instance
+        /// </summary>
+        /// <param name="card">The card for this event</param>
+        public CardEventArgs(PlayingCard card)
+        {
+            Card = card;
+        }
     }
 }

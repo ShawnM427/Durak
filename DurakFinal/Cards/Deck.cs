@@ -20,6 +20,15 @@ namespace Durak.Common.Cards
         public event LastCardDrawnHandler OnLastCardDrawn;
 
         /// <summary>
+        /// Gets the cards in this deck
+        /// </summary>
+        /// <returns></returns>
+        public CardCollection GetCards()
+        {
+            return cards.Clone() as CardCollection;
+        }
+
+        /// <summary>
         /// The internal card collection
         /// </summary>
         private CardCollection cards = new CardCollection();
@@ -30,6 +39,16 @@ namespace Durak.Common.Cards
         public Deck()
         {
             InsertCards(1, 14);
+        }
+
+
+        /// <summary>
+        /// Creates a deck from the given collection
+        /// </summary>
+        /// <param name="newCards">The collection to use</param>
+        public Deck(CardCollection newCards)
+        {
+            cards = newCards;
         }
 
         /// <summary>
@@ -85,15 +104,6 @@ namespace Durak.Common.Cards
         {
             get { return cards.Count; }
         }
-
-        /// <summary>
-        /// Creates a deck from the given collection
-        /// </summary>
-        /// <param name="newCards">The collection to use</param>
-        private Deck(CardCollection newCards)
-        {
-            cards = newCards;
-        }
         
         /// <summary>
         /// Shuffles the cards in this deck
@@ -116,7 +126,7 @@ namespace Durak.Common.Cards
             {
                 // Gets the first card, then removes it
                 var card = cards[0];
-                cards.RemoveAt(0);
+                cards.DiscardAt(0);
 
                 // If this wwas the last card, inoke our event
                 if (cards.Count == 0 && OnLastCardDrawn != null)
@@ -152,7 +162,7 @@ namespace Durak.Common.Cards
                 return Draw();
             // If we found a card, make sure to remove it from the deck
             else
-                cards.Remove(selectedCard);
+                cards.Discard(selectedCard);
 
             // Return the result
             return selectedCard;
