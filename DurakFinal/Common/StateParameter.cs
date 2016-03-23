@@ -40,6 +40,10 @@ namespace Durak.Common
         /// Stores the parameter's type
         /// </summary>
         private Type myType;
+        /// <summary>
+        /// Stores whether this parameter gets synchronized
+        /// </summary>
+        private bool isSynced;
         
         /// <summary>
         /// Gets this parameter's name
@@ -55,12 +59,21 @@ namespace Durak.Common
         {
             get { return myValue; }
         }
+        /// <summary>
+        /// Gets or sets whether this parameter is synchronized
+        /// </summary>
+        public bool IsSynced
+        {
+            get { return isSynced; }
+            set { isSynced = value; }
+        }
         
         /// <summary>
         /// Creates a new instance of a state parameter 
         /// </summary>
         private StateParameter()
         {
+            isSynced = false;
         }
 
         /// <summary>
@@ -68,7 +81,7 @@ namespace Durak.Common
         /// </summary>
         /// <param name="name">The name of the parameter</param>
         /// <param name="value">The value of the parameter</param>
-        private StateParameter(string name, object value)
+        private StateParameter(string name, object value) : this()
         {
             myName = name;
             myType = SUPPORTED_TYPES[value.GetType()];
@@ -81,13 +94,14 @@ namespace Durak.Common
         /// <typeparam name="T">The type of parameter to create</typeparam>
         /// <param name="name">The name of the parameter</param>
         /// <param name="value">The value of the parameter</param>
-        public static StateParameter Construct<T>(string name, T value)
+        public static StateParameter Construct<T>(string name, T value, bool syncronize)
         {
             StateParameter result = new StateParameter();
 
             result.myName = name;
             result.myType = SUPPORTED_TYPES[typeof(T)];
             result.myValue = value;
+            result.IsSynced = syncronize;
 
             return result;
         }
@@ -292,64 +306,67 @@ namespace Durak.Common
         /// <param name="msg">The message to encode to</param>
         public void Encode(NetOutgoingMessage msg)
         {
-            // Write the name and type
-            msg.Write(Name);
-            msg.Write((byte)myType);
-
-            // Write the value
-            switch (myType)
+            if (isSynced)
             {
-                case Type.Byte:
-                    msg.Write((byte)myValue);
-                    break;
-                case Type.Char:
-                    msg.Write((char)myValue);
-                    break;
-                case Type.Short:
-                    msg.Write((short)myValue);
-                    break;
-                case Type.Int:
-                    msg.Write((int)myValue);
-                    break;
-                case Type.Bool:
-                    msg.Write((bool)myValue);
-                    break;
-                case Type.CardSuit:
-                    msg.Write((byte)((CardSuit)myValue));
-                    break;
-                case Type.CardRank:
-                    msg.Write((byte)((CardSuit)myValue));
-                    break;
-                case Type.String:
-                    msg.Write((string)myValue);
-                    break;
-                case Type.PlayingCard:
-                    msg.Write(myValue == null);
+                // Write the name and type
+                msg.Write(Name);
+                msg.Write((byte)myType);
 
-                    if (myValue != null)
-                    {
-                        msg.Write((byte)(myValue as PlayingCard).Rank);
-                        msg.Write((byte)(myValue as PlayingCard).Suit);
-                    }
-                    break;
-                case Type.CardCollection:
-                    msg.Write((myValue as CardCollection).Count);
+                // Write the value
+                switch (myType)
+                {
+                    case Type.Byte:
+                        msg.Write((byte)myValue);
+                        break;
+                    case Type.Char:
+                        msg.Write((char)myValue);
+                        break;
+                    case Type.Short:
+                        msg.Write((short)myValue);
+                        break;
+                    case Type.Int:
+                        msg.Write((int)myValue);
+                        break;
+                    case Type.Bool:
+                        msg.Write((bool)myValue);
+                        break;
+                    case Type.CardSuit:
+                        msg.Write((byte)((CardSuit)myValue));
+                        break;
+                    case Type.CardRank:
+                        msg.Write((byte)((CardSuit)myValue));
+                        break;
+                    case Type.String:
+                        msg.Write((string)myValue);
+                        break;
+                    case Type.PlayingCard:
+                        msg.Write(myValue == null);
 
-                    foreach(PlayingCard card in (myValue as CardCollection))
-                    {
-                        msg.Write(card == null);
-
-                        if (card != null)
+                        if (myValue != null)
                         {
-                            msg.Write((byte)card.Rank);
-                            msg.Write((byte)card.Suit);
+                            msg.Write((byte)(myValue as PlayingCard).Rank);
+                            msg.Write((byte)(myValue as PlayingCard).Suit);
                         }
-                    }
-                    break;
-            }
+                        break;
+                    case Type.CardCollection:
+                        msg.Write((myValue as CardCollection).Count);
 
-            // Write padding bits
-            msg.WritePadBits();
+                        foreach (PlayingCard card in (myValue as CardCollection))
+                        {
+                            msg.Write(card == null);
+
+                            if (card != null)
+                            {
+                                msg.Write((byte)card.Rank);
+                                msg.Write((byte)card.Suit);
+                            }
+                        }
+                        break;
+                }
+
+                // Write padding bits
+                msg.WritePadBits();
+            }
         }
 
         /// <summary>
@@ -392,7 +409,7 @@ namespace Durak.Common
                     if (msg.ReadBoolean())
                         result = new StateParameter(name, new PlayingCard((CardRank)msg.ReadByte(), (CardSuit)msg.ReadByte()) { FaceUp = true });
                     else
-                        result = StateParameter.Construct<PlayingCard>(name, null);
+                        result = StateParameter.Construct<PlayingCard>(name, null, true);
                     break;
                 case Type.CardCollection:
                     CardCollection resultCollection = new CardCollection();

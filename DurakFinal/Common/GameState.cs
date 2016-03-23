@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using Lidgren.Network;
+using System.Linq;
 
 namespace Durak.Common
 {
@@ -24,6 +25,15 @@ namespace Durak.Common
         /// Invoked when a single state withing this game state is changed
         /// </summary>
         public event EventHandler<StateParameter> OnStateChanged;
+        /// <summary>
+        /// Invoked when a single state withing this game state is changed, this event is unsilenceable, and is used
+        /// for mostly UI purposes
+        /// </summary>
+        public event EventHandler<StateParameter> OnStateChangedUnSilenceable;
+        /// <summary>
+        /// Invoked when the state is cleared
+        /// </summary>
+        public event EventHandler OnCleared;
         
         /// <summary>
         /// Gets or sets whether the state should not raise events when parmaeters are set.
@@ -49,6 +59,9 @@ namespace Durak.Common
         public void Clear()
         {
             myParameters.Clear();
+
+            if (OnCleared != null)
+                OnCleared.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -57,11 +70,11 @@ namespace Durak.Common
         /// <param name="name">The name of the parameter</param>
         /// <param name="defaultType">The type to use if the parameter does not exist</param>
         /// <returns>The parameter with the given name</returns>
-        public StateParameter GetParameter(string name, Type defaultType)
+        public StateParameter GetParameter(string name, Type defaultType, bool serverSide = false)
         {
             // If we don't have that parameter, make it
             if (!myParameters.ContainsKey(name))
-                myParameters.Add(name, StateParameter.Construct(name, Activator.CreateInstance(defaultType)));
+                myParameters.Add(name, StateParameter.Construct(name, Activator.CreateInstance(defaultType), serverSide));
 
             // Get the parameter
             return myParameters[name];
@@ -73,11 +86,11 @@ namespace Durak.Common
         /// <typeparam name="T">The type of the parameter to set</typeparam>
         /// <param name="name">The name of the parameter to set</param>
         /// <param name="value">The value to set</param>
-        private void InternalSet<T>(string name, T value)
+        private void InternalSet<T>(string name, T value, bool serverSide)
         {
             // If the parameter does not exist, add it, otherwise update it
             if (!myParameters.ContainsKey(name))
-                myParameters.Add(name, StateParameter.Construct(name, value));
+                myParameters.Add(name, StateParameter.Construct(name, value, !serverSide));
             else
             {
                 myParameters[name].SetValueInternal(value);
@@ -85,7 +98,10 @@ namespace Durak.Common
 
             // invoke the state change if an event is attached
             if (!SilentSets && OnStateChanged != null)
-                OnStateChanged.Invoke(this, StateParameter.Construct(name, value));
+                OnStateChanged.Invoke(this, GetParameter(name, typeof(T), !serverSide));
+
+            if (OnStateChangedUnSilenceable != null)
+                OnStateChangedUnSilenceable(this, GetParameter(name, typeof(T), !serverSide));
         }
         
         /// <summary>
@@ -93,7 +109,7 @@ namespace Durak.Common
         /// </summary>
         /// <param name="name">The name of the parameter to set</param>
         /// <param name="value">The value to set</param>
-        public void Set<T>(string name, T value)
+        public void Set<T>(string name, T value, bool serverSide = false)
         {
             if (string.IsNullOrWhiteSpace(name) || name[0] == '@')
                 throw new ArgumentException("Invalid name, cannot be empty or start with @");
@@ -101,7 +117,7 @@ namespace Durak.Common
             if (!StateParameter.SUPPORTED_TYPES.ContainsKey(typeof(T)))
                 throw new ArgumentException("Type " + typeof(T) + " is not a supported type");
 
-            InternalSet(name, value);
+            InternalSet(name, value, serverSide);
         }
 
         /// <summary>
@@ -110,12 +126,12 @@ namespace Durak.Common
         /// <param name="name">The name of the parameter to set</param>
         /// <param name="index">The index in the array</param>
         /// <param name="value">The value to set</param>
-        public void Set<T>(string name, int index, T value)
+        public void Set<T>(string name, int index, T value, bool serverSide = false)
         {
             if (!StateParameter.SUPPORTED_TYPES.ContainsKey(typeof(T)))
                 throw new ArgumentException("Type " + typeof(T) + " is not a supported type");
 
-            InternalSet(string.Format(ARRAY_FORMAT, name, index), value);
+            InternalSet(string.Format(ARRAY_FORMAT, name, index), value, serverSide);
         }
 
         /// <summary>
@@ -124,7 +140,7 @@ namespace Durak.Common
         /// </summary>
         /// <typeparam name="T">The type of the parameter to get</typeparam>
         /// <param name="name">The name of the parameter to get</param>
-        private T GetValueInternal<T>(string name)
+        private T GetValueInternal<T>(string name, bool serverSide = false)
         {
             // If we have that parameter, then get it
             if (myParameters.ContainsKey(name))
@@ -144,7 +160,7 @@ namespace Durak.Common
             else
             {
                 // Add and return a default parameter of type T
-                myParameters.Add(name, StateParameter.Construct(name, default(T)));
+                myParameters.Add(name, StateParameter.Construct(name, default(T), serverSide));
                 return myParameters[name].GetValueInternal<T>();
             }
         }
@@ -319,7 +335,6 @@ namespace Durak.Common
         {
             return GetValueInternal<PlayingCard>(string.Format(ARRAY_FORMAT, name, index));
         }
-
         /// <summary>
         /// Gets the parameter with the given name as a playing card collection
         /// </summary>
@@ -329,6 +344,16 @@ namespace Durak.Common
         {
             return GetValueInternal<CardCollection>(name);
         }
+
+        /// <summary>
+        /// Gets the internal parameter collection for this game state
+        /// </summary>
+        /// <returns>A state parameter array</returns>
+        public StateParameter[] GetParameterCollection()
+        {
+            return myParameters.Values.ToArray();
+        }
+
 
         /// <summary>
         /// Checks if a state parameter is equal to a value

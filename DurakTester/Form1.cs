@@ -107,6 +107,8 @@ namespace DurakTester
 
             myServer.LogLongRules = chkLogRules.Checked;
 
+            gameStateVisualizer1.SetState(myServer.GameState);
+
             btnInitServer.Enabled = false;
             btnKillServer.Enabled = true;
         }

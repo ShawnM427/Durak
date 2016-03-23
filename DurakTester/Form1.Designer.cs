@@ -40,6 +40,7 @@
             this.lblFromClient = new System.Windows.Forms.Label();
             this.chkLogRules = new System.Windows.Forms.CheckBox();
             this.btnClear = new System.Windows.Forms.Button();
+            this.gameStateVisualizer1 = new DurakTester.GameStateVisualizer();
             this.grpClientControls.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -166,11 +167,19 @@
             this.btnClear.UseVisualStyleBackColor = true;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
+            // gameStateVisualizer1
+            // 
+            this.gameStateVisualizer1.Location = new System.Drawing.Point(868, 12);
+            this.gameStateVisualizer1.Name = "gameStateVisualizer1";
+            this.gameStateVisualizer1.Size = new System.Drawing.Size(430, 422);
+            this.gameStateVisualizer1.TabIndex = 6;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(874, 442);
+            this.ClientSize = new System.Drawing.Size(1310, 442);
+            this.Controls.Add(this.gameStateVisualizer1);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.chkLogRules);
             this.Controls.Add(this.grpClientControls);
@@ -202,6 +211,7 @@
         private System.Windows.Forms.Button btnSend;
         private System.Windows.Forms.CheckBox chkLogRules;
         private System.Windows.Forms.Button btnClear;
+        private GameStateVisualizer gameStateVisualizer1;
     }
 }
 
