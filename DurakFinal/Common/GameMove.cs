@@ -66,6 +66,36 @@ namespace Durak.Common
         }
 
         /// <summary>
+        /// Reads a game move from the given network packet, considering that it is from a client
+        /// </summary>
+        /// <param name="inMessage">The message to read from</param>
+        /// <param name="players">The player collection to get the player from</param>
+        /// <returns>The Game Move read from the packet</returns>
+        public static GameMove DecodeFromClient(NetIncomingMessage inMessage, PlayerCollection players)
+        {
+            GameMove result = new GameMove();
+            
+            // Build the result
+            result.myPlayer = players[inMessage.SenderConnection];
+
+            bool hasValue = inMessage.ReadBoolean();
+            inMessage.ReadPadBits();
+
+            // Read if not null
+            if (hasValue)
+            {
+                // Get the playing card
+                int moveRank = inMessage.ReadByte();
+                int moveSuit = inMessage.ReadByte();
+
+                result.myMove = new PlayingCard((CardRank)moveRank, (CardSuit)moveSuit);
+                result.myMove.FaceUp = true;
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Reads a game move from the given network packet
         /// </summary>
         /// <param name="inMessage">The message to read from</param>

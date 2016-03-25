@@ -15,6 +15,8 @@ namespace Durak.Client
     /// </summary>
     public class GameClient
     {
+        #region Fields
+
         /// <summary>
         /// Stores this client's tag
         /// </summary>
@@ -56,6 +58,10 @@ namespace Durak.Client
         /// Stores whether this client is ready
         /// </summary>
         private bool isReady = false;
+
+        #endregion
+
+        #region Events
 
         /// <summary>
         /// Invoked when the client connects to a server
@@ -126,6 +132,10 @@ namespace Durak.Client
         /// </summary>
         public event EventHandler<Player> OnHostChanged;
 
+        #endregion
+
+        #region Properties
+
         /// <summary>
         /// Gets or sets an object tag for this client
         /// </summary>
@@ -134,7 +144,6 @@ namespace Durak.Client
             get;
             set;
         }
-
         /// <summary>
         /// Gets or sets whether this client is ready to play
         /// </summary>
@@ -154,7 +163,6 @@ namespace Durak.Client
         {
             get { return (myConnectedServer != null && myPeer.ConnectionsCount > 0); }
         }
-
         /// <summary>
         /// Gets this game client's player ID
         /// </summary>
@@ -162,6 +170,31 @@ namespace Durak.Client
         {
             get { return myPlayerId; }
         }
+        /// <summary>
+        /// Gets this client's local game state
+        /// </summary>
+        public GameState LocalState
+        {
+            get { return myLocalState; }
+        }
+        /// <summary>
+        /// Gets the collection of players that this client knows that exist on their server
+        /// </summary>
+        public PlayerCollection KnownPlayers
+        {
+            get { return myKnownPlayers; }
+        }
+        /// <summary>
+        /// Gets the tag of the currently connected server
+        /// </summary>
+        public ServerTag? ConnectedServer
+        {
+            get { return myConnectedServer; }
+        }
+
+        #endregion
+
+        #region Constructors and Initialization
 
         /// <summary>
         /// Creates a new game client with the given client tag
@@ -255,50 +288,9 @@ namespace Durak.Client
             myPeer.Shutdown(NetSettings.DEFAULT_CLIENT_SHUTDOWN_MESSAGE);
         }
 
-        /// <summary>
-        /// Disconnects this client from the currently connected server
-        /// </summary>
-        public void Disconnect()
-        {
-            // If we are connected
-            if (myPeer.ConnectionsCount > 0)
-            {
-                // If we are connected to a server
-                if (myConnectedServer != null)
-                {
-                    // Disconnect and set the server tag to null
-                    myPeer.GetConnection(myConnectedServer.Value.Address).Disconnect(NetSettings.DEFAULT_CLIENT_SHUTDOWN_MESSAGE);
-                    myConnectedServer = null;
-                }
-            }
-        }
+        #endregion
 
-        /// <summary>
-        /// Connects to a specified server
-        /// </summary>
-        /// <param name="server">The server tag to connect to</param>
-        /// <param name="serverPassword">The SHA256 encrypted password to connect to the server</param>
-        public void ConnectTo(ServerTag server, string serverPassword = "")
-        {
-            if (myConnectedServer == null)
-            {
-                // Hash the password before sending
-                serverPassword = SecurityUtils.Hash(serverPassword);
-
-                // Write the hail message and send it
-                NetOutgoingMessage hailMessage = myPeer.CreateMessage();
-                myTag.WriteToPacket(hailMessage);
-                hailMessage.Write(serverPassword);
-
-                // Update our connected tag
-                myConnectedServer = server;
-
-                // Attempt the connection
-                myPeer.Connect(server.Address, hailMessage);
-            }
-            else
-                throw new InvalidOperationException("Cannot connect when this client is already connected");
-        }
+        #region Message Handlers
 
         /// <summary>
         /// Invoked when the network peer has received a message
@@ -312,88 +304,86 @@ namespace Durak.Client
             // We don't want the server to crash on one bad packet
             //try
             //{
-                // Determine the message type to correctly handle it
-                switch (inMsg.MessageType)
-                {
-                    // Handle when a client's status has changed
-                    case NetIncomingMessageType.StatusChanged:
-                        // Gets the status and reason
-                        NetConnectionStatus status = (NetConnectionStatus)inMsg.ReadByte();
-                        string reason = inMsg.ReadString();
+            // Determine the message type to correctly handle it
+            switch (inMsg.MessageType)
+            {
+                // Handle when a client's status has changed
+                case NetIncomingMessageType.StatusChanged:
+                    // Gets the status and reason
+                    NetConnectionStatus status = (NetConnectionStatus)inMsg.ReadByte();
+                    string reason = inMsg.ReadString();
 
-                        // Depending on the status, we handle players joining or leaving
-                        switch (status)
-                        {
-                            case NetConnectionStatus.Disconnected:
+                    // Depending on the status, we handle players joining or leaving
+                    switch (status)
+                    {
+                        case NetConnectionStatus.Disconnected:
 
-                                // If the reason the is shutdown message, we're good
-                                if (reason.Equals(NetSettings.DEFAULT_SERVER_SHUTDOWN_MESSAGE))
-                                {
-                                    if (OnDisconnected != null)
-                                        OnDisconnected(this, EventArgs.Empty);
-                                }
-                                // Otherwise if the reason is that \/ , then we timed out
-                                else if (reason.Equals("Failed to establish connection - no response from remote host",StringComparison.InvariantCultureIgnoreCase))
-                                {
-                                    if (OnConnectionTimedOut != null)
-                                        OnConnectionTimedOut(this, EventArgs.Empty);
+                            // If the reason the is shutdown message, we're good
+                            if (reason.Equals(NetSettings.DEFAULT_SERVER_SHUTDOWN_MESSAGE))
+                            {
+                                if (OnDisconnected != null)
+                                    OnDisconnected(this, EventArgs.Empty);
+                            }
+                            // Otherwise if the reason is that \/ , then we timed out
+                            else if (reason.Equals("Failed to establish connection - no response from remote host", StringComparison.InvariantCultureIgnoreCase))
+                            {
+                                if (OnConnectionTimedOut != null)
+                                    OnConnectionTimedOut(this, EventArgs.Empty);
 
-                                    if (OnConnectionFailed != null)
-                                        OnConnectionFailed(this, reason);
-                                }
-                                // Otherwise the connection failed for some other reason
-                                else
-                                {
-                                    if (OnConnectionFailed != null)
-                                        OnConnectionFailed(this, reason);
-                                }
+                                if (OnConnectionFailed != null)
+                                    OnConnectionFailed(this, reason);
+                            }
+                            // Otherwise the connection failed for some other reason
+                            else
+                            {
+                                if (OnConnectionFailed != null)
+                                    OnConnectionFailed(this, reason);
+                            }
 
-                                // Clear local state and forget connected server tag
-                                myLocalState.Clear();
-                                myConnectedServer = null;
-                                isReady = false;
-                                isHost = false;
-                                
-                                break;
+                            // Clear local state and forget connected server tag
+                            myLocalState.Clear();
+                            myConnectedServer = null;
+                            isReady = false;
+                            isHost = false;
 
-                            // We connected 
-                            case NetConnectionStatus.Connected:
-                                // invoked the onConnected event
-                                if (OnConnected != null)
-                                    OnConnected(this, EventArgs.Empty);
+                            break;
 
-                                break;
-                                
-                        }
-                        
-                        break;
-                                                
-                    // Handle when the server has received a discovery request
-                    case NetIncomingMessageType.DiscoveryResponse:
-                        // Read the server tag from the packet
-                        ServerTag serverTag = ServerTag.ReadFromPacket(inMsg);
+                        // We connected 
+                        case NetConnectionStatus.Connected:
+                            // invoked the onConnected event
+                            if (OnConnected != null)
+                                OnConnected(this, EventArgs.Empty);
 
-                        // Notify that we discovered a server
-                        if (OnServerDiscovered != null)
-                            OnServerDiscovered(this, serverTag);
-                                                    
-                        break;
+                            break;
 
-                    // Handles when the server has received data
-                    case NetIncomingMessageType.Data:
-                        HandleMessage(inMsg);
-                        break;
-                }
+                    }
+
+                    break;
+
+                // Handle when the server has received a discovery request
+                case NetIncomingMessageType.DiscoveryResponse:
+                    // Read the server tag from the packet
+                    ServerTag serverTag = ServerTag.ReadFromPacket(inMsg);
+
+                    // Notify that we discovered a server
+                    if (OnServerDiscovered != null)
+                        OnServerDiscovered(this, serverTag);
+
+                    break;
+
+                // Handles when the server has received data
+                case NetIncomingMessageType.Data:
+                    HandleMessage(inMsg);
+                    break;
+            }
             //}
             // An exception has occured parsing the packet
             //catch (Exception e)
             //{
-                // Log the exception
+            // Log the exception
             //    Logger.Write(e.Message);
             //}
         }
-
-        #region Message Handlers
 
         /// <summary>
         /// Handles an incoming data message
@@ -628,6 +618,51 @@ namespace Durak.Client
         #endregion
 
         #region Utils
+        
+        /// <summary>
+        /// Disconnects this client from the currently connected server
+        /// </summary>
+        public void Disconnect()
+        {
+            // If we are connected
+            if (myPeer.ConnectionsCount > 0)
+            {
+                // If we are connected to a server
+                if (myConnectedServer != null)
+                {
+                    // Disconnect and set the server tag to null
+                    myPeer.GetConnection(myConnectedServer.Value.Address).Disconnect(NetSettings.DEFAULT_CLIENT_SHUTDOWN_MESSAGE);
+                    myConnectedServer = null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Connects to a specified server
+        /// </summary>
+        /// <param name="server">The server tag to connect to</param>
+        /// <param name="serverPassword">The SHA256 encrypted password to connect to the server</param>
+        public void ConnectTo(ServerTag server, string serverPassword = "")
+        {
+            if (myConnectedServer == null)
+            {
+                // Hash the password before sending
+                serverPassword = SecurityUtils.Hash(serverPassword);
+
+                // Write the hail message and send it
+                NetOutgoingMessage hailMessage = myPeer.CreateMessage();
+                myTag.WriteToPacket(hailMessage);
+                hailMessage.Write(serverPassword);
+
+                // Update our connected tag
+                myConnectedServer = server;
+
+                // Attempt the connection
+                myPeer.Connect(server.Address, hailMessage);
+            }
+            else
+                throw new InvalidOperationException("Cannot connect when this client is already connected");
+        }
 
         /// <summary>
         /// Sends a message to the server

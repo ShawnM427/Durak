@@ -1,10 +1,7 @@
-﻿using System;
+﻿using Durak.Common;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Durak.Common
+namespace DurakTester
 {
     /// <summary>
     /// These message definitions are for client-side to server-side only

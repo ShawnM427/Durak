@@ -75,19 +75,7 @@ namespace Durak.Common
         {
             isSynced = false;
         }
-
-        /// <summary>
-        /// Creates a new instance of a state parameter 
-        /// </summary>
-        /// <param name="name">The name of the parameter</param>
-        /// <param name="value">The value of the parameter</param>
-        private StateParameter(string name, object value) : this()
-        {
-            myName = name;
-            myType = SUPPORTED_TYPES[value.GetType()];
-            SetValueInternal(value);
-        }
-
+        
         /// <summary>
         /// Constructs a new state parameter of the given type
         /// </summary>
@@ -376,40 +364,44 @@ namespace Durak.Common
         /// <param name="type">The parameter type</param>
         /// <param name="result">The value to store the result in</param>
         /// <param name="msg">The message to read from</param>
-        private static void DecodeInternal(String name, Type type, StateParameter result, NetIncomingMessage msg)
+        private void DecodeInternal(NetIncomingMessage msg)
         {
             // Read the value
-            switch (type)
+            switch (myType)
             {
                 case Type.Byte:
-                    result = new StateParameter(name, msg.ReadByte());
+                    myValue = msg.ReadByte();
                     break;
                 case Type.Char:
-                    result = new StateParameter(name, msg.ReadByte());
+                    myValue = (char)msg.ReadByte();
                     break;
                 case Type.Short:
-                    result = new StateParameter(name, msg.ReadInt16());
+                    myValue = msg.ReadInt16();
                     break;
                 case Type.Int:
-                    result = new StateParameter(name, msg.ReadInt32());
+                    myValue = msg.ReadInt32();
                     break;
                 case Type.Bool:
-                    result = new StateParameter(name, msg.ReadBoolean());
+                    myValue = msg.ReadBoolean();
                     break;
                 case Type.CardSuit:
-                    result = new StateParameter(name, (CardSuit)msg.ReadByte());
+                    myValue = (CardSuit)msg.ReadByte();
                     break;
                 case Type.CardRank:
-                    result = new StateParameter(name, (CardRank)msg.ReadByte());
+                    myValue = (CardRank)msg.ReadByte();
                     break;
                 case Type.String:
-                    result = new StateParameter(name, msg.ReadString());
+                    myValue = msg.ReadString();
                     break;
                 case Type.PlayingCard:
                     if (msg.ReadBoolean())
-                        result = StateParameter.Construct<PlayingCard>(name, new PlayingCard((CardRank)msg.ReadByte(), (CardSuit)msg.ReadByte()) { FaceUp = true }, true);
+                    {
+                        myValue = new PlayingCard((CardRank)msg.ReadByte(), (CardSuit)msg.ReadByte());
+                    }
                     else
-                        result = StateParameter.Construct<PlayingCard>(name, null, true);
+                    {
+                        myValue = null;
+                    }
                     break;
                 case Type.CardCollection:
                     CardCollection resultCollection = new CardCollection();
@@ -422,10 +414,11 @@ namespace Durak.Common
 
                         if (hasValue)
                         {
-                            resultCollection.Add(new PlayingCard((CardRank)msg.ReadByte(), (CardSuit)msg.ReadByte()));
+                            resultCollection.Add(new PlayingCard((CardRank)msg.ReadByte(), (CardSuit)msg.ReadByte()) { FaceUp = true });
                         }
                     }
-                    result = StateParameter.Construct<CardCollection>(name, resultCollection, true);
+
+                    myValue = resultCollection;
                     break;
 
             }
@@ -445,7 +438,7 @@ namespace Durak.Common
             Type type = (Type)msg.ReadByte();
             
             // Decode the value
-            DecodeInternal(name, type, this, msg);
+            DecodeInternal(msg);
         }
 
         /// <summary>
@@ -498,7 +491,9 @@ namespace Durak.Common
                     break;
             }
             // Decode the value
-            DecodeInternal(name, type, result, msg);
+            result.DecodeInternal(msg);
+
+            state.InvokeUpdated(result);
             
             // Return the result
             return result;

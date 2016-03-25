@@ -14,7 +14,7 @@ namespace Durak.Common
         /// <summary>
         /// Stores the string format for array element naming
         /// </summary>
-        private const string ARRAY_FORMAT = "@{0}_{1}";
+        private const string ARRAY_FORMAT = "@{0}[{1}]";
 
         /// <summary>
         /// Stores the dictionary of parameters
@@ -98,10 +98,10 @@ namespace Durak.Common
 
             // invoke the state change if an event is attached
             if (!SilentSets && OnStateChanged != null)
-                OnStateChanged.Invoke(this, GetParameter<T>(name, !serverSide));
+                OnStateChanged.Invoke(this, GetParameter<T>(name, serverSide));
 
             if (OnStateChangedUnSilenceable != null)
-                OnStateChangedUnSilenceable(this, GetParameter<T>(name, !serverSide));
+                OnStateChangedUnSilenceable(this, GetParameter<T>(name, serverSide));
         }
 
         /// <summary>
@@ -172,7 +172,7 @@ namespace Durak.Common
             else
             {
                 // Add and return a default parameter of type T
-                myParameters.Add(name, StateParameter.Construct(name, default(T), serverSide));
+                myParameters.Add(name, StateParameter.Construct(name, default(T), !serverSide));
                 return myParameters[name].GetValueInternal<T>();
             }
         }
@@ -424,6 +424,23 @@ namespace Durak.Common
             GameState result = new GameState();
             result.Decode(msg);
             return result;
+        }
+
+        /// <summary>
+        /// Invokes the updated parameter event with the given paramater
+        /// </summary>
+        /// <param name="stateParameter">The parameter that has been updated</param>
+        internal void InvokeUpdated(StateParameter stateParameter)
+        {
+            if (stateParameter != null)
+            {
+                if (!SilentSets && OnStateChanged != null)
+                    OnStateChanged(this, stateParameter);
+
+                if (OnStateChangedUnSilenceable != null)
+                    OnStateChangedUnSilenceable(this, stateParameter);
+            }
+
         }
     }
 }

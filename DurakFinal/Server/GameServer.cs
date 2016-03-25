@@ -74,6 +74,11 @@ namespace Durak.Server
         private List<BotPlayer> myBots;
 
         /// <summary>
+        /// Stores whether this server is set up for the current game
+        /// </summary>
+        private bool isInitialized = false;
+
+        /// <summary>
         /// Gets the server's IP address
         /// </summary>
         public IPAddress IP
@@ -355,6 +360,9 @@ namespace Durak.Server
 
                     // Transfer the game state
                     TransferGameState();
+
+                    // Flag the game as initialized
+                    isInitialized = true;
                 }
                 else if (state == ServerState.InLobby)
                 {
@@ -362,6 +370,7 @@ namespace Durak.Server
                     myGameState.Clear();
                     myBots.Clear();
                     myPlayers.Clear();
+                    isInitialized = false;
                 }
             }
         }
@@ -745,34 +754,34 @@ namespace Durak.Server
                 }
             }
             // An exception has occured parsing the packet
-            catch(Exception e)
+            catch (Exception e)
             {
                 // Log the exception
                 Log("Encountered exception parsing packet from {0}:\n\t{1}", inMsg.SenderEndPoint, e);
             }
 
             // If we are in game, we should update the state
-            if (myState == ServerState.InGame)
+            if (myState == ServerState.InGame && isInitialized)
             {
                 // Iterate over the rules and validate them all
                 foreach (IGameStateRule stateRule in Rules.STATE_RULES)
                 {
                     stateRule.ValidateState(myPlayers, myGameState);
                 }
-            }
 
-            // Handle the bots
-            foreach(BotPlayer botPlayer in myBots)
-            {
-                // Make bots detect if they are in a valid place to move
-                botPlayer.StateUpdated(myGameState);
-
-                // If the bot's move is ready
-                if (botPlayer.ShouldInvoke)
+                // Handle the bots
+                foreach (BotPlayer botPlayer in myBots)
                 {
-                    // Get and play the move
-                    PlayingCard move = botPlayer.DetermineMove();
-                    HandleMove(new GameMove(botPlayer.Player, move));
+                    // Make bots detect if they are in a valid place to move
+                    botPlayer.StateUpdated(myGameState);
+
+                    // If the bot's move is ready
+                    if (botPlayer.ShouldInvoke)
+                    {
+                        // Get and play the move
+                        PlayingCard move = botPlayer.DetermineMove();
+                        HandleMove(new GameMove(botPlayer.Player, move));
+                    }
                 }
             }
         }
@@ -807,7 +816,7 @@ namespace Durak.Server
         private void HandleGameMove(NetIncomingMessage msg)
         {
             // Reads move from the packet
-            GameMove move = GameMove.Decode(msg, myPlayers);
+            GameMove move = GameMove.DecodeFromClient(msg, myPlayers);
 
             // We only handle moves in game
             if (myState == ServerState.InGame)
