@@ -128,6 +128,15 @@ namespace Durak.Common
         HostChanged                 = 135,
 
         /// <summary>
+        /// Sent by the server to a client when their hand has changed
+        /// </summary>
+        PlayerHandChanged           = 140,
+        /// <summary>
+        /// Sent by the server to all clients when another client's number of cards has changed
+        /// </summary>
+        CardCountChanged            = 141,
+
+        /// <summary>
         /// Sent by the client to request a card to be played
         /// 
         /// Payload:

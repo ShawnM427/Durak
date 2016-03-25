@@ -17,11 +17,6 @@ namespace Durak.Common.Cards
         /// </summary>
         private List<PlayingCard> myBackingList;
 
-        public bool Contains(PlayingCard move)
-        {
-            return myBackingList.Contains(move);
-        }
-
         /// <summary>
         /// Invoked when a card is added to this collection
         /// </summary>
@@ -56,6 +51,16 @@ namespace Durak.Common.Cards
         public CardCollection()
         {
             myBackingList = new List<PlayingCard>();
+        }
+
+        /// <summary>
+        /// Checks if this card collection contains a specified card
+        /// </summary>
+        /// <param name="move">The card to check for</param>
+        /// <returns>TRue if the collection contains the given card, false if otherwise</returns>
+        public bool Contains(PlayingCard move)
+        {
+            return myBackingList.Contains(move);
         }
 
         /// <summary>
@@ -101,7 +106,7 @@ namespace Durak.Common.Cards
             Random rand = new Random();
 
             // Randomly choose a number of times to loop
-            int loopCount = rand.Next(0, 5);
+            int loopCount = rand.Next(3, 5);
 
             // Loop through each card
             for (int index = 0; index < Count * loopCount; index++)
@@ -111,8 +116,8 @@ namespace Durak.Common.Cards
 
                 // Swap cards
                 PlayingCard swap = this[newPos];
-                this[newPos] = this[index];
-                this[index] = swap;
+                this[newPos] = this[index % Count];
+                this[index % Count] = swap;
             }
         }
 

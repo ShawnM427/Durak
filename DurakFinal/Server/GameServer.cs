@@ -497,6 +497,9 @@ namespace Durak.Server
                 // Create the serverside player isntance
                 Player player = new Player(clientTag, connection, (byte)id);
 
+                player.OnCardAddedToHand += PlayerGainedCard;
+                player.OnCardRemovedFromHand += PlayerRemovedCard;
+
                 // If this is the first player, they are immediately the host
                 if (id == 0)
                 {
@@ -524,6 +527,59 @@ namespace Durak.Server
                 // Deny the connection
                 connection.Deny("Server is full");
             }
+        }
+
+        /// <summary>
+        /// Invoked when a player hand has lost a card
+        /// </summary>
+        /// <param name="sender">The player that the event is for</param>
+        /// <param name="e">The card that was removed</param>
+        private void PlayerRemovedCard(object sender, PlayingCard e)
+        {
+            Player player = sender as Player;
+
+            NotifyNewCardState(player, e, false);
+        }
+
+        /// <summary>
+        /// Invoked when a player hand has gained a card
+        /// </summary>
+        /// <param name="sender">The player that the event is for</param>
+        /// <param name="e">The card that was added</param>
+        private void PlayerGainedCard(object sender, PlayingCard e)
+        {
+            Player player = sender as Player;
+
+            NotifyNewCardState(player, e, true);
+        }
+
+        /// <summary>
+        /// Notify the clients when a client's hand has changed
+        /// </summary>
+        /// <param name="player">The player that this card change is for</param>
+        /// <param name="e">The card that was added/removed</param>
+        /// <param name="added">True if this was added, false if it was removed</param>
+        private void NotifyNewCardState(Player player, PlayingCard e, bool added)
+        {
+            // Prepare the message for the player that this change applies to
+            NetOutgoingMessage msg = myServer.CreateMessage();
+            msg.Write((byte)MessageType.PlayerHandChanged);
+            msg.Write(added);
+            msg.Write(e != null);
+            msg.WritePadBits();
+            if (e != null)
+            {
+                msg.Write((byte)e.Rank);
+                msg.Write((byte)e.Suit);
+            }
+            myServer.SendMessage(msg, player.Connection, NetDeliveryMethod.ReliableOrdered, 0);
+
+            // Prepare the message for the player that this change applies to
+            NetOutgoingMessage msg2 = myServer.CreateMessage();
+            msg2.Write((byte)MessageType.CardCountChanged);
+            msg2.Write(player.PlayerId);
+            msg2.Write(player.Hand.Count);
+            SendToAll(msg2);
         }
 
         /// <summary>

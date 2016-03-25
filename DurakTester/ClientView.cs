@@ -56,8 +56,20 @@ namespace DurakTester
             myClient.OnDisconnected += ClientDisconnected; ;
             myClient.OnServerDiscovered += ClientDiscoveredServer;
             myClient.OnConnected += ClientConnected;
+            myClient.OnHandCardAdded += ClientCardAdded;
+            myClient.OnHandCardRemoved += ClientCardRemoved;
             myClient.Run();
             myClient.DiscoverServers();
+        }
+
+        private void ClientCardRemoved(object sender, PlayingCard e)
+        {
+            cmbCards.Items.Remove(e);
+        }
+
+        private void ClientCardAdded(object sender, PlayingCard e)
+        {
+            cmbCards.Items.Add(e);
         }
 
         protected override void OnClosing(CancelEventArgs e)
@@ -81,6 +93,8 @@ namespace DurakTester
 
         private void ClientDisconnected(object sender, EventArgs e)
         {
+            cmbCards.Items.Clear();
+
             btnConnect.Enabled = true;
             btnDisconnect.Enabled = false;
             btnSend.Enabled = true;
@@ -265,10 +279,6 @@ namespace DurakTester
             if (myClient != null)
             {
                 myClient.Disconnect();
-
-                btnConnect.Enabled = true;
-                btnDisconnect.Enabled = false;
-                btnSend.Enabled = false;
             }
         }
 

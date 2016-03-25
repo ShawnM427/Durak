@@ -272,7 +272,7 @@ namespace Durak.Common.Cards
         {
             if (!object.ReferenceEquals(left, null) && !object.ReferenceEquals(right, null))
                 // return the result of CardA == CardB
-                return (left.CardValue == right.CardValue);
+                return (left.Suit == right.Suit && left.Rank == right.Rank);
             else
                 return object.ReferenceEquals(left, null) && object.ReferenceEquals(left, null);
         }

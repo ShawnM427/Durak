@@ -28,7 +28,10 @@ namespace DurakTester.Rules
             state.Set<byte>("attacking_player_id", 0);
             state.Set<byte>("defending_player_id", 1);
 
-            state.Set<CardCollection>("source_deck", new Deck(CardRank.Six, CardRank.King).GetCards(), true);
+            Deck deck = new Deck(CardRank.Six, CardRank.King);
+            deck.Shuffle();
+
+            state.Set<CardCollection>("source_deck", deck.GetCards(), true);
 
             for (int index = 0; index < 6; index ++)
             {

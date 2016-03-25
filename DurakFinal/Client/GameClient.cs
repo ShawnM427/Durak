@@ -58,6 +58,10 @@ namespace Durak.Client
         /// Stores whether this client is ready
         /// </summary>
         private bool isReady = false;
+        /// <summary>
+        /// Stores the client's hand
+        /// </summary>
+        private CardCollection myHand;
 
         #endregion
 
@@ -131,6 +135,18 @@ namespace Durak.Client
         /// Invoked when the game host has changed, this will be invoked after OnBecameHost if applicable
         /// </summary>
         public event EventHandler<Player> OnHostChanged;
+        /// <summary>
+        /// Invoked when the client's hand has gained a card
+        /// </summary>
+        public event EventHandler<PlayingCard> OnHandCardAdded;
+        /// <summary>
+        /// Invoked when the client's hand has lost a card
+        /// </summary>
+        public event EventHandler<PlayingCard> OnHandCardRemoved;
+        /// <summary>
+        /// Invoked when a client's number of cards in hand has changed
+        /// </summary>
+        public event PlayerCardCountChangedEvent OnPlayerCountChanged;
 
         #endregion
 
@@ -191,6 +207,13 @@ namespace Durak.Client
         {
             get { return myConnectedServer; }
         }
+        /// <summary>
+        /// Gets the client's hand
+        /// </summary>
+        public CardCollection Hand
+        {
+            get { return myHand; }
+        }
 
         #endregion
 
@@ -225,6 +248,8 @@ namespace Durak.Client
             myLocalState = new GameState();
             // Make the player collection
             myKnownPlayers = new PlayerCollection();
+            // Define the hand
+            myHand = new CardCollection();
 
             // Allow incoming connections
             netConfig.AcceptIncomingConnections = true;
@@ -269,6 +294,9 @@ namespace Durak.Client
             myMessageHandlers.Add(MessageType.InvalidMove, HandleInvalidMove);
             myMessageHandlers.Add(MessageType.PlayerChat, HandlePlayerChat);
             myMessageHandlers.Add(MessageType.PlayerReady, HandlePlayerReady);
+
+            myMessageHandlers.Add(MessageType.CardCountChanged, HandleCardCountChanged);
+            myMessageHandlers.Add(MessageType.PlayerHandChanged, HandleCardChanged);
         }
 
         /// <summary>
@@ -332,12 +360,18 @@ namespace Durak.Client
 
                                 if (OnConnectionFailed != null)
                                     OnConnectionFailed(this, reason);
+
+                                if (OnDisconnected != null)
+                                    OnDisconnected(this, EventArgs.Empty);
                             }
                             // Otherwise the connection failed for some other reason
                             else
                             {
                                 if (OnConnectionFailed != null)
                                     OnConnectionFailed(this, reason);
+
+                                if (OnDisconnected != null)
+                                    OnDisconnected(this, EventArgs.Empty);
                             }
 
                             // Clear local state and forget connected server tag
@@ -401,6 +435,55 @@ namespace Durak.Client
                 // Logs the message
                 Logger.Write("Invalid message received from server ({0})", inMsg.SenderEndPoint);
             }
+        }
+
+        /// <summary>
+        /// Handles the card changed packet
+        /// </summary>
+        /// <param name="inMsg">The message to decode</param>
+        private void HandleCardChanged(NetIncomingMessage inMsg)
+        {
+            bool added = inMsg.ReadBoolean();
+            bool hasValue = inMsg.ReadBoolean();
+            inMsg.ReadPadBits();
+
+            if (hasValue)
+            {
+                CardRank rank = (CardRank)inMsg.ReadByte();
+                CardSuit suit = (CardSuit)inMsg.ReadByte();
+
+                PlayingCard card = new PlayingCard(rank, suit) { FaceUp = true };
+
+                if (added)
+                {
+                    myHand.Add(card);
+
+                    if (OnHandCardAdded != null)
+                        OnHandCardAdded(this, card);
+                }
+                else
+                {
+                    myHand.Discard(card);
+
+                    if (OnHandCardRemoved != null)
+                        OnHandCardRemoved(this, card);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Handles the card count changed message
+        /// </summary>
+        /// <param name="inMsg">The message to decode</param>
+        private void HandleCardCountChanged(NetIncomingMessage inMsg)
+        {
+            byte playerId = inMsg.ReadByte();
+            int numCards = inMsg.ReadInt32();
+
+            myKnownPlayers[playerId].NumCards = numCards;
+
+            if (OnPlayerCountChanged != null)
+                OnPlayerCountChanged(myKnownPlayers[playerId], numCards);
         }
 
         /// <summary>

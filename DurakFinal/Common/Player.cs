@@ -44,6 +44,15 @@ namespace Durak.Common
         public bool IsHost { get; set; }
 
         /// <summary>
+        /// Invoked when a card has been added to the player's hand
+        /// </summary>
+        public event EventHandler<PlayingCard> OnCardAddedToHand;
+        /// <summary>
+        /// Invoked when a card has been removed from the player's hand
+        /// </summary>
+        public event EventHandler<PlayingCard> OnCardRemovedFromHand;
+
+        /// <summary>
         /// Creates a new player isntance
         /// </summary>
         /// <param name="playerId">The ID of this player</param>
@@ -55,6 +64,9 @@ namespace Durak.Common
             Name = name;
             IsBot = isBot;
             Hand = new CardCollection();
+
+            Hand.OnCardAdded += CardAdded;
+            Hand.OnCardRemoved += CardRemoved;
         }
 
         /// <summary>
@@ -62,12 +74,8 @@ namespace Durak.Common
         /// </summary>
         /// <param name="tag">The client tag</param>
         /// <param name="playerId">The player's ID</param>
-        public Player(ClientTag tag, byte playerId)
+        public Player(ClientTag tag, byte playerId) : this(playerId, tag.Name, false)
         {
-            PlayerId = playerId;
-            Name = tag.Name;
-            IsBot = false;
-            Hand = new CardCollection();
         }
 
         /// <summary>
@@ -80,6 +88,28 @@ namespace Durak.Common
             : this(tag, playerId)
         {
             Connection = connection;
+        }
+
+        /// <summary>
+        /// Invoked when the player's hand has lost a card
+        /// </summary>
+        /// <param name="sender">The object that invoked the event (the hand)</param>
+        /// <param name="e">The card event arguments for the event</param>
+        private void CardRemoved(object sender, CardEventArgs e)
+        {
+            if (OnCardRemovedFromHand != null)
+                OnCardRemovedFromHand.Invoke(this, e.Card);
+        }
+
+        /// <summary>
+        /// Invoked when the player's hand has gained a card
+        /// </summary>
+        /// <param name="sender">The object that invoked the event (the hand)</param>
+        /// <param name="e">The card event arguments for the event</param>
+        private void CardAdded(object sender, CardEventArgs e)
+        {
+            if (OnCardAddedToHand != null)
+                OnCardAddedToHand.Invoke(this, e.Card);
         }
 
         /// <summary>

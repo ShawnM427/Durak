@@ -37,6 +37,7 @@
             this.cmbMessageType = new System.Windows.Forms.ComboBox();
             this.lblMessage = new System.Windows.Forms.Label();
             this.gsvClientState = new DurakTester.GameStateVisualizer();
+            this.cmbCards = new System.Windows.Forms.ComboBox();
             this.grpClientControls.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -128,11 +129,21 @@
             this.gsvClientState.Size = new System.Drawing.Size(460, 313);
             this.gsvClientState.TabIndex = 5;
             // 
+            // cmbCards
+            // 
+            this.cmbCards.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbCards.FormattingEnabled = true;
+            this.cmbCards.Location = new System.Drawing.Point(272, 15);
+            this.cmbCards.Name = "cmbCards";
+            this.cmbCards.Size = new System.Drawing.Size(105, 21);
+            this.cmbCards.TabIndex = 6;
+            // 
             // ClientView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(871, 336);
+            this.Controls.Add(this.cmbCards);
             this.Controls.Add(this.gsvClientState);
             this.Controls.Add(this.grpClientControls);
             this.Controls.Add(this.btnDisconnect);
@@ -157,5 +168,6 @@
         private System.Windows.Forms.ComboBox cmbMessageType;
         private System.Windows.Forms.Label lblMessage;
         private GameStateVisualizer gsvClientState;
+        private System.Windows.Forms.ComboBox cmbCards;
     }
 }

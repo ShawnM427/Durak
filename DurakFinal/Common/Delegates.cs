@@ -18,6 +18,13 @@ namespace Durak.Common
     public delegate void PlayerLeftEvent(object sender, Player player, string reason);
 
     /// <summary>
+    /// Delegate for handling when a player's card count has been updated
+    /// </summary>
+    /// <param name="player">The player that this event is for</param>
+    /// <param name="newCardCount">The new card count for the player</param>
+    public delegate void PlayerCardCountChangedEvent(Player player, int newCardCount);
+
+    /// <summary>
     /// Delegate for handling when a player has sent a chat message
     /// </summary>
     /// <param name="sender">The object that raised the event</param>
