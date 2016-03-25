@@ -16,7 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using CardGameLibrary;
+using Durak.Common.Cards;
 
 namespace CardBox
 {

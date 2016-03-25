@@ -68,18 +68,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -94,9 +94,9 @@
       <Project>{7347693d-88df-4a84-abf9-40901471ad3d}</Project>
       <Name>CardBox</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CardGameLibrary\CardGameLibrary.csproj">
-      <Project>{b9311d04-55ee-47f1-92b1-87094ef2679c}</Project>
-      <Name>CardGameLibrary</Name>
+    <ProjectReference Include="..\DurakFinal\DurakCommon.csproj">
+      <Project>{491019da-8910-431f-9142-ac6ea10ed4ca}</Project>
+      <Name>DurakCommon</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

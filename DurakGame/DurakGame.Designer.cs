@@ -28,12 +28,49 @@
         /// </summary>
         private void InitializeComponent()
         {
+            Durak.Common.Cards.PlayingCard playingCard1 = new Durak.Common.Cards.PlayingCard();
+            Durak.Common.Cards.PlayingCard playingCard2 = new Durak.Common.Cards.PlayingCard();
+            Durak.Common.Cards.PlayingCard playingCard3 = new Durak.Common.Cards.PlayingCard();
+            Durak.Common.Cards.PlayingCard playingCard4 = new Durak.Common.Cards.PlayingCard();
+            Durak.Common.Cards.PlayingCard playingCard5 = new Durak.Common.Cards.PlayingCard();
+            Durak.Common.Cards.PlayingCard playingCard6 = new Durak.Common.Cards.PlayingCard();
+            Durak.Common.Cards.PlayingCard playingCard7 = new Durak.Common.Cards.PlayingCard();
+            Durak.Common.Cards.PlayingCard playingCard8 = new Durak.Common.Cards.PlayingCard();
+            Durak.Common.Cards.PlayingCard playingCard9 = new Durak.Common.Cards.PlayingCard();
+            Durak.Common.Cards.PlayingCard playingCard10 = new Durak.Common.Cards.PlayingCard();
+            Durak.Common.Cards.PlayingCard playingCard11 = new Durak.Common.Cards.PlayingCard();
+            Durak.Common.Cards.PlayingCard playingCard12 = new Durak.Common.Cards.PlayingCard();
+            Durak.Common.Cards.PlayingCard playingCard13 = new Durak.Common.Cards.PlayingCard();
+            Durak.Common.Cards.PlayingCard playingCard14 = new Durak.Common.Cards.PlayingCard();
+            Durak.Common.Cards.PlayingCard playingCard15 = new Durak.Common.Cards.PlayingCard();
+            Durak.Common.Cards.PlayingCard playingCard16 = new Durak.Common.Cards.PlayingCard();
+            Durak.Common.Cards.PlayingCard playingCard17 = new Durak.Common.Cards.PlayingCard();
+            Durak.Common.Cards.PlayingCard playingCard18 = new Durak.Common.Cards.PlayingCard();
+            Durak.Common.Cards.PlayingCard playingCard19 = new Durak.Common.Cards.PlayingCard();
             this.grpBattle1 = new System.Windows.Forms.GroupBox();
+            this.lblWinLose1 = new System.Windows.Forms.Label();
+            this.cbxDefence1 = new CardBox.CardBox();
+            this.cbxPlayerAttack1 = new CardBox.CardBox();
             this.grpBattle2 = new System.Windows.Forms.GroupBox();
+            this.lblWinLose2 = new System.Windows.Forms.Label();
+            this.cbxDefence2 = new CardBox.CardBox();
+            this.cbxPlayerAttack2 = new CardBox.CardBox();
             this.grpBattle3 = new System.Windows.Forms.GroupBox();
+            this.lblWinLose3 = new System.Windows.Forms.Label();
+            this.cbxDefence3 = new CardBox.CardBox();
+            this.cbxPlayerAttack3 = new CardBox.CardBox();
             this.grpBattle4 = new System.Windows.Forms.GroupBox();
+            this.lblWinLose4 = new System.Windows.Forms.Label();
+            this.cbxDefence4 = new CardBox.CardBox();
+            this.cbxPlayerAttack4 = new CardBox.CardBox();
             this.grpBattle5 = new System.Windows.Forms.GroupBox();
+            this.lblWinLose5 = new System.Windows.Forms.Label();
+            this.cbxDefence5 = new CardBox.CardBox();
+            this.cbxPlayerAttack5 = new CardBox.CardBox();
             this.grpBattle6 = new System.Windows.Forms.GroupBox();
+            this.lblWinLose6 = new System.Windows.Forms.Label();
+            this.cbxDefence6 = new CardBox.CardBox();
+            this.cbxPlayerAttack6 = new CardBox.CardBox();
             this.grpBattles = new System.Windows.Forms.GroupBox();
             this.grpGarbage = new System.Windows.Forms.GroupBox();
             this.lblPlayer1 = new System.Windows.Forms.Label();
@@ -62,26 +99,8 @@
             this.cardBox18 = new CardBox.CardBox();
             this.cardBox17 = new CardBox.CardBox();
             this.cardBox16 = new CardBox.CardBox();
-            this.cbxDefence3 = new CardBox.CardBox();
-            this.cbxPlayerAttack3 = new CardBox.CardBox();
-            this.cbxDefence2 = new CardBox.CardBox();
-            this.cbxPlayerAttack2 = new CardBox.CardBox();
-            this.cbxDefence1 = new CardBox.CardBox();
-            this.cbxPlayerAttack1 = new CardBox.CardBox();
-            this.cbxDefence6 = new CardBox.CardBox();
-            this.cbxPlayerAttack6 = new CardBox.CardBox();
-            this.cbxDefence4 = new CardBox.CardBox();
-            this.cbxPlayerAttack4 = new CardBox.CardBox();
-            this.cbxDefence5 = new CardBox.CardBox();
-            this.cbxPlayerAttack5 = new CardBox.CardBox();
             this.cbxDeck = new CardBox.CardBox();
             this.cbxTrump = new CardBox.CardBox();
-            this.lblWinLose1 = new System.Windows.Forms.Label();
-            this.lblWinLose2 = new System.Windows.Forms.Label();
-            this.lblWinLose3 = new System.Windows.Forms.Label();
-            this.lblWinLose5 = new System.Windows.Forms.Label();
-            this.lblWinLose6 = new System.Windows.Forms.Label();
-            this.lblWinLose4 = new System.Windows.Forms.Label();
             this.grpBattle1.SuspendLayout();
             this.grpBattle2.SuspendLayout();
             this.grpBattle3.SuspendLayout();
@@ -104,6 +123,50 @@
             this.grpBattle1.TabIndex = 3;
             this.grpBattle1.TabStop = false;
             // 
+            // lblWinLose1
+            // 
+            this.lblWinLose1.AutoSize = true;
+            this.lblWinLose1.Font = new System.Drawing.Font("Impact", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblWinLose1.Location = new System.Drawing.Point(13, 160);
+            this.lblWinLose1.Name = "lblWinLose1";
+            this.lblWinLose1.Size = new System.Drawing.Size(59, 29);
+            this.lblWinLose1.TabIndex = 38;
+            this.lblWinLose1.Text = "WIN!";
+            // 
+            // cbxDefence1
+            // 
+            playingCard1.AlternateValue = null;
+            playingCard1.CardValue = 1;
+            playingCard1.FaceUp = true;
+            playingCard1.Rank = Durak.Common.Cards.CardRank.Ace;
+            playingCard1.Suit = Durak.Common.Cards.CardSuit.Hearts;
+            this.cbxDefence1.Card = playingCard1;
+            this.cbxDefence1.CardOrientation = System.Windows.Forms.Orientation.Vertical;
+            this.cbxDefence1.FaceUp = true;
+            this.cbxDefence1.Location = new System.Drawing.Point(6, 9);
+            this.cbxDefence1.Name = "cbxDefence1";
+            this.cbxDefence1.Rank = Durak.Common.Cards.CardRank.Ace;
+            this.cbxDefence1.Size = new System.Drawing.Size(75, 107);
+            this.cbxDefence1.Suit = Durak.Common.Cards.CardSuit.Hearts;
+            this.cbxDefence1.TabIndex = 4;
+            // 
+            // cbxPlayerAttack1
+            // 
+            playingCard2.AlternateValue = null;
+            playingCard2.CardValue = 1;
+            playingCard2.FaceUp = true;
+            playingCard2.Rank = Durak.Common.Cards.CardRank.Three;
+            playingCard2.Suit = Durak.Common.Cards.CardSuit.Spades;
+            this.cbxPlayerAttack1.Card = playingCard2;
+            this.cbxPlayerAttack1.CardOrientation = System.Windows.Forms.Orientation.Vertical;
+            this.cbxPlayerAttack1.FaceUp = true;
+            this.cbxPlayerAttack1.Location = new System.Drawing.Point(6, 40);
+            this.cbxPlayerAttack1.Name = "cbxPlayerAttack1";
+            this.cbxPlayerAttack1.Rank = Durak.Common.Cards.CardRank.Three;
+            this.cbxPlayerAttack1.Size = new System.Drawing.Size(75, 107);
+            this.cbxPlayerAttack1.Suit = Durak.Common.Cards.CardSuit.Spades;
+            this.cbxPlayerAttack1.TabIndex = 5;
+            // 
             // grpBattle2
             // 
             this.grpBattle2.Controls.Add(this.lblWinLose2);
@@ -115,6 +178,50 @@
             this.grpBattle2.Size = new System.Drawing.Size(88, 206);
             this.grpBattle2.TabIndex = 6;
             this.grpBattle2.TabStop = false;
+            // 
+            // lblWinLose2
+            // 
+            this.lblWinLose2.AutoSize = true;
+            this.lblWinLose2.Font = new System.Drawing.Font("Impact", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblWinLose2.Location = new System.Drawing.Point(12, 160);
+            this.lblWinLose2.Name = "lblWinLose2";
+            this.lblWinLose2.Size = new System.Drawing.Size(59, 29);
+            this.lblWinLose2.TabIndex = 39;
+            this.lblWinLose2.Text = "WIN!";
+            // 
+            // cbxDefence2
+            // 
+            playingCard3.AlternateValue = null;
+            playingCard3.CardValue = 1;
+            playingCard3.FaceUp = true;
+            playingCard3.Rank = Durak.Common.Cards.CardRank.Ace;
+            playingCard3.Suit = Durak.Common.Cards.CardSuit.Hearts;
+            this.cbxDefence2.Card = playingCard3;
+            this.cbxDefence2.CardOrientation = System.Windows.Forms.Orientation.Vertical;
+            this.cbxDefence2.FaceUp = true;
+            this.cbxDefence2.Location = new System.Drawing.Point(6, 9);
+            this.cbxDefence2.Name = "cbxDefence2";
+            this.cbxDefence2.Rank = Durak.Common.Cards.CardRank.Ace;
+            this.cbxDefence2.Size = new System.Drawing.Size(75, 107);
+            this.cbxDefence2.Suit = Durak.Common.Cards.CardSuit.Hearts;
+            this.cbxDefence2.TabIndex = 4;
+            // 
+            // cbxPlayerAttack2
+            // 
+            playingCard4.AlternateValue = null;
+            playingCard4.CardValue = 1;
+            playingCard4.FaceUp = true;
+            playingCard4.Rank = Durak.Common.Cards.CardRank.Three;
+            playingCard4.Suit = Durak.Common.Cards.CardSuit.Spades;
+            this.cbxPlayerAttack2.Card = playingCard4;
+            this.cbxPlayerAttack2.CardOrientation = System.Windows.Forms.Orientation.Vertical;
+            this.cbxPlayerAttack2.FaceUp = true;
+            this.cbxPlayerAttack2.Location = new System.Drawing.Point(6, 40);
+            this.cbxPlayerAttack2.Name = "cbxPlayerAttack2";
+            this.cbxPlayerAttack2.Rank = Durak.Common.Cards.CardRank.Three;
+            this.cbxPlayerAttack2.Size = new System.Drawing.Size(75, 107);
+            this.cbxPlayerAttack2.Suit = Durak.Common.Cards.CardSuit.Spades;
+            this.cbxPlayerAttack2.TabIndex = 5;
             // 
             // grpBattle3
             // 
@@ -128,6 +235,50 @@
             this.grpBattle3.TabIndex = 6;
             this.grpBattle3.TabStop = false;
             // 
+            // lblWinLose3
+            // 
+            this.lblWinLose3.AutoSize = true;
+            this.lblWinLose3.Font = new System.Drawing.Font("Impact", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblWinLose3.Location = new System.Drawing.Point(15, 160);
+            this.lblWinLose3.Name = "lblWinLose3";
+            this.lblWinLose3.Size = new System.Drawing.Size(59, 29);
+            this.lblWinLose3.TabIndex = 40;
+            this.lblWinLose3.Text = "WIN!";
+            // 
+            // cbxDefence3
+            // 
+            playingCard5.AlternateValue = null;
+            playingCard5.CardValue = 1;
+            playingCard5.FaceUp = true;
+            playingCard5.Rank = Durak.Common.Cards.CardRank.Ace;
+            playingCard5.Suit = Durak.Common.Cards.CardSuit.Hearts;
+            this.cbxDefence3.Card = playingCard5;
+            this.cbxDefence3.CardOrientation = System.Windows.Forms.Orientation.Vertical;
+            this.cbxDefence3.FaceUp = true;
+            this.cbxDefence3.Location = new System.Drawing.Point(6, 9);
+            this.cbxDefence3.Name = "cbxDefence3";
+            this.cbxDefence3.Rank = Durak.Common.Cards.CardRank.Ace;
+            this.cbxDefence3.Size = new System.Drawing.Size(75, 107);
+            this.cbxDefence3.Suit = Durak.Common.Cards.CardSuit.Hearts;
+            this.cbxDefence3.TabIndex = 4;
+            // 
+            // cbxPlayerAttack3
+            // 
+            playingCard6.AlternateValue = null;
+            playingCard6.CardValue = 1;
+            playingCard6.FaceUp = true;
+            playingCard6.Rank = Durak.Common.Cards.CardRank.Three;
+            playingCard6.Suit = Durak.Common.Cards.CardSuit.Spades;
+            this.cbxPlayerAttack3.Card = playingCard6;
+            this.cbxPlayerAttack3.CardOrientation = System.Windows.Forms.Orientation.Vertical;
+            this.cbxPlayerAttack3.FaceUp = true;
+            this.cbxPlayerAttack3.Location = new System.Drawing.Point(6, 40);
+            this.cbxPlayerAttack3.Name = "cbxPlayerAttack3";
+            this.cbxPlayerAttack3.Rank = Durak.Common.Cards.CardRank.Three;
+            this.cbxPlayerAttack3.Size = new System.Drawing.Size(75, 107);
+            this.cbxPlayerAttack3.Suit = Durak.Common.Cards.CardSuit.Spades;
+            this.cbxPlayerAttack3.TabIndex = 5;
+            // 
             // grpBattle4
             // 
             this.grpBattle4.Controls.Add(this.lblWinLose4);
@@ -139,6 +290,50 @@
             this.grpBattle4.Size = new System.Drawing.Size(88, 206);
             this.grpBattle4.TabIndex = 6;
             this.grpBattle4.TabStop = false;
+            // 
+            // lblWinLose4
+            // 
+            this.lblWinLose4.AutoSize = true;
+            this.lblWinLose4.Font = new System.Drawing.Font("Impact", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblWinLose4.Location = new System.Drawing.Point(14, 160);
+            this.lblWinLose4.Name = "lblWinLose4";
+            this.lblWinLose4.Size = new System.Drawing.Size(59, 29);
+            this.lblWinLose4.TabIndex = 42;
+            this.lblWinLose4.Text = "WIN!";
+            // 
+            // cbxDefence4
+            // 
+            playingCard7.AlternateValue = null;
+            playingCard7.CardValue = 1;
+            playingCard7.FaceUp = true;
+            playingCard7.Rank = Durak.Common.Cards.CardRank.Ace;
+            playingCard7.Suit = Durak.Common.Cards.CardSuit.Hearts;
+            this.cbxDefence4.Card = playingCard7;
+            this.cbxDefence4.CardOrientation = System.Windows.Forms.Orientation.Vertical;
+            this.cbxDefence4.FaceUp = true;
+            this.cbxDefence4.Location = new System.Drawing.Point(6, 9);
+            this.cbxDefence4.Name = "cbxDefence4";
+            this.cbxDefence4.Rank = Durak.Common.Cards.CardRank.Ace;
+            this.cbxDefence4.Size = new System.Drawing.Size(75, 107);
+            this.cbxDefence4.Suit = Durak.Common.Cards.CardSuit.Hearts;
+            this.cbxDefence4.TabIndex = 4;
+            // 
+            // cbxPlayerAttack4
+            // 
+            playingCard8.AlternateValue = null;
+            playingCard8.CardValue = 1;
+            playingCard8.FaceUp = true;
+            playingCard8.Rank = Durak.Common.Cards.CardRank.Three;
+            playingCard8.Suit = Durak.Common.Cards.CardSuit.Spades;
+            this.cbxPlayerAttack4.Card = playingCard8;
+            this.cbxPlayerAttack4.CardOrientation = System.Windows.Forms.Orientation.Vertical;
+            this.cbxPlayerAttack4.FaceUp = true;
+            this.cbxPlayerAttack4.Location = new System.Drawing.Point(6, 40);
+            this.cbxPlayerAttack4.Name = "cbxPlayerAttack4";
+            this.cbxPlayerAttack4.Rank = Durak.Common.Cards.CardRank.Three;
+            this.cbxPlayerAttack4.Size = new System.Drawing.Size(75, 107);
+            this.cbxPlayerAttack4.Suit = Durak.Common.Cards.CardSuit.Spades;
+            this.cbxPlayerAttack4.TabIndex = 5;
             // 
             // grpBattle5
             // 
@@ -152,6 +347,50 @@
             this.grpBattle5.TabIndex = 6;
             this.grpBattle5.TabStop = false;
             // 
+            // lblWinLose5
+            // 
+            this.lblWinLose5.AutoSize = true;
+            this.lblWinLose5.Font = new System.Drawing.Font("Impact", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblWinLose5.Location = new System.Drawing.Point(12, 160);
+            this.lblWinLose5.Name = "lblWinLose5";
+            this.lblWinLose5.Size = new System.Drawing.Size(59, 29);
+            this.lblWinLose5.TabIndex = 41;
+            this.lblWinLose5.Text = "WIN!";
+            // 
+            // cbxDefence5
+            // 
+            playingCard9.AlternateValue = null;
+            playingCard9.CardValue = 1;
+            playingCard9.FaceUp = true;
+            playingCard9.Rank = Durak.Common.Cards.CardRank.Ace;
+            playingCard9.Suit = Durak.Common.Cards.CardSuit.Hearts;
+            this.cbxDefence5.Card = playingCard9;
+            this.cbxDefence5.CardOrientation = System.Windows.Forms.Orientation.Vertical;
+            this.cbxDefence5.FaceUp = true;
+            this.cbxDefence5.Location = new System.Drawing.Point(6, 9);
+            this.cbxDefence5.Name = "cbxDefence5";
+            this.cbxDefence5.Rank = Durak.Common.Cards.CardRank.Ace;
+            this.cbxDefence5.Size = new System.Drawing.Size(75, 107);
+            this.cbxDefence5.Suit = Durak.Common.Cards.CardSuit.Hearts;
+            this.cbxDefence5.TabIndex = 4;
+            // 
+            // cbxPlayerAttack5
+            // 
+            playingCard10.AlternateValue = null;
+            playingCard10.CardValue = 1;
+            playingCard10.FaceUp = true;
+            playingCard10.Rank = Durak.Common.Cards.CardRank.Three;
+            playingCard10.Suit = Durak.Common.Cards.CardSuit.Spades;
+            this.cbxPlayerAttack5.Card = playingCard10;
+            this.cbxPlayerAttack5.CardOrientation = System.Windows.Forms.Orientation.Vertical;
+            this.cbxPlayerAttack5.FaceUp = true;
+            this.cbxPlayerAttack5.Location = new System.Drawing.Point(6, 40);
+            this.cbxPlayerAttack5.Name = "cbxPlayerAttack5";
+            this.cbxPlayerAttack5.Rank = Durak.Common.Cards.CardRank.Three;
+            this.cbxPlayerAttack5.Size = new System.Drawing.Size(75, 107);
+            this.cbxPlayerAttack5.Suit = Durak.Common.Cards.CardSuit.Spades;
+            this.cbxPlayerAttack5.TabIndex = 5;
+            // 
             // grpBattle6
             // 
             this.grpBattle6.Controls.Add(this.lblWinLose6);
@@ -163,6 +402,50 @@
             this.grpBattle6.Size = new System.Drawing.Size(88, 206);
             this.grpBattle6.TabIndex = 6;
             this.grpBattle6.TabStop = false;
+            // 
+            // lblWinLose6
+            // 
+            this.lblWinLose6.AutoSize = true;
+            this.lblWinLose6.Font = new System.Drawing.Font("Impact", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblWinLose6.Location = new System.Drawing.Point(14, 160);
+            this.lblWinLose6.Name = "lblWinLose6";
+            this.lblWinLose6.Size = new System.Drawing.Size(59, 29);
+            this.lblWinLose6.TabIndex = 42;
+            this.lblWinLose6.Text = "WIN!";
+            // 
+            // cbxDefence6
+            // 
+            playingCard11.AlternateValue = null;
+            playingCard11.CardValue = 1;
+            playingCard11.FaceUp = true;
+            playingCard11.Rank = Durak.Common.Cards.CardRank.Ace;
+            playingCard11.Suit = Durak.Common.Cards.CardSuit.Hearts;
+            this.cbxDefence6.Card = playingCard11;
+            this.cbxDefence6.CardOrientation = System.Windows.Forms.Orientation.Vertical;
+            this.cbxDefence6.FaceUp = true;
+            this.cbxDefence6.Location = new System.Drawing.Point(6, 9);
+            this.cbxDefence6.Name = "cbxDefence6";
+            this.cbxDefence6.Rank = Durak.Common.Cards.CardRank.Ace;
+            this.cbxDefence6.Size = new System.Drawing.Size(75, 107);
+            this.cbxDefence6.Suit = Durak.Common.Cards.CardSuit.Hearts;
+            this.cbxDefence6.TabIndex = 4;
+            // 
+            // cbxPlayerAttack6
+            // 
+            playingCard12.AlternateValue = null;
+            playingCard12.CardValue = 1;
+            playingCard12.FaceUp = true;
+            playingCard12.Rank = Durak.Common.Cards.CardRank.Three;
+            playingCard12.Suit = Durak.Common.Cards.CardSuit.Spades;
+            this.cbxPlayerAttack6.Card = playingCard12;
+            this.cbxPlayerAttack6.CardOrientation = System.Windows.Forms.Orientation.Vertical;
+            this.cbxPlayerAttack6.FaceUp = true;
+            this.cbxPlayerAttack6.Location = new System.Drawing.Point(6, 40);
+            this.cbxPlayerAttack6.Name = "cbxPlayerAttack6";
+            this.cbxPlayerAttack6.Rank = Durak.Common.Cards.CardRank.Three;
+            this.cbxPlayerAttack6.Size = new System.Drawing.Size(75, 107);
+            this.cbxPlayerAttack6.Suit = Durak.Common.Cards.CardSuit.Spades;
+            this.cbxPlayerAttack6.TabIndex = 5;
             // 
             // grpBattles
             // 
@@ -374,272 +657,122 @@
             // 
             // cardBox21
             // 
+            playingCard13.AlternateValue = null;
+            playingCard13.CardValue = 1;
+            playingCard13.FaceUp = false;
+            playingCard13.Rank = Durak.Common.Cards.CardRank.Ace;
+            playingCard13.Suit = Durak.Common.Cards.CardSuit.Hearts;
+            this.cardBox21.Card = playingCard13;
             this.cardBox21.CardOrientation = System.Windows.Forms.Orientation.Vertical;
             this.cardBox21.FaceUp = false;
             this.cardBox21.Location = new System.Drawing.Point(658, 60);
             this.cardBox21.Name = "cardBox21";
-            this.cardBox21.Rank = CardGameLibrary.CardRank.Ace;
+            this.cardBox21.Rank = Durak.Common.Cards.CardRank.Ace;
             this.cardBox21.Size = new System.Drawing.Size(75, 107);
-            this.cardBox21.Suit = CardGameLibrary.CardSuit.Hearts;
+            this.cardBox21.Suit = Durak.Common.Cards.CardSuit.Hearts;
             this.cardBox21.TabIndex = 22;
             // 
             // cardBox20
             // 
+            playingCard14.AlternateValue = null;
+            playingCard14.CardValue = 1;
+            playingCard14.FaceUp = false;
+            playingCard14.Rank = Durak.Common.Cards.CardRank.Ace;
+            playingCard14.Suit = Durak.Common.Cards.CardSuit.Hearts;
+            this.cardBox20.Card = playingCard14;
             this.cardBox20.CardOrientation = System.Windows.Forms.Orientation.Vertical;
             this.cardBox20.FaceUp = false;
             this.cardBox20.Location = new System.Drawing.Point(540, 60);
             this.cardBox20.Name = "cardBox20";
-            this.cardBox20.Rank = CardGameLibrary.CardRank.Ace;
+            this.cardBox20.Rank = Durak.Common.Cards.CardRank.Ace;
             this.cardBox20.Size = new System.Drawing.Size(75, 107);
-            this.cardBox20.Suit = CardGameLibrary.CardSuit.Hearts;
+            this.cardBox20.Suit = Durak.Common.Cards.CardSuit.Hearts;
             this.cardBox20.TabIndex = 21;
             // 
             // cardBox18
             // 
+            playingCard15.AlternateValue = null;
+            playingCard15.CardValue = 1;
+            playingCard15.FaceUp = false;
+            playingCard15.Rank = Durak.Common.Cards.CardRank.Ace;
+            playingCard15.Suit = Durak.Common.Cards.CardSuit.Hearts;
+            this.cardBox18.Card = playingCard15;
             this.cardBox18.CardOrientation = System.Windows.Forms.Orientation.Vertical;
             this.cardBox18.FaceUp = false;
             this.cardBox18.Location = new System.Drawing.Point(422, 60);
             this.cardBox18.Name = "cardBox18";
-            this.cardBox18.Rank = CardGameLibrary.CardRank.Ace;
+            this.cardBox18.Rank = Durak.Common.Cards.CardRank.Ace;
             this.cardBox18.Size = new System.Drawing.Size(75, 107);
-            this.cardBox18.Suit = CardGameLibrary.CardSuit.Hearts;
+            this.cardBox18.Suit = Durak.Common.Cards.CardSuit.Hearts;
             this.cardBox18.TabIndex = 10;
             // 
             // cardBox17
             // 
+            playingCard16.AlternateValue = null;
+            playingCard16.CardValue = 1;
+            playingCard16.FaceUp = false;
+            playingCard16.Rank = Durak.Common.Cards.CardRank.Ace;
+            playingCard16.Suit = Durak.Common.Cards.CardSuit.Hearts;
+            this.cardBox17.Card = playingCard16;
             this.cardBox17.CardOrientation = System.Windows.Forms.Orientation.Vertical;
             this.cardBox17.FaceUp = false;
             this.cardBox17.Location = new System.Drawing.Point(186, 60);
             this.cardBox17.Name = "cardBox17";
-            this.cardBox17.Rank = CardGameLibrary.CardRank.Ace;
+            this.cardBox17.Rank = Durak.Common.Cards.CardRank.Ace;
             this.cardBox17.Size = new System.Drawing.Size(75, 107);
-            this.cardBox17.Suit = CardGameLibrary.CardSuit.Hearts;
+            this.cardBox17.Suit = Durak.Common.Cards.CardSuit.Hearts;
             this.cardBox17.TabIndex = 9;
             // 
             // cardBox16
             // 
+            playingCard17.AlternateValue = null;
+            playingCard17.CardValue = 1;
+            playingCard17.FaceUp = false;
+            playingCard17.Rank = Durak.Common.Cards.CardRank.Ace;
+            playingCard17.Suit = Durak.Common.Cards.CardSuit.Hearts;
+            this.cardBox16.Card = playingCard17;
             this.cardBox16.CardOrientation = System.Windows.Forms.Orientation.Vertical;
             this.cardBox16.FaceUp = false;
             this.cardBox16.Location = new System.Drawing.Point(304, 60);
             this.cardBox16.Name = "cardBox16";
-            this.cardBox16.Rank = CardGameLibrary.CardRank.Ace;
+            this.cardBox16.Rank = Durak.Common.Cards.CardRank.Ace;
             this.cardBox16.Size = new System.Drawing.Size(75, 107);
-            this.cardBox16.Suit = CardGameLibrary.CardSuit.Hearts;
+            this.cardBox16.Suit = Durak.Common.Cards.CardSuit.Hearts;
             this.cardBox16.TabIndex = 8;
-            // 
-            // cbxDefence3
-            // 
-            this.cbxDefence3.CardOrientation = System.Windows.Forms.Orientation.Vertical;
-            this.cbxDefence3.FaceUp = true;
-            this.cbxDefence3.Location = new System.Drawing.Point(6, 9);
-            this.cbxDefence3.Name = "cbxDefence3";
-            this.cbxDefence3.Rank = CardGameLibrary.CardRank.Ace;
-            this.cbxDefence3.Size = new System.Drawing.Size(75, 107);
-            this.cbxDefence3.Suit = CardGameLibrary.CardSuit.Hearts;
-            this.cbxDefence3.TabIndex = 4;
-            // 
-            // cbxPlayerAttack3
-            // 
-            this.cbxPlayerAttack3.CardOrientation = System.Windows.Forms.Orientation.Vertical;
-            this.cbxPlayerAttack3.FaceUp = true;
-            this.cbxPlayerAttack3.Location = new System.Drawing.Point(6, 40);
-            this.cbxPlayerAttack3.Name = "cbxPlayerAttack3";
-            this.cbxPlayerAttack3.Rank = CardGameLibrary.CardRank.Three;
-            this.cbxPlayerAttack3.Size = new System.Drawing.Size(75, 107);
-            this.cbxPlayerAttack3.Suit = CardGameLibrary.CardSuit.Spades;
-            this.cbxPlayerAttack3.TabIndex = 5;
-            // 
-            // cbxDefence2
-            // 
-            this.cbxDefence2.CardOrientation = System.Windows.Forms.Orientation.Vertical;
-            this.cbxDefence2.FaceUp = true;
-            this.cbxDefence2.Location = new System.Drawing.Point(6, 9);
-            this.cbxDefence2.Name = "cbxDefence2";
-            this.cbxDefence2.Rank = CardGameLibrary.CardRank.Ace;
-            this.cbxDefence2.Size = new System.Drawing.Size(75, 107);
-            this.cbxDefence2.Suit = CardGameLibrary.CardSuit.Hearts;
-            this.cbxDefence2.TabIndex = 4;
-            // 
-            // cbxPlayerAttack2
-            // 
-            this.cbxPlayerAttack2.CardOrientation = System.Windows.Forms.Orientation.Vertical;
-            this.cbxPlayerAttack2.FaceUp = true;
-            this.cbxPlayerAttack2.Location = new System.Drawing.Point(6, 40);
-            this.cbxPlayerAttack2.Name = "cbxPlayerAttack2";
-            this.cbxPlayerAttack2.Rank = CardGameLibrary.CardRank.Three;
-            this.cbxPlayerAttack2.Size = new System.Drawing.Size(75, 107);
-            this.cbxPlayerAttack2.Suit = CardGameLibrary.CardSuit.Spades;
-            this.cbxPlayerAttack2.TabIndex = 5;
-            // 
-            // cbxDefence1
-            // 
-            this.cbxDefence1.CardOrientation = System.Windows.Forms.Orientation.Vertical;
-            this.cbxDefence1.FaceUp = true;
-            this.cbxDefence1.Location = new System.Drawing.Point(6, 9);
-            this.cbxDefence1.Name = "cbxDefence1";
-            this.cbxDefence1.Rank = CardGameLibrary.CardRank.Ace;
-            this.cbxDefence1.Size = new System.Drawing.Size(75, 107);
-            this.cbxDefence1.Suit = CardGameLibrary.CardSuit.Hearts;
-            this.cbxDefence1.TabIndex = 4;
-            // 
-            // cbxPlayerAttack1
-            // 
-            this.cbxPlayerAttack1.CardOrientation = System.Windows.Forms.Orientation.Vertical;
-            this.cbxPlayerAttack1.FaceUp = true;
-            this.cbxPlayerAttack1.Location = new System.Drawing.Point(6, 40);
-            this.cbxPlayerAttack1.Name = "cbxPlayerAttack1";
-            this.cbxPlayerAttack1.Rank = CardGameLibrary.CardRank.Three;
-            this.cbxPlayerAttack1.Size = new System.Drawing.Size(75, 107);
-            this.cbxPlayerAttack1.Suit = CardGameLibrary.CardSuit.Spades;
-            this.cbxPlayerAttack1.TabIndex = 5;
-            // 
-            // cbxDefence6
-            // 
-            this.cbxDefence6.CardOrientation = System.Windows.Forms.Orientation.Vertical;
-            this.cbxDefence6.FaceUp = true;
-            this.cbxDefence6.Location = new System.Drawing.Point(6, 9);
-            this.cbxDefence6.Name = "cbxDefence6";
-            this.cbxDefence6.Rank = CardGameLibrary.CardRank.Ace;
-            this.cbxDefence6.Size = new System.Drawing.Size(75, 107);
-            this.cbxDefence6.Suit = CardGameLibrary.CardSuit.Hearts;
-            this.cbxDefence6.TabIndex = 4;
-            // 
-            // cbxPlayerAttack6
-            // 
-            this.cbxPlayerAttack6.CardOrientation = System.Windows.Forms.Orientation.Vertical;
-            this.cbxPlayerAttack6.FaceUp = true;
-            this.cbxPlayerAttack6.Location = new System.Drawing.Point(6, 40);
-            this.cbxPlayerAttack6.Name = "cbxPlayerAttack6";
-            this.cbxPlayerAttack6.Rank = CardGameLibrary.CardRank.Three;
-            this.cbxPlayerAttack6.Size = new System.Drawing.Size(75, 107);
-            this.cbxPlayerAttack6.Suit = CardGameLibrary.CardSuit.Spades;
-            this.cbxPlayerAttack6.TabIndex = 5;
-            // 
-            // cbxDefence4
-            // 
-            this.cbxDefence4.CardOrientation = System.Windows.Forms.Orientation.Vertical;
-            this.cbxDefence4.FaceUp = true;
-            this.cbxDefence4.Location = new System.Drawing.Point(6, 9);
-            this.cbxDefence4.Name = "cbxDefence4";
-            this.cbxDefence4.Rank = CardGameLibrary.CardRank.Ace;
-            this.cbxDefence4.Size = new System.Drawing.Size(75, 107);
-            this.cbxDefence4.Suit = CardGameLibrary.CardSuit.Hearts;
-            this.cbxDefence4.TabIndex = 4;
-            // 
-            // cbxPlayerAttack4
-            // 
-            this.cbxPlayerAttack4.CardOrientation = System.Windows.Forms.Orientation.Vertical;
-            this.cbxPlayerAttack4.FaceUp = true;
-            this.cbxPlayerAttack4.Location = new System.Drawing.Point(6, 40);
-            this.cbxPlayerAttack4.Name = "cbxPlayerAttack4";
-            this.cbxPlayerAttack4.Rank = CardGameLibrary.CardRank.Three;
-            this.cbxPlayerAttack4.Size = new System.Drawing.Size(75, 107);
-            this.cbxPlayerAttack4.Suit = CardGameLibrary.CardSuit.Spades;
-            this.cbxPlayerAttack4.TabIndex = 5;
-            // 
-            // cbxDefence5
-            // 
-            this.cbxDefence5.CardOrientation = System.Windows.Forms.Orientation.Vertical;
-            this.cbxDefence5.FaceUp = true;
-            this.cbxDefence5.Location = new System.Drawing.Point(6, 9);
-            this.cbxDefence5.Name = "cbxDefence5";
-            this.cbxDefence5.Rank = CardGameLibrary.CardRank.Ace;
-            this.cbxDefence5.Size = new System.Drawing.Size(75, 107);
-            this.cbxDefence5.Suit = CardGameLibrary.CardSuit.Hearts;
-            this.cbxDefence5.TabIndex = 4;
-            // 
-            // cbxPlayerAttack5
-            // 
-            this.cbxPlayerAttack5.CardOrientation = System.Windows.Forms.Orientation.Vertical;
-            this.cbxPlayerAttack5.FaceUp = true;
-            this.cbxPlayerAttack5.Location = new System.Drawing.Point(6, 40);
-            this.cbxPlayerAttack5.Name = "cbxPlayerAttack5";
-            this.cbxPlayerAttack5.Rank = CardGameLibrary.CardRank.Three;
-            this.cbxPlayerAttack5.Size = new System.Drawing.Size(75, 107);
-            this.cbxPlayerAttack5.Suit = CardGameLibrary.CardSuit.Spades;
-            this.cbxPlayerAttack5.TabIndex = 5;
             // 
             // cbxDeck
             // 
+            playingCard18.AlternateValue = null;
+            playingCard18.CardValue = 1;
+            playingCard18.FaceUp = false;
+            playingCard18.Rank = Durak.Common.Cards.CardRank.Ace;
+            playingCard18.Suit = Durak.Common.Cards.CardSuit.Hearts;
+            this.cbxDeck.Card = playingCard18;
             this.cbxDeck.CardOrientation = System.Windows.Forms.Orientation.Vertical;
             this.cbxDeck.FaceUp = false;
             this.cbxDeck.Location = new System.Drawing.Point(93, 253);
             this.cbxDeck.Name = "cbxDeck";
-            this.cbxDeck.Rank = CardGameLibrary.CardRank.Ace;
+            this.cbxDeck.Rank = Durak.Common.Cards.CardRank.Ace;
             this.cbxDeck.Size = new System.Drawing.Size(75, 107);
-            this.cbxDeck.Suit = CardGameLibrary.CardSuit.Hearts;
+            this.cbxDeck.Suit = Durak.Common.Cards.CardSuit.Hearts;
             this.cbxDeck.TabIndex = 2;
             // 
             // cbxTrump
             // 
+            playingCard19.AlternateValue = null;
+            playingCard19.CardValue = 1;
+            playingCard19.FaceUp = false;
+            playingCard19.Rank = Durak.Common.Cards.CardRank.Ace;
+            playingCard19.Suit = Durak.Common.Cards.CardSuit.Hearts;
+            this.cbxTrump.Card = playingCard19;
             this.cbxTrump.CardOrientation = System.Windows.Forms.Orientation.Vertical;
             this.cbxTrump.FaceUp = false;
             this.cbxTrump.Location = new System.Drawing.Point(12, 253);
             this.cbxTrump.Name = "cbxTrump";
-            this.cbxTrump.Rank = CardGameLibrary.CardRank.Ace;
+            this.cbxTrump.Rank = Durak.Common.Cards.CardRank.Ace;
             this.cbxTrump.Size = new System.Drawing.Size(75, 107);
-            this.cbxTrump.Suit = CardGameLibrary.CardSuit.Hearts;
+            this.cbxTrump.Suit = Durak.Common.Cards.CardSuit.Hearts;
             this.cbxTrump.TabIndex = 1;
-            // 
-            // lblWinLose1
-            // 
-            this.lblWinLose1.AutoSize = true;
-            this.lblWinLose1.Font = new System.Drawing.Font("Impact", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWinLose1.Location = new System.Drawing.Point(13, 160);
-            this.lblWinLose1.Name = "lblWinLose1";
-            this.lblWinLose1.Size = new System.Drawing.Size(59, 29);
-            this.lblWinLose1.TabIndex = 38;
-            this.lblWinLose1.Text = "WIN!";
-            // 
-            // lblWinLose2
-            // 
-            this.lblWinLose2.AutoSize = true;
-            this.lblWinLose2.Font = new System.Drawing.Font("Impact", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWinLose2.Location = new System.Drawing.Point(12, 160);
-            this.lblWinLose2.Name = "lblWinLose2";
-            this.lblWinLose2.Size = new System.Drawing.Size(59, 29);
-            this.lblWinLose2.TabIndex = 39;
-            this.lblWinLose2.Text = "WIN!";
-            // 
-            // lblWinLose3
-            // 
-            this.lblWinLose3.AutoSize = true;
-            this.lblWinLose3.Font = new System.Drawing.Font("Impact", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWinLose3.Location = new System.Drawing.Point(15, 160);
-            this.lblWinLose3.Name = "lblWinLose3";
-            this.lblWinLose3.Size = new System.Drawing.Size(59, 29);
-            this.lblWinLose3.TabIndex = 40;
-            this.lblWinLose3.Text = "WIN!";
-            // 
-            // lblWinLose5
-            // 
-            this.lblWinLose5.AutoSize = true;
-            this.lblWinLose5.Font = new System.Drawing.Font("Impact", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWinLose5.Location = new System.Drawing.Point(12, 160);
-            this.lblWinLose5.Name = "lblWinLose5";
-            this.lblWinLose5.Size = new System.Drawing.Size(59, 29);
-            this.lblWinLose5.TabIndex = 41;
-            this.lblWinLose5.Text = "WIN!";
-            // 
-            // lblWinLose6
-            // 
-            this.lblWinLose6.AutoSize = true;
-            this.lblWinLose6.Font = new System.Drawing.Font("Impact", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWinLose6.Location = new System.Drawing.Point(14, 160);
-            this.lblWinLose6.Name = "lblWinLose6";
-            this.lblWinLose6.Size = new System.Drawing.Size(59, 29);
-            this.lblWinLose6.TabIndex = 42;
-            this.lblWinLose6.Text = "WIN!";
-            // 
-            // lblWinLose4
-            // 
-            this.lblWinLose4.AutoSize = true;
-            this.lblWinLose4.Font = new System.Drawing.Font("Impact", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWinLose4.Location = new System.Drawing.Point(14, 160);
-            this.lblWinLose4.Name = "lblWinLose4";
-            this.lblWinLose4.Size = new System.Drawing.Size(59, 29);
-            this.lblWinLose4.TabIndex = 42;
-            this.lblWinLose4.Text = "WIN!";
             // 
             // frmDurakGame
             // 

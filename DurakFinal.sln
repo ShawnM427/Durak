@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DurakCommon", "DurakFinal\DurakCommon.csproj", "{491019DA-8910-431F-9142-AC6EA10ED4CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DurakClient", "DurakClient\DurakClient.csproj", "{930C48E0-BE4A-48DF-8122-1614B1D02787}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DurakTester", "DurakTester\DurakTester.csproj", "{75C7C15F-0E67-4FCF-89E7-898191F7B704}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DurakGame", "DurakGame\DurakGame.csproj", "{28AF177D-DBFF-41B7-A275-648E59CAE34A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardBox", "CardBox\CardBox.csproj", "{7347693D-88DF-4A84-ABF9-40901471AD3D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,14 +21,18 @@ Global
 		{491019DA-8910-431F-9142-AC6EA10ED4CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{491019DA-8910-431F-9142-AC6EA10ED4CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{491019DA-8910-431F-9142-AC6EA10ED4CA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{930C48E0-BE4A-48DF-8122-1614B1D02787}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{930C48E0-BE4A-48DF-8122-1614B1D02787}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{930C48E0-BE4A-48DF-8122-1614B1D02787}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{930C48E0-BE4A-48DF-8122-1614B1D02787}.Release|Any CPU.Build.0 = Release|Any CPU
 		{75C7C15F-0E67-4FCF-89E7-898191F7B704}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{75C7C15F-0E67-4FCF-89E7-898191F7B704}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75C7C15F-0E67-4FCF-89E7-898191F7B704}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75C7C15F-0E67-4FCF-89E7-898191F7B704}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28AF177D-DBFF-41B7-A275-648E59CAE34A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28AF177D-DBFF-41B7-A275-648E59CAE34A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28AF177D-DBFF-41B7-A275-648E59CAE34A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28AF177D-DBFF-41B7-A275-648E59CAE34A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7347693D-88DF-4A84-ABF9-40901471AD3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7347693D-88DF-4A84-ABF9-40901471AD3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7347693D-88DF-4A84-ABF9-40901471AD3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7347693D-88DF-4A84-ABF9-40901471AD3D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
