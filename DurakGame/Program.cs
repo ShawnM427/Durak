@@ -16,7 +16,11 @@ namespace DurakGame
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmDurakGame());
+
+            frmSplashScreen splash = new frmSplashScreen();
+            splash.ShowDialog();
+            
+            Application.Run(new frmDurakMain());
         }
     }
 }
