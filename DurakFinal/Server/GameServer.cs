@@ -227,7 +227,7 @@ namespace Durak.Server
             Utils.FillTypeList(AppDomain.CurrentDomain, myStateRules);
             Utils.FillTypeList(AppDomain.CurrentDomain, myInitRules);
         }
-                
+
         /// <summary>
         /// Starts up this server to start accepting messages
         /// </summary>
@@ -237,7 +237,7 @@ namespace Durak.Server
 
             // Simply start the server
             myServer.Start();
-            
+
             Log("Server Started on {0}:{1}", myAddress, myServer.Configuration.Port);
         }
 
@@ -337,7 +337,7 @@ namespace Durak.Server
                 updateMessage.Write((byte)state);
                 updateMessage.Write(reason);
                 SendToAll(updateMessage);
-                
+
                 // If we are now in game
                 if (state == ServerState.InGame)
                 {
@@ -377,9 +377,9 @@ namespace Durak.Server
             myGameState.Encode(msg);
 
             // Sends to all clients
-            SendToAll(msg);       
+            SendToAll(msg);
         }
-        
+
         /// <summary>
         /// Notifies a connection that the server is currently in the wrong state for that message
         /// </summary>
@@ -407,7 +407,7 @@ namespace Durak.Server
         {
             // Remove that player!
             myPlayers.Remove(player);
-            
+
             // Create the outgioing message
             NetOutgoingMessage outMsg = myServer.CreateMessage();
 
@@ -421,7 +421,26 @@ namespace Durak.Server
 
             // Send to all clients
             SendToAll(outMsg);
-            
+
+            // If this guy was the game host
+            if (player == myGameHost)
+            {
+                // Work up the chain, this will naturally pick the second person to join
+                for(byte index = 0; index < myPlayers.Count; index ++)
+                {
+                    // We only want the host to be not null
+                    if (myPlayers[index] != null)
+                    {
+                        // Update the local variable
+                        myGameHost = myPlayers[index];
+
+                        // Notify clients
+                        NotifyHostChanged(index);
+                        break;
+                    }
+                }
+            }
+
             // Get the player count
             int playersLeft = myServer.Connections.Count;
 
@@ -482,7 +501,7 @@ namespace Durak.Server
 
                 // Client can connect
                 connection.Approve();
-                
+
                 // Add the player to the player list
                 myPlayers[player.PlayerId] = player;
 
@@ -516,7 +535,7 @@ namespace Durak.Server
 
             msg.Write(myPlayers.PlayerCount);
 
-            for(byte index = 0; index < myPlayers.Count; index ++)
+            for (byte index = 0; index < myPlayers.Count; index++)
             {
                 if (myPlayers[index] != null)
                     myPlayers[index].Encode(msg);
@@ -546,11 +565,11 @@ namespace Durak.Server
                 if (!myPlayRules[index].IsValidMove(myPlayers, move, myGameState, ref failReason))
                 {
                     // Notify the source user
-                    NotifyInvalidMove(move, failReason); 
+                    NotifyInvalidMove(move, failReason);
 
                     if (LogLongRules)
                         Log("\tFailed rule \"{0}\": {1}", myPlayRules[index].ReadableName, failReason);
-                        return; // Do not send to other clients, so break out of method
+                    return; // Do not send to other clients, so break out of method
                 }
                 else if (LogLongRules)
                 {
@@ -571,10 +590,22 @@ namespace Durak.Server
             SendToAll(outMsg);
 
             // Update all the sucessfull move states
-            for(int index = 0; index < Rules.MOVE_SUCCESS_RULES.Count; index ++)
+            for (int index = 0; index < Rules.MOVE_SUCCESS_RULES.Count; index++)
             {
                 Rules.MOVE_SUCCESS_RULES[index].UpdateState(move, myPlayers, myGameState);
             }
+        }
+
+        /// <summary>
+        /// Notifies all clients that the game hsot has changed
+        /// </summary>
+        /// <param name="newHostId">The new host's player ID</param>
+        private void NotifyHostChanged(byte newHostId)
+        {
+            NetOutgoingMessage msg = myServer.CreateMessage();
+            msg.Write((byte)MessageType.HostChanged);
+            msg.Write(newHostId);
+            SendToAll(msg);
         }
 
         /// <summary>

@@ -119,6 +119,13 @@ namespace Durak.Common
         ///     GameState - state
         /// </summary>
         PlayerConnectInfo           = 134,
+        /// <summary>
+        /// Sent by the server to clients when the host has changed
+        /// 
+        /// Payload:
+        ///   byte    - new host ID
+        /// </summary>
+        HostChanged                 = 135,
 
         /// <summary>
         /// Sent by the client to request a card to be played
@@ -126,7 +133,7 @@ namespace Durak.Common
         /// Payload:
         ///     GameMove - move
         /// </summary>
-        SendMove = 150,
+        SendMove                    = 150,
         /// <summary>
         /// Sent by the server to notify a client that their requested move is invalid
         /// 
@@ -134,14 +141,14 @@ namespace Durak.Common
         ///     GameMove - move
         ///     string   - reason
         /// </summary>
-        InvalidMove = 151,
+        InvalidMove                 = 151,
         /// <summary>
         /// Sent by the server to ntify clients that a player has made a game move
         /// 
         /// Payload:
         ///     GameMove - move
         /// </summary>
-        SucessfullMove = 152,
+        SucessfullMove              = 152,
 
         /// <summary>
         /// Sent by the clients and the server for chat messages

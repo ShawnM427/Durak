@@ -117,6 +117,14 @@ namespace Durak.Client
         /// Invoked when a player is ready, this may be the client player
         /// </summary>
         public event EventHandler<Player> OnPlayerReady;
+        /// <summary>
+        /// Invoked when this client has become host
+        /// </summary>
+        public event EventHandler OnBecameHost;
+        /// <summary>
+        /// Invoked when the game host has changed, this will be invoked after OnBecameHost if applicable
+        /// </summary>
+        public event EventHandler<Player> OnHostChanged;
 
         /// <summary>
         /// Gets or sets an object tag for this client
@@ -437,6 +445,33 @@ namespace Durak.Client
             myLocalState.Decode(inMsg);
 
             myKnownPlayers[myPlayerId] = new Player(myPlayerId, myTag.Name, false);
+        }
+
+        /// <summary>
+        /// Handles the host changed message
+        /// </summary>
+        /// <param name="msg">The message to decode</param>
+        private void HandleHostUpdated(NetIncomingMessage msg)
+        {
+            byte hostId = msg.ReadByte();
+
+            // Update the player's info locally, we will assume the previous hose has left or will leave
+            myKnownPlayers[hostId].IsHost = true;
+
+            // If we are the new host
+            if (myPlayerId == hostId)
+            {
+                // Update local variable
+                isHost = true;
+
+                // Invoke our event
+                if (OnBecameHost != null)
+                    OnBecameHost(this, EventArgs.Empty);
+            }
+
+            // Invoke the host changed event
+            if (OnHostChanged != null)
+                OnHostChanged(this, myKnownPlayers[hostId]);
         }
 
         /// <summary>
