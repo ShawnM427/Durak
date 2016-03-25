@@ -376,7 +376,7 @@ namespace Durak.Common
         /// <param name="type">The parameter type</param>
         /// <param name="result">The value to store the result in</param>
         /// <param name="msg">The message to read from</param>
-        private static void DecodeInternal(String name, Type type, ref StateParameter result, NetIncomingMessage msg)
+        private static void DecodeInternal(String name, Type type, StateParameter result, NetIncomingMessage msg)
         {
             // Read the value
             switch (type)
@@ -433,26 +433,19 @@ namespace Durak.Common
             // Read the padding bits
             msg.ReadPadBits();
         }
-
+                
         /// <summary>
-        /// Decodes a State parameter from the given message
+        /// Decodes a state parameter from the message
         /// </summary>
         /// <param name="msg">The message to decode from</param>
-        /// <returns>The state loaded from the message</returns>
-        public static StateParameter Decode(NetIncomingMessage msg)
+        public void Decode(NetIncomingMessage msg)
         {
             // Read the name and type
             string name = msg.ReadString();
             Type type = (Type)msg.ReadByte();
-
-            // Define the result
-            StateParameter result = null;
-
+            
             // Decode the value
-            DecodeInternal(name, type, ref result, msg);
-
-            // Return the result
-            return result;
+            DecodeInternal(name, type, this, msg);
         }
 
         /// <summary>
@@ -505,7 +498,7 @@ namespace Durak.Common
                     break;
             }
             // Decode the value
-            DecodeInternal(name, type, ref result, msg);
+            DecodeInternal(name, type, result, msg);
             
             // Return the result
             return result;

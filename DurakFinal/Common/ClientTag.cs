@@ -1,5 +1,6 @@
 ﻿using Lidgren.Network;
 using System.Net;
+using System;
 
 namespace Durak.Common
 {
@@ -64,6 +65,25 @@ namespace Durak.Common
             result.myAddress = inMessage.SenderEndPoint;
 
             return result;
+        }
+
+        /// <summary>
+        /// Encodes this instance to a network message
+        /// </summary>
+        /// <param name="msg">The message to encode to</param>
+        public void Encode(NetOutgoingMessage msg)
+        {
+            msg.Write(myName);
+        }
+
+        /// <summary>
+        /// Decodes tis instance from a network message
+        /// </summary>
+        /// <param name="msg">The message to decode from</param>
+        public void Decode(NetIncomingMessage msg)
+        {
+            myAddress = msg.SenderEndPoint;
+            myName = msg.ReadString();
         }
     }
 }

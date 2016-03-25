@@ -1,4 +1,5 @@
-﻿using Durak.Common.Cards;
+﻿using System;
+using Durak.Common.Cards;
 using Lidgren.Network;
 
 namespace Durak.Common
@@ -37,7 +38,17 @@ namespace Durak.Common
         /// Gets or sets whether this player is ready for the game
         /// </summary>
         public bool IsReady { get; set; }
+        /// <summary>
+        /// Gets or sets whether this player instance is a host player
+        /// </summary>
+        public bool IsHost { get; set; }
 
+        /// <summary>
+        /// Creates a new player isntance
+        /// </summary>
+        /// <param name="playerId">The ID of this player</param>
+        /// <param name="name">This player's name</param>
+        /// <param name="isBot">Whether or not this player is a bot</param>
         public Player(byte playerId, string name, bool isBot)
         {
             PlayerId = playerId;
@@ -69,6 +80,36 @@ namespace Durak.Common
             : this(tag, playerId)
         {
             Connection = connection;
+        }
+
+        /// <summary>
+        /// Encodes this instance to a network message
+        /// </summary>
+        /// <param name="msg">The message to encode to</param>
+        public void Encode(NetOutgoingMessage msg)
+        {
+            msg.Write(PlayerId);
+            msg.Write(Name);
+            msg.Write(Hand.Count);
+            msg.Write(IsBot);
+            msg.Write(IsReady);
+            msg.Write(IsHost);
+            msg.WritePadBits();
+        }
+
+        /// <summary>
+        /// Encodes this instance to a network message
+        /// </summary>
+        /// <param name="msg">The message to encode to</param>
+        public void Decode(NetIncomingMessage msg)
+        {
+            PlayerId = msg.ReadByte();
+            Name = msg.ReadString();
+            NumCards = msg.ReadInt32();
+            IsBot = msg.ReadBoolean();
+            IsReady = msg.ReadBoolean();
+            IsHost = msg.ReadBoolean();
+            msg.ReadPadBits();
         }
     }
 }

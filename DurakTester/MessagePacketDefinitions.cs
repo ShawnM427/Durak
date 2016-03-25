@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Durak.Common
 {
+    /// <summary>
+    /// These message definitions are for client-side to server-side only
+    /// </summary>
     public class MessagePacketDefinitions
     {
         private static Dictionary<MessageType, PayloadParameter[]> myPayloads;
@@ -30,8 +33,8 @@ namespace Durak.Common
             });
 
             // Note that we cannot easily define these
-            myPayloads.Add(MessageType.GameStateChanged, null);
-            myPayloads.Add(MessageType.FullGameStateTransfer, null);
+            //myPayloads.Add(MessageType.GameStateChanged, null);
+            //myPayloads.Add(MessageType.FullGameStateTransfer, null);
 
             myPayloads.Add(MessageType.RequestServerState,
             new PayloadParameter[] { });
@@ -49,31 +52,26 @@ namespace Durak.Common
 
             myPayloads.Add(MessageType.PlayerJoined,
             new PayloadParameter[] {
-                new PayloadParameter("Player ID", PayloadParamType.PlayerID),
                 new PayloadParameter("Player Name", PayloadParamType.String)
             });
 
             myPayloads.Add(MessageType.PlayerLeft,
             new PayloadParameter[] {
-                new PayloadParameter("Player ID", PayloadParamType.PlayerID),
                 new PayloadParameter("Player Name", PayloadParamType.String)
             });
 
             myPayloads.Add(MessageType.PlayerReady,
             new PayloadParameter[] {
-                new PayloadParameter("Player ID", PayloadParamType.PlayerID),
                 new PayloadParameter("Player Ready", PayloadParamType.Boolean)
             });
 
             myPayloads.Add(MessageType.PlayerKicked,
             new PayloadParameter[] {
-                new PayloadParameter("Player ID", PayloadParamType.PlayerID),
                 new PayloadParameter("Reason", PayloadParamType.String)
             });
 
             myPayloads.Add(MessageType.SendMove,
             new PayloadParameter[] {
-                new PayloadParameter("Player ID", PayloadParamType.PlayerID),
                 new PayloadParameter("Has Value", PayloadParamType.Boolean),
                 new PayloadParameter("Card Rank", PayloadParamType.CardRank),
                 new PayloadParameter("Card Suit", PayloadParamType.CardSuit)
@@ -96,7 +94,6 @@ namespace Durak.Common
 
             myPayloads.Add(MessageType.PlayerChat,
             new PayloadParameter[] {
-                new PayloadParameter("Player ID", PayloadParamType.PlayerID),
                 new PayloadParameter("Message", PayloadParamType.String)
             });
         }

@@ -1,6 +1,7 @@
 ﻿using Durak.Common.Cards;
 using Lidgren.Network;
 using System.Linq;
+using System;
 
 namespace Durak.Common
 {
@@ -17,7 +18,7 @@ namespace Durak.Common
         /// Stores the card to be played
         /// </summary>
         private PlayingCard myMove;
-
+        
         /// <summary>
         /// Creates a new game move with the given playerID
         /// </summary>
@@ -48,7 +49,7 @@ namespace Durak.Common
         /// Writes this game move to the given network packet
         /// </summary>
         /// <param name="outMessage">The message to write to</param>
-        public void WriteToPacket(NetOutgoingMessage outMessage)
+        public void Encode(NetOutgoingMessage outMessage)
         {
             // Just transfer that name
             outMessage.Write(myPlayer.PlayerId);
@@ -70,7 +71,7 @@ namespace Durak.Common
         /// <param name="inMessage">The message to read from</param>
         /// <param name="players">The player collection to get the player from</param>
         /// <returns>The Game Move read from the packet</returns>
-        public static GameMove ReadFromPacket(NetIncomingMessage inMessage, PlayerCollection players)
+        public static GameMove Decode(NetIncomingMessage inMessage, PlayerCollection players)
         {
             GameMove result = new GameMove();
 

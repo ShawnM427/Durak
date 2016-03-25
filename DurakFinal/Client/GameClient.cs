@@ -274,6 +274,9 @@ namespace Durak.Client
         {
             if (myConnectedServer == null)
             {
+                // Hash the password before sending
+                serverPassword = SecurityUtils.Hash(serverPassword);
+
                 // Write the hail message and send it
                 NetOutgoingMessage hailMessage = myPeer.CreateMessage();
                 myTag.WriteToPacket(hailMessage);
@@ -408,8 +411,7 @@ namespace Durak.Client
         /// <param name="inMsg">The message to decode from</param>
         private void HandleStateChanged(NetIncomingMessage inMsg)
         {
-            StateParameter param = StateParameter.Decode(inMsg);
-            myLocalState.UpdateParam(param);
+            StateParameter.Decode(inMsg, myLocalState);
         }
 
         /// <summary>
@@ -421,6 +423,16 @@ namespace Durak.Client
             myPlayerId = inMsg.ReadByte();
             isHost = inMsg.ReadBoolean();
             inMsg.ReadPadBits();
+
+            int numPlayers = inMsg.ReadByte();
+
+            for (int index = 0; index < numPlayers; index++)
+            {
+                Player player = new Player(0, "", false);
+                player.Decode(inMsg);
+
+                myKnownPlayers[player.PlayerId] = player;
+            }
 
             myLocalState.Decode(inMsg);
 
@@ -547,7 +559,7 @@ namespace Durak.Client
         /// <param name="inMsg">The message to decode</param>
         private void HandleMoveReceived(NetIncomingMessage inMsg)
         {
-            GameMove move = GameMove.ReadFromPacket(inMsg, myKnownPlayers);
+            GameMove move = GameMove.Decode(inMsg, myKnownPlayers);
 
             if (OnMoveReceived != null)
                 OnMoveReceived(this, move);
@@ -559,7 +571,7 @@ namespace Durak.Client
         /// <param name="inMsg">The message to decode</param>
         private void HandleInvalidMove(NetIncomingMessage inMsg)
         {
-            GameMove move = GameMove.ReadFromPacket(inMsg, myKnownPlayers);
+            GameMove move = GameMove.Decode(inMsg, myKnownPlayers);
 
             if (OnInvalidMove != null)
                 OnInvalidMove(this, move);
@@ -621,7 +633,7 @@ namespace Durak.Client
                 GameMove move = new GameMove(myKnownPlayers[myPlayerId], card);
 
                 NetOutgoingMessage msg = myPeer.CreateMessage();
-                move.WriteToPacket(msg);
+                move.Encode(msg);
                 Send(msg);
             }
         }
