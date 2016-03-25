@@ -14,7 +14,7 @@ using System.Windows.Forms;
 
 namespace DurakTester
 {
-    public partial class ClientView : Form
+    public partial class frmClientView : Form
     {
         private class MessageInput
         {
@@ -35,7 +35,7 @@ namespace DurakTester
             set { SetClient(value); }
         }
 
-        public ClientView()
+        public frmClientView()
         {
             InitializeComponent();
 

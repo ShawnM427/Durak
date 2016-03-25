@@ -11,17 +11,17 @@ using System.Windows.Forms;
 
 namespace DurakTester
 {
-    public partial class Form1 : Form
+    public partial class frmMain : Form
     {
-        ClientView[] myClients;
+        frmClientView[] myClients;
         GameServer myServer;
         IPAddress myServerAddress;
 
-        public Form1()
+        public frmMain()
         {
             InitializeComponent();
 
-            myClients = new ClientView[4];
+            myClients = new frmClientView[4];
             
             for (int index = 0; index < myClients.Length; index ++)
             {
@@ -115,7 +115,7 @@ namespace DurakTester
 
                 if (tag != null)
                 {
-                    tag.Viewer = new ClientView();
+                    tag.Viewer = new frmClientView();
 
                     tag.Viewer.Show();
                     tag.Viewer.SetClient(new GameClient(new Durak.Common.ClientTag("Player " + tag.Index)));
@@ -130,7 +130,7 @@ namespace DurakTester
         {
             public Button Start;
             public Button End;
-            public ClientView Viewer;
+            public frmClientView Viewer;
             public int Index;
         }
 

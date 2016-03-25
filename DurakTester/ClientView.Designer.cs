@@ -1,6 +1,6 @@
 ﻿namespace DurakTester
 {
-    partial class ClientView
+    partial class frmClientView
     {
         /// <summary>
         /// Required designer variable.
@@ -36,8 +36,8 @@
             this.grpMessageParams = new System.Windows.Forms.GroupBox();
             this.cmbMessageType = new System.Windows.Forms.ComboBox();
             this.lblMessage = new System.Windows.Forms.Label();
-            this.gsvClientState = new DurakTester.GameStateVisualizer();
             this.cmbCards = new System.Windows.Forms.ComboBox();
+            this.gsvClientState = new DurakTester.GameStateVisualizer();
             this.grpClientControls.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -122,13 +122,6 @@
             this.lblMessage.TabIndex = 2;
             this.lblMessage.Text = "Message:";
             // 
-            // gsvClientState
-            // 
-            this.gsvClientState.Location = new System.Drawing.Point(399, 12);
-            this.gsvClientState.Name = "gsvClientState";
-            this.gsvClientState.Size = new System.Drawing.Size(460, 313);
-            this.gsvClientState.TabIndex = 5;
-            // 
             // cmbCards
             // 
             this.cmbCards.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -138,19 +131,28 @@
             this.cmbCards.Size = new System.Drawing.Size(105, 21);
             this.cmbCards.TabIndex = 6;
             // 
-            // ClientView
+            // gsvClientState
+            // 
+            this.gsvClientState.Location = new System.Drawing.Point(399, 12);
+            this.gsvClientState.Name = "gsvClientState";
+            this.gsvClientState.Size = new System.Drawing.Size(398, 313);
+            this.gsvClientState.TabIndex = 5;
+            // 
+            // frmClientView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(871, 336);
+            this.ClientSize = new System.Drawing.Size(810, 336);
             this.Controls.Add(this.cmbCards);
             this.Controls.Add(this.gsvClientState);
             this.Controls.Add(this.grpClientControls);
             this.Controls.Add(this.btnDisconnect);
             this.Controls.Add(this.btnConnect);
             this.Controls.Add(this.btnDiscover);
-            this.Name = "ClientView";
-            this.Text = "ClientView";
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.Name = "frmClientView";
+            this.Text = "Client View";
             this.grpClientControls.ResumeLayout(false);
             this.grpClientControls.PerformLayout();
             this.ResumeLayout(false);
