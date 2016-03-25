@@ -95,6 +95,29 @@ namespace Durak.Server
         {
             get { return myGameState; }
         }
+        /// <summary>
+        /// Gets or sets this server's name as discplayed in server browsers
+        /// </summary>
+        public string Name
+        {
+            get { return myTag.Name; }
+            set { myTag.Name = value; }
+        }
+        /// <summary>
+        /// Gets or sets a short description for this server
+        /// </summary>
+        public string Description
+        {
+            get { return myTag.Description; }
+            set { myTag.Description = value; }
+        }
+        /// <summary>
+        /// Sets the password for this server. As it is hashed, we cannot retreive it
+        /// </summary>
+        public string Password
+        {
+            set { myPassword = SecurityUtils.Hash(value); }
+        }
 
         /// <summary>
         /// Creates a new instance of a game server
@@ -393,6 +416,9 @@ namespace Durak.Server
             outMsg.Write(player.PlayerId);
             outMsg.Write(reason);
 
+            // Update the tag
+            myTag.PlayerCount = myPlayers.PlayerCount;
+
             // Send to all clients
             SendToAll(outMsg);
             
@@ -443,6 +469,14 @@ namespace Durak.Server
                 // Create the serverside player isntance
                 Player player = new Player(clientTag, connection, (byte)id);
 
+                // If this is the first player, they are immediately the host
+                if (id == 0)
+                {
+                    myGameHost = player;
+                    player.IsHost = true;
+                    Log("Setting host to \"{0}\"", player.Name);
+                }
+
                 // Notify other players
                 NotifyPlayerJoined(player);
 
@@ -452,12 +486,9 @@ namespace Durak.Server
                 // Add the player to the player list
                 myPlayers[player.PlayerId] = player;
 
-                // If this is the first player, they are immediately the host
-                if (id == 0)
-                {
-                    myGameHost = player;
-                    Log("Setting host to \"{0}\"", player.Name);
-                }
+                // Update the tag
+                myTag.PlayerCount = myPlayers.PlayerCount;
+
 
             }
             else
@@ -482,6 +513,15 @@ namespace Durak.Server
             msg.Write((byte)playerId);
             msg.Write((bool)(player == myGameHost));
             msg.WritePadBits();
+
+            msg.Write(myPlayers.PlayerCount);
+
+            for(byte index = 0; index < myPlayers.Count; index ++)
+            {
+                if (myPlayers[index] != null)
+                    myPlayers[index].Encode(msg);
+            }
+
             myGameState.Encode(msg);
 
             // Send the message to the client
@@ -525,7 +565,7 @@ namespace Durak.Server
 
             // Write the header and move to the message
             outMsg.Write((byte)MessageType.SucessfullMove);
-            move.WriteToPacket(outMsg);
+            move.Encode(outMsg);
 
             // Send to all connected clients
             SendToAll(outMsg);
@@ -548,7 +588,7 @@ namespace Durak.Server
 
             // Write the header and the bad move to the packet
             outMsg.Write((byte)MessageType.InvalidMove);
-            move.WriteToPacket(outMsg);
+            move.Encode(outMsg);
             outMsg.Write(reason);
 
             // Send the packet
@@ -736,7 +776,7 @@ namespace Durak.Server
         private void HandleGameMove(NetIncomingMessage msg)
         {
             // Reads move from the packet
-            GameMove move = GameMove.ReadFromPacket(msg, myPlayers);
+            GameMove move = GameMove.Decode(msg, myPlayers);
 
             // We only handle moves in game
             if (myState == ServerState.InGame)
