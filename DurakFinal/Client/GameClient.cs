@@ -1,4 +1,5 @@
 ﻿using Durak.Common;
+using Durak.Common.Cards;
 using Lidgren.Network;
 using System;
 using System.Collections;
@@ -39,6 +40,22 @@ namespace Durak.Client
         /// Stores whether or not this client is the host
         /// </summary>
         private bool isHost;
+        /// <summary>
+        /// Stores the packet handlers
+        /// </summary>
+        private Dictionary<MessageType, PacketHandler> myMessageHandlers;
+        /// <summary>
+        /// Stores the client's local game state
+        /// </summary>
+        private GameState myLocalState;
+        /// <summary>
+        /// Stores the local know play collection
+        /// </summary>
+        private PlayerCollection myKnownPlayers;
+        /// <summary>
+        /// Stores whether this client is ready
+        /// </summary>
+        private bool isReady = false;
 
         /// <summary>
         /// Invoked when the client connects to a server
@@ -60,6 +77,46 @@ namespace Durak.Client
         /// Invoked when a server has been discovered, note that 1 server can be discovered multiple times
         /// </summary>
         public event ServerDiscoveredEvent OnServerDiscovered;
+        /// <summary>
+        /// Invoked when the server state has been updated
+        /// </summary>
+        public event EventHandler<ServerState> OnServerStateUpdated;
+        /// <summary>
+        /// Invoked when the invalid server state packet has been received
+        /// </summary>
+        public event EventHandler<string> OnInvalidServerState;
+        /// <summary>
+        /// Invoked when a player or bot joins the game
+        /// </summary>
+        public event EventHandler<Player> OnPlayerConnected;
+        /// <summary>
+        /// Invoked when a player has left the game, but before they are removed from the local player collection
+        /// </summary>
+        public event PlayerLeftEvent OnPlayerLeft;
+        /// <summary>
+        /// Invoked when a player has left the game, but before they are removed from the local player collection
+        /// </summary>
+        public event PlayerLeftEvent OnPlayerKicked;
+        /// <summary>
+        /// Invoked when this client has been kicked from the game
+        /// </summary>
+        public event EventHandler<string> OnKicked;
+        /// <summary>
+        /// Invoked when a player has made a move. This may be a move that this client has played
+        /// </summary>
+        public event EventHandler<GameMove> OnMoveReceived;
+        /// <summary>
+        /// Invoked when this client has made an invalid move
+        /// </summary>
+        public event EventHandler<GameMove> OnInvalidMove;
+        /// <summary>
+        /// Invoked when a player has sent a chat message, this message may come from this client
+        /// </summary>
+        public event PlayerChatEvent OnPlayerChat;
+        /// <summary>
+        /// Invoked when a player is ready, this may be the client player
+        /// </summary>
+        public event EventHandler<Player> OnPlayerReady;
 
         /// <summary>
         /// Gets or sets an object tag for this client
@@ -68,6 +125,26 @@ namespace Durak.Client
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// Gets or sets whether this client is ready to play
+        /// </summary>
+        public bool IsReady
+        {
+            get { return isReady; }
+            set
+            {
+                if (value != isReady)
+                    SetReadiness(isReady);
+            }
+        }
+        /// <summary>
+        /// Gets whether this client is connected to a server
+        /// </summary>
+        public bool IsConnected
+        {
+            get { return (myConnectedServer != null && myPeer.ConnectionsCount > 0); }
         }
 
         /// <summary>
@@ -100,6 +177,14 @@ namespace Durak.Client
             // Gets the IP for this client
             myAddress = NetUtils.GetAddress();
 
+            // Create the dictionary
+            myMessageHandlers = new Dictionary<MessageType, PacketHandler>();
+
+            // Make the local game state
+            myLocalState = new GameState();
+            // Make the player collection
+            myKnownPlayers = new PlayerCollection();
+
             // Allow incoming connections
             netConfig.AcceptIncomingConnections = true;
             // Set the ping interval
@@ -127,6 +212,31 @@ namespace Durak.Client
 
             // Register the callback function. Lidgren will handle the threading for us
             myPeer.RegisterReceivedCallback(new SendOrPostCallback(MessageReceived));
+
+            // Add all the handlers
+            myMessageHandlers.Add(MessageType.PlayerConnectInfo, HandleConnectInfo);
+            myMessageHandlers.Add(MessageType.GameStateChanged, HandleStateChanged);
+            myMessageHandlers.Add(MessageType.FullGameStateTransfer, HandleStateReceived);
+            myMessageHandlers.Add(MessageType.InvalidServerState, HandleInvalidServerState);
+            myMessageHandlers.Add(MessageType.NotifyServerStateChanged, HandleServerStateReceived);
+
+            myMessageHandlers.Add(MessageType.PlayerJoined, HandlePlayerJoined);
+            myMessageHandlers.Add(MessageType.PlayerLeft, HandlePlayerLeft);
+            myMessageHandlers.Add(MessageType.PlayerKicked, HandlePlayerKicked);
+
+            myMessageHandlers.Add(MessageType.SucessfullMove, HandleMoveReceived);
+            myMessageHandlers.Add(MessageType.InvalidMove, HandleInvalidMove);
+            myMessageHandlers.Add(MessageType.PlayerChat, HandlePlayerChat);
+            myMessageHandlers.Add(MessageType.PlayerReady, HandlePlayerReady);
+        }
+
+        /// <summary>
+        /// Starts up this server to start accepting messages
+        /// </summary>
+        public void Run()
+        {
+            // Start listening to messages
+            myPeer.Start();
         }
 
         /// <summary>
@@ -189,8 +299,8 @@ namespace Durak.Client
             NetIncomingMessage inMsg = ((NetPeer)state).ReadMessage();
 
             // We don't want the server to crash on one bad packet
-            try
-            {
+            //try
+            //{
                 // Determine the message type to correctly handle it
                 switch (inMsg.MessageType)
                 {
@@ -227,7 +337,11 @@ namespace Durak.Client
                                         OnConnectionFailed(this, reason);
                                 }
 
+                                // Clear local state and forget connected server tag
+                                myLocalState.Clear();
                                 myConnectedServer = null;
+                                isReady = false;
+                                isHost = false;
                                 
                                 break;
 
@@ -259,14 +373,16 @@ namespace Durak.Client
                         HandleMessage(inMsg);
                         break;
                 }
-            }
+            //}
             // An exception has occured parsing the packet
-            catch (Exception e)
-            {
+            //catch (Exception e)
+            //{
                 // Log the exception
-                Logger.Write(e.Message);
-            }
+            //    Logger.Write(e.Message);
+            //}
         }
+
+        #region Message Handlers
 
         /// <summary>
         /// Handles an incoming data message
@@ -275,27 +391,204 @@ namespace Durak.Client
         private void HandleMessage(NetIncomingMessage inMsg)
         {
             // Read the message type
-            MessageType type = (MessageType)inMsg.ReadByte();
+            MessageType messageType = (MessageType)inMsg.ReadByte();
 
-            switch (type)
+            if (myMessageHandlers.ContainsKey(messageType))
+                myMessageHandlers[messageType].Invoke(inMsg);
+            else
             {
-                case MessageType.PlayerConnectInfo:
-                    // Reads the welcome message in
-                    myPlayerId = inMsg.ReadByte();
-                    isHost = inMsg.ReadBoolean();
-                    inMsg.ReadPadBits();
-
-                    break;
+                // Logs the message
+                Logger.Write("Invalid message received from server ({0})", inMsg.SenderEndPoint);
             }
         }
 
         /// <summary>
-        /// Starts up this server to start accepting messages
+        /// Handles when the state parameter changed message has been received
         /// </summary>
-        public void Run()
+        /// <param name="inMsg">The message to decode from</param>
+        private void HandleStateChanged(NetIncomingMessage inMsg)
         {
-            // Start listening to messages
-            myPeer.Start();
+            StateParameter param = StateParameter.Decode(inMsg);
+            myLocalState.UpdateParam(param);
+        }
+
+        /// <summary>
+        /// Handles when the connection info packet was recevied
+        /// </summary>
+        /// <param name="inMsg">The message to read</param>
+        private void HandleConnectInfo(NetIncomingMessage inMsg)
+        {
+            myPlayerId = inMsg.ReadByte();
+            isHost = inMsg.ReadBoolean();
+            inMsg.ReadPadBits();
+
+            myLocalState.Decode(inMsg);
+
+            myKnownPlayers[myPlayerId] = new Player(myPlayerId, myTag.Name, false);
+        }
+
+        /// <summary>
+        /// Handles when the game state transfer packet has been received
+        /// </summary>
+        /// <param name="inMsg">The message to decode</param>
+        private void HandleStateReceived(NetIncomingMessage inMsg)
+        {
+            myLocalState.Decode(inMsg);
+        }
+
+        /// <summary>
+        /// Handles the serverStateUpdated packet type
+        /// </summary>
+        /// <param name="inMsg">The message to decode</param>
+        private void HandleServerStateReceived(NetIncomingMessage inMsg)
+        {
+            if (myConnectedServer != null)
+            {
+                ServerTag tag = myConnectedServer.Value;
+                tag.State = (ServerState)inMsg.ReadByte();
+                myConnectedServer = tag;
+
+                if (OnServerStateUpdated != null)
+                    OnServerStateUpdated(this, tag.State);
+            }
+        }
+
+        /// <summary>
+        /// Handles when the invalid server state message has been received
+        /// </summary>
+        /// <param name="inMsg">The message to decode</param>
+        private void HandleInvalidServerState(NetIncomingMessage inMsg)
+        {
+            if (myConnectedServer != null)
+            {
+                string reason = inMsg.ReadString();
+
+                if (OnInvalidServerState != null)
+                    OnInvalidServerState(this, reason);
+            }
+        }
+
+        /// <summary>
+        /// Handles the player joined message
+        /// </summary>
+        /// <param name="inMsg">The message to decode</param>
+        private void HandlePlayerJoined(NetIncomingMessage inMsg)
+        {
+            byte playerId = inMsg.ReadByte();
+            string name = inMsg.ReadString();
+            bool isBot = inMsg.ReadBoolean();
+            inMsg.ReadPadBits();
+
+            myKnownPlayers[playerId] = new Player(playerId, name, isBot);
+
+            if (OnPlayerConnected != null)
+                OnPlayerConnected(this, myKnownPlayers[playerId]);
+        }
+
+        /// <summary>
+        /// Handles the player left message
+        /// </summary>
+        /// <param name="inMsg">The message to decode</param>
+        private void HandlePlayerLeft(NetIncomingMessage inMsg)
+        {
+            byte playerId = inMsg.ReadByte();
+            string reason = inMsg.ReadString();
+
+            if (OnPlayerLeft != null)
+                OnPlayerLeft(this, myKnownPlayers[playerId], reason);
+
+            myKnownPlayers[playerId] = null;
+        }
+
+        /// <summary>
+        /// Handles the player ready packet
+        /// </summary>
+        /// <param name="inMsg">The message to decode</param>
+        private void HandlePlayerReady(NetIncomingMessage inMsg)
+        {
+            byte playerId = inMsg.ReadByte();
+            bool isReady = inMsg.ReadBoolean();
+            inMsg.ReadPadBits();
+
+            myKnownPlayers[playerId].IsReady = isReady;
+
+            if (OnPlayerReady != null)
+                OnPlayerReady(this, myKnownPlayers[playerId]);
+        }
+
+        /// <summary>
+        /// Handles the player kicked message
+        /// </summary>
+        /// <param name="inMsg">The message to decode</param>
+        private void HandlePlayerKicked(NetIncomingMessage inMsg)
+        {
+            byte playerId = inMsg.ReadByte();
+            string reason = inMsg.ReadString();
+
+            if (playerId != myPlayerId)
+            {
+                if (OnPlayerKicked != null)
+                    OnPlayerKicked(this, myKnownPlayers[playerId], reason);
+
+                myKnownPlayers[playerId] = null;
+            }
+            else
+            {
+                myConnectedServer = null;
+
+                if (OnKicked != null)
+                    OnKicked(this, reason);
+            }
+        }
+
+        /// <summary>
+        /// Handles the move played packet
+        /// </summary>
+        /// <param name="inMsg">The message to decode</param>
+        private void HandleMoveReceived(NetIncomingMessage inMsg)
+        {
+            GameMove move = GameMove.ReadFromPacket(inMsg, myKnownPlayers);
+
+            if (OnMoveReceived != null)
+                OnMoveReceived(this, move);
+        }
+
+        /// <summary>
+        /// Handles the invalid move packet
+        /// </summary>
+        /// <param name="inMsg">The message to decode</param>
+        private void HandleInvalidMove(NetIncomingMessage inMsg)
+        {
+            GameMove move = GameMove.ReadFromPacket(inMsg, myKnownPlayers);
+
+            if (OnInvalidMove != null)
+                OnInvalidMove(this, move);
+        }
+
+        /// <summary>
+        /// Handles the player chat message
+        /// </summary>
+        /// <param name="inMsg">The message to decode</param>
+        private void HandlePlayerChat(NetIncomingMessage inMsg)
+        {
+            byte playerId = inMsg.ReadByte();
+            string message = inMsg.ReadString();
+
+            if (OnPlayerChat != null)
+                OnPlayerChat(this, myKnownPlayers[playerId], message);
+        }
+
+        #endregion
+
+        #region Utils
+
+        /// <summary>
+        /// Sends a message to the server
+        /// </summary>
+        /// <param name="msg">The message to send</param>
+        private void Send(NetOutgoingMessage msg)
+        {
+            myPeer.SendMessage(msg, myPeer.Connections, NetDeliveryMethod.ReliableOrdered, 0);
         }
 
         /// <summary>
@@ -306,24 +599,111 @@ namespace Durak.Client
             // Discover local peers :D
             myPeer.DiscoverLocalPeers(NetSettings.DEFAULT_SERVER_PORT);
 
-
+            // Get the IP range to ping
             IPSegment segment = new IPSegment(NetUtils.GetGateway(myAddress).ToString(), NetUtils.GetSubnetMask(myAddress).ToString());
 
+            // Get an enumerable result
             IEnumerable<uint> hosts = segment.Hosts();
 
+            // Iterate and ping each one
             foreach(uint host in hosts)
-            {
                 myPeer.DiscoverKnownPeer(host.ToIpString(), NetSettings.DEFAULT_SERVER_PORT);
-            }
-
-            // Get subnet
-            // Use subnet to determine prefix
-            // Calculate number of IP's in network
-
-            // Iterate over all IP's
-            //  Send a discovery
-
         }
+        
+        /// <summary>
+        /// Requests for a move to be made by this client
+        /// </summary>
+        /// <param name="card">The card to play</param>
+        public void RequestMove(PlayingCard card)
+        {
+            if (IsConnected)
+            {
+                GameMove move = new GameMove(myKnownPlayers[myPlayerId], card);
+
+                NetOutgoingMessage msg = myPeer.CreateMessage();
+                move.WriteToPacket(msg);
+                Send(msg);
+            }
+        }
+
+        /// <summary>
+        /// Sends a chat message to the server
+        /// </summary>
+        /// <param name="message">The message to send</param>
+        public void SendChatMessage(string message)
+        {
+            if (myConnectedServer != null && myPeer.ConnectionsCount > 0)
+            {
+                NetOutgoingMessage msg = myPeer.CreateMessage();
+                msg.Write(message);
+                Send(msg);
+            }
+        }
+
+        /// <summary>
+        /// Requests for a player to be kicked. Will only be sent if client is host
+        /// </summary>
+        /// <param name="player">The player to kick</param>
+        /// <param name="reason">The reason they want the player kicked</param>
+        public void RequestKick(Player player, string reason)
+        {
+            if (IsConnected && isHost)
+            {
+                NetOutgoingMessage msg = myPeer.CreateMessage();
+                msg.Write(player.PlayerId);
+                msg.Write(reason);
+                Send(msg);
+            }
+        }
+
+        /// <summary>
+        /// Requests a bot to be added to the game, will only be sent if host
+        /// </summary>
+        /// <param name="difficulty">The difficulty of the bot, with 0 being dumb and 255 super smart</param>
+        /// <param name="name">The name of the bot</param>
+        public void RequestBot(byte difficulty, string name)
+        {
+            if (IsConnected && isHost)
+            {
+                NetOutgoingMessage msg = myPeer.CreateMessage();
+                msg.Write(difficulty);
+                msg.Write(name);
+                Send(msg);
+            }
+        }
+
+        /// <summary>
+        /// Sets this client's readiness
+        /// </summary>
+        /// <param name="ready">True if this client is ready to play, false if otherwise</param>
+        public void SetReadiness(bool ready)
+        {
+            if (myConnectedServer != null && myPeer.ConnectionsCount > 0)
+            {
+                isReady = ready;
+
+                NetOutgoingMessage msg = myPeer.CreateMessage();
+                msg.Write(ready);
+                Send(msg);
+            }
+        }
+
+        /// <summary>
+        /// Queries the connected server's state, this will invoke the OnServerStateUpdated event when received
+        /// </summary>
+        public void QueryServerState()
+        {
+            if (myConnectedServer != null && myPeer.ConnectionsCount > 0)
+            {
+                NetOutgoingMessage msg = myPeer.CreateMessage();
+                msg.Write((byte)MessageType.RequestServerState);
+                Send(msg);
+            }
+        }
+
+        #endregion
+
+        #if DEBUG
 
         /// <summary>
         /// Prepare messages for debug purposes. This should not be used in final code
@@ -344,12 +724,7 @@ namespace Durak.Client
             if (myPeer.Connections.Count > 0)
                 myPeer.SendMessage(msg, myPeer.Connections, NetDeliveryMethod.ReliableOrdered, 0);
         }
-    }
 
-    /// <summary>
-    /// Delegate for handling when a new server is discovered
-    /// </summary>
-    /// <param name="sender">The object that raised the event</param>
-    /// <param name="tag">The server tag of the server that was discovered</param>
-    public delegate void ServerDiscoveredEvent(object sender, ServerTag tag);
+        #endif
+    }
 }

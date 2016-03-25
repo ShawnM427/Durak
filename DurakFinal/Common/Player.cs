@@ -38,6 +38,14 @@ namespace Durak.Common
         /// </summary>
         public bool IsReady { get; set; }
 
+        public Player(byte playerId, string name, bool isBot)
+        {
+            PlayerId = playerId;
+            Name = name;
+            IsBot = isBot;
+            Hand = new CardCollection();
+        }
+
         /// <summary>
         /// Creates a new client-side player instance
         /// </summary>

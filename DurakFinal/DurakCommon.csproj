@@ -64,6 +64,7 @@
     <Compile Include="Cards\PlayingCard.cs" />
     <Compile Include="Common\ClientTag.cs" />
     <Compile Include="Client\GameClient.cs" />
+    <Compile Include="Common\Delegates.cs" />
     <Compile Include="Common\GameMove.cs" />
     <Compile Include="Common\GameState.cs" />
     <Compile Include="Common\Logger.cs" />

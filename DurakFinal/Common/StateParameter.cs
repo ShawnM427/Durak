@@ -210,7 +210,7 @@ namespace Durak.Common
         internal void SetValueInternal<T>(T value)
         {
             // Make sure type is supported
-            if (SUPPORTED_TYPES.ContainsKey(typeof(T)) && myType == SUPPORTED_TYPES[typeof(T)])
+            if (SUPPORTED_TYPES.ContainsKey(value.GetType()) && myType == SUPPORTED_TYPES[value.GetType()])
             {
                 // update myType and myValue
                 myValue = value;
@@ -340,7 +340,7 @@ namespace Durak.Common
                         msg.Write((string)myValue);
                         break;
                     case Type.PlayingCard:
-                        msg.Write(myValue == null);
+                        msg.Write(myValue != null);
 
                         if (myValue != null)
                         {
@@ -353,7 +353,7 @@ namespace Durak.Common
 
                         foreach (PlayingCard card in (myValue as CardCollection))
                         {
-                            msg.Write(card == null);
+                            msg.Write(card != null);
 
                             if (card != null)
                             {
@@ -407,7 +407,7 @@ namespace Durak.Common
                     break;
                 case Type.PlayingCard:
                     if (msg.ReadBoolean())
-                        result = new StateParameter(name, new PlayingCard((CardRank)msg.ReadByte(), (CardSuit)msg.ReadByte()) { FaceUp = true });
+                        result = StateParameter.Construct<PlayingCard>(name, new PlayingCard((CardRank)msg.ReadByte(), (CardSuit)msg.ReadByte()) { FaceUp = true }, true);
                     else
                         result = StateParameter.Construct<PlayingCard>(name, null, true);
                     break;
@@ -425,7 +425,7 @@ namespace Durak.Common
                             resultCollection.Add(new PlayingCard((CardRank)msg.ReadByte(), (CardSuit)msg.ReadByte()));
                         }
                     }
-                    result = new StateParameter(name, resultCollection);
+                    result = StateParameter.Construct<CardCollection>(name, resultCollection, true);
                     break;
 
             }
@@ -469,8 +469,41 @@ namespace Durak.Common
             Type type = (Type)msg.ReadByte();
 
             // Get result from state
-            StateParameter result = state.GetParameter(name, SUPPORTED_TYPES.FirstOrDefault(x => x.Value == type).Key);
+            StateParameter result = null;
 
+            switch (type)
+            {
+                case Type.Byte:
+                    result = state.GetParameter<byte>(name);
+                    break;
+                case Type.Char:
+                    result = state.GetParameter<char>(name);
+                    break;
+                case Type.Short:
+                    result = state.GetParameter<short>(name);
+                    break;
+                case Type.Int:
+                    result = state.GetParameter<int>(name);
+                    break;
+                case Type.Bool:
+                    result = state.GetParameter<bool>(name);
+                    break;
+                case Type.CardSuit:
+                    result = state.GetParameter<CardSuit>(name);
+                    break;
+                case Type.CardRank:
+                    result = state.GetParameter<CardRank>(name);
+                    break;
+                case Type.String:
+                    result = state.GetParameter<String>(name);
+                    break;
+                case Type.PlayingCard:
+                    result = state.GetParameter<PlayingCard>(name);
+                    break;
+                case Type.CardCollection:
+                    result = state.GetParameter<CardCollection>(name);
+                    break;
+            }
             // Decode the value
             DecodeInternal(name, type, ref result, msg);
             

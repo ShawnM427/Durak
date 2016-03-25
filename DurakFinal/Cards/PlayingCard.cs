@@ -78,6 +78,11 @@ namespace Durak.Common.Cards
 
         #region CONSTRUCTORS
 
+        public PlayingCard() : this(CardRank.Ace, CardSuit.Spades)
+        {
+
+        }
+
         /// <summary>
         /// Card Constructor
         /// Initialized te playing card object. By default, card is face down, with no alternate value

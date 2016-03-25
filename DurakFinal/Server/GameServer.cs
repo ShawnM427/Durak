@@ -40,7 +40,9 @@ namespace Durak.Server
         /// Stores the list of game initialization rules to use
         /// </summary>
         private List<IGameInitRule> myInitRules;
-
+        /// <summary>
+        /// Stores the packet handling methods
+        /// </summary>
         private Dictionary<MessageType, PacketHandler> myMessageHandlers;
         /// <summary>
         /// Stores the list of players currently connected
@@ -268,7 +270,7 @@ namespace Durak.Server
         /// <param name="e">The event arguments</param>
         private void MyGameState_OnStateChanged(object sender, StateParameter e)
         {
-            if (myState == ServerState.InGame)
+            if (myState == ServerState.InGame && e.IsSynced)
             {
                 // Prepare the game state changed
                 NetOutgoingMessage msg = myServer.CreateMessage();
@@ -419,6 +421,7 @@ namespace Durak.Server
             outMsg.Write(player.PlayerId);
             outMsg.Write(player.Name);
             outMsg.Write(player.IsBot);
+            outMsg.WritePadBits();
 
             // Send to all clients
             SendToAll(outMsg);
@@ -479,6 +482,7 @@ namespace Durak.Server
             msg.Write((byte)playerId);
             msg.Write((bool)(player == myGameHost));
             msg.WritePadBits();
+            myGameState.Encode(msg);
 
             // Send the message to the client
             myServer.SendMessage(msg, player.Connection, NetDeliveryMethod.ReliableOrdered);
@@ -820,7 +824,7 @@ namespace Durak.Server
         private void HandlePlayerReady(NetIncomingMessage msg)
         {
             // Read the packet
-            byte playerId = msg.ReadByte();
+            byte playerId = myPlayers[msg.SenderConnection].PlayerId;
             bool isReady = msg.ReadBoolean();
             msg.ReadPadBits();
 
@@ -930,7 +934,7 @@ namespace Durak.Server
         private void HandlePlayerChat(NetIncomingMessage msg)
         {
             // Read packet info
-            byte playerId = msg.ReadByte();
+            byte playerId = myPlayers[msg.SenderConnection].PlayerId;
             string message = msg.ReadString();
 
             // Prepare message
@@ -947,10 +951,4 @@ namespace Durak.Server
 
         #endregion
     }
-
-    /// <summary>
-    /// Represents a method or event that handles incoming network packets
-    /// </summary>
-    /// <param name="msg">The message to handle</param>
-    public delegate void PacketHandler(NetIncomingMessage msg);
 }

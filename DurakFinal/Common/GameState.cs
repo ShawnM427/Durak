@@ -70,11 +70,11 @@ namespace Durak.Common
         /// <param name="name">The name of the parameter</param>
         /// <param name="defaultType">The type to use if the parameter does not exist</param>
         /// <returns>The parameter with the given name</returns>
-        public StateParameter GetParameter(string name, Type defaultType, bool serverSide = false)
+        public StateParameter GetParameter<T>(string name, bool serverSide = false)
         {
             // If we don't have that parameter, make it
             if (!myParameters.ContainsKey(name))
-                myParameters.Add(name, StateParameter.Construct(name, Activator.CreateInstance(defaultType), serverSide));
+                myParameters.Add(name, StateParameter.Construct<T>(name, (T)Activator.CreateInstance(typeof(T)), serverSide));
 
             // Get the parameter
             return myParameters[name];
@@ -98,10 +98,22 @@ namespace Durak.Common
 
             // invoke the state change if an event is attached
             if (!SilentSets && OnStateChanged != null)
-                OnStateChanged.Invoke(this, GetParameter(name, typeof(T), !serverSide));
+                OnStateChanged.Invoke(this, GetParameter<T>(name, !serverSide));
 
             if (OnStateChangedUnSilenceable != null)
-                OnStateChangedUnSilenceable(this, GetParameter(name, typeof(T), !serverSide));
+                OnStateChangedUnSilenceable(this, GetParameter<T>(name, !serverSide));
+        }
+
+        /// <summary>
+        /// Updates a state parameter in this game state
+        /// </summary>
+        /// <param name="parameter"></param>
+        public void UpdateParam(StateParameter parameter)
+        {
+            if (myParameters.ContainsKey(parameter.Name))
+                InternalSet(parameter.Name, parameter.RawValue, !parameter.IsSynced);
+            else
+                myParameters.Add(parameter.Name, parameter);
         }
         
         /// <summary>
@@ -363,7 +375,13 @@ namespace Durak.Common
         /// <returns>True if the objects are equal, false if otherwise</returns>
         public bool Equals(string name, object value)
         {
-            return GetParameter(name, value.GetType()).RawValue.Equals(value);
+            if (myParameters.ContainsKey(name))
+                if (myParameters[name].RawValue == null)
+                    return value == null;
+                else
+                    return myParameters[name].RawValue.Equals(value);
+            else
+                return value == null;
         }
 
         /// <summary>
@@ -372,12 +390,14 @@ namespace Durak.Common
         /// <param name="msg">The message to encode to</param>
         public void Encode(NetOutgoingMessage msg)
         {
-            // Write the number of parameters
-            msg.Write(myParameters.Count);
+            StateParameter[] toTransfer = myParameters.Values.Where(x => x.IsSynced).ToArray();
 
+            // Write the number of parameters
+            msg.Write((int)toTransfer.Length);
+            
             // Write each parameter
-            foreach(StateParameter p in myParameters.Values)
-                p.Encode(msg);
+            for(int index = 0; index < toTransfer.Length; index ++)
+                toTransfer[index].Encode(msg);
         }
 
         /// <summary>

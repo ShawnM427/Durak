@@ -80,6 +80,8 @@ namespace Durak.Common
         /// Payload:
         ///     byte    - playerId
         ///     string  - playerName
+        ///     boolean - isBot
+        ///     padding 
         /// </summary>
         PlayerJoined                = 130,
         /// <summary>
@@ -111,8 +113,10 @@ namespace Durak.Common
         /// Send by the server to a client once it connects
         /// 
         /// Payload:
-        ///     byte    - playerId
-        ///     boolean - isHost
+        ///     byte      - playerId
+        ///     boolean   - isHost
+        ///     padding
+        ///     GameState - state
         /// </summary>
         PlayerConnectInfo           = 134,
 
@@ -120,7 +124,6 @@ namespace Durak.Common
         /// Sent by the client to request a card to be played
         /// 
         /// Payload:
-        ///     byte     - playerId
         ///     GameMove - move
         /// </summary>
         SendMove = 150,
@@ -128,7 +131,6 @@ namespace Durak.Common
         /// Sent by the server to notify a client that their requested move is invalid
         /// 
         /// Payload:
-        ///     byte     - playerId
         ///     GameMove - move
         ///     string   - reason
         /// </summary>
@@ -137,7 +139,6 @@ namespace Durak.Common
         /// Sent by the server to ntify clients that a player has made a game move
         /// 
         /// Payload:
-        ///     byte     - playerId
         ///     GameMove - move
         /// </summary>
         SucessfullMove = 152,
@@ -146,7 +147,6 @@ namespace Durak.Common
         /// Sent by the clients and the server for chat messages
         /// 
         /// Payload:
-        ///     byte    - playerId
         ///     String  - message
         /// </summary>
         PlayerChat                  = 200
