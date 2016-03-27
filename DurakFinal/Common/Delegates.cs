@@ -25,6 +25,13 @@ namespace Durak.Common
     public delegate void PlayerCardCountChangedEvent(Player player, int newCardCount);
 
     /// <summary>
+    /// Delegate for handling when a state parameter has changed
+    /// </summary>
+    /// <param name="sender">The game state that invoked the event</param>
+    /// <param name="parameter">The parameter that has been updated</param>
+    public delegate void StateChangedEvent(GameState sender, StateParameter parameter);
+
+    /// <summary>
     /// Delegate for handling when a player has sent a chat message
     /// </summary>
     /// <param name="sender">The object that raised the event</param>

@@ -38,6 +38,7 @@
             this.lblMessage = new System.Windows.Forms.Label();
             this.cmbCards = new System.Windows.Forms.ComboBox();
             this.gsvClientState = new DurakTester.GameStateVisualizer();
+            this.lblResult = new System.Windows.Forms.Label();
             this.grpClientControls.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -138,11 +139,21 @@
             this.gsvClientState.Size = new System.Drawing.Size(398, 313);
             this.gsvClientState.TabIndex = 5;
             // 
+            // lblResult
+            // 
+            this.lblResult.AutoSize = true;
+            this.lblResult.Location = new System.Drawing.Point(12, 328);
+            this.lblResult.Name = "lblResult";
+            this.lblResult.Size = new System.Drawing.Size(28, 13);
+            this.lblResult.TabIndex = 7;
+            this.lblResult.Text = "Test";
+            // 
             // frmClientView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(810, 336);
+            this.ClientSize = new System.Drawing.Size(810, 381);
+            this.Controls.Add(this.lblResult);
             this.Controls.Add(this.cmbCards);
             this.Controls.Add(this.gsvClientState);
             this.Controls.Add(this.grpClientControls);
@@ -153,9 +164,11 @@
             this.MaximizeBox = false;
             this.Name = "frmClientView";
             this.Text = "Client View";
+            this.Load += new System.EventHandler(this.frmClientView_Load);
             this.grpClientControls.ResumeLayout(false);
             this.grpClientControls.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -171,5 +184,6 @@
         private System.Windows.Forms.Label lblMessage;
         private GameStateVisualizer gsvClientState;
         private System.Windows.Forms.ComboBox cmbCards;
+        private System.Windows.Forms.Label lblResult;
     }
 }

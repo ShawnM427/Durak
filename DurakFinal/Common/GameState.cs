@@ -22,6 +22,16 @@ namespace Durak.Common
         private Dictionary<string, StateParameter> myParameters;
 
         /// <summary>
+        /// Stores a collection of state changed events
+        /// </summary>
+        private Dictionary<string, StateChangedEvent> myChangedEvents;
+
+        /// <summary>
+        /// Stores a collection of state equals events
+        /// </summary>
+        private Dictionary<Tuple<string, object>, StateChangedEvent> myStateEqualsEvents;
+
+        /// <summary>
         /// Invoked when a single state withing this game state is changed
         /// </summary>
         public event EventHandler<StateParameter> OnStateChanged;
@@ -51,6 +61,8 @@ namespace Durak.Common
         public GameState()
         {
             myParameters = new Dictionary<string, StateParameter>();
+            myChangedEvents = new Dictionary<string, StateChangedEvent>();
+            myStateEqualsEvents = new Dictionary<Tuple<string, object>, StateChangedEvent>();
         }
 
         /// <summary>
@@ -62,6 +74,64 @@ namespace Durak.Common
 
             if (OnCleared != null)
                 OnCleared.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Adds a state changed listener to the given state parameter
+        /// </summary>
+        /// <param name="name">The name of the state to listen to</param>
+        /// <param name="eventListener">The event to invoke on state change</param>
+        public void AddStateChangedEvent(string name, StateChangedEvent eventListener)
+        {
+            if (!myChangedEvents.ContainsKey(name))
+                myChangedEvents.Add(name, eventListener);
+            else
+                myChangedEvents[name] += eventListener;
+        }
+
+        /// <summary>
+        /// Removed a state changed listener to the given state parameter
+        /// </summary>
+        /// <param name="name">The name of the state to listen to</param>
+        /// <param name="eventListener">The event to invoke on state change</param>
+        public void RemoveStateChangedEvent(string name, StateChangedEvent eventListener)
+        {
+            if (!myChangedEvents.ContainsKey(name))
+                myChangedEvents.Add(name, eventListener);
+            else
+                myChangedEvents[name] -= eventListener;
+        }
+        
+        /// <summary>
+        /// Adds a state equals listener to the given state parameter
+        /// </summary>
+        /// <param name="name">The name of the state to listen to</param>
+        /// <param name="value">The value to invoke on</param>
+        /// <param name="eventListener">The event to invoke on state change</param>
+        public void AddStateEqualsEvent(string name, object value, StateChangedEvent eventListener)
+        {
+            Tuple<string, object> key = new Tuple<string, object>(name, value);
+
+            if (!myStateEqualsEvents.ContainsKey(key))
+                myStateEqualsEvents.Add(key, eventListener);
+            else
+                myStateEqualsEvents[key] += eventListener;
+        }
+
+        /// <summary>
+        /// Removed a state equals listener to the given state parameter
+        /// </summary>
+        /// <param name="name">The name of the state to listen to</param>
+        /// <param name="value">The value to invoke on</param>
+        /// <param name="eventListener">The event to invoke on state change</param>
+        public void RemoveStateEqualsEvent(string name, object value, StateChangedEvent eventListener)
+        {
+            Tuple<string, object> key = new Tuple<string, object>(name, value);
+
+            if (!myStateEqualsEvents.ContainsKey(key))
+                myStateEqualsEvents.Add(key, eventListener);
+            else
+                myStateEqualsEvents[key] -= eventListener;
         }
 
         /// <summary>
@@ -96,12 +166,7 @@ namespace Durak.Common
                 myParameters[name].SetValueInternal(value);
             }
 
-            // invoke the state change if an event is attached
-            if (!SilentSets && OnStateChanged != null)
-                OnStateChanged.Invoke(this, GetParameter<T>(name, serverSide));
-
-            if (OnStateChangedUnSilenceable != null)
-                OnStateChangedUnSilenceable(this, GetParameter<T>(name, serverSide));
+            InvokeUpdated(myParameters[name]);
         }
 
         /// <summary>
@@ -365,8 +430,7 @@ namespace Durak.Common
         {
             return myParameters.Values.ToArray();
         }
-
-
+        
         /// <summary>
         /// Checks if a state parameter is equal to a value
         /// </summary>
@@ -439,6 +503,16 @@ namespace Durak.Common
 
                 if (OnStateChangedUnSilenceable != null)
                     OnStateChangedUnSilenceable(this, stateParameter);
+
+                if (myChangedEvents.ContainsKey(stateParameter.Name))
+                    myChangedEvents[stateParameter.Name](this, stateParameter);
+
+                Tuple<string, object> key = myStateEqualsEvents.Keys.FirstOrDefault(X => X.Item1 == stateParameter.Name);
+
+                if (key != null && stateParameter.RawValue.Equals(key.Item2))
+                {
+                    myStateEqualsEvents[key](this, stateParameter);
+                }
             }
 
         }

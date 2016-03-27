@@ -60,8 +60,10 @@ namespace DurakTester
             myClient.OnHandCardRemoved += ClientCardRemoved;
             myClient.Run();
             myClient.DiscoverServers();
-        }
 
+            myClient.LocalState.AddStateEqualsEvent("IsAttacking", false, (x, y) => { lblResult.Text = "invoked!"; });
+        }
+        
         private void ClientCardRemoved(object sender, PlayingCard e)
         {
             cmbCards.Items.Remove(e);
@@ -299,6 +301,11 @@ namespace DurakTester
             {
                 myClient.DiscoverServers();
             }
+        }
+
+        private void frmClientView_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
