@@ -65,6 +65,8 @@
             this.btnPlaySingle.TabIndex = 2;
             this.btnPlaySingle.Text = "Single Player";
             this.btnPlaySingle.UseVisualStyleBackColor = false;
+            this.btnPlaySingle.MouseEnter += new System.EventHandler(this.btnPlaySingle_MouseEnter);
+            this.btnPlaySingle.MouseLeave += new System.EventHandler(this.btnPlaySingle_MouseLeave);
             // 
             // btnPlayMulti
             // 
@@ -77,6 +79,8 @@
             this.btnPlayMulti.TabIndex = 3;
             this.btnPlayMulti.Text = "Multiplayer Player";
             this.btnPlayMulti.UseVisualStyleBackColor = false;
+            this.btnPlayMulti.MouseEnter += new System.EventHandler(this.btnPlaySingle_MouseEnter);
+            this.btnPlayMulti.MouseLeave += new System.EventHandler(this.btnPlaySingle_MouseLeave);
             // 
             // btnAbout
             // 
@@ -89,6 +93,8 @@
             this.btnAbout.TabIndex = 4;
             this.btnAbout.Text = "About";
             this.btnAbout.UseVisualStyleBackColor = false;
+            this.btnAbout.MouseEnter += new System.EventHandler(this.btnPlaySingle_MouseEnter);
+            this.btnAbout.MouseLeave += new System.EventHandler(this.btnPlaySingle_MouseLeave);
             // 
             // frmDurakMain
             // 

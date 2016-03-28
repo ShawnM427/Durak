@@ -16,5 +16,16 @@ namespace DurakGame
         {
             InitializeComponent();
         }
+
+
+        private void btnPlaySingle_MouseLeave(object sender, EventArgs e)
+        {
+            (sender as Button).BackColor =  Color.DarkGreen;
+        }
+
+        private void btnPlaySingle_MouseEnter(object sender, EventArgs e)
+        {
+            (sender as Button).BackColor = Color.White;
+        }
     }
 }
