@@ -1,4 +1,4 @@
-﻿namespace CardBox
+﻿namespace CardUI
 {
     partial class CardBox
     {

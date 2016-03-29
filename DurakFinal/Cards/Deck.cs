@@ -104,7 +104,15 @@ namespace Durak.Common.Cards
         {
             get { return cards.Count; }
         }
-        
+
+        /// <summary>
+        /// Gets the card collection this deck wraps around
+        /// </summary>
+        public CardCollection Cards
+        {
+            get { return cards; }
+        }
+
         /// <summary>
         /// Shuffles the cards in this deck
         /// </summary>

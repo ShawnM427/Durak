@@ -14,18 +14,23 @@ namespace DurakTester.Rules
 
         public string ReadableName
         {
-            get { return "DO NOT KEEP RULE THIS IS A SAMPLE"; }
+            get { return "Deal cards"; }
         }
 
         public void InitState(PlayerCollection players, GameState state)
         {
-            for (byte index = 0; index < 4; index++)
+            Deck toDrawFrom = new Deck(state.GetValueCardCollection("source_deck"));
+
+            for (byte index = 0; index < players.Count; index++)
+            {
                 if (players[index] != null)
                 {
-                    for (int cIndex = 0; cIndex < 10; cIndex++)
-                        //players[index].Hand.Add(new PlayingCard((CardRank)cIndex, CardSuit.Clubs));
-                        players[index].Hand.Add(new Deck(state.GetValueCardCollection("source_deck")).Draw());
+                    for (int cIndex = 0; cIndex < 6; cIndex++)
+                        players[index].Hand.Add(toDrawFrom.Draw());
                 }
+            }
+
+            state.Set<CardCollection>("source_deck", toDrawFrom.Cards);
         }
     }
 }

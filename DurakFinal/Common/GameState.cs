@@ -30,7 +30,7 @@ namespace Durak.Common
         /// Stores a collection of state equals events
         /// </summary>
         private Dictionary<Tuple<string, object>, StateChangedEvent> myStateEqualsEvents;
-
+        
         /// <summary>
         /// Invoked when a single state withing this game state is changed
         /// </summary>

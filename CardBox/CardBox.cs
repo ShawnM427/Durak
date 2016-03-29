@@ -7,18 +7,12 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using Durak.Common.Cards;
 
-namespace CardBox
+namespace CardUI
 {
     /// <summary>
     /// A control to use in a windows forms application that displays a playing card.

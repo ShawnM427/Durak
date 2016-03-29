@@ -49,28 +49,28 @@
             Durak.Common.Cards.PlayingCard playingCard19 = new Durak.Common.Cards.PlayingCard();
             this.grpBattle1 = new System.Windows.Forms.GroupBox();
             this.lblWinLose1 = new System.Windows.Forms.Label();
-            this.cbxDefence1 = new CardBox.CardBox();
-            this.cbxPlayerAttack1 = new CardBox.CardBox();
+            this.cbxDefence1 = new CardUI.CardBox();
+            this.cbxPlayerAttack1 = new CardUI.CardBox();
             this.grpBattle2 = new System.Windows.Forms.GroupBox();
             this.lblWinLose2 = new System.Windows.Forms.Label();
-            this.cbxDefence2 = new CardBox.CardBox();
-            this.cbxPlayerAttack2 = new CardBox.CardBox();
+            this.cbxDefence2 = new CardUI.CardBox();
+            this.cbxPlayerAttack2 = new CardUI.CardBox();
             this.grpBattle3 = new System.Windows.Forms.GroupBox();
             this.lblWinLose3 = new System.Windows.Forms.Label();
-            this.cbxDefence3 = new CardBox.CardBox();
-            this.cbxPlayerAttack3 = new CardBox.CardBox();
+            this.cbxDefence3 = new CardUI.CardBox();
+            this.cbxPlayerAttack3 = new CardUI.CardBox();
             this.grpBattle4 = new System.Windows.Forms.GroupBox();
             this.lblWinLose4 = new System.Windows.Forms.Label();
-            this.cbxDefence4 = new CardBox.CardBox();
-            this.cbxPlayerAttack4 = new CardBox.CardBox();
+            this.cbxDefence4 = new CardUI.CardBox();
+            this.cbxPlayerAttack4 = new CardUI.CardBox();
             this.grpBattle5 = new System.Windows.Forms.GroupBox();
             this.lblWinLose5 = new System.Windows.Forms.Label();
-            this.cbxDefence5 = new CardBox.CardBox();
-            this.cbxPlayerAttack5 = new CardBox.CardBox();
+            this.cbxDefence5 = new CardUI.CardBox();
+            this.cbxPlayerAttack5 = new CardUI.CardBox();
             this.grpBattle6 = new System.Windows.Forms.GroupBox();
             this.lblWinLose6 = new System.Windows.Forms.Label();
-            this.cbxDefence6 = new CardBox.CardBox();
-            this.cbxPlayerAttack6 = new CardBox.CardBox();
+            this.cbxDefence6 = new CardUI.CardBox();
+            this.cbxPlayerAttack6 = new CardUI.CardBox();
             this.grpBattles = new System.Windows.Forms.GroupBox();
             this.grpGarbage = new System.Windows.Forms.GroupBox();
             this.lblPlayer1 = new System.Windows.Forms.Label();
@@ -94,13 +94,13 @@
             this.controlsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.chatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.cardBox21 = new CardBox.CardBox();
-            this.cardBox20 = new CardBox.CardBox();
-            this.cardBox18 = new CardBox.CardBox();
-            this.cardBox17 = new CardBox.CardBox();
-            this.cardBox16 = new CardBox.CardBox();
-            this.cbxDeck = new CardBox.CardBox();
-            this.cbxTrump = new CardBox.CardBox();
+            this.cardBox21 = new CardUI.CardBox();
+            this.cardBox20 = new CardUI.CardBox();
+            this.cardBox18 = new CardUI.CardBox();
+            this.cardBox17 = new CardUI.CardBox();
+            this.cardBox16 = new CardUI.CardBox();
+            this.cbxDeck = new CardUI.CardBox();
+            this.cbxTrump = new CardUI.CardBox();
             this.grpBattle1.SuspendLayout();
             this.grpBattle2.SuspendLayout();
             this.grpBattle3.SuspendLayout();
@@ -457,7 +457,7 @@
             this.grpBattles.Controls.Add(this.grpBattle4);
             this.grpBattles.Controls.Add(this.grpBattle5);
             this.grpBattles.ForeColor = System.Drawing.Color.DarkGreen;
-            this.grpBattles.Location = new System.Drawing.Point(174, 193);
+            this.grpBattles.Location = new System.Drawing.Point(239, 193);
             this.grpBattles.Name = "grpBattles";
             this.grpBattles.Size = new System.Drawing.Size(573, 222);
             this.grpBattles.TabIndex = 7;
@@ -465,7 +465,7 @@
             // 
             // grpGarbage
             // 
-            this.grpGarbage.Location = new System.Drawing.Point(753, 193);
+            this.grpGarbage.Location = new System.Drawing.Point(818, 193);
             this.grpGarbage.Name = "grpGarbage";
             this.grpGarbage.Size = new System.Drawing.Size(217, 222);
             this.grpGarbage.TabIndex = 23;
@@ -475,7 +475,7 @@
             // 
             this.lblPlayer1.AutoSize = true;
             this.lblPlayer1.Font = new System.Drawing.Font("Impact", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPlayer1.Location = new System.Drawing.Point(193, 37);
+            this.lblPlayer1.Location = new System.Drawing.Point(258, 39);
             this.lblPlayer1.Name = "lblPlayer1";
             this.lblPlayer1.Size = new System.Drawing.Size(59, 20);
             this.lblPlayer1.TabIndex = 24;
@@ -485,7 +485,7 @@
             // 
             this.lblPlayer2.AutoSize = true;
             this.lblPlayer2.Font = new System.Drawing.Font("Impact", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPlayer2.Location = new System.Drawing.Point(311, 37);
+            this.lblPlayer2.Location = new System.Drawing.Point(376, 39);
             this.lblPlayer2.Name = "lblPlayer2";
             this.lblPlayer2.Size = new System.Drawing.Size(61, 20);
             this.lblPlayer2.TabIndex = 25;
@@ -495,7 +495,7 @@
             // 
             this.lblPlayer3.AutoSize = true;
             this.lblPlayer3.Font = new System.Drawing.Font("Impact", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPlayer3.Location = new System.Drawing.Point(428, 37);
+            this.lblPlayer3.Location = new System.Drawing.Point(493, 39);
             this.lblPlayer3.Name = "lblPlayer3";
             this.lblPlayer3.Size = new System.Drawing.Size(61, 20);
             this.lblPlayer3.TabIndex = 26;
@@ -505,7 +505,7 @@
             // 
             this.lblPlayer4.AutoSize = true;
             this.lblPlayer4.Font = new System.Drawing.Font("Impact", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPlayer4.Location = new System.Drawing.Point(548, 37);
+            this.lblPlayer4.Location = new System.Drawing.Point(613, 39);
             this.lblPlayer4.Name = "lblPlayer4";
             this.lblPlayer4.Size = new System.Drawing.Size(61, 20);
             this.lblPlayer4.TabIndex = 27;
@@ -515,7 +515,7 @@
             // 
             this.lblPlayer5.AutoSize = true;
             this.lblPlayer5.Font = new System.Drawing.Font("Impact", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPlayer5.Location = new System.Drawing.Point(663, 37);
+            this.lblPlayer5.Location = new System.Drawing.Point(728, 39);
             this.lblPlayer5.Name = "lblPlayer5";
             this.lblPlayer5.Size = new System.Drawing.Size(62, 20);
             this.lblPlayer5.TabIndex = 28;
@@ -525,7 +525,7 @@
             // 
             this.lblTrump.AutoSize = true;
             this.lblTrump.Font = new System.Drawing.Font("Impact", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTrump.Location = new System.Drawing.Point(24, 230);
+            this.lblTrump.Location = new System.Drawing.Point(44, 230);
             this.lblTrump.Name = "lblTrump";
             this.lblTrump.Size = new System.Drawing.Size(50, 20);
             this.lblTrump.TabIndex = 29;
@@ -535,7 +535,7 @@
             // 
             this.lblDeck.AutoSize = true;
             this.lblDeck.Font = new System.Drawing.Font("Impact", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDeck.Location = new System.Drawing.Point(110, 230);
+            this.lblDeck.Location = new System.Drawing.Point(130, 230);
             this.lblDeck.Name = "lblDeck";
             this.lblDeck.Size = new System.Drawing.Size(42, 20);
             this.lblDeck.TabIndex = 30;
@@ -545,7 +545,7 @@
             // 
             this.lblCardsLeft.AutoSize = true;
             this.lblCardsLeft.Font = new System.Drawing.Font("Impact", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCardsLeft.Location = new System.Drawing.Point(115, 363);
+            this.lblCardsLeft.Location = new System.Drawing.Point(135, 363);
             this.lblCardsLeft.Name = "lblCardsLeft";
             this.lblCardsLeft.Size = new System.Drawing.Size(26, 20);
             this.lblCardsLeft.TabIndex = 31;
@@ -555,7 +555,7 @@
             // 
             this.lblPlayer1Cardsleft.AutoSize = true;
             this.lblPlayer1Cardsleft.Font = new System.Drawing.Font("Impact", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPlayer1Cardsleft.Location = new System.Drawing.Point(208, 170);
+            this.lblPlayer1Cardsleft.Location = new System.Drawing.Point(273, 172);
             this.lblPlayer1Cardsleft.Name = "lblPlayer1Cardsleft";
             this.lblPlayer1Cardsleft.Size = new System.Drawing.Size(26, 20);
             this.lblPlayer1Cardsleft.TabIndex = 32;
@@ -565,7 +565,7 @@
             // 
             this.lblPlayer2Cardsleft.AutoSize = true;
             this.lblPlayer2Cardsleft.Font = new System.Drawing.Font("Impact", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPlayer2Cardsleft.Location = new System.Drawing.Point(326, 170);
+            this.lblPlayer2Cardsleft.Location = new System.Drawing.Point(391, 172);
             this.lblPlayer2Cardsleft.Name = "lblPlayer2Cardsleft";
             this.lblPlayer2Cardsleft.Size = new System.Drawing.Size(26, 20);
             this.lblPlayer2Cardsleft.TabIndex = 33;
@@ -575,7 +575,7 @@
             // 
             this.lblPlayer3Cardsleft.AutoSize = true;
             this.lblPlayer3Cardsleft.Font = new System.Drawing.Font("Impact", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPlayer3Cardsleft.Location = new System.Drawing.Point(446, 170);
+            this.lblPlayer3Cardsleft.Location = new System.Drawing.Point(511, 172);
             this.lblPlayer3Cardsleft.Name = "lblPlayer3Cardsleft";
             this.lblPlayer3Cardsleft.Size = new System.Drawing.Size(26, 20);
             this.lblPlayer3Cardsleft.TabIndex = 34;
@@ -585,7 +585,7 @@
             // 
             this.lblPlayer4Cardsleft.AutoSize = true;
             this.lblPlayer4Cardsleft.Font = new System.Drawing.Font("Impact", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPlayer4Cardsleft.Location = new System.Drawing.Point(570, 170);
+            this.lblPlayer4Cardsleft.Location = new System.Drawing.Point(635, 172);
             this.lblPlayer4Cardsleft.Name = "lblPlayer4Cardsleft";
             this.lblPlayer4Cardsleft.Size = new System.Drawing.Size(26, 20);
             this.lblPlayer4Cardsleft.TabIndex = 35;
@@ -595,7 +595,7 @@
             // 
             this.lblPlayer5Cardsleft.AutoSize = true;
             this.lblPlayer5Cardsleft.Font = new System.Drawing.Font("Impact", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPlayer5Cardsleft.Location = new System.Drawing.Point(684, 170);
+            this.lblPlayer5Cardsleft.Location = new System.Drawing.Point(749, 172);
             this.lblPlayer5Cardsleft.Name = "lblPlayer5Cardsleft";
             this.lblPlayer5Cardsleft.Size = new System.Drawing.Size(26, 20);
             this.lblPlayer5Cardsleft.TabIndex = 36;
@@ -633,7 +633,7 @@
             this.aboutToolStripMenuItem1});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(976, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1050, 24);
             this.menuStrip1.TabIndex = 37;
             this.menuStrip1.Text = "mnuMain";
             // 
@@ -665,7 +665,7 @@
             this.cardBox21.Card = playingCard13;
             this.cardBox21.CardOrientation = System.Windows.Forms.Orientation.Vertical;
             this.cardBox21.FaceUp = false;
-            this.cardBox21.Location = new System.Drawing.Point(658, 60);
+            this.cardBox21.Location = new System.Drawing.Point(723, 62);
             this.cardBox21.Name = "cardBox21";
             this.cardBox21.Rank = Durak.Common.Cards.CardRank.Ace;
             this.cardBox21.Size = new System.Drawing.Size(75, 107);
@@ -682,7 +682,7 @@
             this.cardBox20.Card = playingCard14;
             this.cardBox20.CardOrientation = System.Windows.Forms.Orientation.Vertical;
             this.cardBox20.FaceUp = false;
-            this.cardBox20.Location = new System.Drawing.Point(540, 60);
+            this.cardBox20.Location = new System.Drawing.Point(605, 62);
             this.cardBox20.Name = "cardBox20";
             this.cardBox20.Rank = Durak.Common.Cards.CardRank.Ace;
             this.cardBox20.Size = new System.Drawing.Size(75, 107);
@@ -699,7 +699,7 @@
             this.cardBox18.Card = playingCard15;
             this.cardBox18.CardOrientation = System.Windows.Forms.Orientation.Vertical;
             this.cardBox18.FaceUp = false;
-            this.cardBox18.Location = new System.Drawing.Point(422, 60);
+            this.cardBox18.Location = new System.Drawing.Point(487, 62);
             this.cardBox18.Name = "cardBox18";
             this.cardBox18.Rank = Durak.Common.Cards.CardRank.Ace;
             this.cardBox18.Size = new System.Drawing.Size(75, 107);
@@ -716,7 +716,7 @@
             this.cardBox17.Card = playingCard16;
             this.cardBox17.CardOrientation = System.Windows.Forms.Orientation.Vertical;
             this.cardBox17.FaceUp = false;
-            this.cardBox17.Location = new System.Drawing.Point(186, 60);
+            this.cardBox17.Location = new System.Drawing.Point(251, 62);
             this.cardBox17.Name = "cardBox17";
             this.cardBox17.Rank = Durak.Common.Cards.CardRank.Ace;
             this.cardBox17.Size = new System.Drawing.Size(75, 107);
@@ -733,7 +733,7 @@
             this.cardBox16.Card = playingCard17;
             this.cardBox16.CardOrientation = System.Windows.Forms.Orientation.Vertical;
             this.cardBox16.FaceUp = false;
-            this.cardBox16.Location = new System.Drawing.Point(304, 60);
+            this.cardBox16.Location = new System.Drawing.Point(369, 62);
             this.cardBox16.Name = "cardBox16";
             this.cardBox16.Rank = Durak.Common.Cards.CardRank.Ace;
             this.cardBox16.Size = new System.Drawing.Size(75, 107);
@@ -750,7 +750,7 @@
             this.cbxDeck.Card = playingCard18;
             this.cbxDeck.CardOrientation = System.Windows.Forms.Orientation.Vertical;
             this.cbxDeck.FaceUp = false;
-            this.cbxDeck.Location = new System.Drawing.Point(93, 253);
+            this.cbxDeck.Location = new System.Drawing.Point(113, 253);
             this.cbxDeck.Name = "cbxDeck";
             this.cbxDeck.Rank = Durak.Common.Cards.CardRank.Ace;
             this.cbxDeck.Size = new System.Drawing.Size(75, 107);
@@ -767,7 +767,7 @@
             this.cbxTrump.Card = playingCard19;
             this.cbxTrump.CardOrientation = System.Windows.Forms.Orientation.Vertical;
             this.cbxTrump.FaceUp = false;
-            this.cbxTrump.Location = new System.Drawing.Point(12, 253);
+            this.cbxTrump.Location = new System.Drawing.Point(32, 253);
             this.cbxTrump.Name = "cbxTrump";
             this.cbxTrump.Rank = Durak.Common.Cards.CardRank.Ace;
             this.cbxTrump.Size = new System.Drawing.Size(75, 107);
@@ -779,7 +779,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkGreen;
-            this.ClientSize = new System.Drawing.Size(976, 601);
+            this.ClientSize = new System.Drawing.Size(1050, 601);
             this.Controls.Add(this.lblPlayer5Cardsleft);
             this.Controls.Add(this.lblPlayer4Cardsleft);
             this.Controls.Add(this.lblPlayer3Cardsleft);
@@ -830,32 +830,32 @@
         }
 
         #endregion
-        private CardBox.CardBox cbxTrump;
-        private CardBox.CardBox cbxDeck;
+        private CardUI.CardBox cbxTrump;
+        private CardUI.CardBox cbxDeck;
         private System.Windows.Forms.GroupBox grpBattle1;
-        private CardBox.CardBox cbxDefence1;
-        private CardBox.CardBox cbxPlayerAttack1;
+        private CardUI.CardBox cbxDefence1;
+        private CardUI.CardBox cbxPlayerAttack1;
         private System.Windows.Forms.GroupBox grpBattle2;
-        private CardBox.CardBox cbxDefence2;
-        private CardBox.CardBox cbxPlayerAttack2;
+        private CardUI.CardBox cbxDefence2;
+        private CardUI.CardBox cbxPlayerAttack2;
         private System.Windows.Forms.GroupBox grpBattle3;
-        private CardBox.CardBox cbxDefence3;
-        private CardBox.CardBox cbxPlayerAttack3;
+        private CardUI.CardBox cbxDefence3;
+        private CardUI.CardBox cbxPlayerAttack3;
         private System.Windows.Forms.GroupBox grpBattle4;
-        private CardBox.CardBox cbxDefence4;
-        private CardBox.CardBox cbxPlayerAttack4;
+        private CardUI.CardBox cbxDefence4;
+        private CardUI.CardBox cbxPlayerAttack4;
         private System.Windows.Forms.GroupBox grpBattle5;
-        private CardBox.CardBox cbxDefence5;
-        private CardBox.CardBox cbxPlayerAttack5;
+        private CardUI.CardBox cbxDefence5;
+        private CardUI.CardBox cbxPlayerAttack5;
         private System.Windows.Forms.GroupBox grpBattle6;
-        private CardBox.CardBox cbxDefence6;
-        private CardBox.CardBox cbxPlayerAttack6;
+        private CardUI.CardBox cbxDefence6;
+        private CardUI.CardBox cbxPlayerAttack6;
         private System.Windows.Forms.GroupBox grpBattles;
-        private CardBox.CardBox cardBox16;
-        private CardBox.CardBox cardBox17;
-        private CardBox.CardBox cardBox18;
-        private CardBox.CardBox cardBox20;
-        private CardBox.CardBox cardBox21;
+        private CardUI.CardBox cardBox16;
+        private CardUI.CardBox cardBox17;
+        private CardUI.CardBox cardBox18;
+        private CardUI.CardBox cardBox20;
+        private CardUI.CardBox cardBox21;
         private System.Windows.Forms.GroupBox grpGarbage;
         private System.Windows.Forms.Label lblPlayer1;
         private System.Windows.Forms.Label lblPlayer2;

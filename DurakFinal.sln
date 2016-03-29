@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DurakCommon", "DurakFinal\DurakCommon.csproj", "{491019DA-8910-431F-9142-AC6EA10ED4CA}"
 EndProject
@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DurakTester", "DurakTester\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DurakGame", "DurakGame\DurakGame.csproj", "{28AF177D-DBFF-41B7-A275-648E59CAE34A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardBox", "CardBox\CardBox.csproj", "{7347693D-88DF-4A84-ABF9-40901471AD3D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardUI", "CardBox\CardUI.csproj", "{7347693D-88DF-4A84-ABF9-40901471AD3D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
