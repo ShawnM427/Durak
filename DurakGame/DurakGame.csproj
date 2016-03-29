@@ -153,10 +153,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CardBox\CardUI.csproj">
-      <Project>{7347693d-88df-4a84-abf9-40901471ad3d}</Project>
-      <Name>CardUI</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DurakFinal\DurakCommon.csproj">
       <Project>{491019da-8910-431f-9142-ac6ea10ed4ca}</Project>
       <Name>DurakCommon</Name>

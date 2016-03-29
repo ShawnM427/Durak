@@ -89,6 +89,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CardBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CardBox.Designer.cs">
+      <DependentUpon>CardBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Cards\CardEventArgs.cs" />
     <Compile Include="Cards\CardOutOfRangeException.cs" />
     <Compile Include="Cards\CardRank.cs" />
@@ -126,6 +132,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server\GameServer.cs" />
     <Compile Include="Server\IGamePlayRule.cs" />
+    <EmbeddedResource Include="CardBox.resx">
+      <DependentUpon>CardBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
