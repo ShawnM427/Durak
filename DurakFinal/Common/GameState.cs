@@ -135,6 +135,76 @@ namespace Durak.Common
         }
 
         /// <summary>
+        /// Adds a state changed listener to the given state parameter
+        /// </summary>
+        /// <param name="name">The name of the state to listen to</param>
+        /// <param name="index">The index of the element to listen to</param>
+        /// <param name="eventListener">The event to invoke on state change</param>
+        public void AddStateChangedEvent(string name, int index, StateChangedEvent eventListener)
+        {
+            name = string.Format(ARRAY_FORMAT, name, index);
+
+            if (!myChangedEvents.ContainsKey(name))
+                myChangedEvents.Add(name, eventListener);
+            else
+                myChangedEvents[name] += eventListener;
+        }
+
+        /// <summary>
+        /// Removed a state changed listener to the given state parameter
+        /// </summary>
+        /// <param name="name">The name of the state to listen to</param>
+        /// <param name="index">The index of the element to listen to</param>
+        /// <param name="eventListener">The event to invoke on state change</param>
+        public void RemoveStateChangedEvent(string name, int index, StateChangedEvent eventListener)
+        {
+            name = string.Format(ARRAY_FORMAT, name, index);
+
+            if (!myChangedEvents.ContainsKey(name))
+                myChangedEvents.Add(name, eventListener);
+            else
+                myChangedEvents[name] -= eventListener;
+        }
+
+        /// <summary>
+        /// Adds a state equals listener to the given state parameter
+        /// </summary>
+        /// <param name="name">The name of the state to listen to</param>
+        /// <param name="index">The index of the element to listen to</param>
+        /// <param name="value">The value to invoke on</param>
+        /// <param name="eventListener">The event to invoke on state change</param>
+        public void AddStateEqualsEvent(string name, int index, object value, StateChangedEvent eventListener)
+        {
+            name = string.Format(ARRAY_FORMAT, name, index);
+
+            Tuple<string, object> key = new Tuple<string, object>(name, value);
+
+            if (!myStateEqualsEvents.ContainsKey(key))
+                myStateEqualsEvents.Add(key, eventListener);
+            else
+                myStateEqualsEvents[key] += eventListener;
+        }
+
+        /// <summary>
+        /// Removed a state equals listener to the given state parameter
+        /// </summary>
+        /// <param name="name">The name of the state to listen to</param>
+        /// <param name="index">The index of the element to listen to</param>
+        /// <param name="value">The value to invoke on</param>
+        /// <param name="eventListener">The event to invoke on state change</param>
+        public void RemoveStateEqualsEvent(string name, int index, object value, StateChangedEvent eventListener)
+        {
+            name = string.Format(ARRAY_FORMAT, name, index);
+
+            Tuple<string, object> key = new Tuple<string, object>(name, value);
+
+            if (!myStateEqualsEvents.ContainsKey(key))
+                myStateEqualsEvents.Add(key, eventListener);
+            else
+                myStateEqualsEvents[key] -= eventListener;
+        }
+
+        /// <summary>
         /// Gets the state parameter with the given name
         /// </summary>
         /// <param name="name">The name of the parameter</param>
@@ -496,19 +566,32 @@ namespace Durak.Common
         /// <param name="stateParameter">The parameter that has been updated</param>
         internal void InvokeUpdated(StateParameter stateParameter)
         {
+            // if the parameter is not null
             if (stateParameter != null)
             {
+                // if we are not in silent sets mode and we have a state changed event, invoke it
                 if (!SilentSets && OnStateChanged != null)
                     OnStateChanged(this, stateParameter);
 
+                // If we have an un-silencable event listening on changes, invoke it
                 if (OnStateChangedUnSilenceable != null)
                     OnStateChangedUnSilenceable(this, stateParameter);
 
+                // If we have a changed listener on the parameters name, invoke it
                 if (myChangedEvents.ContainsKey(stateParameter.Name))
                     myChangedEvents[stateParameter.Name](this, stateParameter);
-
+                else
+                {
+                    // Here we check to see if we have any array listeners
+                    string name = myChangedEvents.Keys.FirstOrDefault(X => stateParameter.Name.Substring(1, X.Length) == X);
+                    // If we found one, invoke that shit
+                    if (name != null) { myChangedEvents[name](this, stateParameter); }
+                }
+                
+                // Get the key from the parameter name
                 Tuple<string, object> key = myStateEqualsEvents.Keys.FirstOrDefault(X => X.Item1 == stateParameter.Name);
 
+                // If we have a listener, invoke it
                 if (key != null && stateParameter.RawValue.Equals(key.Item2))
                 {
                     myStateEqualsEvents[key](this, stateParameter);
