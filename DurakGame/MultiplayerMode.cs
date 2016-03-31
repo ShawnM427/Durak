@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace DurakGame
 {
-    public partial class MultiplayerMode : Form
+    public partial class frmMultiplayerMode : Form
     {
-        public MultiplayerMode()
+        public frmMultiplayerMode()
         {
             InitializeComponent();
         }

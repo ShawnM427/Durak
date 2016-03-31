@@ -1,6 +1,6 @@
 ﻿namespace DurakGame
 {
-    partial class Lobby
+    partial class frmLobby
     {
         /// <summary>
         /// Required designer variable.
@@ -28,89 +28,237 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.panel8 = new System.Windows.Forms.Panel();
-            this.button4 = new System.Windows.Forms.Button();
+            this.pnlPlayers = new System.Windows.Forms.Panel();
+            this.pnlPlayer4 = new System.Windows.Forms.Panel();
+            this.btnAdd4 = new System.Windows.Forms.Button();
+            this.label11 = new System.Windows.Forms.Label();
+            this.txtPlayer4Name = new System.Windows.Forms.TextBox();
+            this.pnlPlayer3 = new System.Windows.Forms.Panel();
+            this.btnAdd3 = new System.Windows.Forms.Button();
+            this.label10 = new System.Windows.Forms.Label();
+            this.txtPlayer3Name = new System.Windows.Forms.TextBox();
+            this.pnlPlayer1 = new System.Windows.Forms.Panel();
+            this.btnAdd1 = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
+            this.txtPlayer1Name = new System.Windows.Forms.TextBox();
+            this.pnlPlayer5 = new System.Windows.Forms.Panel();
+            this.btnAdd5 = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.txtPlayer5Name = new System.Windows.Forms.TextBox();
+            this.pnlPlayer6 = new System.Windows.Forms.Panel();
+            this.btnAdd6 = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.panel3 = new System.Windows.Forms.Panel();
+            this.txtPlayer6Name = new System.Windows.Forms.TextBox();
+            this.btnBack = new System.Windows.Forms.Button();
+            this.pnlGameSettings = new System.Windows.Forms.Panel();
+            this.radioButton4 = new System.Windows.Forms.RadioButton();
+            this.radioButton3 = new System.Windows.Forms.RadioButton();
+            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.button3 = new System.Windows.Forms.Button();
-            this.panel4 = new System.Windows.Forms.Panel();
+            this.btnStart = new System.Windows.Forms.Button();
+            this.txtMessage = new System.Windows.Forms.TextBox();
+            this.btnSend = new System.Windows.Forms.Button();
+            this.pnlServerInfo = new System.Windows.Forms.Panel();
+            this.lblServerDescription = new System.Windows.Forms.Label();
+            this.lblServerName = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.panel5 = new System.Windows.Forms.Panel();
-            this.button5 = new System.Windows.Forms.Button();
-            this.label6 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.panel6 = new System.Windows.Forms.Panel();
-            this.label7 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.panel7 = new System.Windows.Forms.Panel();
+            this.pnlPlayer2 = new System.Windows.Forms.Panel();
+            this.btnAdd2 = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.panel9 = new System.Windows.Forms.Panel();
-            this.label10 = new System.Windows.Forms.Label();
-            this.textBox6 = new System.Windows.Forms.TextBox();
-            this.panel10 = new System.Windows.Forms.Panel();
-            this.button6 = new System.Windows.Forms.Button();
-            this.label11 = new System.Windows.Forms.Label();
-            this.textBox7 = new System.Windows.Forms.TextBox();
-            this.button7 = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
-            this.button9 = new System.Windows.Forms.Button();
-            this.textBox8 = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
-            this.radioButton4 = new System.Windows.Forms.RadioButton();
-            this.panel1.SuspendLayout();
-            this.panel8.SuspendLayout();
-            this.panel3.SuspendLayout();
-            this.panel4.SuspendLayout();
-            this.panel5.SuspendLayout();
-            this.panel6.SuspendLayout();
-            this.panel7.SuspendLayout();
-            this.panel9.SuspendLayout();
-            this.panel10.SuspendLayout();
+            this.txtPlayer2Name = new System.Windows.Forms.TextBox();
+            this.txtChat = new System.Windows.Forms.TextBox();
+            this.pnlPlayers.SuspendLayout();
+            this.pnlPlayer4.SuspendLayout();
+            this.pnlPlayer3.SuspendLayout();
+            this.pnlPlayer1.SuspendLayout();
+            this.pnlPlayer5.SuspendLayout();
+            this.pnlPlayer6.SuspendLayout();
+            this.pnlGameSettings.SuspendLayout();
+            this.pnlServerInfo.SuspendLayout();
+            this.pnlPlayer2.SuspendLayout();
             this.SuspendLayout();
             // 
-            // panel1
+            // pnlPlayers
             // 
-            this.panel1.Controls.Add(this.panel10);
-            this.panel1.Controls.Add(this.panel9);
-            this.panel1.Controls.Add(this.panel6);
-            this.panel1.Controls.Add(this.panel5);
-            this.panel1.Controls.Add(this.panel8);
-            this.panel1.Location = new System.Drawing.Point(13, 14);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(271, 324);
-            this.panel1.TabIndex = 0;
+            this.pnlPlayers.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlPlayers.Controls.Add(this.pnlPlayer4);
+            this.pnlPlayers.Controls.Add(this.pnlPlayer3);
+            this.pnlPlayers.Controls.Add(this.pnlPlayer1);
+            this.pnlPlayers.Controls.Add(this.pnlPlayer5);
+            this.pnlPlayers.Controls.Add(this.pnlPlayer6);
+            this.pnlPlayers.Location = new System.Drawing.Point(13, 14);
+            this.pnlPlayers.Name = "pnlPlayers";
+            this.pnlPlayers.Size = new System.Drawing.Size(271, 324);
+            this.pnlPlayers.TabIndex = 0;
             // 
-            // panel8
+            // pnlPlayer4
             // 
-            this.panel8.Controls.Add(this.button4);
-            this.panel8.Controls.Add(this.label9);
-            this.panel8.Controls.Add(this.textBox2);
-            this.panel8.Location = new System.Drawing.Point(0, 255);
-            this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(258, 52);
-            this.panel8.TabIndex = 4;
+            this.pnlPlayer4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlPlayer4.Controls.Add(this.btnAdd4);
+            this.pnlPlayer4.Controls.Add(this.label11);
+            this.pnlPlayer4.Controls.Add(this.txtPlayer4Name);
+            this.pnlPlayer4.Location = new System.Drawing.Point(5, 159);
+            this.pnlPlayer4.Name = "pnlPlayer4";
+            this.pnlPlayer4.Size = new System.Drawing.Size(258, 52);
+            this.pnlPlayer4.TabIndex = 6;
             // 
-            // button4
+            // btnAdd4
             // 
-            this.button4.Location = new System.Drawing.Point(205, 3);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(46, 46);
-            this.button4.TabIndex = 4;
-            this.button4.Text = "+";
-            this.button4.UseVisualStyleBackColor = true;
+            this.btnAdd4.Location = new System.Drawing.Point(205, 3);
+            this.btnAdd4.Name = "btnAdd4";
+            this.btnAdd4.Size = new System.Drawing.Size(46, 46);
+            this.btnAdd4.TabIndex = 4;
+            this.btnAdd4.Text = "+";
+            this.btnAdd4.UseVisualStyleBackColor = true;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(7, 20);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(70, 13);
+            this.label11.TabIndex = 3;
+            this.label11.Text = "Player Name:";
+            // 
+            // txtPlayer4Name
+            // 
+            this.txtPlayer4Name.Location = new System.Drawing.Point(83, 17);
+            this.txtPlayer4Name.Name = "txtPlayer4Name";
+            this.txtPlayer4Name.Size = new System.Drawing.Size(102, 20);
+            this.txtPlayer4Name.TabIndex = 2;
+            // 
+            // pnlPlayer3
+            // 
+            this.pnlPlayer3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlPlayer3.Controls.Add(this.btnAdd3);
+            this.pnlPlayer3.Controls.Add(this.label10);
+            this.pnlPlayer3.Controls.Add(this.txtPlayer3Name);
+            this.pnlPlayer3.Location = new System.Drawing.Point(5, 108);
+            this.pnlPlayer3.Name = "pnlPlayer3";
+            this.pnlPlayer3.Size = new System.Drawing.Size(258, 52);
+            this.pnlPlayer3.TabIndex = 8;
+            // 
+            // btnAdd3
+            // 
+            this.btnAdd3.Location = new System.Drawing.Point(205, 2);
+            this.btnAdd3.Name = "btnAdd3";
+            this.btnAdd3.Size = new System.Drawing.Size(46, 46);
+            this.btnAdd3.TabIndex = 8;
+            this.btnAdd3.Text = "+";
+            this.btnAdd3.UseVisualStyleBackColor = true;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(7, 20);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(70, 13);
+            this.label10.TabIndex = 3;
+            this.label10.Text = "Player Name:";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // txtPlayer3Name
+            // 
+            this.txtPlayer3Name.Location = new System.Drawing.Point(83, 17);
+            this.txtPlayer3Name.Name = "txtPlayer3Name";
+            this.txtPlayer3Name.Size = new System.Drawing.Size(102, 20);
+            this.txtPlayer3Name.TabIndex = 2;
+            // 
+            // pnlPlayer1
+            // 
+            this.pnlPlayer1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlPlayer1.Controls.Add(this.btnAdd1);
+            this.pnlPlayer1.Controls.Add(this.label7);
+            this.pnlPlayer1.Controls.Add(this.txtPlayer1Name);
+            this.pnlPlayer1.Location = new System.Drawing.Point(5, 6);
+            this.pnlPlayer1.Name = "pnlPlayer1";
+            this.pnlPlayer1.Size = new System.Drawing.Size(258, 52);
+            this.pnlPlayer1.TabIndex = 6;
+            // 
+            // btnAdd1
+            // 
+            this.btnAdd1.Location = new System.Drawing.Point(205, 2);
+            this.btnAdd1.Name = "btnAdd1";
+            this.btnAdd1.Size = new System.Drawing.Size(46, 46);
+            this.btnAdd1.TabIndex = 8;
+            this.btnAdd1.Text = "+";
+            this.btnAdd1.UseVisualStyleBackColor = true;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(7, 20);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(70, 13);
+            this.label7.TabIndex = 3;
+            this.label7.Text = "Player Name:";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // txtPlayer1Name
+            // 
+            this.txtPlayer1Name.Location = new System.Drawing.Point(83, 17);
+            this.txtPlayer1Name.Name = "txtPlayer1Name";
+            this.txtPlayer1Name.Size = new System.Drawing.Size(102, 20);
+            this.txtPlayer1Name.TabIndex = 2;
+            // 
+            // pnlPlayer5
+            // 
+            this.pnlPlayer5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlPlayer5.Controls.Add(this.btnAdd5);
+            this.pnlPlayer5.Controls.Add(this.label6);
+            this.pnlPlayer5.Controls.Add(this.txtPlayer5Name);
+            this.pnlPlayer5.Location = new System.Drawing.Point(5, 210);
+            this.pnlPlayer5.Name = "pnlPlayer5";
+            this.pnlPlayer5.Size = new System.Drawing.Size(258, 52);
+            this.pnlPlayer5.TabIndex = 5;
+            // 
+            // btnAdd5
+            // 
+            this.btnAdd5.Location = new System.Drawing.Point(205, 3);
+            this.btnAdd5.Name = "btnAdd5";
+            this.btnAdd5.Size = new System.Drawing.Size(46, 46);
+            this.btnAdd5.TabIndex = 4;
+            this.btnAdd5.Text = "+";
+            this.btnAdd5.UseVisualStyleBackColor = true;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(7, 20);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(70, 13);
+            this.label6.TabIndex = 3;
+            this.label6.Text = "Player Name:";
+            // 
+            // txtPlayer5Name
+            // 
+            this.txtPlayer5Name.Location = new System.Drawing.Point(83, 17);
+            this.txtPlayer5Name.Name = "txtPlayer5Name";
+            this.txtPlayer5Name.Size = new System.Drawing.Size(102, 20);
+            this.txtPlayer5Name.TabIndex = 2;
+            // 
+            // pnlPlayer6
+            // 
+            this.pnlPlayer6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlPlayer6.Controls.Add(this.btnAdd6);
+            this.pnlPlayer6.Controls.Add(this.label9);
+            this.pnlPlayer6.Controls.Add(this.txtPlayer6Name);
+            this.pnlPlayer6.Location = new System.Drawing.Point(5, 261);
+            this.pnlPlayer6.Name = "pnlPlayer6";
+            this.pnlPlayer6.Size = new System.Drawing.Size(258, 52);
+            this.pnlPlayer6.TabIndex = 4;
+            // 
+            // btnAdd6
+            // 
+            this.btnAdd6.Location = new System.Drawing.Point(205, 3);
+            this.btnAdd6.Name = "btnAdd6";
+            this.btnAdd6.Size = new System.Drawing.Size(46, 46);
+            this.btnAdd6.TabIndex = 4;
+            this.btnAdd6.Text = "+";
+            this.btnAdd6.UseVisualStyleBackColor = true;
             // 
             // label9
             // 
@@ -121,40 +269,85 @@
             this.label9.TabIndex = 3;
             this.label9.Text = "Player Name:";
             // 
-            // textBox2
+            // txtPlayer6Name
             // 
-            this.textBox2.Location = new System.Drawing.Point(83, 17);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(102, 20);
-            this.textBox2.TabIndex = 2;
+            this.txtPlayer6Name.Location = new System.Drawing.Point(83, 17);
+            this.txtPlayer6Name.Name = "txtPlayer6Name";
+            this.txtPlayer6Name.Size = new System.Drawing.Size(102, 20);
+            this.txtPlayer6Name.TabIndex = 2;
             // 
-            // button1
+            // btnBack
             // 
-            this.button1.Location = new System.Drawing.Point(12, 524);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Leave";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnBack.Location = new System.Drawing.Point(12, 524);
+            this.btnBack.Name = "btnBack";
+            this.btnBack.Size = new System.Drawing.Size(75, 23);
+            this.btnBack.TabIndex = 2;
+            this.btnBack.Text = "Leave";
+            this.btnBack.UseVisualStyleBackColor = true;
             // 
-            // panel3
+            // pnlGameSettings
             // 
-            this.panel3.AutoScroll = true;
-            this.panel3.Controls.Add(this.radioButton4);
-            this.panel3.Controls.Add(this.radioButton3);
-            this.panel3.Controls.Add(this.radioButton2);
-            this.panel3.Controls.Add(this.radioButton1);
-            this.panel3.Controls.Add(this.label3);
-            this.panel3.Controls.Add(this.label2);
-            this.panel3.Location = new System.Drawing.Point(290, 119);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(190, 398);
-            this.panel3.TabIndex = 3;
+            this.pnlGameSettings.AutoScroll = true;
+            this.pnlGameSettings.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlGameSettings.Controls.Add(this.radioButton4);
+            this.pnlGameSettings.Controls.Add(this.radioButton3);
+            this.pnlGameSettings.Controls.Add(this.radioButton2);
+            this.pnlGameSettings.Controls.Add(this.radioButton1);
+            this.pnlGameSettings.Controls.Add(this.label3);
+            this.pnlGameSettings.Controls.Add(this.label2);
+            this.pnlGameSettings.Location = new System.Drawing.Point(290, 119);
+            this.pnlGameSettings.Name = "pnlGameSettings";
+            this.pnlGameSettings.Size = new System.Drawing.Size(190, 398);
+            this.pnlGameSettings.TabIndex = 3;
+            // 
+            // radioButton4
+            // 
+            this.radioButton4.AutoSize = true;
+            this.radioButton4.Location = new System.Drawing.Point(47, 93);
+            this.radioButton4.Name = "radioButton4";
+            this.radioButton4.Size = new System.Drawing.Size(80, 17);
+            this.radioButton4.TabIndex = 5;
+            this.radioButton4.TabStop = true;
+            this.radioButton4.Text = "Two Decks";
+            this.radioButton4.UseVisualStyleBackColor = true;
+            // 
+            // radioButton3
+            // 
+            this.radioButton3.AutoSize = true;
+            this.radioButton3.Location = new System.Drawing.Point(47, 70);
+            this.radioButton3.Name = "radioButton3";
+            this.radioButton3.Size = new System.Drawing.Size(94, 17);
+            this.radioButton3.TabIndex = 4;
+            this.radioButton3.TabStop = true;
+            this.radioButton3.Text = "Deck and Half";
+            this.radioButton3.UseVisualStyleBackColor = true;
+            // 
+            // radioButton2
+            // 
+            this.radioButton2.AutoSize = true;
+            this.radioButton2.Location = new System.Drawing.Point(47, 47);
+            this.radioButton2.Name = "radioButton2";
+            this.radioButton2.Size = new System.Drawing.Size(70, 17);
+            this.radioButton2.TabIndex = 3;
+            this.radioButton2.TabStop = true;
+            this.radioButton2.Text = "Full Deck";
+            this.radioButton2.UseVisualStyleBackColor = true;
+            // 
+            // radioButton1
+            // 
+            this.radioButton1.AutoSize = true;
+            this.radioButton1.Location = new System.Drawing.Point(47, 24);
+            this.radioButton1.Name = "radioButton1";
+            this.radioButton1.Size = new System.Drawing.Size(73, 17);
+            this.radioButton1.TabIndex = 2;
+            this.radioButton1.TabStop = true;
+            this.radioButton1.Text = "Half Deck";
+            this.radioButton1.UseVisualStyleBackColor = true;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(4, 14);
+            this.label3.Location = new System.Drawing.Point(4, 6);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(88, 13);
             this.label3.TabIndex = 1;
@@ -169,41 +362,59 @@
             this.label2.TabIndex = 0;
             this.label2.Text = "Game Settings";
             // 
-            // button2
+            // btnStart
             // 
-            this.button2.Location = new System.Drawing.Point(405, 524);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 4;
-            this.button2.Text = "Start";
-            this.button2.UseVisualStyleBackColor = true;
+            this.btnStart.Location = new System.Drawing.Point(405, 524);
+            this.btnStart.Name = "btnStart";
+            this.btnStart.Size = new System.Drawing.Size(75, 23);
+            this.btnStart.TabIndex = 4;
+            this.btnStart.Text = "Start";
+            this.btnStart.UseVisualStyleBackColor = true;
             // 
-            // textBox1
+            // txtMessage
             // 
-            this.textBox1.Location = new System.Drawing.Point(13, 497);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(185, 20);
-            this.textBox1.TabIndex = 5;
+            this.txtMessage.Location = new System.Drawing.Point(13, 497);
+            this.txtMessage.Name = "txtMessage";
+            this.txtMessage.Size = new System.Drawing.Size(192, 20);
+            this.txtMessage.TabIndex = 5;
             // 
-            // button3
+            // btnSend
             // 
-            this.button3.Location = new System.Drawing.Point(209, 494);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 6;
-            this.button3.Text = "Send";
-            this.button3.UseVisualStyleBackColor = true;
+            this.btnSend.Location = new System.Drawing.Point(209, 495);
+            this.btnSend.Name = "btnSend";
+            this.btnSend.Size = new System.Drawing.Size(75, 23);
+            this.btnSend.TabIndex = 6;
+            this.btnSend.Text = "Send";
+            this.btnSend.UseVisualStyleBackColor = true;
             // 
-            // panel4
+            // pnlServerInfo
             // 
-            this.panel4.Controls.Add(this.label12);
-            this.panel4.Controls.Add(this.label1);
-            this.panel4.Controls.Add(this.label5);
-            this.panel4.Controls.Add(this.label4);
-            this.panel4.Location = new System.Drawing.Point(290, 13);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(190, 100);
-            this.panel4.TabIndex = 7;
+            this.pnlServerInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlServerInfo.Controls.Add(this.lblServerDescription);
+            this.pnlServerInfo.Controls.Add(this.lblServerName);
+            this.pnlServerInfo.Controls.Add(this.label5);
+            this.pnlServerInfo.Controls.Add(this.label4);
+            this.pnlServerInfo.Location = new System.Drawing.Point(290, 13);
+            this.pnlServerInfo.Name = "pnlServerInfo";
+            this.pnlServerInfo.Size = new System.Drawing.Size(190, 100);
+            this.pnlServerInfo.TabIndex = 7;
+            // 
+            // lblServerDescription
+            // 
+            this.lblServerDescription.Location = new System.Drawing.Point(4, 39);
+            this.lblServerDescription.Name = "lblServerDescription";
+            this.lblServerDescription.Size = new System.Drawing.Size(183, 50);
+            this.lblServerDescription.TabIndex = 3;
+            this.lblServerDescription.Text = "DESCRIPTION";
+            // 
+            // lblServerName
+            // 
+            this.lblServerName.AutoSize = true;
+            this.lblServerName.Location = new System.Drawing.Point(82, 4);
+            this.lblServerName.Name = "lblServerName";
+            this.lblServerName.Size = new System.Drawing.Size(38, 13);
+            this.lblServerName.TabIndex = 2;
+            this.lblServerName.Text = "NAME";
             // 
             // label5
             // 
@@ -223,77 +434,25 @@
             this.label4.TabIndex = 0;
             this.label4.Text = "Server Name:";
             // 
-            // panel5
+            // pnlPlayer2
             // 
-            this.panel5.Controls.Add(this.button5);
-            this.panel5.Controls.Add(this.label6);
-            this.panel5.Controls.Add(this.textBox3);
-            this.panel5.Location = new System.Drawing.Point(0, 204);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(258, 52);
-            this.panel5.TabIndex = 5;
+            this.pnlPlayer2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlPlayer2.Controls.Add(this.btnAdd2);
+            this.pnlPlayer2.Controls.Add(this.label8);
+            this.pnlPlayer2.Controls.Add(this.txtPlayer2Name);
+            this.pnlPlayer2.Location = new System.Drawing.Point(19, 72);
+            this.pnlPlayer2.Name = "pnlPlayer2";
+            this.pnlPlayer2.Size = new System.Drawing.Size(258, 52);
+            this.pnlPlayer2.TabIndex = 7;
             // 
-            // button5
+            // btnAdd2
             // 
-            this.button5.Location = new System.Drawing.Point(205, 3);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(46, 46);
-            this.button5.TabIndex = 4;
-            this.button5.Text = "+";
-            this.button5.UseVisualStyleBackColor = true;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(7, 20);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(70, 13);
-            this.label6.TabIndex = 3;
-            this.label6.Text = "Player Name:";
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(83, 17);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(102, 20);
-            this.textBox3.TabIndex = 2;
-            // 
-            // panel6
-            // 
-            this.panel6.Controls.Add(this.button9);
-            this.panel6.Controls.Add(this.label7);
-            this.panel6.Controls.Add(this.textBox4);
-            this.panel6.Location = new System.Drawing.Point(0, 0);
-            this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(258, 52);
-            this.panel6.TabIndex = 6;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(7, 20);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(70, 13);
-            this.label7.TabIndex = 3;
-            this.label7.Text = "Player Name:";
-            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // textBox4
-            // 
-            this.textBox4.Location = new System.Drawing.Point(83, 17);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(102, 20);
-            this.textBox4.TabIndex = 2;
-            // 
-            // panel7
-            // 
-            this.panel7.Controls.Add(this.button8);
-            this.panel7.Controls.Add(this.label8);
-            this.panel7.Controls.Add(this.textBox5);
-            this.panel7.Location = new System.Drawing.Point(13, 65);
-            this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(258, 52);
-            this.panel7.TabIndex = 7;
+            this.btnAdd2.Location = new System.Drawing.Point(205, 3);
+            this.btnAdd2.Name = "btnAdd2";
+            this.btnAdd2.Size = new System.Drawing.Size(46, 46);
+            this.btnAdd2.TabIndex = 8;
+            this.btnAdd2.Text = "+";
+            this.btnAdd2.UseVisualStyleBackColor = true;
             // 
             // label8
             // 
@@ -305,207 +464,57 @@
             this.label8.Text = "Player Name:";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // textBox5
+            // txtPlayer2Name
             // 
-            this.textBox5.Location = new System.Drawing.Point(83, 17);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(102, 20);
-            this.textBox5.TabIndex = 2;
+            this.txtPlayer2Name.Location = new System.Drawing.Point(83, 17);
+            this.txtPlayer2Name.Name = "txtPlayer2Name";
+            this.txtPlayer2Name.Size = new System.Drawing.Size(102, 20);
+            this.txtPlayer2Name.TabIndex = 2;
             // 
-            // panel9
+            // txtChat
             // 
-            this.panel9.Controls.Add(this.button7);
-            this.panel9.Controls.Add(this.label10);
-            this.panel9.Controls.Add(this.textBox6);
-            this.panel9.Location = new System.Drawing.Point(0, 102);
-            this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(258, 52);
-            this.panel9.TabIndex = 8;
+            this.txtChat.Location = new System.Drawing.Point(13, 344);
+            this.txtChat.Multiline = true;
+            this.txtChat.Name = "txtChat";
+            this.txtChat.Size = new System.Drawing.Size(271, 147);
+            this.txtChat.TabIndex = 8;
             // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(7, 20);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(70, 13);
-            this.label10.TabIndex = 3;
-            this.label10.Text = "Player Name:";
-            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // textBox6
-            // 
-            this.textBox6.Location = new System.Drawing.Point(83, 17);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(102, 20);
-            this.textBox6.TabIndex = 2;
-            // 
-            // panel10
-            // 
-            this.panel10.Controls.Add(this.button6);
-            this.panel10.Controls.Add(this.label11);
-            this.panel10.Controls.Add(this.textBox7);
-            this.panel10.Location = new System.Drawing.Point(0, 153);
-            this.panel10.Name = "panel10";
-            this.panel10.Size = new System.Drawing.Size(258, 52);
-            this.panel10.TabIndex = 6;
-            // 
-            // button6
-            // 
-            this.button6.Location = new System.Drawing.Point(205, 3);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(46, 46);
-            this.button6.TabIndex = 4;
-            this.button6.Text = "+";
-            this.button6.UseVisualStyleBackColor = true;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(7, 20);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(70, 13);
-            this.label11.TabIndex = 3;
-            this.label11.Text = "Player Name:";
-            // 
-            // textBox7
-            // 
-            this.textBox7.Location = new System.Drawing.Point(83, 17);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(102, 20);
-            this.textBox7.TabIndex = 2;
-            // 
-            // button7
-            // 
-            this.button7.Location = new System.Drawing.Point(205, 2);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(46, 46);
-            this.button7.TabIndex = 8;
-            this.button7.Text = "+";
-            this.button7.UseVisualStyleBackColor = true;
-            // 
-            // button8
-            // 
-            this.button8.Location = new System.Drawing.Point(205, 3);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(46, 46);
-            this.button8.TabIndex = 8;
-            this.button8.Text = "+";
-            this.button8.UseVisualStyleBackColor = true;
-            // 
-            // button9
-            // 
-            this.button9.Location = new System.Drawing.Point(205, 2);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(46, 46);
-            this.button9.TabIndex = 8;
-            this.button9.Text = "+";
-            this.button9.UseVisualStyleBackColor = true;
-            // 
-            // textBox8
-            // 
-            this.textBox8.Location = new System.Drawing.Point(13, 348);
-            this.textBox8.Multiline = true;
-            this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(271, 143);
-            this.textBox8.TabIndex = 8;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(82, 4);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(38, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "NAME";
-            // 
-            // label12
-            // 
-            this.label12.Location = new System.Drawing.Point(4, 39);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(183, 50);
-            this.label12.TabIndex = 3;
-            this.label12.Text = "DESCRIPTION";
-            // 
-            // radioButton1
-            // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(47, 32);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(73, 17);
-            this.radioButton1.TabIndex = 2;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Half Deck";
-            this.radioButton1.UseVisualStyleBackColor = true;
-            // 
-            // radioButton2
-            // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(47, 55);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(70, 17);
-            this.radioButton2.TabIndex = 3;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "Full Deck";
-            this.radioButton2.UseVisualStyleBackColor = true;
-            // 
-            // radioButton3
-            // 
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(47, 78);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(94, 17);
-            this.radioButton3.TabIndex = 4;
-            this.radioButton3.TabStop = true;
-            this.radioButton3.Text = "Deck and Half";
-            this.radioButton3.UseVisualStyleBackColor = true;
-            // 
-            // radioButton4
-            // 
-            this.radioButton4.AutoSize = true;
-            this.radioButton4.Location = new System.Drawing.Point(47, 101);
-            this.radioButton4.Name = "radioButton4";
-            this.radioButton4.Size = new System.Drawing.Size(80, 17);
-            this.radioButton4.TabIndex = 5;
-            this.radioButton4.TabStop = true;
-            this.radioButton4.Text = "Two Decks";
-            this.radioButton4.UseVisualStyleBackColor = true;
-            // 
-            // Lobby
+            // frmLobby
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(491, 559);
-            this.Controls.Add(this.textBox8);
-            this.Controls.Add(this.panel7);
-            this.Controls.Add(this.panel4);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.panel3);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.txtChat);
+            this.Controls.Add(this.pnlPlayer2);
+            this.Controls.Add(this.pnlServerInfo);
+            this.Controls.Add(this.btnSend);
+            this.Controls.Add(this.txtMessage);
+            this.Controls.Add(this.btnStart);
+            this.Controls.Add(this.pnlGameSettings);
+            this.Controls.Add(this.btnBack);
+            this.Controls.Add(this.pnlPlayers);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "Lobby";
+            this.Name = "frmLobby";
             this.Text = "Lobby";
-            this.panel1.ResumeLayout(false);
-            this.panel8.ResumeLayout(false);
-            this.panel8.PerformLayout();
-            this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
-            this.panel4.ResumeLayout(false);
-            this.panel4.PerformLayout();
-            this.panel5.ResumeLayout(false);
-            this.panel5.PerformLayout();
-            this.panel6.ResumeLayout(false);
-            this.panel6.PerformLayout();
-            this.panel7.ResumeLayout(false);
-            this.panel7.PerformLayout();
-            this.panel9.ResumeLayout(false);
-            this.panel9.PerformLayout();
-            this.panel10.ResumeLayout(false);
-            this.panel10.PerformLayout();
+            this.pnlPlayers.ResumeLayout(false);
+            this.pnlPlayer4.ResumeLayout(false);
+            this.pnlPlayer4.PerformLayout();
+            this.pnlPlayer3.ResumeLayout(false);
+            this.pnlPlayer3.PerformLayout();
+            this.pnlPlayer1.ResumeLayout(false);
+            this.pnlPlayer1.PerformLayout();
+            this.pnlPlayer5.ResumeLayout(false);
+            this.pnlPlayer5.PerformLayout();
+            this.pnlPlayer6.ResumeLayout(false);
+            this.pnlPlayer6.PerformLayout();
+            this.pnlGameSettings.ResumeLayout(false);
+            this.pnlGameSettings.PerformLayout();
+            this.pnlServerInfo.ResumeLayout(false);
+            this.pnlServerInfo.PerformLayout();
+            this.pnlPlayer2.ResumeLayout(false);
+            this.pnlPlayer2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -513,47 +522,47 @@
 
         #endregion
 
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel8;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Panel pnlPlayers;
+        private System.Windows.Forms.Panel pnlPlayer6;
+        private System.Windows.Forms.Button btnAdd6;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.TextBox txtPlayer6Name;
+        private System.Windows.Forms.Button btnBack;
+        private System.Windows.Forms.Panel pnlGameSettings;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Button btnStart;
+        private System.Windows.Forms.TextBox txtMessage;
+        private System.Windows.Forms.Button btnSend;
+        private System.Windows.Forms.Panel pnlServerInfo;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Panel panel10;
-        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Panel pnlPlayer4;
+        private System.Windows.Forms.Button btnAdd4;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.TextBox textBox7;
-        private System.Windows.Forms.Panel panel9;
-        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.TextBox txtPlayer4Name;
+        private System.Windows.Forms.Panel pnlPlayer3;
+        private System.Windows.Forms.Button btnAdd3;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TextBox textBox6;
-        private System.Windows.Forms.Panel panel6;
-        private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.TextBox txtPlayer3Name;
+        private System.Windows.Forms.Panel pnlPlayer1;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.Panel panel5;
-        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.TextBox txtPlayer1Name;
+        private System.Windows.Forms.Panel pnlPlayer5;
+        private System.Windows.Forms.Button btnAdd5;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox txtPlayer5Name;
         private System.Windows.Forms.RadioButton radioButton4;
         private System.Windows.Forms.RadioButton radioButton3;
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Panel panel7;
-        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Label lblServerDescription;
+        private System.Windows.Forms.Label lblServerName;
+        private System.Windows.Forms.Panel pnlPlayer2;
+        private System.Windows.Forms.Button btnAdd2;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.TextBox textBox8;
+        private System.Windows.Forms.TextBox txtPlayer2Name;
+        private System.Windows.Forms.TextBox txtChat;
+        private System.Windows.Forms.Button btnAdd1;
     }
 }

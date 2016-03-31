@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace DurakGame
 {
-    public partial class Lobby : Form
+    public partial class frmLobby : Form
     {
-        public Lobby()
+        public frmLobby()
         {
             InitializeComponent();
         }

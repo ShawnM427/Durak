@@ -33,6 +33,7 @@
             this.btnPlaySingle = new System.Windows.Forms.Button();
             this.btnPlayMulti = new System.Windows.Forms.Button();
             this.btnAbout = new System.Windows.Forms.Button();
+            this.btnSettings = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblTitle
@@ -48,7 +49,7 @@
             // lblCopyRight
             // 
             this.lblCopyRight.AutoSize = true;
-            this.lblCopyRight.Location = new System.Drawing.Point(107, 295);
+            this.lblCopyRight.Location = new System.Drawing.Point(107, 334);
             this.lblCopyRight.Name = "lblCopyRight";
             this.lblCopyRight.Size = new System.Drawing.Size(179, 13);
             this.lblCopyRight.TabIndex = 1;
@@ -87,7 +88,7 @@
             this.btnAbout.BackColor = System.Drawing.Color.DarkGreen;
             this.btnAbout.Font = new System.Drawing.Font("Impact", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAbout.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnAbout.Location = new System.Drawing.Point(95, 228);
+            this.btnAbout.Location = new System.Drawing.Point(95, 279);
             this.btnAbout.Name = "btnAbout";
             this.btnAbout.Size = new System.Drawing.Size(202, 45);
             this.btnAbout.TabIndex = 4;
@@ -96,12 +97,25 @@
             this.btnAbout.MouseEnter += new System.EventHandler(this.btnPlaySingle_MouseEnter);
             this.btnAbout.MouseLeave += new System.EventHandler(this.btnPlaySingle_MouseLeave);
             // 
+            // btnSettings
+            // 
+            this.btnSettings.BackColor = System.Drawing.Color.DarkGreen;
+            this.btnSettings.Font = new System.Drawing.Font("Impact", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSettings.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnSettings.Location = new System.Drawing.Point(95, 228);
+            this.btnSettings.Name = "btnSettings";
+            this.btnSettings.Size = new System.Drawing.Size(202, 45);
+            this.btnSettings.TabIndex = 5;
+            this.btnSettings.Text = "Settings";
+            this.btnSettings.UseVisualStyleBackColor = false;
+            // 
             // frmDurakMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkGreen;
-            this.ClientSize = new System.Drawing.Size(393, 317);
+            this.ClientSize = new System.Drawing.Size(393, 358);
+            this.Controls.Add(this.btnSettings);
             this.Controls.Add(this.btnAbout);
             this.Controls.Add(this.btnPlayMulti);
             this.Controls.Add(this.btnPlaySingle);
@@ -125,5 +139,6 @@
         private System.Windows.Forms.Button btnPlaySingle;
         private System.Windows.Forms.Button btnPlayMulti;
         private System.Windows.Forms.Button btnAbout;
+        private System.Windows.Forms.Button btnSettings;
     }
 }
