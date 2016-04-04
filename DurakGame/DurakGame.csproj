@@ -119,9 +119,12 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rules\CardPlayed.cs" />
+    <Compile Include="Rules\EmptyTalon.cs" />
     <Compile Include="Rules\InitRoundStates.cs" />
     <Compile Include="Rules\StateRule.cs" />
+    <Compile Include="Rules\VerifyBattleWin.cs" />
     <Compile Include="Rules\VerifyCardInHand.cs" />
+    <Compile Include="Rules\VerifyDuelWin.cs" />
     <Compile Include="Rules\VerifyTurnRule.cs" />
     <Compile Include="Settings.cs">
       <SubType>Form</SubType>
