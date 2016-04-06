@@ -1,6 +1,8 @@
 ﻿using Lidgren.Network;
 using System.Linq;
 using System;
+using System.Collections.Generic;
+using System.Collections;
 
 namespace Durak.Common
 {
@@ -8,7 +10,7 @@ namespace Durak.Common
     /// Stores a list of all players for a game, this is used to look up
     /// players by their ID's
     /// </summary>
-    public sealed class PlayerCollection
+    public sealed class PlayerCollection : IEnumerable<Player>
     {
         /// <summary>
         /// Defines the default player count for new player collections
@@ -117,6 +119,23 @@ namespace Durak.Common
         {
             for (int index = 0; index < myPlayers.Length; index++)
                 myPlayers[index] = null;
+        }
+
+        /// <summary>
+        /// Gets the iterator instance to enumerate over all the players in this collection
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerator<Player> GetEnumerator()
+        {
+            return myPlayers.Where(x => x != null).GetEnumerator();
+        }
+
+        /// <summary>
+        /// Gets the iterator instance to enumerate over all the players in this collection
+        /// </summary>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return myPlayers.Where(x => x != null).GetEnumerator();
         }
     }
 }

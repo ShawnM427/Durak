@@ -72,6 +72,10 @@ namespace Durak.Server
         /// Stores all the bots operating on this server
         /// </summary>
         private List<BotPlayer> myBots;
+        /// <summary>
+        /// Stores whether this server is in singleplayer mode (only accepting local connections)
+        /// </summary>
+        private bool isSinglePlayer;
 
         /// <summary>
         /// Stores whether this server is set up for the current game
@@ -122,6 +126,27 @@ namespace Durak.Server
         public string Password
         {
             set { myPassword = SecurityUtils.Hash(value); }
+        }
+        /// <summary>
+        /// Gets this server instance's tag
+        /// </summary>
+        public ServerTag Tag
+        {
+            get { return myTag; }
+        }
+        /// <summary>
+        /// Gets or sets whether this server is in singleplayer mode (only accepts local connections)
+        /// </summary>
+        public bool IsSinglePlayerMode
+        {
+            get { return isSinglePlayer; }
+            set
+            {
+                if (myServer.Status == NetPeerStatus.NotRunning)
+                    isSinglePlayer = value;
+                else
+                    throw new ArgumentException("Cannot set server to singleplayer after server has been started");
+            }
         }
 
         /// <summary>
@@ -747,6 +772,9 @@ namespace Durak.Server
 
                     // Handle when a player is trying to join
                     case NetIncomingMessageType.ConnectionApproval:
+
+                        if (IsSinglePlayerMode)
+                            inMsg.SenderConnection.Deny("Server is in singleplayer mode");
 
                         // Get the client's info an hashed password from the packet
                         ClientTag clientTag = ClientTag.ReadFromPacket(inMsg);

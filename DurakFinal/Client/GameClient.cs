@@ -1,5 +1,6 @@
 ﻿using Durak.Common;
 using Durak.Common.Cards;
+using Durak.Server;
 using Lidgren.Network;
 using System;
 using System.Collections;
@@ -146,7 +147,7 @@ namespace Durak.Client
         /// <summary>
         /// Invoked when a client's number of cards in hand has changed
         /// </summary>
-        public event PlayerCardCountChangedEvent OnPlayerCountChanged;
+        public event PlayerCardCountChangedEvent OnPlayerCardCountChanged;
 
         #endregion
 
@@ -482,8 +483,8 @@ namespace Durak.Client
 
             myKnownPlayers[playerId].NumCards = numCards;
 
-            if (OnPlayerCountChanged != null)
-                OnPlayerCountChanged(myKnownPlayers[playerId], numCards);
+            if (OnPlayerCardCountChanged != null)
+                OnPlayerCardCountChanged(myKnownPlayers[playerId], numCards);
         }
 
         /// <summary>
@@ -718,6 +719,33 @@ namespace Durak.Client
                     myConnectedServer = null;
                 }
             }
+        }
+
+        /// <summary>
+        /// Connects to a local server instance
+        /// </summary>
+        /// <param name="server">The server tag to connect to</param>
+        /// <param name="serverPassword">The SHA256 encrypted password to connect to the server</param>
+        public void ConnectTo(GameServer server, string serverPassword = "")
+        {
+            if (myConnectedServer == null)
+            {
+                // Hash the password before sending
+                serverPassword = SecurityUtils.Hash(serverPassword);
+
+                // Write the hail message and send it
+                NetOutgoingMessage hailMessage = myPeer.CreateMessage();
+                myTag.WriteToPacket(hailMessage);
+                hailMessage.Write(serverPassword);
+
+                // Update our connected tag
+                myConnectedServer = server.Tag;
+
+                // Attempt the connection
+                myPeer.Connect(new IPEndPoint(server.IP, NetSettings.DEFAULT_SERVER_PORT), hailMessage);
+            }
+            else
+                throw new InvalidOperationException("Cannot connect when this client is already connected");
         }
 
         /// <summary>
