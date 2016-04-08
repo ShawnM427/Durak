@@ -24,6 +24,11 @@ namespace Durak.Server
         string ReadableName { get; }
 
         /// <summary>
+        /// Gets the priority to excecute in, higher priority gets excecuted first
+        /// </summary>
+        int Priority { get; }
+
+        /// <summary>
         /// Validates the game state
         /// </summary>
         /// <param name="players">The player collection for this game</param>

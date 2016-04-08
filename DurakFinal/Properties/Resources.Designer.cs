@@ -481,6 +481,73 @@ namespace Durak.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ADAH 
+        ///JAMES 
+        ///JOHN 
+        ///ROBERT 
+        ///MICHAEL 
+        ///MARY 
+        ///WILLIAM 
+        ///DAVID 
+        ///RICHARD 
+        ///CHARLES 
+        ///JOSEPH 
+        ///THOMAS 
+        ///PATRICIA 
+        ///CHRISTOPHER 
+        ///LINDA 
+        ///BARBARA 
+        ///DANIEL 
+        ///PAUL 
+        ///MARK 
+        ///ELIZABETH 
+        ///DONALD 
+        ///JENNIFER 
+        ///GEORGE 
+        ///MARIA 
+        ///KENNETH 
+        ///SUSAN 
+        ///STEVEN 
+        ///EDWARD 
+        ///MARGARET 
+        ///BRIAN 
+        ///RONALD 
+        ///DOROTHY 
+        ///ANTHONY 
+        ///LISA 
+        ///KEVIN 
+        ///NANCY 
+        ///KAREN 
+        ///BETTY 
+        ///HELEN 
+        ///JASON 
+        ///MATTHEW 
+        ///GARY 
+        ///TIMOTHY 
+        ///SANDRA 
+        ///JOSE 
+        ///LARRY 
+        ///JEFFREY 
+        ///FRANK 
+        ///DONNA 
+        ///CAROL 
+        ///RUTH 
+        ///SCOTT 
+        ///ERIC 
+        ///STEPHEN 
+        ///ANDREW 
+        ///SHARON 
+        ///MICHELLE 
+        ///LAURA 
+        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string names_corrected {
+            get {
+                return ResourceManager.GetString("names_corrected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap Spades_Ace {

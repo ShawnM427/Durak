@@ -79,8 +79,9 @@
             this.btnPlayMulti.Name = "btnPlayMulti";
             this.btnPlayMulti.Size = new System.Drawing.Size(202, 45);
             this.btnPlayMulti.TabIndex = 3;
-            this.btnPlayMulti.Text = "Multiplayer Player";
+            this.btnPlayMulti.Text = "Multiplayer";
             this.btnPlayMulti.UseVisualStyleBackColor = false;
+            this.btnPlayMulti.Click += new System.EventHandler(this.btnPlayMulti_Click);
             this.btnPlayMulti.MouseEnter += new System.EventHandler(this.btnPlaySingle_MouseEnter);
             this.btnPlayMulti.MouseLeave += new System.EventHandler(this.btnPlaySingle_MouseLeave);
             // 

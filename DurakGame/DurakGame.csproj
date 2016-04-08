@@ -120,11 +120,25 @@
     <Compile Include="MultiplayerMode.Designer.cs">
       <DependentUpon>MultiplayerMode.cs</DependentUpon>
     </Compile>
+    <Compile Include="PlayerView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PlayerView.Designer.cs">
+      <DependentUpon>PlayerView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Prompt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+<<<<<<< HEAD
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+=======
     <Compile Include="Rules\AttackerLose.cs" />
     <Compile Include="Rules\AttackingRule.cs" />
+>>>>>>> origin/master
     <Compile Include="Rules\CardPlayed.cs" />
     <Compile Include="Rules\DefendingRule.cs" />
     <Compile Include="Rules\DrawCardsRule.cs" />
@@ -137,6 +151,12 @@
     <Compile Include="Rules\VerifyCardInHand.cs" />
     <Compile Include="Rules\VerifyDuelWin.cs" />
     <Compile Include="Rules\VerifyTurnRule.cs" />
+    <Compile Include="ServerBrowser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ServerBrowser.Designer.cs">
+      <DependentUpon>ServerBrowser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Settings.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -164,10 +184,16 @@
     <EmbeddedResource Include="MultiplayerMode.resx">
       <DependentUpon>MultiplayerMode.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="PlayerView.resx">
+      <DependentUpon>PlayerView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ServerBrowser.resx">
+      <DependentUpon>ServerBrowser.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Settings.resx">
       <DependentUpon>Settings.cs</DependentUpon>
@@ -179,11 +205,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -198,6 +219,30 @@
       <Project>{491019da-8910-431f-9142-ac6ea10ed4ca}</Project>
       <Name>DurakCommon</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="sandbox\names-corrected.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="sandbox\netIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="sandbox\notReady.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="sandbox\ready.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="sandbox\silhoutte.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="sandbox\bot.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="sandbox\logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="sandbox\delete.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

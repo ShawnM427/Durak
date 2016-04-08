@@ -1,8 +1,10 @@
 ﻿using Durak.Common;
 using Durak.Common.Cards;
+using Durak.Properties;
 using Lidgren.Network;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
@@ -16,6 +18,13 @@ namespace Durak.Server
     /// </summary>
     public class GameServer
     {
+        private static readonly string[] BOT_NAMES;
+
+        static GameServer()
+        {
+            BOT_NAMES = Resources.names_corrected.ToLower().Split('\n');
+        }
+
         /// <summary>
         /// Stores this server's IP address
         /// </summary>
@@ -170,6 +179,16 @@ namespace Durak.Server
                 }
             }
         }
+        public ServerState State
+        {
+            get
+            {
+                if (myServer.Status != NetPeerStatus.Running)
+                    return ServerState.NotRunning;
+                else
+                    return myState;
+            }
+        }
 
         /// <summary>
         /// Creates a new instance of a game server
@@ -263,7 +282,7 @@ namespace Durak.Server
 
             // Create the network peer
             myServer = new NetServer(netConfig);
-
+            
             // Register the callback function. Lidgren will handle the threading for us
             myServer.RegisterReceivedCallback(new SendOrPostCallback(MessageReceived));
 
@@ -396,6 +415,7 @@ namespace Durak.Server
 
                 // Notify clients
                 NetOutgoingMessage updateMessage = myServer.CreateMessage();
+                updateMessage.Write((byte)MessageType.NotifyServerStateChanged);
                 updateMessage.Write((byte)state);
                 updateMessage.Write(reason);
                 SendToAll(updateMessage);
@@ -655,6 +675,7 @@ namespace Durak.Server
             msg.Write((bool)(player == myGameHost));
             msg.WritePadBits();
 
+            msg.Write(myPlayers.Count);
             msg.Write(myPlayers.PlayerCount);
 
             for (byte index = 0; index < myPlayers.Count; index++)
@@ -805,7 +826,7 @@ namespace Durak.Server
                     // Handle when a player is trying to join
                     case NetIncomingMessageType.ConnectionApproval:
 
-                        if (IsSinglePlayerMode && inMsg.SenderEndPoint.Address != myAddress)
+                        if (IsSinglePlayerMode & inMsg.SenderEndPoint.Address.ToString() != myAddress.ToString())
                             inMsg.SenderConnection.Deny("Server is in singleplayer mode");
 
                         // Get the client's info an hashed password from the packet
@@ -1056,6 +1077,13 @@ namespace Durak.Server
             byte difficulty = msg.ReadByte();
             string botName = msg.ReadString();
 
+            if (string.IsNullOrWhiteSpace(botName))
+            {                
+                Random r = new Random();
+                int randomLineNumber = r.Next(0, BOT_NAMES.Length - 1);
+                botName = BOT_NAMES[randomLineNumber];
+            }
+
             // We can only add bots in lobby
             if (myState == ServerState.InLobby)
             {
@@ -1113,6 +1141,12 @@ namespace Durak.Server
                 send.Write((byte)MessageType.PlayerKicked);
                 send.Write(playerId);
                 send.Write(reason);
+
+                if (myPlayers[playerId].IsBot)
+                {
+                    myBots.Remove(myBots.FirstOrDefault(x => x.Player == myPlayers[playerId]));
+                    PlayerLeft(myPlayers[playerId], reason);
+                }
 
                 // Kick the player
                 myPlayers[playerId].Connection.Disconnect("You have been kicked: " + reason);

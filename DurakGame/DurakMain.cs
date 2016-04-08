@@ -38,5 +38,15 @@ namespace DurakGame
 
             this.Show();
         }
+
+        private void btnPlayMulti_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+
+            frmMultiplayerMode modeSelect = new frmMultiplayerMode();
+            modeSelect.ShowDialog();
+
+            this.Show();
+        }
     }
 }

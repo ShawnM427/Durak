@@ -33,7 +33,10 @@ namespace Durak
             set
             {
                 myCard = value;
-                pbMyPictureBox.Image = myCard.GetCardImage(); // Update the card image
+                if (myCard != null)
+                    pbMyPictureBox.Image = myCard.GetCardImage(); // Update the card image
+                else
+                    pbMyPictureBox.Image = null;
             }
         }
 

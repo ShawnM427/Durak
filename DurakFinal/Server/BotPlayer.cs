@@ -184,7 +184,7 @@ namespace Durak.Server
                 myProposedMoves[myProposedMoves.Keys.ElementAt(index)] = 0;
 
             // The confidence of making no move
-            float noMoveConfidence = -1;
+            float noMoveConfidence = 0;
 
             // Iterate over all rules
             foreach(IAIRule rule in Rules.AI_RULES)
@@ -207,7 +207,7 @@ namespace Durak.Server
             
             // Loop through list and attempt each move, if valid, then return that move
             for(int index = 0; index < sortedList.Count; index ++)
-                if (sortedList[index].Value > noMoveConfidence & myServer.CanPlayMove(myPlayer, sortedList[index].Key))
+                if (sortedList[index].Value > noMoveConfidence && myServer.CanPlayMove(myPlayer, sortedList[index].Key))
                     return sortedList[index].Key;
 
             // If there was no good move, return null

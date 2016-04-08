@@ -21,6 +21,7 @@ namespace Durak.Server
 
             INIT_RULES = new List<IGameInitRule>();
             Utils.FillTypeList(AppDomain.CurrentDomain, INIT_RULES);
+            INIT_RULES.Sort((X, Y) => { return Y.Priority.CompareTo(X.Priority); });
 
             PLAY_RULES = new List<IGamePlayRule>();
             Utils.FillTypeList(AppDomain.CurrentDomain, PLAY_RULES);

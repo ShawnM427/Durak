@@ -29,26 +29,10 @@
         private void InitializeComponent()
         {
             this.pnlPlayers = new System.Windows.Forms.Panel();
-            this.pnlPlayer4 = new System.Windows.Forms.Panel();
-            this.btnAdd4 = new System.Windows.Forms.Button();
-            this.label11 = new System.Windows.Forms.Label();
-            this.txtPlayer4Name = new System.Windows.Forms.TextBox();
-            this.pnlPlayer3 = new System.Windows.Forms.Panel();
-            this.btnAdd3 = new System.Windows.Forms.Button();
-            this.label10 = new System.Windows.Forms.Label();
-            this.txtPlayer3Name = new System.Windows.Forms.TextBox();
-            this.pnlPlayer1 = new System.Windows.Forms.Panel();
-            this.btnAdd1 = new System.Windows.Forms.Button();
+            this.pnlAddBot = new System.Windows.Forms.Panel();
+            this.btnAddBot = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
-            this.txtPlayer1Name = new System.Windows.Forms.TextBox();
-            this.pnlPlayer5 = new System.Windows.Forms.Panel();
-            this.btnAdd5 = new System.Windows.Forms.Button();
-            this.label6 = new System.Windows.Forms.Label();
-            this.txtPlayer5Name = new System.Windows.Forms.TextBox();
-            this.pnlPlayer6 = new System.Windows.Forms.Panel();
-            this.btnAdd6 = new System.Windows.Forms.Button();
-            this.label9 = new System.Windows.Forms.Label();
-            this.txtPlayer6Name = new System.Windows.Forms.TextBox();
+            this.txtBotName = new System.Windows.Forms.TextBox();
             this.btnBack = new System.Windows.Forms.Button();
             this.pnlGameSettings = new System.Windows.Forms.Panel();
             this.radioButton4 = new System.Windows.Forms.RadioButton();
@@ -65,127 +49,42 @@
             this.lblServerName = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.pnlPlayer2 = new System.Windows.Forms.Panel();
-            this.btnAdd2 = new System.Windows.Forms.Button();
-            this.label8 = new System.Windows.Forms.Label();
-            this.txtPlayer2Name = new System.Windows.Forms.TextBox();
             this.txtChat = new System.Windows.Forms.TextBox();
             this.pnlPlayers.SuspendLayout();
-            this.pnlPlayer4.SuspendLayout();
-            this.pnlPlayer3.SuspendLayout();
-            this.pnlPlayer1.SuspendLayout();
-            this.pnlPlayer5.SuspendLayout();
-            this.pnlPlayer6.SuspendLayout();
+            this.pnlAddBot.SuspendLayout();
             this.pnlGameSettings.SuspendLayout();
             this.pnlServerInfo.SuspendLayout();
-            this.pnlPlayer2.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlPlayers
             // 
             this.pnlPlayers.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlPlayers.Controls.Add(this.pnlPlayer4);
-            this.pnlPlayers.Controls.Add(this.pnlPlayer3);
-            this.pnlPlayers.Controls.Add(this.pnlPlayer1);
-            this.pnlPlayers.Controls.Add(this.pnlPlayer5);
-            this.pnlPlayers.Controls.Add(this.pnlPlayer6);
+            this.pnlPlayers.Controls.Add(this.pnlAddBot);
             this.pnlPlayers.Location = new System.Drawing.Point(13, 14);
             this.pnlPlayers.Name = "pnlPlayers";
-            this.pnlPlayers.Size = new System.Drawing.Size(271, 324);
+            this.pnlPlayers.Size = new System.Drawing.Size(270, 370);
             this.pnlPlayers.TabIndex = 0;
             // 
-            // pnlPlayer4
+            // pnlAddBot
             // 
-            this.pnlPlayer4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlPlayer4.Controls.Add(this.btnAdd4);
-            this.pnlPlayer4.Controls.Add(this.label11);
-            this.pnlPlayer4.Controls.Add(this.txtPlayer4Name);
-            this.pnlPlayer4.Location = new System.Drawing.Point(5, 159);
-            this.pnlPlayer4.Name = "pnlPlayer4";
-            this.pnlPlayer4.Size = new System.Drawing.Size(258, 52);
-            this.pnlPlayer4.TabIndex = 6;
+            this.pnlAddBot.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlAddBot.Controls.Add(this.btnAddBot);
+            this.pnlAddBot.Controls.Add(this.label7);
+            this.pnlAddBot.Controls.Add(this.txtBotName);
+            this.pnlAddBot.Location = new System.Drawing.Point(5, 5);
+            this.pnlAddBot.Name = "pnlAddBot";
+            this.pnlAddBot.Size = new System.Drawing.Size(260, 60);
+            this.pnlAddBot.TabIndex = 6;
             // 
-            // btnAdd4
+            // btnAddBot
             // 
-            this.btnAdd4.Location = new System.Drawing.Point(205, 3);
-            this.btnAdd4.Name = "btnAdd4";
-            this.btnAdd4.Size = new System.Drawing.Size(46, 46);
-            this.btnAdd4.TabIndex = 4;
-            this.btnAdd4.Text = "+";
-            this.btnAdd4.UseVisualStyleBackColor = true;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(7, 20);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(70, 13);
-            this.label11.TabIndex = 3;
-            this.label11.Text = "Player Name:";
-            // 
-            // txtPlayer4Name
-            // 
-            this.txtPlayer4Name.Location = new System.Drawing.Point(83, 17);
-            this.txtPlayer4Name.Name = "txtPlayer4Name";
-            this.txtPlayer4Name.Size = new System.Drawing.Size(102, 20);
-            this.txtPlayer4Name.TabIndex = 2;
-            // 
-            // pnlPlayer3
-            // 
-            this.pnlPlayer3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlPlayer3.Controls.Add(this.btnAdd3);
-            this.pnlPlayer3.Controls.Add(this.label10);
-            this.pnlPlayer3.Controls.Add(this.txtPlayer3Name);
-            this.pnlPlayer3.Location = new System.Drawing.Point(5, 108);
-            this.pnlPlayer3.Name = "pnlPlayer3";
-            this.pnlPlayer3.Size = new System.Drawing.Size(258, 52);
-            this.pnlPlayer3.TabIndex = 8;
-            // 
-            // btnAdd3
-            // 
-            this.btnAdd3.Location = new System.Drawing.Point(205, 2);
-            this.btnAdd3.Name = "btnAdd3";
-            this.btnAdd3.Size = new System.Drawing.Size(46, 46);
-            this.btnAdd3.TabIndex = 8;
-            this.btnAdd3.Text = "+";
-            this.btnAdd3.UseVisualStyleBackColor = true;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(7, 20);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(70, 13);
-            this.label10.TabIndex = 3;
-            this.label10.Text = "Player Name:";
-            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // txtPlayer3Name
-            // 
-            this.txtPlayer3Name.Location = new System.Drawing.Point(83, 17);
-            this.txtPlayer3Name.Name = "txtPlayer3Name";
-            this.txtPlayer3Name.Size = new System.Drawing.Size(102, 20);
-            this.txtPlayer3Name.TabIndex = 2;
-            // 
-            // pnlPlayer1
-            // 
-            this.pnlPlayer1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlPlayer1.Controls.Add(this.btnAdd1);
-            this.pnlPlayer1.Controls.Add(this.label7);
-            this.pnlPlayer1.Controls.Add(this.txtPlayer1Name);
-            this.pnlPlayer1.Location = new System.Drawing.Point(5, 6);
-            this.pnlPlayer1.Name = "pnlPlayer1";
-            this.pnlPlayer1.Size = new System.Drawing.Size(258, 52);
-            this.pnlPlayer1.TabIndex = 6;
-            // 
-            // btnAdd1
-            // 
-            this.btnAdd1.Location = new System.Drawing.Point(205, 2);
-            this.btnAdd1.Name = "btnAdd1";
-            this.btnAdd1.Size = new System.Drawing.Size(46, 46);
-            this.btnAdd1.TabIndex = 8;
-            this.btnAdd1.Text = "+";
-            this.btnAdd1.UseVisualStyleBackColor = true;
+            this.btnAddBot.Location = new System.Drawing.Point(205, 2);
+            this.btnAddBot.Name = "btnAddBot";
+            this.btnAddBot.Size = new System.Drawing.Size(46, 46);
+            this.btnAddBot.TabIndex = 8;
+            this.btnAddBot.Text = "+";
+            this.btnAddBot.UseVisualStyleBackColor = true;
+            this.btnAddBot.Click += new System.EventHandler(this.btnAddBot_Click);
             // 
             // label7
             // 
@@ -197,84 +96,12 @@
             this.label7.Text = "Player Name:";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // txtPlayer1Name
+            // txtBotName
             // 
-            this.txtPlayer1Name.Location = new System.Drawing.Point(83, 17);
-            this.txtPlayer1Name.Name = "txtPlayer1Name";
-            this.txtPlayer1Name.Size = new System.Drawing.Size(102, 20);
-            this.txtPlayer1Name.TabIndex = 2;
-            // 
-            // pnlPlayer5
-            // 
-            this.pnlPlayer5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlPlayer5.Controls.Add(this.btnAdd5);
-            this.pnlPlayer5.Controls.Add(this.label6);
-            this.pnlPlayer5.Controls.Add(this.txtPlayer5Name);
-            this.pnlPlayer5.Location = new System.Drawing.Point(5, 210);
-            this.pnlPlayer5.Name = "pnlPlayer5";
-            this.pnlPlayer5.Size = new System.Drawing.Size(258, 52);
-            this.pnlPlayer5.TabIndex = 5;
-            // 
-            // btnAdd5
-            // 
-            this.btnAdd5.Location = new System.Drawing.Point(205, 3);
-            this.btnAdd5.Name = "btnAdd5";
-            this.btnAdd5.Size = new System.Drawing.Size(46, 46);
-            this.btnAdd5.TabIndex = 4;
-            this.btnAdd5.Text = "+";
-            this.btnAdd5.UseVisualStyleBackColor = true;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(7, 20);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(70, 13);
-            this.label6.TabIndex = 3;
-            this.label6.Text = "Player Name:";
-            // 
-            // txtPlayer5Name
-            // 
-            this.txtPlayer5Name.Location = new System.Drawing.Point(83, 17);
-            this.txtPlayer5Name.Name = "txtPlayer5Name";
-            this.txtPlayer5Name.Size = new System.Drawing.Size(102, 20);
-            this.txtPlayer5Name.TabIndex = 2;
-            // 
-            // pnlPlayer6
-            // 
-            this.pnlPlayer6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlPlayer6.Controls.Add(this.btnAdd6);
-            this.pnlPlayer6.Controls.Add(this.label9);
-            this.pnlPlayer6.Controls.Add(this.txtPlayer6Name);
-            this.pnlPlayer6.Location = new System.Drawing.Point(5, 261);
-            this.pnlPlayer6.Name = "pnlPlayer6";
-            this.pnlPlayer6.Size = new System.Drawing.Size(258, 52);
-            this.pnlPlayer6.TabIndex = 4;
-            // 
-            // btnAdd6
-            // 
-            this.btnAdd6.Location = new System.Drawing.Point(205, 3);
-            this.btnAdd6.Name = "btnAdd6";
-            this.btnAdd6.Size = new System.Drawing.Size(46, 46);
-            this.btnAdd6.TabIndex = 4;
-            this.btnAdd6.Text = "+";
-            this.btnAdd6.UseVisualStyleBackColor = true;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(7, 20);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(70, 13);
-            this.label9.TabIndex = 3;
-            this.label9.Text = "Player Name:";
-            // 
-            // txtPlayer6Name
-            // 
-            this.txtPlayer6Name.Location = new System.Drawing.Point(83, 17);
-            this.txtPlayer6Name.Name = "txtPlayer6Name";
-            this.txtPlayer6Name.Size = new System.Drawing.Size(102, 20);
-            this.txtPlayer6Name.TabIndex = 2;
+            this.txtBotName.Location = new System.Drawing.Point(83, 17);
+            this.txtBotName.Name = "txtBotName";
+            this.txtBotName.Size = new System.Drawing.Size(102, 20);
+            this.txtBotName.TabIndex = 2;
             // 
             // btnBack
             // 
@@ -284,6 +111,7 @@
             this.btnBack.TabIndex = 2;
             this.btnBack.Text = "Leave";
             this.btnBack.UseVisualStyleBackColor = true;
+            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
             // pnlGameSettings
             // 
@@ -387,6 +215,7 @@
             this.btnSend.TabIndex = 6;
             this.btnSend.Text = "Send";
             this.btnSend.UseVisualStyleBackColor = true;
+            this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
             // 
             // pnlServerInfo
             // 
@@ -435,49 +264,12 @@
             this.label4.TabIndex = 0;
             this.label4.Text = "Server Name:";
             // 
-            // pnlPlayer2
-            // 
-            this.pnlPlayer2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlPlayer2.Controls.Add(this.btnAdd2);
-            this.pnlPlayer2.Controls.Add(this.label8);
-            this.pnlPlayer2.Controls.Add(this.txtPlayer2Name);
-            this.pnlPlayer2.Location = new System.Drawing.Point(19, 72);
-            this.pnlPlayer2.Name = "pnlPlayer2";
-            this.pnlPlayer2.Size = new System.Drawing.Size(258, 52);
-            this.pnlPlayer2.TabIndex = 7;
-            // 
-            // btnAdd2
-            // 
-            this.btnAdd2.Location = new System.Drawing.Point(205, 3);
-            this.btnAdd2.Name = "btnAdd2";
-            this.btnAdd2.Size = new System.Drawing.Size(46, 46);
-            this.btnAdd2.TabIndex = 8;
-            this.btnAdd2.Text = "+";
-            this.btnAdd2.UseVisualStyleBackColor = true;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(7, 20);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(70, 13);
-            this.label8.TabIndex = 3;
-            this.label8.Text = "Player Name:";
-            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // txtPlayer2Name
-            // 
-            this.txtPlayer2Name.Location = new System.Drawing.Point(83, 17);
-            this.txtPlayer2Name.Name = "txtPlayer2Name";
-            this.txtPlayer2Name.Size = new System.Drawing.Size(102, 20);
-            this.txtPlayer2Name.TabIndex = 2;
-            // 
             // txtChat
             // 
-            this.txtChat.Location = new System.Drawing.Point(13, 344);
+            this.txtChat.Location = new System.Drawing.Point(13, 390);
             this.txtChat.Multiline = true;
             this.txtChat.Name = "txtChat";
-            this.txtChat.Size = new System.Drawing.Size(271, 147);
+            this.txtChat.Size = new System.Drawing.Size(271, 101);
             this.txtChat.TabIndex = 8;
             // 
             // frmLobby
@@ -486,7 +278,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(491, 559);
             this.Controls.Add(this.txtChat);
-            this.Controls.Add(this.pnlPlayer2);
             this.Controls.Add(this.pnlServerInfo);
             this.Controls.Add(this.btnSend);
             this.Controls.Add(this.txtMessage);
@@ -500,22 +291,12 @@
             this.Name = "frmLobby";
             this.Text = "Lobby";
             this.pnlPlayers.ResumeLayout(false);
-            this.pnlPlayer4.ResumeLayout(false);
-            this.pnlPlayer4.PerformLayout();
-            this.pnlPlayer3.ResumeLayout(false);
-            this.pnlPlayer3.PerformLayout();
-            this.pnlPlayer1.ResumeLayout(false);
-            this.pnlPlayer1.PerformLayout();
-            this.pnlPlayer5.ResumeLayout(false);
-            this.pnlPlayer5.PerformLayout();
-            this.pnlPlayer6.ResumeLayout(false);
-            this.pnlPlayer6.PerformLayout();
+            this.pnlAddBot.ResumeLayout(false);
+            this.pnlAddBot.PerformLayout();
             this.pnlGameSettings.ResumeLayout(false);
             this.pnlGameSettings.PerformLayout();
             this.pnlServerInfo.ResumeLayout(false);
             this.pnlServerInfo.PerformLayout();
-            this.pnlPlayer2.ResumeLayout(false);
-            this.pnlPlayer2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -524,10 +305,6 @@
         #endregion
 
         private System.Windows.Forms.Panel pnlPlayers;
-        private System.Windows.Forms.Panel pnlPlayer6;
-        private System.Windows.Forms.Button btnAdd6;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox txtPlayer6Name;
         private System.Windows.Forms.Button btnBack;
         private System.Windows.Forms.Panel pnlGameSettings;
         private System.Windows.Forms.Label label3;
@@ -538,32 +315,16 @@
         private System.Windows.Forms.Panel pnlServerInfo;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Panel pnlPlayer4;
-        private System.Windows.Forms.Button btnAdd4;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.TextBox txtPlayer4Name;
-        private System.Windows.Forms.Panel pnlPlayer3;
-        private System.Windows.Forms.Button btnAdd3;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TextBox txtPlayer3Name;
-        private System.Windows.Forms.Panel pnlPlayer1;
+        private System.Windows.Forms.Panel pnlAddBot;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox txtPlayer1Name;
-        private System.Windows.Forms.Panel pnlPlayer5;
-        private System.Windows.Forms.Button btnAdd5;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox txtPlayer5Name;
+        private System.Windows.Forms.TextBox txtBotName;
         private System.Windows.Forms.RadioButton radioButton4;
         private System.Windows.Forms.RadioButton radioButton3;
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.Label lblServerDescription;
         private System.Windows.Forms.Label lblServerName;
-        private System.Windows.Forms.Panel pnlPlayer2;
-        private System.Windows.Forms.Button btnAdd2;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox txtPlayer2Name;
         private System.Windows.Forms.TextBox txtChat;
-        private System.Windows.Forms.Button btnAdd1;
+        private System.Windows.Forms.Button btnAddBot;
     }
 }

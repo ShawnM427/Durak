@@ -583,7 +583,7 @@ namespace Durak.Common
                 else
                 {
                     // Here we check to see if we have any array listeners
-                    string name = myChangedEvents.Keys.FirstOrDefault(X => stateParameter.Name.Substring(1, X.Length) == X);
+                    string name = myChangedEvents.Keys.FirstOrDefault(X => stateParameter.Name.Substring(1, stateParameter.Name.Length - 1) == X);
                     // If we found one, invoke that shit
                     if (name != null) { myChangedEvents[name](this, stateParameter); }
                 }

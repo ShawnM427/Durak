@@ -220,6 +220,11 @@ namespace Durak.Client
             get { return myHand; }
         }
 
+        public bool IsHost
+        {
+            get { return isHost; }
+        }
+
         #endregion
 
         #region Constructors and Initialization
@@ -499,7 +504,10 @@ namespace Durak.Client
             isHost = inMsg.ReadBoolean();
             inMsg.ReadPadBits();
 
+            int supportedPlayers = inMsg.ReadInt32();
             int numPlayers = inMsg.ReadByte();
+
+            myKnownPlayers.Resize(supportedPlayers);
 
             for (int index = 0; index < numPlayers; index++)
             {

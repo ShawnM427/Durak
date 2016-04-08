@@ -1,5 +1,4 @@
 ﻿using Durak.Common;
-using Durak.Server;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace DurakGame.Rules
 {
-    class EmptyTalon : IGamePlayRule
+    class EmptyTalon
     {
-        public bool IsEnabled
+        public bool Enabled
         {
             get;
             set;
@@ -24,16 +23,17 @@ namespace DurakGame.Rules
             }
         }
 
-        public bool IsValidMove(PlayerCollection players, GameMove move, GameState currentState, ref string reason)
+        public bool Talon(PlayerCollection players, GameMove move, GameState currentState, ref string reason)
         {
-            if (currentState.GetValueInt("cards_in_deck") == 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            //if ()
+            //{
+            //    return true;
+            //}
+            //else
+            //{
+            //    return false;
+            //}
+            return true;
         }
 
     }

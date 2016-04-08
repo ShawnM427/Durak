@@ -65,6 +65,8 @@ namespace DurakGame
             myClient.LocalState.AddStateChangedEvent("defending_card", 4, (X, Y) => { cbxDefence5.Card = Y.GetValuePlayingCard(); });
             myClient.LocalState.AddStateChangedEvent("defending_card", 5, (X, Y) => { cbxDefence6.Card = Y.GetValuePlayingCard(); });
 
+            myClient.OnDisconnected += ClientDisconnected;
+
             int localIndex = 0;
             for(byte index = 0; index < myClient.KnownPlayers.Count; index ++)
             {
@@ -116,6 +118,24 @@ namespace DurakGame
             }
 
             myClient.OnPlayerCardCountChanged += PlayerCardCountChanged;
+        }
+
+        private void ClientDisconnected(object sender, EventArgs e)
+        {
+            MessageBox.Show("Server has disconnected, returning to main menu");
+
+            this.Close();
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            myClient?.Stop();
+            myServer?.Stop();
+
+            myClient.OnDisconnected -= ClientDisconnected;
+
+            myClient = null;
+            myServer = null;
         }
 
         private void PlayerCardCountChanged(Durak.Common.Player player, int newCardCount)
