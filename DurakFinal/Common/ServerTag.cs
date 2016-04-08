@@ -71,6 +71,7 @@ namespace Durak.Common
         public bool PasswordProtected
         {
             get { return isPasswordProtected; }
+            set { isPasswordProtected = value; }
         }
         /// <summary>
         /// Gets this server's address (note that this is NOT transferred over network)

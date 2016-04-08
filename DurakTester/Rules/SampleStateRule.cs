@@ -10,7 +10,7 @@ namespace DurakTester.Rules
 {
     public class SampleStateRule : IGameStateRule
     {
-        public bool Enabled
+        public bool IsEnabled
         {
             get;
             set;

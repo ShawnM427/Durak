@@ -102,7 +102,10 @@ namespace Durak.Server
         /// </summary>
         public GameState GameState
         {
-            get { return myGameState; }
+            get
+            {
+                return myGameState;
+            }
         }
         /// <summary>
         /// Gets or sets this server's name as discplayed in server browsers
@@ -150,6 +153,25 @@ namespace Durak.Server
         }
 
         /// <summary>
+        /// Gets or sets the number of players this server supports
+        /// </summary>
+        public int NumPlayers
+        {
+            get { return myPlayers.Count; }
+            set
+            {
+                if (NumPlayers < value)
+                {
+                    myPlayers.Resize(value);
+                }
+                else if (NumPlayers > value)
+                {
+                    throw new InvalidOperationException("Cannot shrink player collection");
+                }
+            }
+        }
+
+        /// <summary>
         /// Creates a new instance of a game server
         /// </summary>
         public GameServer(int numPlayers = 4)
@@ -180,8 +202,18 @@ namespace Durak.Server
         /// <param name="plainTextPassword">The server's password in plain text</param>
         public void SetPassword(string plainTextPassword)
         {
-            // Hashes the password and stores it
-            myPassword = plainTextPassword.Hash();
+            if (!string.IsNullOrEmpty(plainTextPassword))
+            {
+                // Hashes the password and stores it
+                myPassword = plainTextPassword.Hash();
+
+                myTag.PasswordProtected = true;
+            }
+            else
+            {
+                myPassword = null;
+                myTag.PasswordProtected = false;
+            }
         }
 
         /// <summary>
@@ -773,7 +805,7 @@ namespace Durak.Server
                     // Handle when a player is trying to join
                     case NetIncomingMessageType.ConnectionApproval:
 
-                        if (IsSinglePlayerMode)
+                        if (IsSinglePlayerMode && inMsg.SenderEndPoint.Address != myAddress)
                             inMsg.SenderConnection.Deny("Server is in singleplayer mode");
 
                         // Get the client's info an hashed password from the packet

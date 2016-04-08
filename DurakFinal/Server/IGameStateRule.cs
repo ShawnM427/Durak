@@ -15,7 +15,7 @@ namespace Durak.Server
         /// <summary>
         /// Gets or sets whether this ruls is enabled
         /// </summary>
-        bool Enabled { get; set; }
+        bool IsEnabled { get; set; }
 
         /// <summary>
         /// Gets a human readable name for this game rule. Used for debugging

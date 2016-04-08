@@ -7,7 +7,7 @@ namespace DurakTester.Rules
 {
     public class InitRoundStates : IGameInitRule
     {
-        public bool Enabled
+        public bool IsEnabled
         {
             get;
             set;

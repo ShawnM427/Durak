@@ -66,6 +66,7 @@
             this.btnPlaySingle.TabIndex = 2;
             this.btnPlaySingle.Text = "Single Player";
             this.btnPlaySingle.UseVisualStyleBackColor = false;
+            this.btnPlaySingle.Click += new System.EventHandler(this.btnPlaySingle_Click);
             this.btnPlaySingle.MouseEnter += new System.EventHandler(this.btnPlaySingle_MouseEnter);
             this.btnPlaySingle.MouseLeave += new System.EventHandler(this.btnPlaySingle_MouseLeave);
             // 

@@ -148,6 +148,10 @@ namespace Durak.Client
         /// Invoked when a client's number of cards in hand has changed
         /// </summary>
         public event PlayerCardCountChangedEvent OnPlayerCardCountChanged;
+        /// <summary>
+        /// Invoked after the client has finished connecting to the server
+        /// </summary>
+        public event EventHandler OnFinishedConnect;
 
         #endregion
 
@@ -350,29 +354,23 @@ namespace Durak.Client
                             // If the reason the is shutdown message, we're good
                             if (reason.Equals(NetSettings.DEFAULT_SERVER_SHUTDOWN_MESSAGE))
                             {
-                                if (OnDisconnected != null)
-                                    OnDisconnected(this, EventArgs.Empty);
+                                OnDisconnected?.Invoke(this, EventArgs.Empty);
                             }
                             // Otherwise if the reason is that \/ , then we timed out
                             else if (reason.Equals("Failed to establish connection - no response from remote host", StringComparison.InvariantCultureIgnoreCase))
                             {
-                                if (OnConnectionTimedOut != null)
-                                    OnConnectionTimedOut(this, EventArgs.Empty);
+                                OnConnectionTimedOut?.Invoke(this, EventArgs.Empty);
 
-                                if (OnConnectionFailed != null)
-                                    OnConnectionFailed(this, reason);
+                                OnConnectionFailed?.Invoke(this, reason);
 
-                                if (OnDisconnected != null)
-                                    OnDisconnected(this, EventArgs.Empty);
+                                OnDisconnected?.Invoke(this, EventArgs.Empty);
                             }
                             // Otherwise the connection failed for some other reason
                             else
                             {
-                                if (OnConnectionFailed != null)
-                                    OnConnectionFailed(this, reason);
-
-                                if (OnDisconnected != null)
-                                    OnDisconnected(this, EventArgs.Empty);
+                                OnConnectionFailed?.Invoke(this, reason);
+                                
+                                OnDisconnected?.Invoke(this, EventArgs.Empty);
                             }
 
                             // Clear local state and forget connected server tag
@@ -386,8 +384,7 @@ namespace Durak.Client
                         // We connected 
                         case NetConnectionStatus.Connected:
                             // invoked the onConnected event
-                            if (OnConnected != null)
-                                OnConnected(this, EventArgs.Empty);
+                            OnConnected?.Invoke(this, EventArgs.Empty);
 
                             break;
 
@@ -401,8 +398,7 @@ namespace Durak.Client
                     ServerTag serverTag = ServerTag.ReadFromPacket(inMsg);
 
                     // Notify that we discovered a server
-                    if (OnServerDiscovered != null)
-                        OnServerDiscovered(this, serverTag);
+                    OnServerDiscovered?.Invoke(this, serverTag);
 
                     break;
 
@@ -458,16 +454,14 @@ namespace Durak.Client
                 if (added)
                 {
                     myHand.Add(card);
-
-                    if (OnHandCardAdded != null)
-                        OnHandCardAdded(this, card);
+                    
+                    OnHandCardAdded?.Invoke(this, card);
                 }
                 else
                 {
                     myHand.Discard(card);
-
-                    if (OnHandCardRemoved != null)
-                        OnHandCardRemoved(this, card);
+                    
+                    OnHandCardRemoved?.Invoke(this, card);
                 }
             }
         }
@@ -482,9 +476,8 @@ namespace Durak.Client
             int numCards = inMsg.ReadInt32();
 
             myKnownPlayers[playerId].NumCards = numCards;
-
-            if (OnPlayerCardCountChanged != null)
-                OnPlayerCardCountChanged(myKnownPlayers[playerId], numCards);
+            
+            OnPlayerCardCountChanged?.Invoke(myKnownPlayers[playerId], numCards);
         }
 
         /// <summary>
@@ -519,6 +512,8 @@ namespace Durak.Client
             myLocalState.Decode(inMsg);
 
             myKnownPlayers[myPlayerId] = new Player(myPlayerId, myTag.Name, false);
+
+            OnFinishedConnect?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -539,13 +534,11 @@ namespace Durak.Client
                 isHost = true;
 
                 // Invoke our event
-                if (OnBecameHost != null)
-                    OnBecameHost(this, EventArgs.Empty);
+                OnBecameHost?.Invoke(this, EventArgs.Empty);
             }
 
             // Invoke the host changed event
-            if (OnHostChanged != null)
-                OnHostChanged(this, myKnownPlayers[hostId]);
+            OnHostChanged?.Invoke(this, myKnownPlayers[hostId]);
         }
 
         /// <summary>
@@ -568,9 +561,8 @@ namespace Durak.Client
                 ServerTag tag = myConnectedServer.Value;
                 tag.State = (ServerState)inMsg.ReadByte();
                 myConnectedServer = tag;
-
-                if (OnServerStateUpdated != null)
-                    OnServerStateUpdated(this, tag.State);
+                
+                OnServerStateUpdated?.Invoke(this, tag.State);
             }
         }
 
@@ -583,9 +575,8 @@ namespace Durak.Client
             if (myConnectedServer != null)
             {
                 string reason = inMsg.ReadString();
-
-                if (OnInvalidServerState != null)
-                    OnInvalidServerState(this, reason);
+                
+                OnInvalidServerState?.Invoke(this, reason);
             }
         }
 
@@ -601,9 +592,8 @@ namespace Durak.Client
             inMsg.ReadPadBits();
 
             myKnownPlayers[playerId] = new Player(playerId, name, isBot);
-
-            if (OnPlayerConnected != null)
-                OnPlayerConnected(this, myKnownPlayers[playerId]);
+            
+            OnPlayerConnected?.Invoke(this, myKnownPlayers[playerId]);
         }
 
         /// <summary>
@@ -614,9 +604,8 @@ namespace Durak.Client
         {
             byte playerId = inMsg.ReadByte();
             string reason = inMsg.ReadString();
-
-            if (OnPlayerLeft != null)
-                OnPlayerLeft(this, myKnownPlayers[playerId], reason);
+            
+            OnPlayerLeft?.Invoke(this, myKnownPlayers[playerId], reason);
 
             myKnownPlayers[playerId] = null;
         }
@@ -632,9 +621,8 @@ namespace Durak.Client
             inMsg.ReadPadBits();
 
             myKnownPlayers[playerId].IsReady = isReady;
-
-            if (OnPlayerReady != null)
-                OnPlayerReady(this, myKnownPlayers[playerId]);
+            
+            OnPlayerReady?.Invoke(this, myKnownPlayers[playerId]);
         }
 
         /// <summary>
@@ -648,17 +636,15 @@ namespace Durak.Client
 
             if (playerId != myPlayerId)
             {
-                if (OnPlayerKicked != null)
-                    OnPlayerKicked(this, myKnownPlayers[playerId], reason);
+                OnPlayerKicked?.Invoke(this, myKnownPlayers[playerId], reason);
 
                 myKnownPlayers[playerId] = null;
             }
             else
             {
                 myConnectedServer = null;
-
-                if (OnKicked != null)
-                    OnKicked(this, reason);
+                
+                OnKicked?.Invoke(this, reason);
             }
         }
 
@@ -669,9 +655,8 @@ namespace Durak.Client
         private void HandleMoveReceived(NetIncomingMessage inMsg)
         {
             GameMove move = GameMove.Decode(inMsg, myKnownPlayers);
-
-            if (OnMoveReceived != null)
-                OnMoveReceived(this, move);
+            
+            OnMoveReceived?.Invoke(this, move);
         }
 
         /// <summary>
@@ -681,9 +666,8 @@ namespace Durak.Client
         private void HandleInvalidMove(NetIncomingMessage inMsg)
         {
             GameMove move = GameMove.Decode(inMsg, myKnownPlayers);
-
-            if (OnInvalidMove != null)
-                OnInvalidMove(this, move);
+            
+            OnInvalidMove?.Invoke(this, move);
         }
 
         /// <summary>
@@ -694,9 +678,8 @@ namespace Durak.Client
         {
             byte playerId = inMsg.ReadByte();
             string message = inMsg.ReadString();
-
-            if (OnPlayerChat != null)
-                OnPlayerChat(this, myKnownPlayers[playerId], message);
+            
+            OnPlayerChat?.Invoke(this, myKnownPlayers[playerId], message);
         }
 
         #endregion
@@ -731,7 +714,8 @@ namespace Durak.Client
             if (myConnectedServer == null)
             {
                 // Hash the password before sending
-                serverPassword = SecurityUtils.Hash(serverPassword);
+                if (!string.IsNullOrWhiteSpace(serverPassword))
+                    serverPassword = SecurityUtils.Hash(serverPassword);
 
                 // Write the hail message and send it
                 NetOutgoingMessage hailMessage = myPeer.CreateMessage();
@@ -814,6 +798,7 @@ namespace Durak.Client
                 GameMove move = new GameMove(myKnownPlayers[myPlayerId], card);
 
                 NetOutgoingMessage msg = myPeer.CreateMessage();
+                msg.Write((byte)MessageType.SendMove);
                 move.Encode(msg);
                 Send(msg);
             }
@@ -828,6 +813,7 @@ namespace Durak.Client
             if (myConnectedServer != null && myPeer.ConnectionsCount > 0)
             {
                 NetOutgoingMessage msg = myPeer.CreateMessage();
+                msg.Write((byte)MessageType.PlayerChat);
                 msg.Write(message);
                 Send(msg);
             }
@@ -843,6 +829,7 @@ namespace Durak.Client
             if (IsConnected && isHost)
             {
                 NetOutgoingMessage msg = myPeer.CreateMessage();
+                msg.Write((byte)MessageType.HostReqKick);
                 msg.Write(player.PlayerId);
                 msg.Write(reason);
                 Send(msg);
@@ -859,8 +846,21 @@ namespace Durak.Client
             if (IsConnected && isHost)
             {
                 NetOutgoingMessage msg = myPeer.CreateMessage();
+                msg.Write((byte)MessageType.HostReqAddBot);
                 msg.Write(difficulty);
                 msg.Write(name);
+                Send(msg);
+            }
+        }
+
+        public void RequestStart()
+        {
+            if (IsConnected && isHost)
+            {
+                NetOutgoingMessage msg = myPeer.CreateMessage();
+                msg.Write((byte)MessageType.HostReqStart);
+                msg.Write(true);
+                msg.WritePadBits();
                 Send(msg);
             }
         }

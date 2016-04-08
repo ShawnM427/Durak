@@ -27,5 +27,16 @@ namespace DurakGame
         {
             (sender as Button).BackColor = Color.White;
         }
+
+        private void btnPlaySingle_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+
+            frmLobby lobby = new frmLobby();
+            lobby.InitSinglePlayer();
+            lobby.ShowDialog();
+
+            this.Show();
+        }
     }
 }

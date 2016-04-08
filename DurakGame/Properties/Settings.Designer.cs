@@ -34,5 +34,17 @@ namespace DurakGame.Properties {
                 this["UserName"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DefaultServerPassword {
+            get {
+                return ((string)(this["DefaultServerPassword"]));
+            }
+            set {
+                this["DefaultServerPassword"] = value;
+            }
+        }
     }
 }

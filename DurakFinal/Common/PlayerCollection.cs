@@ -81,6 +81,18 @@ namespace Durak.Common
         {
             myPlayers = new Player[numPlayers];
         }
+        
+        /// <summary>
+        /// Resizes this player collection to a new size
+        /// </summary>
+        /// <param name="newSize">The new size for this player collection</param>
+        public void Resize(int newSize)
+        {
+            if (newSize > myPlayers.Length)
+                Array.Resize(ref myPlayers, newSize);
+            else if (newSize < myPlayers.Length)
+                throw new InvalidOperationException("Cannot shrink player collection");
+        }
 
         /// <summary>
         /// Gets the first available ID for this player collection, or -1 if no slots are open
