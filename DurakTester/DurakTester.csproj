@@ -121,6 +121,7 @@
     <Compile Include="TestRules\InitRoundStates.cs" />
     <Compile Include="TestRules\PlayerCanNotMove.cs" />
     <Compile Include="TestRules\StateRule.cs" />
+    <Compile Include="TestRules\UpdateCards.cs" />
     <Compile Include="TestRules\VerifyBattleWin.cs" />
     <Compile Include="TestRules\VerifyCardInHand.cs" />
     <Compile Include="TestRules\VerifyDuelWin.cs" />
