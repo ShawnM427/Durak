@@ -306,7 +306,7 @@ namespace Durak.Server
         {
             Utils.FillTypeList(AppDomain.CurrentDomain, myPlayRules);
             Utils.FillTypeList(AppDomain.CurrentDomain, myStateRules);
-            Utils.FillTypeList(AppDomain.CurrentDomain, myInitRules);
+            myInitRules = Rules.INIT_RULES;
         }
 
         /// <summary>

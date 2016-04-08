@@ -17,6 +17,14 @@ namespace DurakGame.Rules
             set;
         }
 
+        public int Priority
+        {
+            get
+            {
+                return 50;
+            }
+        }
+
         public string ReadableName
         {
             get { return "Deal cards"; }

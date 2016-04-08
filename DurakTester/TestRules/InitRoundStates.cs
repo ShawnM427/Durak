@@ -13,6 +13,14 @@ namespace DurakGame.Rules
             set;
         }
 
+        public int Priority
+        {
+            get
+            {
+                return 100;
+            }
+        }
+
         public string ReadableName
         {
             get
