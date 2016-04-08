@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Durak.Server;
 using Durak.Common;
 
-namespace DurakTester.Rules
+namespace DurakGame.Rules
 {
     public class CardPlayed : IMoveSucessRule
     {

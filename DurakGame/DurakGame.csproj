@@ -127,9 +127,11 @@
     <Compile Include="Rules\AttackingRule.cs" />
     <Compile Include="Rules\CardPlayed.cs" />
     <Compile Include="Rules\DefendingRule.cs" />
+    <Compile Include="Rules\DrawCardsRule.cs" />
     <Compile Include="Rules\EmptyTalon.cs" />
     <Compile Include="Rules\HelpAttacker.cs" />
     <Compile Include="Rules\InitRoundStates.cs" />
+    <Compile Include="Rules\PlayerCanNotMove.cs" />
     <Compile Include="Rules\StateRule.cs" />
     <Compile Include="Rules\VerifyBattleWin.cs" />
     <Compile Include="Rules\VerifyCardInHand.cs" />

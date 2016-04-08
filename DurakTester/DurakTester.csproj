@@ -111,16 +111,20 @@
     <Compile Include="MessagePacketDefinitions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Rules\CardPlayed.cs" />
-    <Compile Include="Rules\SampleAIRule2.cs" />
-    <Compile Include="Rules\SampleAIRule.cs" />
-    <Compile Include="Rules\BotRule.cs" />
-    <Compile Include="Rules\CheckWonBattle.cs" />
-    <Compile Include="Rules\InitRoundStates.cs" />
-    <Compile Include="Rules\VerifyTurnRule.cs" />
-    <Compile Include="Rules\SampleInitRule.cs" />
-    <Compile Include="Rules\SampleStateRule.cs" />
-    <Compile Include="Rules\VerifyCardInHand.cs" />
+    <Compile Include="TestRules\AttackerLose.cs" />
+    <Compile Include="TestRules\AttackingRule.cs" />
+    <Compile Include="TestRules\CardPlayed.cs" />
+    <Compile Include="TestRules\DefendingRule.cs" />
+    <Compile Include="TestRules\DrawCardsRule.cs" />
+    <Compile Include="TestRules\EmptyTalon.cs" />
+    <Compile Include="TestRules\HelpAttacker.cs" />
+    <Compile Include="TestRules\InitRoundStates.cs" />
+    <Compile Include="TestRules\PlayerCanNotMove.cs" />
+    <Compile Include="TestRules\StateRule.cs" />
+    <Compile Include="TestRules\VerifyBattleWin.cs" />
+    <Compile Include="TestRules\VerifyCardInHand.cs" />
+    <Compile Include="TestRules\VerifyDuelWin.cs" />
+    <Compile Include="TestRules\VerifyTurnRule.cs" />
     <EmbeddedResource Include="ClientView.resx">
       <DependentUpon>ClientView.cs</DependentUpon>
     </EmbeddedResource>

@@ -1,7 +1,7 @@
 ﻿using Durak.Common;
 using Durak.Server;
 
-namespace DurakTester.Rules
+namespace DurakGame.Rules
 {
     public class VerifyTurnRule : IGamePlayRule
     {

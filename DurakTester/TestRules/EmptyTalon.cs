@@ -1,9 +1,14 @@
 ﻿using Durak.Common;
 using Durak.Server;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace DurakTester.Rules
+namespace DurakGame.Rules
 {
-    public class VerifyCardInHand : IGamePlayRule
+    class EmptyTalon : IGamePlayRule
     {
         public bool IsEnabled
         {
@@ -15,19 +20,21 @@ namespace DurakTester.Rules
         {
             get
             {
-                return "Verify card in Hand";
+                return "Verify Talon is empty";
             }
         }
 
         public bool IsValidMove(PlayerCollection players, GameMove move, GameState currentState, ref string reason)
         {
-            if (!move.Player.Hand.Contains(move.Move))
+            if (currentState.GetValueInt("cards_in_deck") == 0)
             {
-                reason = "Card is not in players hand";
+                return true;
+            }
+            else
+            {
                 return false;
             }
-
-            return true;
         }
+
     }
 }

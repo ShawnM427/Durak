@@ -1,10 +1,15 @@
 ﻿using Durak.Common;
 using Durak.Common.Cards;
 using Durak.Server;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace DurakTester.Rules
+namespace DurakGame.Rules
 {
-    class SampleInitRule : IGameInitRule
+    class DrawCardsRule : IGameInitRule
     {
         public bool IsEnabled
         {

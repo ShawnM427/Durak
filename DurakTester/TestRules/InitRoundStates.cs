@@ -3,9 +3,9 @@ using Durak.Common;
 using Durak.Server;
 using Durak.Common.Cards;
 
-namespace DurakTester.Rules
+namespace DurakGame.Rules
 {
-    public class InitRoundStates : IGameInitRule
+    public class AAInitRoundStates : IGameInitRule
     {
         public bool IsEnabled
         {
@@ -30,6 +30,9 @@ namespace DurakTester.Rules
 
             Deck deck = new Deck(CardRank.Six, CardRank.King);
             deck.Shuffle();
+
+            state.Set<int>("cards_in_deck", deck.CardsInDeck);
+            state.Set<bool>("player_req_help", false);
 
             state.Set<CardCollection>("source_deck", deck.GetCards(), true);
 

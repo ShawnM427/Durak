@@ -1,4 +1,5 @@
 ﻿using Durak.Common;
+using Durak.Common.Cards;
 using Durak.Server;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DurakGame.Rules
 {
-    class VerifyDuelWin : IGameStateRule
+    class DrawCardsRule : IGameInitRule
     {
         public bool IsEnabled
         {
@@ -18,18 +19,12 @@ namespace DurakGame.Rules
 
         public string ReadableName
         {
-            get
-            {
-                return "Verify winner of duel";
-            }
+            get { return "Deal cards"; }
         }
 
-        public void ValidateState(PlayerCollection players, GameState state)
+        public void InitState(PlayerCollection players, GameState state)
         {
-            if (state.GetValueInt("current_round") > 6)
-            {
-                state.Set("attacker_forfeit", true);
-            }
+            Deck toDrawFrom = new Deck(state.GetValueCardCollection("source_deck"));
         }
     }
 }

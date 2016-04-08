@@ -1,6 +1,7 @@
 ﻿using Durak.Client;
 using Durak.Common;
 using Durak.Common.Cards;
+using DurakGame.Rules;
 using Durak.Server;
 using Lidgren.Network;
 using System;
@@ -20,6 +21,8 @@ namespace DurakTester
         public frmMain()
         {
             InitializeComponent();
+
+            VerifyDuelWin w = new VerifyDuelWin();
 
             myClients = new frmClientView[4];
             

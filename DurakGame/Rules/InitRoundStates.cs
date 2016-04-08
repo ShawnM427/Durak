@@ -3,7 +3,7 @@ using Durak.Common;
 using Durak.Server;
 using Durak.Common.Cards;
 
-namespace DurakTester.Rules
+namespace DurakGame.Rules
 {
     public class InitRoundStates : IGameInitRule
     {

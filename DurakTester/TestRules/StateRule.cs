@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Durak.Common;
 
-namespace DurakTester.Rules
+namespace DurakGame.Rules
 {
-    public class SampleStateRule : IGameStateRule
+    public class StateRule : IGameStateRule
     {
         public bool IsEnabled
         {
@@ -28,17 +28,17 @@ namespace DurakTester.Rules
         {
             if (state.GetValueBool("IsAttacking"))
             {
-                if (state.GetValueCard("attacking_card", state.GetValueInt("current_round")) != null)
+                if (state.GetValueCard("attacking_card", state.GetValueByte("current_round")) != null)
                 {
                     state.Set("IsAttacking", false);
                 }
             }
             else
             {
-                if (state.GetValueCard("defending_card", state.GetValueInt("current_round")) != null)
+                if (state.GetValueCard("defending_card", state.GetValueByte("current_round")) != null)
                 {
                     state.Set("IsAttacking", true);
-                    state.Set("current_round", state.GetValueInt("current_round") + 1);
+                    state.Set("current_round", state.GetValueByte("current_round") + 1);
                 }
             }
         }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DurakGame.Rules
 {
-    class EmptyTalon : IGamePlayRule
+    class PlayerCanNotMove : IGamePlayRule
     {
         public bool IsEnabled
         {
@@ -20,21 +20,24 @@ namespace DurakGame.Rules
         {
             get
             {
-                return "Verify Talon is empty";
+                return "Verify winner of duel";
             }
         }
 
         public bool IsValidMove(PlayerCollection players, GameMove move, GameState currentState, ref string reason)
         {
-            if (currentState.GetValueInt("cards_in_deck") == 0)
+            if (currentState.GetValueBool("IsAttacking") && move.Move == null)
             {
+                currentState.Set("attacker_forfeit", true);
                 return true;
             }
+
             else
             {
-                return false;
+                currentState.Set("defender_forfeit", true);
+                return true;
+
             }
         }
-
     }
 }
