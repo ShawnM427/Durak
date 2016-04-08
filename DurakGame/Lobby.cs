@@ -89,7 +89,13 @@ namespace DurakGame
             myClient.OnPlayerConnected += PlayerConnected;
             myClient.OnPlayerLeft += PlayerLeft;
             myClient.OnPlayerChat += PlayerChat;
+            myClient.OnConnectionFailed += ClientConnectFailed;
             myClient.Run();
+        }
+
+        private void ClientConnectFailed(object sender, string e)
+        {
+            MessageBox.Show(e, "Well fuck me!");
         }
 
         /// <summary>
