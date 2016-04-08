@@ -26,7 +26,14 @@ namespace DurakGame.Rules
         public bool Talon(PlayerCollection players, GameMove move, GameState currentState, ref string reason)
         {
             if ()
-            return false;
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            
         }
 
     }

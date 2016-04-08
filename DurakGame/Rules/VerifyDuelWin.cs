@@ -25,7 +25,15 @@ namespace DurakGame.Rules
         }
         public void WinDuel(PlayerCollection players, GameState state, GameMove move, GameState currentState)
         {
-            if (move = 6)
+            if ()
+            {
+
+            }
+            else if ()
+            {
+
+            }
+            else
             {
 
             }
