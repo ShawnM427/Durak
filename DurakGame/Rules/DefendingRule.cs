@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DurakGame.Rules
 {
-    class EmptyTalon
+    class DefendingRule 
     {
         public bool IsEnabled
         {
@@ -19,13 +19,12 @@ namespace DurakGame.Rules
         {
             get
             {
-                return "Verify Talon is empty";
+                return "Defending Rule";
             }
         }
-
-        public bool Talon(PlayerCollection players, GameMove move, GameState currentState, ref string reason)
+        public bool DefendRule(PlayerCollection players, GameState state, GameState currentState)
         {
-            if (currentState.GetValueInt("cards_in_deck") == 0)
+            if (currentState.GetValueCardSuit("defending_card_suit") == currentState.GetValueCardSuit("attacking_card_suit") && currentState.GetValueCardRank("defending_card_rank") == currentState.GetValueCardRank("attacking_card_rank"))
             {
                 return true;
             }
@@ -33,8 +32,6 @@ namespace DurakGame.Rules
             {
                 return false;
             }
-            
         }
-
     }
 }

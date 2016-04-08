@@ -123,8 +123,12 @@
     <Compile Include="Program.cs" />
     <Compile Include="Prompt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rules\AttackerLose.cs" />
+    <Compile Include="Rules\AttackingRule.cs" />
     <Compile Include="Rules\CardPlayed.cs" />
+    <Compile Include="Rules\DefendingRule.cs" />
     <Compile Include="Rules\EmptyTalon.cs" />
+    <Compile Include="Rules\HelpAttacker.cs" />
     <Compile Include="Rules\InitRoundStates.cs" />
     <Compile Include="Rules\StateRule.cs" />
     <Compile Include="Rules\VerifyBattleWin.cs" />

@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace DurakGame.Rules
 {
-    class VerifyDuelWin
+    class VerifyDuelWin 
     {
-        public bool Enabled
+        public bool IsEnabled
         {
             get;
             set;
@@ -20,23 +20,25 @@ namespace DurakGame.Rules
         {
             get
             {
-                return "Verify winner if duel";
+                return "Verify winner of duel";
             }
         }
         public void WinDuel(PlayerCollection players, GameState state, GameMove move, GameState currentState)
         {
-            //if ()
-            //{
+            if (move.Move == null)
+            {
+                state.Set("defender_forfeit", true);
+            }
 
-            //}
-            //else if ()
-            //{
+            else if (move.Move == null)
+            {
+                state.Set("attacker_forfeit", true);
+            }
 
-            //}
-            //else
-            //{
-
-            //}
+            else if (state.GetValueInt("current_round") > 6)
+            {
+                state.Set("attacker_forfeit", true);
+            }
         }
     }
 }

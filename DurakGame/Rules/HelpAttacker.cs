@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DurakGame.Rules
 {
-    class EmptyTalon
+    class HelpAttacker
     {
         public bool IsEnabled
         {
@@ -19,13 +19,13 @@ namespace DurakGame.Rules
         {
             get
             {
-                return "Verify Talon is empty";
+                return "Verify attacking player needs help";
             }
         }
 
-        public bool Talon(PlayerCollection players, GameMove move, GameState currentState, ref string reason)
+        public bool AttackHelp(PlayerCollection players, GameMove move, GameState currentState, ref string reason)
         {
-            if (currentState.GetValueInt("cards_in_deck") == 0)
+            if (currentState.GetValueBool("player_req_help"))
             {
                 return true;
             }
@@ -33,8 +33,6 @@ namespace DurakGame.Rules
             {
                 return false;
             }
-            
         }
-
     }
 }

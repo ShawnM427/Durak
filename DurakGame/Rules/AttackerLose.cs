@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DurakGame.Rules
 {
-    class VerifyBattleWin : IGameStateRule
+    class AttackerLose
     {
         public bool IsEnabled
         {
@@ -20,15 +20,15 @@ namespace DurakGame.Rules
         {
             get
             {
-                return "Check won battle";
+                return "Verify attacking players gets battling cards";
             }
         }
 
-        public void ValidateState(PlayerCollection players, GameState currentState)
+        public void AttackerGetsCards(PlayerCollection players, GameState currentState)
         {
-            if (currentState.GetValueCardSuit("defending_card_suit") > currentState.GetValueCardSuit("attacking_card_suit"))
+            if (currentState.GetValueBool("attacker_forfeit"))
             {
-                currentState.Set("current_round", (byte)(currentState.GetValueByte("current_round") + 1));
+                //add cards in battle to attackers hand
             }
         }
     }

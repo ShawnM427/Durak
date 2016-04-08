@@ -32,6 +32,7 @@ namespace DurakTester.Rules
             deck.Shuffle();
 
             state.Set<int>("cards_in_deck", deck.CardsInDeck);
+            state.Set<bool>("player_req_help", false);
 
             state.Set<CardCollection>("source_deck", deck.GetCards(), true);
 
