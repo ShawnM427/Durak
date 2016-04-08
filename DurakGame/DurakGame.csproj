@@ -96,6 +96,7 @@
     <Compile Include="About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
+    <Compile Include="BotRules\BotRule.cs" />
     <Compile Include="DurakGame.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -193,6 +194,7 @@
       <Name>DurakCommon</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
