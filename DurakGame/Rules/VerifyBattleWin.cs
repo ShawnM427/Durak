@@ -1,4 +1,5 @@
 ﻿using Durak.Common;
+using Durak.Server;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DurakGame.Rules
 {
-    class VerifyBattleWin
+    class VerifyBattleWin : IGameStateRule
     {
         public bool IsEnabled
         {
@@ -23,7 +24,7 @@ namespace DurakGame.Rules
             }
         }
 
-        public bool IsValidMove(PlayerCollection players, GameMove move, GameState currentState, ref string reason)
+        public bool ValidateState(PlayerCollection players, GameMove move, GameState currentState, ref string reason)
         {
             if (move.Move.Suit == currentState.GetValueCardSuit("defending_card_suit") && move.Move.Rank > currentState.GetValueCardRank("defending_card_rank"))
             {

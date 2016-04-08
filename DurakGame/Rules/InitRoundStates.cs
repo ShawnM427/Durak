@@ -31,6 +31,8 @@ namespace DurakTester.Rules
             Deck deck = new Deck(CardRank.Six, CardRank.King);
             deck.Shuffle();
 
+            state.Set<int>("cards_in_deck", deck.CardsInDeck);
+
             state.Set<CardCollection>("source_deck", deck.GetCards(), true);
 
             for (int index = 0; index < 6; index ++)
