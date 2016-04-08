@@ -34,7 +34,7 @@ namespace Durak.Common.Cards
         private CardCollection cards = new CardCollection();
 
         /// <summary>
-        /// Creates a new card deck
+        /// Default constructor - Creates a new card deck
         /// </summary>
         public Deck()
         {
@@ -43,7 +43,7 @@ namespace Durak.Common.Cards
 
 
         /// <summary>
-        /// Creates a deck from the given collection
+        /// Paramaterized Constructor - Creates a deck from the given collection
         /// </summary>
         /// <param name="newCards">The collection to use</param>
         public Deck(CardCollection newCards)
@@ -52,7 +52,7 @@ namespace Durak.Common.Cards
         }
 
         /// <summary>
-        /// Creates a new card deck
+        /// Paramaterized Constructor - Creates a new card deck
         /// </summary>
         /// <param name="minRankIndex">The minimum rank</param>
         /// <param name="maxRankIndex">The maximum rank</param>
@@ -62,7 +62,7 @@ namespace Durak.Common.Cards
         }
 
         /// <summary>
-        /// Insert every card into this deck
+        /// Insert every card from a normal deck into this deck
         /// </summary>
         /// <param name="minRankIndex">The minimum rank index</param>
         /// <param name="maxRankIndex">The maximum rank index</param>
