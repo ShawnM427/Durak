@@ -96,6 +96,7 @@
     <Compile Include="About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
+    <Compile Include="AIRules\AIRules.cs" />
     <Compile Include="DurakGame.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -166,6 +167,7 @@
     <Compile Include="SplashScreen.Designer.cs">
       <DependentUpon>SplashScreen.cs</DependentUpon>
     </Compile>
+    <Compile Include="AIRules\VerifyBotState.cs" />
     <EmbeddedResource Include="About.resx">
       <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>
