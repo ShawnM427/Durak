@@ -129,16 +129,13 @@
     <Compile Include="Program.cs" />
     <Compile Include="Prompt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-<<<<<<< HEAD
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-=======
     <Compile Include="Rules\AttackerLose.cs" />
     <Compile Include="Rules\AttackingRule.cs" />
->>>>>>> origin/master
     <Compile Include="Rules\CardPlayed.cs" />
     <Compile Include="Rules\DefendingRule.cs" />
     <Compile Include="Rules\DrawCardsRule.cs" />

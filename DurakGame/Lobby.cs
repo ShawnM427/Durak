@@ -93,6 +93,12 @@ namespace DurakGame
             myClient.ConnectTo(tag, password);
         }
 
+        /// <summary>
+        /// Invoked when a player has left the game
+        /// </summary>
+        /// <param name="sender">The object to invoke the event (the client)</param>
+        /// <param name="player">The player that has left</param>
+        /// <param name="reason">The reason they left</param>
         private void PlayerLeft(object sender, Player player, string reason)
         {
             PlayerView toRemove = myViews.FirstOrDefault(x => x.Player == player);

@@ -612,10 +612,12 @@ namespace Durak.Client
         {
             byte playerId = inMsg.ReadByte();
             string reason = inMsg.ReadString();
-            
-            OnPlayerLeft?.Invoke(this, myKnownPlayers[playerId], reason);
+
+            Player left = myKnownPlayers[playerId];
 
             myKnownPlayers[playerId] = null;
+            
+            OnPlayerLeft?.Invoke(this, left, reason);
         }
 
         /// <summary>
