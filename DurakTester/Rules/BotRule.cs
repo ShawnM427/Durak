@@ -10,7 +10,8 @@ namespace DurakTester.Rules
         {
             return 
                 (state.GetValueByte("attacking_player_id") == player.Player.PlayerId & state.GetValueBool("IsAttacking")) | 
-                (state.GetValueByte("defending_player_id") == player.Player.PlayerId & !state.GetValueBool("IsAttacking"));
+                (state.GetValueByte("defending_player_id") == player.Player.PlayerId & !state.GetValueBool("IsAttacking")) | 
+                (state.GetValueBool("attacker_req_help") == true && state.GetValueByte("defending_player_id") != player.Player.PlayerId);
         }
     }
 }

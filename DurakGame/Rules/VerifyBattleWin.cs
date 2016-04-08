@@ -24,20 +24,9 @@ namespace DurakGame.Rules
             }
         }
 
-        public bool ValidateState(PlayerCollection players, GameMove move, GameState currentState, ref string reason)
+        public void ValidateState(PlayerCollection players, GameState currentState)
         {
-            if (move.Move.Suit == currentState.GetValueCardSuit("defending_card_suit") && move.Move.Rank > currentState.GetValueCardRank("defending_card_rank"))
-            {
-                currentState.Set("round_winner", move.Player.PlayerId);
-                currentState.Set("current_round", (byte)(currentState.GetValueByte("current_round") + 1));
 
-            return true;
-            }
-            else
-            {
-               reason = "Move is not valid";
-               return false;
-            }
         }
     }
 }
