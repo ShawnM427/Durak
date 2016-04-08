@@ -36,13 +36,8 @@ namespace DurakGame
             myServer = new GameServer(6);
             myServer.IsSinglePlayerMode = true;
             myServer.Run();
-            
-            myClient = new GameClient(new ClientTag(Settings.Default.UserName));
-            myClient.OnServerStateUpdated += ServerStateUpdated;
-            myClient.OnFinishedConnect += ClientConnected;
-            myClient.OnPlayerConnected += PlayerConnected;
-            myClient.OnPlayerLeft += PlayerLeft;
-            myClient.Run();
+
+            InitClient();
 
             myClient.ConnectTo(myServer, "");
         }
@@ -58,12 +53,7 @@ namespace DurakGame
             myServer.SetPassword(Settings.Default.DefaultServerPassword);
             myServer.Run();
 
-            myClient.RequestStart();
-            myClient = new GameClient(new ClientTag(Settings.Default.UserName));
-            myClient.OnServerStateUpdated += ServerStateUpdated;
-            myClient.OnFinishedConnect += ClientConnected;
-            myClient.OnPlayerLeft += PlayerLeft;
-            myClient.Run();
+            InitClient();
 
             myClient.ConnectTo(myServer);
         }
@@ -76,12 +66,7 @@ namespace DurakGame
         {
             myServer = null;
 
-            myClient.RequestStart();
-            myClient = new GameClient(new ClientTag(Settings.Default.UserName));
-            myClient.OnServerStateUpdated += ServerStateUpdated;
-            myClient.OnFinishedConnect += ClientConnected;
-            myClient.OnPlayerLeft += PlayerLeft;
-            myClient.Run();
+            InitClient();
 
             string password = "";
 
@@ -91,6 +76,31 @@ namespace DurakGame
             }
             
             myClient.ConnectTo(tag, password);
+        }
+
+        /// <summary>
+        /// Handles setting up the local client and wiring it's events
+        /// </summary>
+        private void InitClient()
+        {
+            myClient = new GameClient(new ClientTag(Settings.Default.UserName));
+            myClient.OnServerStateUpdated += ServerStateUpdated;
+            myClient.OnFinishedConnect += ClientConnected;
+            myClient.OnPlayerConnected += PlayerConnected;
+            myClient.OnPlayerLeft += PlayerLeft;
+            myClient.OnPlayerChat += PlayerChat;
+            myClient.Run();
+        }
+
+        /// <summary>
+        /// Invoked when a player chat message has been received
+        /// </summary>
+        /// <param name="sender">The object that raised the event (the client)</param>
+        /// <param name="player">The player that sent the message</param>
+        /// <param name="message">The message that the player sent</param>
+        private void PlayerChat(object sender, Player player, string message)
+        {
+            txtChat.AppendText(string.Format("{0}: {1}\n", player.Name, message));
         }
 
         /// <summary>
