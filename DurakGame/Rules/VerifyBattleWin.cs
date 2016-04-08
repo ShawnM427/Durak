@@ -30,6 +30,7 @@ namespace DurakGame.Rules
             {
                 currentState.Set("current_round", (byte)(currentState.GetValueByte("current_round") + 1));
             }
+
         }
     }
 }
