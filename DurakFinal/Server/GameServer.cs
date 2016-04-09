@@ -585,12 +585,12 @@ namespace Durak.Server
                     Log("Setting host to \"{0}\"", player.Name);
                 }
 
-                // Notify other players
-                NotifyPlayerJoined(player);
-
                 // Client can connect
                 connection.Approve();
 
+                // Notify other players
+                NotifyPlayerJoined(player);
+                
                 // Add the player to the player list
                 myPlayers[player.PlayerId] = player;
 
@@ -895,6 +895,7 @@ namespace Durak.Server
             {
                 // Log the exception
                 Log("Encountered exception parsing packet from {0}:\n\t{1}", inMsg.SenderEndPoint, e);
+               
             }
 
             // If we are in game, we should update the state
