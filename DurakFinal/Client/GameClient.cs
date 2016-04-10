@@ -152,6 +152,10 @@ namespace Durak.Client
         /// Invoked after the client has finished connecting to the server
         /// </summary>
         public event EventHandler OnFinishedConnect;
+        /// <summary>
+        /// Invoked when the game host cannot start the game
+        /// </summary>
+        public event EventHandler<string> OnCannotStartGame;
 
         #endregion
 
@@ -307,6 +311,8 @@ namespace Durak.Client
 
             myMessageHandlers.Add(MessageType.CardCountChanged, HandleCardCountChanged);
             myMessageHandlers.Add(MessageType.PlayerHandChanged, HandleCardChanged);
+
+            myMessageHandlers.Add(MessageType.CannotStart, HandleCannotStart);
         }
 
         /// <summary>
@@ -340,85 +346,85 @@ namespace Durak.Client
             NetIncomingMessage inMsg = ((NetPeer)state).ReadMessage();
 
             // We don't want the server to crash on one bad packet
-            //try
-            //{
-            // Determine the message type to correctly handle it
-            switch (inMsg.MessageType)
+            try
             {
-                // Handle when a client's status has changed
-                case NetIncomingMessageType.StatusChanged:
-                    // Gets the status and reason
-                    NetConnectionStatus status = (NetConnectionStatus)inMsg.ReadByte();
-                    string reason = inMsg.ReadString();
+                // Determine the message type to correctly handle it
+                switch (inMsg.MessageType)
+                {
+                    // Handle when a client's status has changed
+                    case NetIncomingMessageType.StatusChanged:
+                        // Gets the status and reason
+                        NetConnectionStatus status = (NetConnectionStatus)inMsg.ReadByte();
+                        string reason = inMsg.ReadString();
 
-                    // Depending on the status, we handle players joining or leaving
-                    switch (status)
-                    {
-                        case NetConnectionStatus.Disconnected:
+                        // Depending on the status, we handle players joining or leaving
+                        switch (status)
+                        {
+                            case NetConnectionStatus.Disconnected:
 
-                            // If the reason the is shutdown message, we're good
-                            if (reason.Equals(NetSettings.DEFAULT_SERVER_SHUTDOWN_MESSAGE))
-                            {
-                                OnDisconnected?.Invoke(this, EventArgs.Empty);
-                            }
-                            // Otherwise if the reason is that \/ , then we timed out
-                            else if (reason.Equals("Failed to establish connection - no response from remote host", StringComparison.InvariantCultureIgnoreCase))
-                            {
-                                OnConnectionTimedOut?.Invoke(this, EventArgs.Empty);
+                                // If the reason the is shutdown message, we're good
+                                if (reason.Equals(NetSettings.DEFAULT_SERVER_SHUTDOWN_MESSAGE))
+                                {
+                                    OnDisconnected?.Invoke(this, EventArgs.Empty);
+                                }
+                                // Otherwise if the reason is that \/ , then we timed out
+                                else if (reason.Equals("Failed to establish connection - no response from remote host", StringComparison.InvariantCultureIgnoreCase))
+                                {
+                                    OnConnectionTimedOut?.Invoke(this, EventArgs.Empty);
 
-                                OnConnectionFailed?.Invoke(this, reason);
+                                    OnConnectionFailed?.Invoke(this, reason);
 
-                                OnDisconnected?.Invoke(this, EventArgs.Empty);
-                            }
-                            // Otherwise the connection failed for some other reason
-                            else
-                            {
-                                OnConnectionFailed?.Invoke(this, reason);
-                                
-                                OnDisconnected?.Invoke(this, EventArgs.Empty);
-                            }
+                                    OnDisconnected?.Invoke(this, EventArgs.Empty);
+                                }
+                                // Otherwise the connection failed for some other reason
+                                else
+                                {
+                                    OnConnectionFailed?.Invoke(this, reason);
 
-                            // Clear local state and forget connected server tag
-                            myLocalState.Clear();
-                            myConnectedServer = null;
-                            isReady = false;
-                            isHost = false;
+                                    OnDisconnected?.Invoke(this, EventArgs.Empty);
+                                }
 
-                            break;
+                                // Clear local state and forget connected server tag
+                                myLocalState.Clear();
+                                myConnectedServer = null;
+                                isReady = false;
+                                isHost = false;
 
-                        // We connected 
-                        case NetConnectionStatus.Connected:
-                            // invoked the onConnected event
-                            OnConnected?.Invoke(this, EventArgs.Empty);
+                                break;
 
-                            break;
+                            // We connected 
+                            case NetConnectionStatus.Connected:
+                                // invoked the onConnected event
+                                OnConnected?.Invoke(this, EventArgs.Empty);
 
-                    }
+                                break;
 
-                    break;
+                        }
 
-                // Handle when the server has received a discovery request
-                case NetIncomingMessageType.DiscoveryResponse:
-                    // Read the server tag from the packet
-                    ServerTag serverTag = ServerTag.ReadFromPacket(inMsg);
+                        break;
 
-                    // Notify that we discovered a server
-                    OnServerDiscovered?.Invoke(this, serverTag);
+                    // Handle when the server has received a discovery request
+                    case NetIncomingMessageType.DiscoveryResponse:
+                        // Read the server tag from the packet
+                        ServerTag serverTag = ServerTag.ReadFromPacket(inMsg);
 
-                    break;
+                        // Notify that we discovered a server
+                        OnServerDiscovered?.Invoke(this, serverTag);
 
-                // Handles when the server has received data
-                case NetIncomingMessageType.Data:
-                    HandleMessage(inMsg);
-                    break;
+                        break;
+
+                    // Handles when the server has received data
+                    case NetIncomingMessageType.Data:
+                        HandleMessage(inMsg);
+                        break;
+                }
             }
-            //}
             // An exception has occured parsing the packet
-            //catch (Exception e)
-            //{
-            // Log the exception
-            //    Logger.Write(e.Message);
-            //}
+            catch (Exception e)
+            {
+                //Log the exception
+                Logger.Write(e);
+            }
         }
 
         /// <summary>
@@ -519,8 +525,6 @@ namespace Durak.Client
 
             myLocalState.Decode(inMsg);
 
-            myKnownPlayers[myPlayerId] = new Player(myPlayerId, myTag.Name, false);
-
             OnFinishedConnect?.Invoke(this, EventArgs.Empty);
         }
 
@@ -597,9 +601,11 @@ namespace Durak.Client
             byte playerId = inMsg.ReadByte();
             string name = inMsg.ReadString();
             bool isBot = inMsg.ReadBoolean();
+            bool isHost = inMsg.ReadBoolean();
             inMsg.ReadPadBits();
 
             myKnownPlayers[playerId] = new Player(playerId, name, isBot);
+            myKnownPlayers[playerId].IsHost = isHost;
             
             OnPlayerConnected?.Invoke(this, myKnownPlayers[playerId]);
         }
@@ -692,10 +698,21 @@ namespace Durak.Client
             OnPlayerChat?.Invoke(this, myKnownPlayers[playerId], message);
         }
 
+        /// <summary>
+        /// Handles when the host cannot start the game
+        /// </summary>
+        /// <param name="msg">The message to decode</param>
+        private void HandleCannotStart(NetIncomingMessage msg)
+        {
+            string reason = msg.ReadString();
+
+            OnCannotStartGame?.Invoke(this, reason);
+        }
+
         #endregion
 
         #region Utils
-        
+
         /// <summary>
         /// Disconnects this client from the currently connected server
         /// </summary>
@@ -886,6 +903,7 @@ namespace Durak.Client
                 isReady = ready;
 
                 NetOutgoingMessage msg = myPeer.CreateMessage();
+                msg.Write((byte)MessageType.PlayerReady);
                 msg.Write(ready);
                 Send(msg);
             }

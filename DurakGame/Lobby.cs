@@ -26,6 +26,8 @@ namespace DurakGame
             InitializeComponent();
 
             myViews = new List<PlayerView>();
+
+            DialogResult = DialogResult.OK;
         }
 
         /// <summary>
@@ -76,6 +78,26 @@ namespace DurakGame
             }
             
             myClient.ConnectTo(tag, password);
+            btnStart.Text = "Ready";
+        }
+
+        public void InitMultiplayer(GameClient client, ServerTag tag)
+        {
+            myServer = null;
+
+            myClient = client;
+
+            InitClient();
+
+            string password = "";
+
+            if (tag.PasswordProtected)
+            {
+                password = Prompt.ShowDialog("Enter password", "Enter Password");
+            }
+            
+            myClient.ConnectTo(tag, password);
+            btnStart.Text = "Ready";
         }
 
         /// <summary>
@@ -83,19 +105,34 @@ namespace DurakGame
         /// </summary>
         private void InitClient()
         {
-            myClient = new GameClient(new ClientTag(Settings.Default.UserName));
+            if (myClient == null)
+                myClient = new GameClient(new ClientTag(Settings.Default.UserName));
+
             myClient.OnServerStateUpdated += ServerStateUpdated;
             myClient.OnFinishedConnect += ClientConnected;
             myClient.OnPlayerConnected += PlayerConnected;
             myClient.OnPlayerLeft += PlayerLeft;
             myClient.OnPlayerChat += PlayerChat;
             myClient.OnConnectionFailed += ClientConnectFailed;
-            myClient.Run();
+            myClient.OnDisconnected += ClientDisconnected;
+            myClient.OnCannotStartGame += (x, y) => { MessageBox.Show(y); };
+
+            if (!myClient.IsReady)
+                myClient.Run();
+        }
+
+        private void ClientDisconnected(object sender, EventArgs e)
+        {
+            MessageBox.Show("Disconnected from server", "Server Connection failed");
+            DialogResult = DialogResult.Abort;
+            Close();
         }
 
         private void ClientConnectFailed(object sender, string e)
         {
-            MessageBox.Show(e, "Well fuck me!");
+            MessageBox.Show(e, "Server Connection failed");
+            DialogResult = DialogResult.Abort;
+            Close();
         }
 
         /// <summary>
@@ -177,7 +214,7 @@ namespace DurakGame
             }
             else
             {
-                pnlAddBot.Visible = true;
+                pnlAddBot.Visible = myClient.IsHost;
                 pnlAddBot.Top = 5 + myViews.Count * 60;
             }
         }
@@ -274,10 +311,18 @@ namespace DurakGame
         /// <param name="e"></param>
         private void btnStart_Click(object sender, EventArgs e)
         {
-            if (myClient.ConnectedServer == null)
-                MessageBox.Show("Error, client not connected to local server");
+            if (myClient.IsHost)
+            {
+                if (myClient.ConnectedServer == null)
+                    MessageBox.Show("Error, client not connected to local server");
+                else
+                    myClient.RequestStart();
+            }
             else
-                myClient.RequestStart();
+            {
+                myViews.FirstOrDefault(X => X.Player.PlayerId == myClient.PlayerId).IsReady = true;
+                myClient.SetReadiness(true);
+            }
         }
 
     }

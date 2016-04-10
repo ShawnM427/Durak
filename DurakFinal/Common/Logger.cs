@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 
@@ -18,7 +19,7 @@ namespace Durak.Common
         /// <summary>
         /// Gets the date format for log file naming
         /// </summary>
-        public static readonly string LOG_FILE_TIME_FORMAT = "YY_MM_DD_HH_mm_ss";
+        public static readonly string LOG_FILE_TIME_FORMAT = "yyyy-MM-dd_HH_mm";
 
         /// <summary>
         /// Stores a singleton isntance of a logger for use statically
@@ -57,6 +58,24 @@ namespace Durak.Common
         {
             string fileName = "log_" + DateTime.Now.ToString(LOG_FILE_TIME_FORMAT) + ".txt";
             myStream = new StreamWriter(fileName);
+        }
+
+        private void WriteLine(string line)
+        {
+            myStream.WriteLine(line);
+            mySingleton.myStream.Flush();
+        }
+
+        public static void Write(Exception e)
+        {
+            Write("Encounted {0} at:", e.GetType().Name);
+
+            StackTrace trace = new StackTrace(e, true);
+
+            foreach (StackFrame frame in trace.GetFrames())
+            {
+                Write("\t{0}.{1} - line {2}", frame.GetMethod().DeclaringType, frame.GetMethod().Name, frame.GetFileLineNumber());
+            }
         }
 
         /// <summary>

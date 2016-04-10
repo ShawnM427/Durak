@@ -197,14 +197,20 @@ namespace Durak.Common
         /// <param name="value">The value to set</param>
         internal void SetValueInternal<T>(T value)
         {
+            System.Type t = value.GetType();
+
             // Make sure type is supported
-            if (SUPPORTED_TYPES.ContainsKey(value.GetType()) && myType == SUPPORTED_TYPES[value.GetType()])
+            if (SUPPORTED_TYPES.ContainsKey(t))
             {
-                // update myType and myValue
-                myValue = value;
+                if (value == null)
+                    myValue = value;
+                else if (value.GetType() == myValue.GetType())
+                    myValue = value;
+                if (Utils.CanChangeType(value, myValue.GetType()))
+                    myValue = Convert.ChangeType(value, myValue.GetType());
             }
             else
-                throw new InvalidCastException("Type " + value.GetType() + " is not supported");
+                throw new InvalidCastException("Type " + t + " is not supported");
         }
 
         /// <summary>

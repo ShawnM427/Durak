@@ -165,6 +165,14 @@ namespace Durak.Common
         /// Payload:
         ///     String  - message
         /// </summary>
-        PlayerChat                  = 200
+        PlayerChat                  = 200,
+
+        /// <summary>
+        /// Tells the game host that they cannot start the game
+        /// 
+        /// Payload: 
+        ///     String  - reason
+        /// </summary>
+        CannotStart                 = 201
     }
 }

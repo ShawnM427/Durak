@@ -171,6 +171,7 @@ namespace Durak.Server
             {
                 if (NumPlayers < value)
                 {
+                    myTag.SupportedPlayerCount = value;
                     myPlayers.Resize(value);
                 }
                 else if (NumPlayers > value)
@@ -196,6 +197,7 @@ namespace Durak.Server
         public GameServer(int numPlayers = 4)
         {
             myTag = new ServerTag();
+            myTag.SupportedPlayerCount = numPlayers;
 
             myPlayRules = new List<IGamePlayRule>();
             myStateRules = new List<IGameStateRule>();
@@ -552,6 +554,7 @@ namespace Durak.Server
             outMsg.Write(player.PlayerId);
             outMsg.Write(player.Name);
             outMsg.Write(player.IsBot);
+            outMsg.Write(player.IsHost);
             outMsg.WritePadBits();
 
             // Send to all clients
@@ -895,7 +898,7 @@ namespace Durak.Server
             {
                 // Log the exception
                 Log("Encountered exception parsing packet from {0}:\n\t{1}", inMsg.SenderEndPoint, e);
-               
+                Logger.Write(e);
             }
 
             // If we are in game, we should update the state
@@ -991,26 +994,28 @@ namespace Durak.Server
 
                 bool isLobbyReady = true;
 
-                // Loop through the players
-                for (byte index = 0; index < myPlayers.Count; index++)
-                {
-                    // Check for null players, the host and bots. They are exluded from the check
-                    if (myPlayers[index] != null && myPlayers[index] != myGameHost && !myPlayers[index].IsBot)
-                    {
-                        // If the player is not ready, we cannot continue, break out of the loop
-                        if (!myPlayers[index].IsReady)
-                        {
-                            isLobbyReady = false;
-                            break;
-                        }
-                    }
-                }
+                Player[] notReady = myPlayers.Where(x => !x.IsHost && (!x.IsReady && !x.IsBot)).ToArray();
+
+                // Determine if we're good to go
+                isLobbyReady = notReady.Length == 0;
 
                 // If everyone is ready proceed to game
                 if (isLobbyReady)
                     SetServerState(ServerState.InGame);
                 else
+                {
                     Log("Cannot start game, all players not ready");
+                    
+                    string message = "Cannot start, following players not ready:\n";
+                    foreach (Player p in notReady)
+                        message += "\t" + p.Name + "\n";
+
+                    NetOutgoingMessage outMsg = myServer.CreateMessage();
+                    outMsg.Write((byte)MessageType.CannotStart);
+                    outMsg.Write(message);
+
+                    myServer.SendMessage(outMsg, myGameHost.Connection, NetDeliveryMethod.ReliableOrdered);
+                }
             }
             else
             {
@@ -1054,6 +1059,7 @@ namespace Durak.Server
 
                 // Prepare the message
                 NetOutgoingMessage outMsg = myServer.CreateMessage();
+                outMsg.Write((byte)MessageType.PlayerReady);
                 outMsg.Write(playerId);
                 outMsg.Write(isReady);
                 outMsg.WritePadBits();

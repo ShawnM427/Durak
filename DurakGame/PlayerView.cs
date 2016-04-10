@@ -18,6 +18,7 @@ namespace DurakGame
         private bool hasControl;
         private bool isReady;
         private Player myPlayer;
+        private GameClient myClient;
 
         public bool HasControl
         {
@@ -44,17 +45,8 @@ namespace DurakGame
             get { return isReady; }
             set
             {
-                if (hasControl)
-                {
-                    if (isReady)
-                    {
-                        imgReady.Image = Resources.ready;
-                    }
-                    else
-                    {
-                        imgReady.Image = Resources.notReady;
-                    }
-                }
+                isReady = value;
+                DetermineReadyImage();
             }
         }
         public Player Player
@@ -72,7 +64,6 @@ namespace DurakGame
 
                         if (Client.IsHost)
                         {
-                            imgReady.Image = Resources.delete;
                             imgReady.Click += ReadyClicked;
                         }
                     }
@@ -82,13 +73,21 @@ namespace DurakGame
                         imgPlayerType.Image = Resources.silhoutte;
 
                     lblPlayerName.Text = myPlayer.Name;
+                    DetermineReadyImage();
                 }
             }
         }
         public GameClient Client
         {
-            get;
-            set;
+            get { return myClient; }
+            set
+            {
+                if (myClient != null)
+                    myClient.OnPlayerReady -= OnPlayerReady;
+
+                myClient = value;
+                myClient.OnPlayerReady += OnPlayerReady;
+            }
         }
 
         public event EventHandler<bool> OnReadinessChanged;
@@ -108,8 +107,25 @@ namespace DurakGame
                 else
                     imgReady.Image = Resources.notReady;
 
+                Client.SetReadiness(IsReady);
+
                 OnReadinessChanged?.Invoke(this, isReady);
             }
+        }
+
+
+        private void OnPlayerReady(object sender, Player e)
+        {
+            if (e == Player)
+                IsReady = Player.IsReady;
+        }
+
+        private void DetermineReadyImage()
+        {
+            if (!Player.IsHost)
+                imgReady.Image = IsReady ? Resources.ready : Resources.notReady;
+            else
+                imgReady.Image = null;
         }
 
         public PlayerView()

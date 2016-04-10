@@ -140,9 +140,12 @@ namespace DurakGame
 
         private void PlayerCardCountChanged(Durak.Common.Player player, int newCardCount)
         {
-            PlayerUITag tag = myPlayerUIs[player];
+            if (player.PlayerId != myClient.PlayerId)
+            {
+                PlayerUITag tag = myPlayerUIs[player];
 
-            tag.CardCountLabel.Text = newCardCount.ToString();
+                tag.CardCountLabel.Text = newCardCount.ToString();
+            }
         }
 
         private void frmDurakGame_Load(object sender, EventArgs e)

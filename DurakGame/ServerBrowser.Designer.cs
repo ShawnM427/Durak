@@ -28,7 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("");
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
+            "",
+            "TEst",
+            "0 / 5"}, -1);
             System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("");
             System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("");
             System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem("");
@@ -37,15 +40,14 @@
             this.txtDirect = new System.Windows.Forms.TextBox();
             this.btnDirect = new System.Windows.Forms.Button();
             this.lstServers = new System.Windows.Forms.ListView();
-            this.Name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.IPAddress = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.NoOfPlayers = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btnListConnect = new System.Windows.Forms.Button();
             this.txtSelected = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.clmServerName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmNumPlayers = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // label1
@@ -76,10 +78,11 @@
             // lstServers
             // 
             this.lstServers.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.Name,
-            this.IPAddress,
-            this.NoOfPlayers});
+            this.clmServerName,
+            this.clmNumPlayers});
             this.lstServers.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.lstServers.FullRowSelect = true;
+            this.lstServers.GridLines = true;
             this.lstServers.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
             listViewItem1,
             listViewItem2,
@@ -149,6 +152,14 @@
             this.label5.Text = "Players";
             this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
+            // clmServerName
+            // 
+            this.clmServerName.Text = "Name";
+            // 
+            // clmNumPlayers
+            // 
+            this.clmNumPlayers.Text = "Players";
+            // 
             // frmServerBrowser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -180,14 +191,13 @@
         private System.Windows.Forms.TextBox txtDirect;
         private System.Windows.Forms.Button btnDirect;
         private System.Windows.Forms.ListView lstServers;
-        private System.Windows.Forms.ColumnHeader Name;
-        private System.Windows.Forms.ColumnHeader IPAddress;
-        private System.Windows.Forms.ColumnHeader NoOfPlayers;
         private System.Windows.Forms.Button btnListConnect;
         private System.Windows.Forms.TextBox txtSelected;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ColumnHeader clmServerName;
+        private System.Windows.Forms.ColumnHeader clmNumPlayers;
     }
 }

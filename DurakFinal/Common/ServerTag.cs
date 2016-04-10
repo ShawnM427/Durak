@@ -13,6 +13,10 @@ namespace Durak.Common
         /// </summary>
         private int myPlayerCount;
         /// <summary>
+        /// Stores th number of players this server supports
+        /// </summary>
+        private int mySupportedPlayerCount;
+        /// <summary>
         /// S the server is in game
         /// </summary>
         private ServerState myState;
@@ -40,6 +44,14 @@ namespace Durak.Common
         {
             get { return myPlayerCount; }
             set { myPlayerCount = value; }
+        }
+        /// <summary>
+        /// Gets or sets the number of players that this server supports
+        /// </summary>
+        public int SupportedPlayerCount
+        {
+            get { return mySupportedPlayerCount; }
+            set { mySupportedPlayerCount = value; }
         }
         /// <summary>
         /// Getsor sets this server's state

@@ -300,6 +300,8 @@ namespace Durak.Common
                     return default(T);
                 else if (typeof(T).IsAssignableFrom(value.GetType()))
                     return (T)value;
+                else if (Utils.CanChangeType(value, typeof(T)))
+                    return (T)Convert.ChangeType(value, typeof(T));
                 else
                     throw new InvalidCastException(string.Format("Cannot cast {0} to {1}", value.GetType().Name, typeof(T).Name));
             }

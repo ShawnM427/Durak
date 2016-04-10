@@ -17,6 +17,15 @@ namespace Durak.Client
         List<ServerTag> myBackingList;
 
         /// <summary>
+        /// Invoked when a new server has been added to the list
+        /// </summary>
+        public event EventHandler<ServerTag> OnNewServerDiscovered;
+        /// <summary>
+        /// Invoked when a server tag has been updated
+        /// </summary>
+        public event EventHandler<ServerTag> OnServerUpdated;
+
+        /// <summary>
         /// Gets the number of items in this server tag collection
         /// </summary>
         public int Count
@@ -70,9 +79,17 @@ namespace Durak.Client
             int slot = myBackingList.FindIndex(X => X.Address == tag.Address);
 
             if (slot != -1)
+            {
+                if (myBackingList[slot] != tag)
+                    OnServerUpdated?.Invoke(this, tag);
+
                 myBackingList[slot] = tag;
+            }
             else
+            {
                 myBackingList.Add(tag);
+                OnNewServerDiscovered?.Invoke(this, tag);
+            }
         }
 
         /// <summary>
