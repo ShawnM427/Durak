@@ -97,6 +97,12 @@
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
     <Compile Include="AIRules\AIRules.cs" />
+    <Compile Include="CardPlayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CardPlayer.Designer.cs">
+      <DependentUpon>CardPlayer.cs</DependentUpon>
+    </Compile>
     <Compile Include="DurakGame.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -170,6 +176,9 @@
     <Compile Include="AIRules\VerifyBotState.cs" />
     <EmbeddedResource Include="About.resx">
       <DependentUpon>About.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CardPlayer.resx">
+      <DependentUpon>CardPlayer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DurakGame.resx">
       <DependentUpon>DurakGame.cs</DependentUpon>

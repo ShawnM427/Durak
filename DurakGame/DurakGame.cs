@@ -118,6 +118,8 @@ namespace DurakGame
             }
 
             myClient.OnPlayerCardCountChanged += PlayerCardCountChanged;
+
+            cplPlayersHand.Cards = myClient.Hand;
         }
 
         private void ClientDisconnected(object sender, EventArgs e)
