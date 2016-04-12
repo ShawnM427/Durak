@@ -1,4 +1,5 @@
-﻿using Lidgren.Network;
+﻿using Durak.Common.Cards;
+using Lidgren.Network;
 
 namespace Durak.Common
 {
@@ -16,6 +17,14 @@ namespace Durak.Common
     /// <param name="player">The player to leave</param>
     /// <param name="reason">The reason the player was left</param>
     public delegate void PlayerLeftEvent(object sender, Player player, string reason);
+
+    /// <summary>
+    /// Delegate for handling when an invalid move has been played
+    /// </summary>
+    /// <param name="sender">The object that raised the event</param>
+    /// <param name="card">The card that was attempted to be played</param>
+    /// <param name="reason">The reason the card cannot be played</param>
+    public delegate void InvalidMoveEvent(object sender, PlayingCard card, string reason);
 
     /// <summary>
     /// Delegate for handling when a player's card count has been updated

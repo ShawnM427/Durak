@@ -76,7 +76,7 @@ namespace Durak.Common
             GameMove result = new GameMove();
             
             // Build the result
-            result.myPlayer = players[inMessage.SenderConnection];
+            result.myPlayer = players[inMessage.ReadByte()];
 
             bool hasValue = inMessage.ReadBoolean();
             inMessage.ReadPadBits();

@@ -32,7 +32,9 @@ namespace DurakGame.Rules
 
         public void InitState(PlayerCollection players, GameState state)
         {
-            Deck toDrawFrom = new Deck(state.GetValueCardCollection("source_deck")); for (byte index = 0; index < players.Count; index++)
+            Deck toDrawFrom = new Deck(state.GetValueCardCollection("source_deck"));
+
+            for (byte index = 0; index < players.Count; index++)
             {
                 if (players[index] != null)
                 {

@@ -843,6 +843,7 @@
             this.cplPlayersHand.Name = "cplPlayersHand";
             this.cplPlayersHand.Size = new System.Drawing.Size(573, 168);
             this.cplPlayersHand.TabIndex = 43;
+            this.cplPlayersHand.OnCardSelected += new System.EventHandler<Durak.Common.Cards.CardEventArgs>(this.cplPlayersHand_OnCardSelected);
             // 
             // frmDurakGame
             // 

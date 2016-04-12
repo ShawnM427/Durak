@@ -115,6 +115,7 @@
     <Compile Include="DurakMain.Designer.cs">
       <DependentUpon>DurakMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="GraphicsExtensions.cs" />
     <Compile Include="Lobby.cs">
       <SubType>Form</SubType>
     </Compile>

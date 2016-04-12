@@ -700,7 +700,7 @@ namespace Durak.Server
         private void HandleMove(GameMove move)
         {
             // define the reason
-            string failReason = "Unkown";
+            string failReason = "Unknown";
 
             Log("Player {0} wants to play {1}", move.Player.PlayerId, move.Move);
 
@@ -710,6 +710,10 @@ namespace Durak.Server
                 // If the move is valid, continue, otherwise a rule was violated
                 if (!myPlayRules[index].IsValidMove(myPlayers, move, myGameState, ref failReason))
                 {
+                    // If the person who made the rule sucked at making rules, we catch their mistake
+                    if (failReason == "Unknown")
+                        failReason = "Failed on " + myPlayRules[index].ReadableName;
+
                     // Notify the source user
                     NotifyInvalidMove(move, failReason);
 

@@ -21,6 +21,9 @@ namespace DurakTester.Rules
 
         public bool IsValidMove(PlayerCollection players, GameMove move, GameState currentState, ref string reason)
         {
+            if (move.Move == null)
+                return true;
+
             if (!move.Player.Hand.Contains(move.Move))
             {
                 reason = "Card is not in players hand";

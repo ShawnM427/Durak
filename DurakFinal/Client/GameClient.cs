@@ -119,7 +119,7 @@ namespace Durak.Client
         /// <summary>
         /// Invoked when this client has made an invalid move
         /// </summary>
-        public event EventHandler<GameMove> OnInvalidMove;
+        public event InvalidMoveEvent OnInvalidMove;
         /// <summary>
         /// Invoked when a player has sent a chat message, this message may come from this client
         /// </summary>
@@ -181,6 +181,7 @@ namespace Durak.Client
                     SetReadiness(isReady);
             }
         }
+
         /// <summary>
         /// Gets whether this client is connected to a server
         /// </summary>
@@ -682,8 +683,9 @@ namespace Durak.Client
         private void HandleInvalidMove(NetIncomingMessage inMsg)
         {
             GameMove move = GameMove.Decode(inMsg, myKnownPlayers);
+            string reason = inMsg.ReadString();
             
-            OnInvalidMove?.Invoke(this, move);
+            OnInvalidMove?.Invoke(this, move.Move, reason);
         }
 
         /// <summary>

@@ -65,7 +65,11 @@ namespace DurakGame
             myClient.LocalState.AddStateChangedEvent("defending_card", 4, (X, Y) => { cbxDefence5.Card = Y.GetValuePlayingCard(); });
             myClient.LocalState.AddStateChangedEvent("defending_card", 5, (X, Y) => { cbxDefence6.Card = Y.GetValuePlayingCard(); });
 
+            myClient.OnInvalidMove += (X, Y, Z) => { MessageBox.Show(Z, "Cannot play card"); };
+
             myClient.OnDisconnected += ClientDisconnected;
+
+            myClient.OnConnected += ClientConnected;
 
             int localIndex = 0;
             for(byte index = 0; index < myClient.KnownPlayers.Count; index ++)
@@ -122,6 +126,11 @@ namespace DurakGame
             cplPlayersHand.Cards = myClient.Hand;
         }
 
+        private void ClientConnected(object sender, EventArgs e)
+        {
+            cplPlayersHand.Cards = myClient.Hand;
+        }
+
         private void ClientDisconnected(object sender, EventArgs e)
         {
             MessageBox.Show("Server has disconnected, returning to main menu");
@@ -153,6 +162,12 @@ namespace DurakGame
         private void frmDurakGame_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void cplPlayersHand_OnCardSelected(object sender, Durak.Common.Cards.CardEventArgs e)
+        {
+            if (myClient != null)
+                myClient.RequestMove(e.Card);
         }
     }
 }
