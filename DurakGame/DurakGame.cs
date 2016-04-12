@@ -16,6 +16,8 @@ namespace DurakGame
 {
     public partial class frmDurakGame : Form
     {
+
+        //A struct to hold the ui items for a player
         private struct PlayerUITag
         {
             public Panel Panel;
@@ -35,6 +37,7 @@ namespace DurakGame
 
             myPlayerUIs = new Dictionary<Player, PlayerUITag>();
 
+            //Initially set the players panels visibility to false until specified if they are in the game.
             pnlPlayer1.Visible = false;
             pnlPlayer2.Visible = false;
             pnlPlayer3.Visible = false;
@@ -144,6 +147,7 @@ namespace DurakGame
             cplPlayersHand.Cards = myClient.Hand;
         }
 
+        //Throw when a client disconnects
         private void ClientDisconnected(object sender, EventArgs e)
         {
             MessageBox.Show("Server has disconnected, returning to main menu");
