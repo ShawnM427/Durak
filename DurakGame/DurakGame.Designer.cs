@@ -101,6 +101,8 @@
             this.cbxDeck = new Durak.CardBox();
             this.cbxTrump = new Durak.CardBox();
             this.cplPlayersHand = new DurakGame.CardPlayer();
+            this.btnForfeit = new System.Windows.Forms.Button();
+            this.btnReqHelp = new System.Windows.Forms.Button();
             this.grpBattle1.SuspendLayout();
             this.grpBattle2.SuspendLayout();
             this.grpBattle3.SuspendLayout();
@@ -792,12 +794,40 @@
             this.cplPlayersHand.TabIndex = 43;
             this.cplPlayersHand.OnCardSelected += new System.EventHandler<Durak.Common.Cards.CardEventArgs>(this.cplPlayersHand_OnCardSelected);
             // 
+            // btnForfeit
+            // 
+            this.btnForfeit.BackColor = System.Drawing.Color.DarkGreen;
+            this.btnForfeit.Font = new System.Drawing.Font("Impact", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnForfeit.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnForfeit.Location = new System.Drawing.Point(826, 421);
+            this.btnForfeit.Name = "btnForfeit";
+            this.btnForfeit.Size = new System.Drawing.Size(202, 45);
+            this.btnForfeit.TabIndex = 45;
+            this.btnForfeit.Text = "Forfeit";
+            this.btnForfeit.UseVisualStyleBackColor = false;
+            this.btnForfeit.Click += new System.EventHandler(this.btnForfeit_Click);
+            // 
+            // btnReqHelp
+            // 
+            this.btnReqHelp.BackColor = System.Drawing.Color.DarkGreen;
+            this.btnReqHelp.Font = new System.Drawing.Font("Impact", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnReqHelp.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnReqHelp.Location = new System.Drawing.Point(826, 472);
+            this.btnReqHelp.Name = "btnReqHelp";
+            this.btnReqHelp.Size = new System.Drawing.Size(202, 45);
+            this.btnReqHelp.TabIndex = 46;
+            this.btnReqHelp.Text = "Request Help";
+            this.btnReqHelp.UseVisualStyleBackColor = false;
+            this.btnReqHelp.Click += new System.EventHandler(this.btnReqHelp_Click);
+            // 
             // frmDurakGame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkGreen;
             this.ClientSize = new System.Drawing.Size(1050, 601);
+            this.Controls.Add(this.btnReqHelp);
+            this.Controls.Add(this.btnForfeit);
             this.Controls.Add(this.cplPlayersHand);
             this.Controls.Add(this.pnlPlayer5);
             this.Controls.Add(this.pnlPlayer4);
@@ -898,6 +928,8 @@
         private System.Windows.Forms.Label lblPlayer5;
         private System.Windows.Forms.Label lblPlayer5CardsLeft;
         private CardPlayer cplPlayersHand;
+        private System.Windows.Forms.Button btnForfeit;
+        private System.Windows.Forms.Button btnReqHelp;
     }
 }
 

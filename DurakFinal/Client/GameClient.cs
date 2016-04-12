@@ -834,6 +834,19 @@ namespace Durak.Client
         }
 
         /// <summary>
+        /// Requests other players to help this player
+        /// </summary>
+        public void RequestHelp()
+        {
+            if (IsConnected)
+            {
+                NetOutgoingMessage msg = myPeer.CreateMessage();
+                msg.Write((byte)MessageType.RequestHelp);
+                Send(msg);
+            }
+        }
+
+        /// <summary>
         /// Sends a chat message to the server
         /// </summary>
         /// <param name="message">The message to send</param>

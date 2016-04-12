@@ -158,6 +158,10 @@ namespace Durak.Common
         ///     GameMove - move
         /// </summary>
         SucessfullMove              = 152,
+        /// <summary>
+        /// Sent by client to request help from other players, no payload
+        /// </summary>
+        RequestHelp                 = 153,
 
         /// <summary>
         /// Sent by the clients and the server for chat messages

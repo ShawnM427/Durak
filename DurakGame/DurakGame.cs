@@ -188,5 +188,15 @@ namespace DurakGame
             if (myClient != null)
                 myClient.RequestMove(e.Card);
         }
+
+        private void btnForfeit_Click(object sender, EventArgs e)
+        {
+            myClient.RequestMove(null);
+        }
+
+        private void btnReqHelp_Click(object sender, EventArgs e)
+        {
+            myClient.RequestHelp();
+        }
     }
 }

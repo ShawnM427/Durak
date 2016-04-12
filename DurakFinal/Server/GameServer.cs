@@ -979,7 +979,7 @@ namespace Durak.Server
                 Log("Player \"{0}\" attempted move during non-game state", myPlayers[msg.SenderConnection].Name, msg.SenderEndPoint);
             }
         }
-
+        
         /// <summary>
         /// Handles the message received when the host requests the game to start
         /// </summary>
