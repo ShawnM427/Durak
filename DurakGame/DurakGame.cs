@@ -60,9 +60,7 @@ namespace DurakGame
             myClient.LocalState.AddStateChangedEvent("attacking_card", 3, (X, Y) => { cbxPlayerAttack4.Card = Y.GetValuePlayingCard(); });
             myClient.LocalState.AddStateChangedEvent("attacking_card", 4, (X, Y) => { cbxPlayerAttack5.Card = Y.GetValuePlayingCard(); });
             myClient.LocalState.AddStateChangedEvent("attacking_card", 5, (X, Y) => { cbxPlayerAttack6.Card = Y.GetValuePlayingCard(); });
-
-            myClient.LocalState.AddStateChangedEvent("attacking_card", (X, Y) => { MessageBox.Show("Value: " + Y.Name); });
-
+            
             myClient.LocalState.AddStateChangedEvent("defending_card", 0, (X, Y) => { cbxDefence1.Card = Y.GetValuePlayingCard(); });
             myClient.LocalState.AddStateChangedEvent("defending_card", 1, (X, Y) => { cbxDefence2.Card = Y.GetValuePlayingCard(); });
             myClient.LocalState.AddStateChangedEvent("defending_card", 2, (X, Y) => { cbxDefence3.Card = Y.GetValuePlayingCard(); });
@@ -71,6 +69,10 @@ namespace DurakGame
             myClient.LocalState.AddStateChangedEvent("defending_card", 5, (X, Y) => { cbxDefence6.Card = Y.GetValuePlayingCard(); });
 
             myClient.OnInvalidMove += (X, Y, Z) => { MessageBox.Show(Z, "Cannot play card"); };
+
+            myClient.LocalState.AddStateChangedEvent(Names.TRUMP_CARD, (X, Y) => { cbxTrump.Card = Y.GetValuePlayingCard(); });
+
+            myClient.LocalState.AddStateChangedEvent(Names.DECK_COUNT, (X, Y) => { lblCardsLeft.Text = "" + Y.GetValueInt(); if (Y.GetValueInt() == 0) cbxDeck.Card = null; });
 
             //DebugClientView view = new DebugClientView();
             //view.SetGameState(myClient.LocalState);

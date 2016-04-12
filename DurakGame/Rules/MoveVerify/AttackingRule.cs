@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DurakGame.Rules
 {
-    class PlayerCanNotMove : IGamePlayRule
+    class AttackingRule : IGamePlayRule
     {
         public bool IsEnabled
         {
@@ -20,24 +20,14 @@ namespace DurakGame.Rules
         {
             get
             {
-                return "Verify winner of duel";
+                return "Rule for Atacker";
             }
         }
 
         public bool IsValidMove(PlayerCollection players, GameMove move, GameState currentState, ref string reason)
         {
-            if (currentState.GetValueBool("IsAttacking") && move.Move == null)
-            {
-                currentState.Set("attacker_forfeit", true);
-                return true;
-            }
-
-            else
-            {
-                currentState.Set("defender_forfeit", true);
-                return true;
-
-            }
+            // Make sure that the attacker is playing a valid card
+            return true;
         }
     }
 }

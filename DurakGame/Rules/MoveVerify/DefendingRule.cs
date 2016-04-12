@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DurakGame.Rules
 {
-    class HelpAttacker : IGamePlayRule
+    class DefendingRule : IGamePlayRule
     {
         public bool IsEnabled
         {
@@ -20,20 +20,14 @@ namespace DurakGame.Rules
         {
             get
             {
-                return "Verify attacking player needs help";
+                return "Defending Rule";
             }
         }
 
         public bool IsValidMove(PlayerCollection players, GameMove move, GameState currentState, ref string reason)
         {
-            if (currentState.GetValueByte("attacking_player_id") == move.Player.PlayerId || currentState.GetValueBool("player_req_help"))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            // Todo: defneder rule
+            return true;
         }
     }
 }

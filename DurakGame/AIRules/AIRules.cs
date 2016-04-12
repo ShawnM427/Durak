@@ -16,14 +16,15 @@ namespace DurakGame.Rules
         /// <param name="hand"></param>
         public void Propose(Dictionary<PlayingCard, float> proposals, GameState state, CardCollection hand)
         {
+            // Get trump card suit
+            CardSuit trumpSuit = state.GetValueCard(Names.TRUMP_CARD).Suit;
+
+            // Determine the cards we are working with
+            PlayingCard[] keys = proposals.Keys.ToArray();
+
             //Bot player is in attacking mode
-            if (state.GetValueBool("IsAttacking"))
+            if (state.GetValueBool(Names.IS_ATTACKING))
             {
-                //Get trump card suit
-                CardSuit trumpSuit = state.GetValueCardSuit("trump_suit");
-
-                PlayingCard[] keys = proposals.Keys.ToArray();
-
                 foreach (PlayingCard key in keys)
                 {
                     //Auto set all cards proposal to 1.0
@@ -33,12 +34,12 @@ namespace DurakGame.Rules
                         proposals[key] -= .25f;
                     }
                     ////If its not the first round do logic to only use cards that can be played based on pervious cards
-                    if (state.GetValueInt("current_round") != 0)
+                    if (state.GetValueInt(Names.CURRENT_ROUND) != 0)
                     {
-                        for (int i = 0; i >= state.GetValueInt("current_round"); i++)
+                        for (int i = 0; i >= state.GetValueInt(Names.CURRENT_ROUND); i++)
                         {
                             //If the card does not share the same rank as the attacking or defending card or does not share the same suit as the trump
-                            if (state.GetValueCard("attacking_card", i).Rank != key.Rank || state.GetValueCard("defending_card", i).Rank == key.Rank || key.Suit == trumpSuit)
+                            if (state.GetValueCard(Names.ATTACKING_CARD, i).Rank != key.Rank || state.GetValueCard(Names.DEFENDING_CARD, i).Rank == key.Rank || key.Suit == trumpSuit)
                             {
                                 proposals[key] = 0.0f;
                             }
@@ -51,10 +52,7 @@ namespace DurakGame.Rules
             //Bot Player is defending
             else
             {
-                PlayingCard attackingCard = state.GetValueCard("attacking_card", state.GetValueInt("current_round"));
-                CardSuit trumpSuit = state.GetValueCardSuit("trump_suit");
-
-                PlayingCard[] keys = proposals.Keys.ToArray();
+                PlayingCard attackingCard = state.GetValueCard(Names.ATTACKING_CARD, state.GetValueInt(Names.CURRENT_ROUND));
 
                 foreach (PlayingCard key in keys)
                 {
@@ -70,7 +68,7 @@ namespace DurakGame.Rules
                         //Add weight if the rank is higher than the attacking cards rank
                         if (key.Rank > attackingCard.Rank)
                         {
-                            proposals[key] += .25f;
+                            proposals[key] += .25f - ((int)key.Rank / 100.0f);
                         }
                         //If the cards rank is less than the attacking card and the suits are the same remove weight (meaning trump cards with a lower rank will still have weight)
                         else if (key.Rank < attackingCard.Rank && key.Suit == attackingCard.Suit)

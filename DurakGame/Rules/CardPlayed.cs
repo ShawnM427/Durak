@@ -6,35 +6,43 @@ using System.Threading.Tasks;
 using Durak.Server;
 using Durak.Common;
 
-namespace DurakTester.Rules
+namespace DurakGame.Rules
 {
     public class CardPlayed : IMoveSucessRule
     {
         public void UpdateState(GameMove move, PlayerCollection players, GameState state)
         {
-            move.Player.Hand.Discard(move.Move);
+            // Remove the card from the players hand
+            if (move.Move != null)
+                move.Player.Hand.Discard(move.Move);
 
-            if (state.GetValueBool("IsAttacking"))
+            // We need to switch on whether we are attacking
+            if (state.GetValueBool(Names.IS_ATTACKING))
             {
+                // If they played a null card, then they have forfeited
                 if (move.Move == null)
-                {
-                    state.Set("attacker_forfeit", true);
-                }
+                    state.Set(Names.ATTACKER_FORFEIT, true);
+                // Otherwise, put the card into the right slot
                 else
-                {
-                    state.Set("attacking_card", state.GetValueInt("current_round"), move.Move);
-                }
+                    state.Set(Names.ATTACKING_CARD, state.GetValueInt(Names.CURRENT_ROUND), move.Move);
+
+                // We are defending now
+                state.Set<bool>(Names.IS_ATTACKING, false);
             }
             else
             {
+                // If they played a null card, then they have forfeited
                 if (move.Move == null)
-                {
-                    state.Set("defender_forfeit", true);
-                }
+                    state.Set(Names.DEFENDER_FORFEIT, true);
+                // Otherwise, put the card into the right slot
                 else
-                {
-                    state.Set("defending_card", state.GetValueInt("current_round"), move.Move);
-                }
+                    state.Set(Names.DEFENDING_CARD, state.GetValueInt(Names.CURRENT_ROUND), move.Move);
+
+                // We are attacking now
+                state.Set<bool>(Names.IS_ATTACKING, true);
+
+                // Move to next round, we will check for defender win in a state check rule
+                state.Set<int>(Names.CURRENT_ROUND, state.GetValueInt(Names.CURRENT_ROUND) + 1);
             }
         }
     }

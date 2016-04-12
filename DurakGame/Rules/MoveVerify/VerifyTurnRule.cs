@@ -1,7 +1,7 @@
 ﻿using Durak.Common;
 using Durak.Server;
 
-namespace DurakTester.Rules
+namespace DurakGame.Rules
 {
     public class VerifyTurnRule : IGamePlayRule
     {
@@ -15,27 +15,28 @@ namespace DurakTester.Rules
         {
             get
             {
-                return "Verify attacking players";
+                return "Verify the player's turn";
             }
         }
 
         public bool IsValidMove(PlayerCollection players, GameMove move, GameState currentState, ref string reason)
         {
-            if (currentState.GetValueBool("IsAttacking"))
+            if (currentState.GetValueBool(Names.IS_ATTACKING))
             {
-                if (move.Player.PlayerId == currentState.GetValueByte("attacking_player_id"))
+                if (move.Player.PlayerId == currentState.GetValueByte(Names.ATTACKING_PLAYER))
                     return true;
 
-                if (currentState.GetValueBool("player_req_help") && move.Player.PlayerId != currentState.GetValueByte("defending_player_id"))
+                if (currentState.GetValueBool(Names.REQUEST_HELP) && move.Player.PlayerId != currentState.GetValueByte(Names.DEFENDING_PLAYER))
                     return true;
             }
             else
             {
-                if (move.Player.PlayerId == currentState.GetValueByte("defending_player_id"))
+                if (move.Player.PlayerId == currentState.GetValueByte(Names.DEFENDING_PLAYER))
                     return true;
 
             }
 
+            reason = "It is not your turn to " + (currentState.GetValueBool(Names.IS_ATTACKING) ? "attack." : "defend.");
             return false;
         }
     }

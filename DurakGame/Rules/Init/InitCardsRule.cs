@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DurakGame.Rules
 {
-    class DrawCardsRule : IGameInitRule
+    class InitCardsRule : IGameInitRule
     {
         public bool IsEnabled
         {
@@ -32,18 +32,24 @@ namespace DurakGame.Rules
 
         public void InitState(PlayerCollection players, GameState state)
         {
-            Deck toDrawFrom = new Deck(state.GetValueCardCollection("source_deck"));
+            // Get the deck
+            Deck toDrawFrom = new Deck(state.GetValueCardCollection(Names.DECK));
 
+            // Iterate over all players
             for (byte index = 0; index < players.Count; index++)
             {
+                // If the player exists
                 if (players[index] != null)
                 {
+                    // Add 6 cards to their hand
                     for (int cIndex = 0; cIndex < 6; cIndex++)
                         players[index].Hand.Add(toDrawFrom.Draw());
                 }
             }
 
-            state.Set<CardCollection>("source_deck", toDrawFrom.Cards);
+            // Update the deck and the count in the state
+            state.Set<CardCollection>(Names.DECK, toDrawFrom.Cards);
+            state.Set<int>(Names.DECK_COUNT, toDrawFrom.CardsInDeck);
         }
     }
 }

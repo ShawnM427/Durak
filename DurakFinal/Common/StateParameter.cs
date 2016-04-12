@@ -507,6 +507,15 @@ namespace Durak.Common
         }
 
         /// <summary>
+        /// Gets the underlying values ToString
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return myValue?.ToString();
+        }
+
+        /// <summary>
         /// Represents the type a parameter can encompass
         /// </summary>
         public enum Type
