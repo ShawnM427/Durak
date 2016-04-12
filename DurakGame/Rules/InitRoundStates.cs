@@ -43,6 +43,8 @@ namespace DurakTester.Rules
 
             state.Set<CardCollection>("source_deck", deck.GetCards(), true);
 
+            state.Set("discard_pile", new CardCollection());
+
             for (int index = 0; index < 6; index ++)
             {
                 state.Set<PlayingCard>("defending_card", index, null);

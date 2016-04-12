@@ -2,7 +2,7 @@
 using System;
 using Durak.Common;
 
-namespace DurakTester.Rules
+namespace DurakGame.Rules
 {
     /// <summary>
     /// This class is used to check the state of each bot after each message pump to determine the state, wheather they should be attacking, defending, asking for help 

@@ -37,7 +37,7 @@
             this.cmbMessageType = new System.Windows.Forms.ComboBox();
             this.lblMessage = new System.Windows.Forms.Label();
             this.cmbCards = new System.Windows.Forms.ComboBox();
-            this.gsvClientState = new DurakTester.GameStateVisualizer();
+            this.gsvClientState = new DurakCommon.GameStateVisualizer();
             this.lblResult = new System.Windows.Forms.Label();
             this.grpClientControls.SuspendLayout();
             this.SuspendLayout();
@@ -182,7 +182,7 @@
         private System.Windows.Forms.GroupBox grpMessageParams;
         private System.Windows.Forms.ComboBox cmbMessageType;
         private System.Windows.Forms.Label lblMessage;
-        private GameStateVisualizer gsvClientState;
+        private DurakCommon.GameStateVisualizer gsvClientState;
         private System.Windows.Forms.ComboBox cmbCards;
         private System.Windows.Forms.Label lblResult;
     }

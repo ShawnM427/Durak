@@ -23,20 +23,28 @@ namespace Durak
         #region FIELDS AND PROPERTIES
 
         /// <summary>
+        /// Stores the card object
+        /// </summary>
+        private PlayingCard myCard;
+        /// <summary>
+        /// Stores the image of the card being rendered
+        /// </summary>
+        private Image myImage;
+        /// <summary>
         /// Card Property:
         /// Sets / gets the underlying Card object
         /// </summary>
-        private PlayingCard myCard;
         public PlayingCard Card
         {
             get { return myCard; }
             set
             {
                 myCard = value;
+
                 if (myCard != null)
-                    pbMyPictureBox.Image = myCard.GetCardImage(); // Update the card image
-                else
-                    pbMyPictureBox.Image = null;
+                    myImage = myCard.GetCardImage();
+
+                Invalidate();
             }
         }
 
@@ -50,7 +58,7 @@ namespace Durak
             set
             {
                 Card.Suit = value;
-                UpdateCardImage(); // update card image
+                Invalidate();
             }
         }
 
@@ -64,7 +72,7 @@ namespace Durak
             set
             {
                 Card.Rank = value;
-                UpdateCardImage(); // update card image
+                Invalidate();
             }
         }
 
@@ -81,12 +89,10 @@ namespace Durak
                 if (myCard.FaceUp != value) // then the card is flipping over
                 {
                     myCard.FaceUp = value; // change the card's FaceUp property
-
-                    UpdateCardImage(); // update the card image (back or front)
+                    Invalidate();
 
                     // if there is an event handler for CardFlipped in the client program
-                    if (CardFlipped != null)
-                        CardFlipped(this, new EventArgs()); // call it
+                    CardFlipped?.Invoke(this, new EventArgs()); // call it
                 }
             }
         }
@@ -109,26 +115,21 @@ namespace Durak
                     myOrientation = value; // change the orientation
                     // swap the height and width of the control
                     this.Size = new Size(Size.Height, Size.Width);
-                    UpdateCardImage(); // update the card image
+                    Invalidate();
                 }
             }
         }
 
         /// <summary>
-        /// UpdateCardImage helper method:
-        /// Sets the picturebox image using the underlying
-        /// card and the orientation
+        /// Gets the low level winforms create parameters, adding transparency
         /// </summary>
-        private void UpdateCardImage()
+        protected override CreateParams CreateParams
         {
-            // set the image using the underlying card
-            pbMyPictureBox.Image = myCard.GetCardImage();
-
-            // if the orientation is horizontal
-            if (myOrientation == Orientation.Horizontal)
+            get
             {
-                // rotate the image
-                pbMyPictureBox.Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                CreateParams cp = base.CreateParams;
+                cp.ExStyle |= 0x20; // WS_EX_TRANSPARENT
+                return cp;
             }
         }
 
@@ -145,7 +146,8 @@ namespace Durak
             InitializeComponent(); // required method for designer support
             myOrientation = Orientation.Vertical; // set the orietation to vertical
             myCard = new PlayingCard(); // create a new underlying card
-            UpdateCardImage();
+            SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+            BackColor = Color.Transparent;
         }
 
         /// <summary>
@@ -153,45 +155,28 @@ namespace Durak
         /// </summary>
         /// <param name="card">Underlying PlayingCard object</param>
         /// <param name="orientation">Orientation enumeration. Vertical by default</param>
-        public CardBox(PlayingCard card, Orientation orientation = Orientation.Vertical)
+        public CardBox(PlayingCard card, Orientation orientation = Orientation.Vertical) : this()
         {
-            InitializeComponent(); // required method for designer support
             myOrientation = orientation; // set the orientation
             myCard = card; // set the underlying card
         }
         #endregion
 
         #region EVENTS AND EVENT HANDLERS
-
-        /// <summary>
-        /// An event handler for the load event
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void CardBox_Load(object sender, EventArgs e)
-        {
-            UpdateCardImage(); // update card image
-        }
-
+        
         /// <summary>
         /// An event the client program can handle when the card flips face up/down
         /// </summary>
         public event EventHandler CardFlipped;
-
+        
         /// <summary>
-        /// An event the client program can handle when the user clicks the control
+        /// Overrides the onPaint event, rendering this card
         /// </summary>
-        new public event EventHandler Click;
-
-        /// <summary>
-        /// An event handler for the user clicking the picture box control
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void pbMyPictureBox_Click(object sender, EventArgs e)
+        /// <param name="e">The event arguments with the graphics device to render with</param>
+        protected override void OnPaint(PaintEventArgs e)
         {
-            if (Click != null) // if there is a handler for clicking the control in the client program
-                Click(this, e); // call it
+            if (myCard != null && myCard.GetCardImage() != null)
+                e.Graphics.DrawImage(myCard.GetCardImage(), 0, 0, Width, Height);
         }
 
         #endregion

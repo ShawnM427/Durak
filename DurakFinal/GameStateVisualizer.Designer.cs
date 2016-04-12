@@ -1,4 +1,4 @@
-﻿namespace DurakTester
+﻿namespace DurakCommon
 {
     partial class GameStateVisualizer
     {

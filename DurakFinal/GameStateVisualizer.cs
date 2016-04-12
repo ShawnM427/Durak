@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Durak.Common;
 
-namespace DurakTester
+namespace DurakCommon
 {
     public partial class GameStateVisualizer : UserControl
     {

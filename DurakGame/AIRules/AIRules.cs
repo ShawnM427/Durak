@@ -4,7 +4,7 @@ using Durak.Common;
 using Durak.Common.Cards;
 using System.Collections.Generic;
 
-namespace DurakTester.Rules
+namespace DurakGame.Rules
 {
     public class AIRules : IAIRule
     {
@@ -49,7 +49,7 @@ namespace DurakTester.Rules
             }
 
             //Bot Player is defending
-            else if (state.GetValueBool("isDefending"))
+            else
             {
                 PlayingCard attackingCard = state.GetValueCard("attacking_card", state.GetValueInt("current_round"));
                 CardSuit trumpSuit = state.GetValueCardSuit("trump_suit");
@@ -59,7 +59,7 @@ namespace DurakTester.Rules
                 foreach (PlayingCard key in keys)
                 {
                     //Add weight to all cards of the attacking cards suit and trump cards suit
-                    if (key.Suit == trumpSuit || key.Suit == attackingCard.Suit)
+                    if (key.Suit == trumpSuit | key.Suit == attackingCard.Suit)
                     {
                         proposals[key] += .25f;
                         //Add a little more weight if the card is not a trump card. So the bot has less chance to waste its trumps

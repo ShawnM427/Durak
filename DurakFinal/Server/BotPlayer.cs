@@ -122,6 +122,8 @@ namespace Durak.Server
         /// <param name="e">The card that has been added</param>
         private void CardAdded(object sender, CardEventArgs e)
         {
+            e.Card.FaceUp = true;
+
             if (!myProposedMoves.ContainsKey(e.Card))
                 myProposedMoves.Add(e.Card, 0.0f);
         }
@@ -195,7 +197,7 @@ namespace Durak.Server
 
             for(int index = 0; index < myProposedMoves.Count; index ++)
             {
-                myProposedMoves[myProposedMoves.Keys.ElementAt(index)] *= (float)((myRandom.NextDouble() - 0.5d) * (1 - myDifficulty));
+                myProposedMoves[myProposedMoves.Keys.ElementAt(index)] *= (float)((myRandom.NextDouble() - 0.5d) * (1 - myDifficulty / 4));
             }
 
             // Sort the list

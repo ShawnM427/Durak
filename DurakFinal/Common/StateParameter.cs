@@ -197,7 +197,7 @@ namespace Durak.Common
         /// <param name="value">The value to set</param>
         internal void SetValueInternal<T>(T value)
         {
-            System.Type t = value.GetType();
+            System.Type t = typeof(T);
             System.Type valueType = SUPPORTED_TYPES.FirstOrDefault(X => X.Value == myType).Key;
 
 
@@ -283,6 +283,7 @@ namespace Durak.Common
         /// <param name="value">The value to set</param>
         public void SetValue(PlayingCard value)
         {
+            value.FaceUp = true;
             SetValueInternal(value);
         }
         /// <summary>
@@ -402,7 +403,7 @@ namespace Durak.Common
                 case Type.PlayingCard:
                     if (msg.ReadBoolean())
                     {
-                        myValue = new PlayingCard((CardRank)msg.ReadByte(), (CardSuit)msg.ReadByte());
+                        myValue = new PlayingCard((CardRank)msg.ReadByte(), (CardSuit)msg.ReadByte()) { FaceUp = true };
                     }
                     else
                     {

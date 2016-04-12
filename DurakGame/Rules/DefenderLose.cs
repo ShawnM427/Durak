@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DurakGame.Rules
 {
-    class AttackerLose : IGameStateRule
+    class DefenderLose : IGameStateRule
     {
         public bool IsEnabled
         {
@@ -27,21 +27,22 @@ namespace DurakGame.Rules
 
         public void ValidateState(PlayerCollection players, GameState state)
         {
-            if (state.GetValueBool("attacker_forfeit"))
+            if (state.GetValueBool("defender_forfeit"))
             {
                 int round = state.GetValueInt("current_round");
-                CardCollection discard = state.GetValueCardCollection("discard_pile");
+                Player defender = players[state.GetValueByte("defending_player_id")];
 
                 for (int index = 0; index <= round; index++)
                 {
-                    discard.Add(state.GetValueCard("attacking_card", index));
-                    discard.Add(state.GetValueCard("defending_card", index));
+                    defender.Hand.Add(state.GetValueCard("attacking_card", index));
+
+                    PlayingCard card = state.GetValueCard("defending_card", index);
+                    if (card != null)
+                    defender.Hand.Add(card);
 
                     state.Set<PlayingCard>("attacking_card", index, null);
                     state.Set<PlayingCard>("defending_card", index, null);
                 }
-
-                state.Set("discard_pile", discard);
 
                 // Move to next match
                 byte attackingPlayerId = (byte)(state.GetValueByte("attacking_player_id") + 1);
@@ -57,7 +58,7 @@ namespace DurakGame.Rules
                 state.Set("defending_player_id", defendingPlayerId);
                 state.Set("IsAttacking", true);
 
-                state.Set("attacker_forfeit", false);
+                state.Set("defender_forfeit", false);
             }
         }
     }

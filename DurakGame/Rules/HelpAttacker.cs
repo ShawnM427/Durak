@@ -26,7 +26,7 @@ namespace DurakGame.Rules
 
         public bool IsValidMove(PlayerCollection players, GameMove move, GameState currentState, ref string reason)
         {
-            if (currentState.GetValueBool("player_req_help"))
+            if (currentState.GetValueByte("attacking_player_id") == move.Player.PlayerId || currentState.GetValueBool("player_req_help"))
             {
                 return true;
             }

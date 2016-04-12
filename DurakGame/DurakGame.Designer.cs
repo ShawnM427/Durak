@@ -48,27 +48,21 @@
             Durak.Common.Cards.PlayingCard playingCard18 = new Durak.Common.Cards.PlayingCard();
             Durak.Common.Cards.PlayingCard playingCard19 = new Durak.Common.Cards.PlayingCard();
             this.grpBattle1 = new System.Windows.Forms.GroupBox();
-            this.lblWinLose1 = new System.Windows.Forms.Label();
             this.cbxDefence1 = new Durak.CardBox();
             this.cbxPlayerAttack1 = new Durak.CardBox();
             this.grpBattle2 = new System.Windows.Forms.GroupBox();
-            this.lblWinLose2 = new System.Windows.Forms.Label();
             this.cbxDefence2 = new Durak.CardBox();
             this.cbxPlayerAttack2 = new Durak.CardBox();
             this.grpBattle3 = new System.Windows.Forms.GroupBox();
-            this.lblWinLose3 = new System.Windows.Forms.Label();
             this.cbxDefence3 = new Durak.CardBox();
             this.cbxPlayerAttack3 = new Durak.CardBox();
             this.grpBattle4 = new System.Windows.Forms.GroupBox();
-            this.lblWinLose4 = new System.Windows.Forms.Label();
             this.cbxDefence4 = new Durak.CardBox();
             this.cbxPlayerAttack4 = new Durak.CardBox();
             this.grpBattle5 = new System.Windows.Forms.GroupBox();
-            this.lblWinLose5 = new System.Windows.Forms.Label();
             this.cbxDefence5 = new Durak.CardBox();
             this.cbxPlayerAttack5 = new Durak.CardBox();
             this.grpBattle6 = new System.Windows.Forms.GroupBox();
-            this.lblWinLose6 = new System.Windows.Forms.Label();
             this.cbxDefence6 = new Durak.CardBox();
             this.cbxPlayerAttack6 = new Durak.CardBox();
             this.grpBattles = new System.Windows.Forms.GroupBox();
@@ -124,7 +118,6 @@
             // 
             // grpBattle1
             // 
-            this.grpBattle1.Controls.Add(this.lblWinLose1);
             this.grpBattle1.Controls.Add(this.cbxDefence1);
             this.grpBattle1.Controls.Add(this.cbxPlayerAttack1);
             this.grpBattle1.ForeColor = System.Drawing.SystemColors.Control;
@@ -134,18 +127,9 @@
             this.grpBattle1.TabIndex = 3;
             this.grpBattle1.TabStop = false;
             // 
-            // lblWinLose1
-            // 
-            this.lblWinLose1.AutoSize = true;
-            this.lblWinLose1.Font = new System.Drawing.Font("Impact", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWinLose1.Location = new System.Drawing.Point(13, 160);
-            this.lblWinLose1.Name = "lblWinLose1";
-            this.lblWinLose1.Size = new System.Drawing.Size(59, 29);
-            this.lblWinLose1.TabIndex = 38;
-            this.lblWinLose1.Text = "WIN!";
-            // 
             // cbxDefence1
             // 
+            this.cbxDefence1.BackColor = System.Drawing.Color.Transparent;
             playingCard1.AlternateValue = null;
             playingCard1.CardValue = 1;
             playingCard1.FaceUp = true;
@@ -163,6 +147,7 @@
             // 
             // cbxPlayerAttack1
             // 
+            this.cbxPlayerAttack1.BackColor = System.Drawing.Color.Transparent;
             playingCard2.AlternateValue = null;
             playingCard2.CardValue = 1;
             playingCard2.FaceUp = true;
@@ -171,7 +156,7 @@
             this.cbxPlayerAttack1.Card = playingCard2;
             this.cbxPlayerAttack1.CardOrientation = System.Windows.Forms.Orientation.Vertical;
             this.cbxPlayerAttack1.FaceUp = true;
-            this.cbxPlayerAttack1.Location = new System.Drawing.Point(6, 40);
+            this.cbxPlayerAttack1.Location = new System.Drawing.Point(6, 50);
             this.cbxPlayerAttack1.Name = "cbxPlayerAttack1";
             this.cbxPlayerAttack1.Rank = Durak.Common.Cards.CardRank.Three;
             this.cbxPlayerAttack1.Size = new System.Drawing.Size(75, 107);
@@ -180,7 +165,6 @@
             // 
             // grpBattle2
             // 
-            this.grpBattle2.Controls.Add(this.lblWinLose2);
             this.grpBattle2.Controls.Add(this.cbxDefence2);
             this.grpBattle2.Controls.Add(this.cbxPlayerAttack2);
             this.grpBattle2.ForeColor = System.Drawing.SystemColors.Control;
@@ -190,18 +174,9 @@
             this.grpBattle2.TabIndex = 6;
             this.grpBattle2.TabStop = false;
             // 
-            // lblWinLose2
-            // 
-            this.lblWinLose2.AutoSize = true;
-            this.lblWinLose2.Font = new System.Drawing.Font("Impact", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWinLose2.Location = new System.Drawing.Point(12, 160);
-            this.lblWinLose2.Name = "lblWinLose2";
-            this.lblWinLose2.Size = new System.Drawing.Size(59, 29);
-            this.lblWinLose2.TabIndex = 39;
-            this.lblWinLose2.Text = "WIN!";
-            // 
             // cbxDefence2
             // 
+            this.cbxDefence2.BackColor = System.Drawing.Color.Transparent;
             playingCard3.AlternateValue = null;
             playingCard3.CardValue = 1;
             playingCard3.FaceUp = true;
@@ -219,6 +194,7 @@
             // 
             // cbxPlayerAttack2
             // 
+            this.cbxPlayerAttack2.BackColor = System.Drawing.Color.Transparent;
             playingCard4.AlternateValue = null;
             playingCard4.CardValue = 1;
             playingCard4.FaceUp = true;
@@ -227,7 +203,7 @@
             this.cbxPlayerAttack2.Card = playingCard4;
             this.cbxPlayerAttack2.CardOrientation = System.Windows.Forms.Orientation.Vertical;
             this.cbxPlayerAttack2.FaceUp = true;
-            this.cbxPlayerAttack2.Location = new System.Drawing.Point(6, 40);
+            this.cbxPlayerAttack2.Location = new System.Drawing.Point(6, 50);
             this.cbxPlayerAttack2.Name = "cbxPlayerAttack2";
             this.cbxPlayerAttack2.Rank = Durak.Common.Cards.CardRank.Three;
             this.cbxPlayerAttack2.Size = new System.Drawing.Size(75, 107);
@@ -236,7 +212,6 @@
             // 
             // grpBattle3
             // 
-            this.grpBattle3.Controls.Add(this.lblWinLose3);
             this.grpBattle3.Controls.Add(this.cbxDefence3);
             this.grpBattle3.Controls.Add(this.cbxPlayerAttack3);
             this.grpBattle3.ForeColor = System.Drawing.SystemColors.Control;
@@ -246,18 +221,9 @@
             this.grpBattle3.TabIndex = 6;
             this.grpBattle3.TabStop = false;
             // 
-            // lblWinLose3
-            // 
-            this.lblWinLose3.AutoSize = true;
-            this.lblWinLose3.Font = new System.Drawing.Font("Impact", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWinLose3.Location = new System.Drawing.Point(15, 160);
-            this.lblWinLose3.Name = "lblWinLose3";
-            this.lblWinLose3.Size = new System.Drawing.Size(59, 29);
-            this.lblWinLose3.TabIndex = 40;
-            this.lblWinLose3.Text = "WIN!";
-            // 
             // cbxDefence3
             // 
+            this.cbxDefence3.BackColor = System.Drawing.Color.Transparent;
             playingCard5.AlternateValue = null;
             playingCard5.CardValue = 1;
             playingCard5.FaceUp = true;
@@ -275,6 +241,7 @@
             // 
             // cbxPlayerAttack3
             // 
+            this.cbxPlayerAttack3.BackColor = System.Drawing.Color.Transparent;
             playingCard6.AlternateValue = null;
             playingCard6.CardValue = 1;
             playingCard6.FaceUp = true;
@@ -283,7 +250,7 @@
             this.cbxPlayerAttack3.Card = playingCard6;
             this.cbxPlayerAttack3.CardOrientation = System.Windows.Forms.Orientation.Vertical;
             this.cbxPlayerAttack3.FaceUp = true;
-            this.cbxPlayerAttack3.Location = new System.Drawing.Point(6, 40);
+            this.cbxPlayerAttack3.Location = new System.Drawing.Point(6, 50);
             this.cbxPlayerAttack3.Name = "cbxPlayerAttack3";
             this.cbxPlayerAttack3.Rank = Durak.Common.Cards.CardRank.Three;
             this.cbxPlayerAttack3.Size = new System.Drawing.Size(75, 107);
@@ -292,7 +259,6 @@
             // 
             // grpBattle4
             // 
-            this.grpBattle4.Controls.Add(this.lblWinLose4);
             this.grpBattle4.Controls.Add(this.cbxDefence4);
             this.grpBattle4.Controls.Add(this.cbxPlayerAttack4);
             this.grpBattle4.ForeColor = System.Drawing.SystemColors.Control;
@@ -302,18 +268,9 @@
             this.grpBattle4.TabIndex = 6;
             this.grpBattle4.TabStop = false;
             // 
-            // lblWinLose4
-            // 
-            this.lblWinLose4.AutoSize = true;
-            this.lblWinLose4.Font = new System.Drawing.Font("Impact", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWinLose4.Location = new System.Drawing.Point(14, 160);
-            this.lblWinLose4.Name = "lblWinLose4";
-            this.lblWinLose4.Size = new System.Drawing.Size(59, 29);
-            this.lblWinLose4.TabIndex = 42;
-            this.lblWinLose4.Text = "WIN!";
-            // 
             // cbxDefence4
             // 
+            this.cbxDefence4.BackColor = System.Drawing.Color.Transparent;
             playingCard7.AlternateValue = null;
             playingCard7.CardValue = 1;
             playingCard7.FaceUp = true;
@@ -331,6 +288,7 @@
             // 
             // cbxPlayerAttack4
             // 
+            this.cbxPlayerAttack4.BackColor = System.Drawing.Color.Transparent;
             playingCard8.AlternateValue = null;
             playingCard8.CardValue = 1;
             playingCard8.FaceUp = true;
@@ -339,7 +297,7 @@
             this.cbxPlayerAttack4.Card = playingCard8;
             this.cbxPlayerAttack4.CardOrientation = System.Windows.Forms.Orientation.Vertical;
             this.cbxPlayerAttack4.FaceUp = true;
-            this.cbxPlayerAttack4.Location = new System.Drawing.Point(6, 40);
+            this.cbxPlayerAttack4.Location = new System.Drawing.Point(6, 50);
             this.cbxPlayerAttack4.Name = "cbxPlayerAttack4";
             this.cbxPlayerAttack4.Rank = Durak.Common.Cards.CardRank.Three;
             this.cbxPlayerAttack4.Size = new System.Drawing.Size(75, 107);
@@ -348,7 +306,6 @@
             // 
             // grpBattle5
             // 
-            this.grpBattle5.Controls.Add(this.lblWinLose5);
             this.grpBattle5.Controls.Add(this.cbxDefence5);
             this.grpBattle5.Controls.Add(this.cbxPlayerAttack5);
             this.grpBattle5.ForeColor = System.Drawing.SystemColors.Control;
@@ -358,18 +315,9 @@
             this.grpBattle5.TabIndex = 6;
             this.grpBattle5.TabStop = false;
             // 
-            // lblWinLose5
-            // 
-            this.lblWinLose5.AutoSize = true;
-            this.lblWinLose5.Font = new System.Drawing.Font("Impact", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWinLose5.Location = new System.Drawing.Point(12, 160);
-            this.lblWinLose5.Name = "lblWinLose5";
-            this.lblWinLose5.Size = new System.Drawing.Size(59, 29);
-            this.lblWinLose5.TabIndex = 41;
-            this.lblWinLose5.Text = "WIN!";
-            // 
             // cbxDefence5
             // 
+            this.cbxDefence5.BackColor = System.Drawing.Color.Transparent;
             playingCard9.AlternateValue = null;
             playingCard9.CardValue = 1;
             playingCard9.FaceUp = true;
@@ -387,6 +335,7 @@
             // 
             // cbxPlayerAttack5
             // 
+            this.cbxPlayerAttack5.BackColor = System.Drawing.Color.Transparent;
             playingCard10.AlternateValue = null;
             playingCard10.CardValue = 1;
             playingCard10.FaceUp = true;
@@ -395,7 +344,7 @@
             this.cbxPlayerAttack5.Card = playingCard10;
             this.cbxPlayerAttack5.CardOrientation = System.Windows.Forms.Orientation.Vertical;
             this.cbxPlayerAttack5.FaceUp = true;
-            this.cbxPlayerAttack5.Location = new System.Drawing.Point(6, 40);
+            this.cbxPlayerAttack5.Location = new System.Drawing.Point(6, 50);
             this.cbxPlayerAttack5.Name = "cbxPlayerAttack5";
             this.cbxPlayerAttack5.Rank = Durak.Common.Cards.CardRank.Three;
             this.cbxPlayerAttack5.Size = new System.Drawing.Size(75, 107);
@@ -404,7 +353,6 @@
             // 
             // grpBattle6
             // 
-            this.grpBattle6.Controls.Add(this.lblWinLose6);
             this.grpBattle6.Controls.Add(this.cbxDefence6);
             this.grpBattle6.Controls.Add(this.cbxPlayerAttack6);
             this.grpBattle6.ForeColor = System.Drawing.SystemColors.Control;
@@ -414,18 +362,9 @@
             this.grpBattle6.TabIndex = 6;
             this.grpBattle6.TabStop = false;
             // 
-            // lblWinLose6
-            // 
-            this.lblWinLose6.AutoSize = true;
-            this.lblWinLose6.Font = new System.Drawing.Font("Impact", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWinLose6.Location = new System.Drawing.Point(14, 160);
-            this.lblWinLose6.Name = "lblWinLose6";
-            this.lblWinLose6.Size = new System.Drawing.Size(59, 29);
-            this.lblWinLose6.TabIndex = 42;
-            this.lblWinLose6.Text = "WIN!";
-            // 
             // cbxDefence6
             // 
+            this.cbxDefence6.BackColor = System.Drawing.Color.Transparent;
             playingCard11.AlternateValue = null;
             playingCard11.CardValue = 1;
             playingCard11.FaceUp = true;
@@ -443,6 +382,7 @@
             // 
             // cbxPlayerAttack6
             // 
+            this.cbxPlayerAttack6.BackColor = System.Drawing.Color.Transparent;
             playingCard12.AlternateValue = null;
             playingCard12.CardValue = 1;
             playingCard12.FaceUp = true;
@@ -451,7 +391,7 @@
             this.cbxPlayerAttack6.Card = playingCard12;
             this.cbxPlayerAttack6.CardOrientation = System.Windows.Forms.Orientation.Vertical;
             this.cbxPlayerAttack6.FaceUp = true;
-            this.cbxPlayerAttack6.Location = new System.Drawing.Point(6, 40);
+            this.cbxPlayerAttack6.Location = new System.Drawing.Point(6, 51);
             this.cbxPlayerAttack6.Name = "cbxPlayerAttack6";
             this.cbxPlayerAttack6.Rank = Durak.Common.Cards.CardRank.Three;
             this.cbxPlayerAttack6.Size = new System.Drawing.Size(75, 107);
@@ -598,6 +538,7 @@
             // 
             // cbxPlayer1
             // 
+            this.cbxPlayer1.BackColor = System.Drawing.Color.Transparent;
             playingCard13.AlternateValue = null;
             playingCard13.CardValue = 1;
             playingCard13.FaceUp = false;
@@ -625,6 +566,7 @@
             // 
             // cbxPlayer2
             // 
+            this.cbxPlayer2.BackColor = System.Drawing.Color.Transparent;
             playingCard14.AlternateValue = null;
             playingCard14.CardValue = 1;
             playingCard14.FaceUp = false;
@@ -672,6 +614,7 @@
             // 
             // cbxPlayer3
             // 
+            this.cbxPlayer3.BackColor = System.Drawing.Color.Transparent;
             playingCard15.AlternateValue = null;
             playingCard15.CardValue = 1;
             playingCard15.FaceUp = false;
@@ -719,6 +662,7 @@
             // 
             // cbxPlayer4
             // 
+            this.cbxPlayer4.BackColor = System.Drawing.Color.Transparent;
             playingCard16.AlternateValue = null;
             playingCard16.CardValue = 1;
             playingCard16.FaceUp = false;
@@ -766,6 +710,7 @@
             // 
             // cbxPlayer5
             // 
+            this.cbxPlayer5.BackColor = System.Drawing.Color.Transparent;
             playingCard17.AlternateValue = null;
             playingCard17.CardValue = 1;
             playingCard17.FaceUp = false;
@@ -803,6 +748,7 @@
             // 
             // cbxDeck
             // 
+            this.cbxDeck.BackColor = System.Drawing.Color.Transparent;
             playingCard18.AlternateValue = null;
             playingCard18.CardValue = 1;
             playingCard18.FaceUp = false;
@@ -820,6 +766,7 @@
             // 
             // cbxTrump
             // 
+            this.cbxTrump.BackColor = System.Drawing.Color.Transparent;
             playingCard19.AlternateValue = null;
             playingCard19.CardValue = 1;
             playingCard19.FaceUp = false;
@@ -873,17 +820,11 @@
             this.Text = "Durak";
             this.Load += new System.EventHandler(this.frmDurakGame_Load);
             this.grpBattle1.ResumeLayout(false);
-            this.grpBattle1.PerformLayout();
             this.grpBattle2.ResumeLayout(false);
-            this.grpBattle2.PerformLayout();
             this.grpBattle3.ResumeLayout(false);
-            this.grpBattle3.PerformLayout();
             this.grpBattle4.ResumeLayout(false);
-            this.grpBattle4.PerformLayout();
             this.grpBattle5.ResumeLayout(false);
-            this.grpBattle5.PerformLayout();
             this.grpBattle6.ResumeLayout(false);
-            this.grpBattle6.PerformLayout();
             this.grpBattles.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -939,12 +880,6 @@
         private System.Windows.Forms.ToolStripMenuItem controlsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem chatToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem1;
-        private System.Windows.Forms.Label lblWinLose1;
-        private System.Windows.Forms.Label lblWinLose2;
-        private System.Windows.Forms.Label lblWinLose3;
-        private System.Windows.Forms.Label lblWinLose4;
-        private System.Windows.Forms.Label lblWinLose5;
-        private System.Windows.Forms.Label lblWinLose6;
         private System.Windows.Forms.Panel pnlPlayer1;
         private System.Windows.Forms.Panel pnlPlayer2;
         private Durak.CardBox cbxPlayer2;

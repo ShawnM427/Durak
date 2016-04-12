@@ -103,6 +103,12 @@
     <Compile Include="CardPlayer.Designer.cs">
       <DependentUpon>CardPlayer.cs</DependentUpon>
     </Compile>
+    <Compile Include="DebugClientView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DebugClientView.Designer.cs">
+      <DependentUpon>DebugClientView.cs</DependentUpon>
+    </Compile>
     <Compile Include="DurakGame.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -142,6 +148,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Rules\DefenderLose.cs" />
     <Compile Include="Rules\AttackerLose.cs" />
     <Compile Include="Rules\AttackingRule.cs" />
     <Compile Include="Rules\CardPlayed.cs" />
@@ -180,6 +187,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CardPlayer.resx">
       <DependentUpon>CardPlayer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DebugClientView.resx">
+      <DependentUpon>DebugClientView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DurakGame.resx">
       <DependentUpon>DurakGame.cs</DependentUpon>

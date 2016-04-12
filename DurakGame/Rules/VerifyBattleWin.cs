@@ -28,7 +28,7 @@ namespace DurakGame.Rules
         {
             if (currentState.GetValueCardSuit("defending_card_suit") == currentState.GetValueCardSuit("attacking_card_suit") && currentState.GetValueCardRank("attacking_card_rank") >= currentState.GetValueCardRank("defending_card_rank"))
             {
-                currentState.Set("current_round", (byte)(currentState.GetValueByte("current_round") + 1));
+                //currentState.Set("current_round", (byte)(currentState.GetValueByte("current_round") + 1));
             }
 
         }

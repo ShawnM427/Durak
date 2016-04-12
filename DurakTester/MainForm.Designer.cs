@@ -33,7 +33,7 @@
             this.btnKillServer = new System.Windows.Forms.Button();
             this.chkLogRules = new System.Windows.Forms.CheckBox();
             this.btnClear = new System.Windows.Forms.Button();
-            this.gameStateVisualizer1 = new DurakTester.GameStateVisualizer();
+            this.gameStateVisualizer1 = new DurakCommon.GameStateVisualizer();
             this.lblClients = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
@@ -134,7 +134,7 @@
         private System.Windows.Forms.Button btnKillServer;
         private System.Windows.Forms.CheckBox chkLogRules;
         private System.Windows.Forms.Button btnClear;
-        private GameStateVisualizer gameStateVisualizer1;
+        private DurakCommon.GameStateVisualizer gameStateVisualizer1;
         private System.Windows.Forms.Label lblClients;
     }
 }

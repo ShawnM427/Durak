@@ -58,6 +58,8 @@ namespace DurakGame
             myClient.LocalState.AddStateChangedEvent("attacking_card", 4, (X, Y) => { cbxPlayerAttack5.Card = Y.GetValuePlayingCard(); });
             myClient.LocalState.AddStateChangedEvent("attacking_card", 5, (X, Y) => { cbxPlayerAttack6.Card = Y.GetValuePlayingCard(); });
 
+            myClient.LocalState.AddStateChangedEvent("attacking_card", (X, Y) => { MessageBox.Show("Value: " + Y.Name); });
+
             myClient.LocalState.AddStateChangedEvent("defending_card", 0, (X, Y) => { cbxDefence1.Card = Y.GetValuePlayingCard(); });
             myClient.LocalState.AddStateChangedEvent("defending_card", 1, (X, Y) => { cbxDefence2.Card = Y.GetValuePlayingCard(); });
             myClient.LocalState.AddStateChangedEvent("defending_card", 2, (X, Y) => { cbxDefence3.Card = Y.GetValuePlayingCard(); });
@@ -66,6 +68,10 @@ namespace DurakGame
             myClient.LocalState.AddStateChangedEvent("defending_card", 5, (X, Y) => { cbxDefence6.Card = Y.GetValuePlayingCard(); });
 
             myClient.OnInvalidMove += (X, Y, Z) => { MessageBox.Show(Z, "Cannot play card"); };
+
+            //DebugClientView view = new DebugClientView();
+            //view.SetGameState(myClient.LocalState);
+            //view.Show();
 
             myClient.OnDisconnected += ClientDisconnected;
 
@@ -119,6 +125,13 @@ namespace DurakGame
 
                     localIndex++;
                 }
+            }
+
+            foreach(KeyValuePair<Player, PlayerUITag> pair in myPlayerUIs)
+            {
+                PlayerUITag tag = pair.Value;
+                tag.NameLabel.Text = pair.Key.Name;
+                tag.CardCountLabel.Text = pair.Key.NumCards.ToString();
             }
 
             myClient.OnPlayerCardCountChanged += PlayerCardCountChanged;

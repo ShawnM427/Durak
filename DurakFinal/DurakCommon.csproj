@@ -111,6 +111,12 @@
     <Compile Include="Common\Logger.cs" />
     <Compile Include="Common\NetSettings.cs" />
     <Compile Include="Common\NetUtils.cs" />
+    <Compile Include="GameStateVisualizer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GameStateVisualizer.Designer.cs">
+      <DependentUpon>GameStateVisualizer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Server\IMoveSucessRule.cs" />
     <Compile Include="Server\Rules.cs" />
     <Compile Include="Common\ServerState.cs" />
@@ -132,6 +138,9 @@
     <Compile Include="Server\IGamePlayRule.cs" />
     <EmbeddedResource Include="CardBox.resx">
       <DependentUpon>CardBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GameStateVisualizer.resx">
+      <DependentUpon>GameStateVisualizer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
