@@ -61,7 +61,7 @@ namespace DurakGame.Rules
                     {
                         proposals[key] += .25f;
                         //Add a little more weight if the card is not a trump card. So the bot has less chance to waste its trumps
-                        if(key.Suit != trumpSuit)
+                        if (key.Suit != trumpSuit)
                         {
                             proposals[key] += .25f;
                         }
