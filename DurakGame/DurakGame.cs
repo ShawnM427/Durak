@@ -196,7 +196,8 @@ namespace DurakGame
 
         private void btnReqHelp_Click(object sender, EventArgs e)
         {
-            myClient.RequestHelp();
+            StateParameter param = StateParameter.Construct<bool>(Names.REQUEST_HELP, true, true);
+            myClient.RequestState(param);
         }
     }
 }

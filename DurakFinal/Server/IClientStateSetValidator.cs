@@ -10,7 +10,7 @@ namespace Durak.Server
     /// <summary>
     /// Represents the interface used by the server to determine
     /// </summary>
-    public interface IClientSettableState
+    public interface IClientStateSetValidator
     {
         void TrySetState(StateParameter parameter, Player sender, PlayerCollection players, GameState state);
     }

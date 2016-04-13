@@ -148,6 +148,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Rules\ClientRequestHelp.cs" />
     <Compile Include="Rules\StateVerify\DefenderLose.cs" />
     <Compile Include="Rules\StateVerify\AttackerLose.cs" />
     <Compile Include="Rules\MoveVerify\AttackingRule.cs" />
@@ -181,6 +182,7 @@
     <Compile Include="AIRules\VerifyBotState.cs" />
     <EmbeddedResource Include="About.resx">
       <DependentUpon>About.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="CardPlayer.resx">
       <DependentUpon>CardPlayer.cs</DependentUpon>

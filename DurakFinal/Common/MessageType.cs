@@ -73,7 +73,14 @@ namespace Durak.Common
         ///     string  - reason
         /// </summary>
         NotifyServerStateChanged    = 62,
-        
+        /// <summary>
+        /// Sent by client to request a state parameter be set to a specific value
+        /// 
+        /// Payload:
+        ///    - StateParameter -> the parameter to set
+        /// </summary>
+        RequestState                = 63,
+
         /// <summary>
         /// Sent by the server to notify clients that a player has joined
         /// 
@@ -158,10 +165,6 @@ namespace Durak.Common
         ///     GameMove - move
         /// </summary>
         SucessfullMove              = 152,
-        /// <summary>
-        /// Sent by client to request help from other players, no payload
-        /// </summary>
-        RequestHelp                 = 153,
 
         /// <summary>
         /// Sent by the clients and the server for chat messages

@@ -13,6 +13,7 @@ namespace Durak.Server
         public static readonly List<IMoveSucessRule> MOVE_SUCCESS_RULES;
         public static readonly List<IAIRule> AI_RULES;
         public static readonly List<IBotInvokeStateChecker> BOT_INVOKE_RULES;
+        public static readonly List<IClientStateSetValidator> CLIENT_STATE_REQ_VALIDATORS;
 
         static Rules()
         {
@@ -28,6 +29,9 @@ namespace Durak.Server
 
             AI_RULES = new List<IAIRule>();
             Utils.FillTypeList(AppDomain.CurrentDomain, AI_RULES);
+
+            CLIENT_STATE_REQ_VALIDATORS = new List<IClientStateSetValidator>();
+            Utils.FillTypeList(AppDomain.CurrentDomain, CLIENT_STATE_REQ_VALIDATORS);
 
             BOT_INVOKE_RULES = new List<IBotInvokeStateChecker>();
             Utils.FillTypeList(AppDomain.CurrentDomain, BOT_INVOKE_RULES);

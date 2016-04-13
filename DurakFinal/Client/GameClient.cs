@@ -834,14 +834,16 @@ namespace Durak.Client
         }
 
         /// <summary>
-        /// Requests other players to help this player
+        /// Requests the server to set a state to a given value
         /// </summary>
-        public void RequestHelp()
+        /// <param name="param">The parameter to request</param>
+        public void RequestState(StateParameter param)
         {
             if (IsConnected)
             {
                 NetOutgoingMessage msg = myPeer.CreateMessage();
-                msg.Write((byte)MessageType.RequestHelp);
+                msg.Write((byte)MessageType.RequestState);
+                param.Encode(msg);
                 Send(msg);
             }
         }
@@ -895,6 +897,9 @@ namespace Durak.Client
             }
         }
 
+        /// <summary>
+        /// Requests the game to start if the client is host
+        /// </summary>
         public void RequestStart()
         {
             if (IsConnected && isHost)

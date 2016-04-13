@@ -44,6 +44,9 @@ namespace DurakGame.Rules
                 // Move to next round, we will check for defender win in a state check rule
                 state.Set<int>(Names.CURRENT_ROUND, state.GetValueInt(Names.CURRENT_ROUND) + 1);
             }
+
+            // After any card has been played we are no longer requesting help
+            state.Set<bool>(Names.REQUEST_HELP, false);
         }
     }
 }

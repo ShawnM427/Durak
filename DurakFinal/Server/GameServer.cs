@@ -299,6 +299,7 @@ namespace Durak.Server
             myMessageHandlers.Add(MessageType.HostReqAddBot, HandleHostReqBot);
             myMessageHandlers.Add(MessageType.HostReqKick, HandleHostReqKick);
             myMessageHandlers.Add(MessageType.PlayerChat, HandlePlayerChat);
+            myMessageHandlers.Add(MessageType.RequestState, HandleGameStateRequest);
         }
 
         /// <summary>
@@ -641,18 +642,21 @@ namespace Durak.Server
         /// <param name="added">True if this was added, false if it was removed</param>
         private void NotifyNewCardState(Player player, PlayingCard e, bool added)
         {
-            // Prepare the message for the player that this change applies to
-            NetOutgoingMessage msg = myServer.CreateMessage();
-            msg.Write((byte)MessageType.PlayerHandChanged);
-            msg.Write(added);
-            msg.Write(e != null);
-            msg.WritePadBits();
-            if (e != null)
+            if (player.Connection != null)
             {
-                msg.Write((byte)e.Rank);
-                msg.Write((byte)e.Suit);
+                // Prepare the message for the player that this change applies to
+                NetOutgoingMessage msg = myServer.CreateMessage();
+                msg.Write((byte)MessageType.PlayerHandChanged);
+                msg.Write(added);
+                msg.Write(e != null);
+                msg.WritePadBits();
+                if (e != null)
+                {
+                    msg.Write((byte)e.Rank);
+                    msg.Write((byte)e.Suit);
+                }
+                myServer.SendMessage(msg, player.Connection, NetDeliveryMethod.ReliableOrdered, 0);
             }
-            myServer.SendMessage(msg, player.Connection, NetDeliveryMethod.ReliableOrdered, 0);
 
             // Prepare the message for the player that this change applies to
             NetOutgoingMessage msg2 = myServer.CreateMessage();
@@ -955,6 +959,21 @@ namespace Durak.Server
         }
 
         /// <summary>
+        /// Handles the client requesting a state parameter to be set
+        /// </summary>
+        /// <param name="msg">The message to decode</param>
+        private void HandleGameStateRequest(NetIncomingMessage msg)
+        {
+            StateParameter parameter = StateParameter.CreateEmpty();
+            parameter.Decode(msg);
+
+            for(int index = 0; index < Rules.CLIENT_STATE_REQ_VALIDATORS.Count; index ++)
+            {
+                Rules.CLIENT_STATE_REQ_VALIDATORS[index].TrySetState(parameter, myPlayers[msg.SenderConnection], myPlayers, myGameState);
+            }
+        }
+
+        /// <summary>
         /// Handles the message received when the player requests a game move to be made
         /// </summary>
         /// <param name="msg">The message to handle</param>
@@ -1093,6 +1112,8 @@ namespace Durak.Server
                 Random r = new Random();
                 int randomLineNumber = r.Next(0, BOT_NAMES.Length - 1);
                 botName = BOT_NAMES[randomLineNumber];
+                botName = botName.Trim();
+                botName = char.ToUpper(botName[0]) + botName.Substring(1);
             }
 
             // We can only add bots in lobby
@@ -1110,6 +1131,9 @@ namespace Durak.Server
                     Player botPlayer = new Player(new ClientTag(botName), (byte)playerID) { IsBot = true };
                     // Make the bot instance
                     BotPlayer bot = new BotPlayer(this, botPlayer, (difficulty / 256.0f));
+
+                    botPlayer.OnCardAddedToHand += PlayerGainedCard;
+                    botPlayer.OnCardRemovedFromHand += PlayerRemovedCard;
 
                     // Add the bot player
                     myPlayers[(byte)playerID] = botPlayer;

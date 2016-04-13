@@ -54,26 +54,29 @@ namespace DurakGame.Rules
             {
                 PlayingCard attackingCard = state.GetValueCard(Names.ATTACKING_CARD, state.GetValueInt(Names.CURRENT_ROUND));
 
-                foreach (PlayingCard key in keys)
+                if (attackingCard != null)
                 {
-                    //Add weight to all cards of the attacking cards suit and trump cards suit
-                    if (key.Suit == trumpSuit | key.Suit == attackingCard.Suit)
+                    foreach (PlayingCard key in keys)
                     {
-                        proposals[key] += .25f;
-                        //Add a little more weight if the card is not a trump card. So the bot has less chance to waste its trumps
-                        if(key.Suit != trumpSuit)
+                        //Add weight to all cards of the attacking cards suit and trump cards suit
+                        if (key.Suit == trumpSuit | key.Suit == attackingCard.Suit)
                         {
                             proposals[key] += .25f;
-                        }
-                        //Add weight if the rank is higher than the attacking cards rank
-                        if (key.Rank > attackingCard.Rank)
-                        {
-                            proposals[key] += .25f - ((int)key.Rank / 100.0f);
-                        }
-                        //If the cards rank is less than the attacking card and the suits are the same remove weight (meaning trump cards with a lower rank will still have weight)
-                        else if (key.Rank < attackingCard.Rank && key.Suit == attackingCard.Suit)
-                        {
-                            proposals[key] = 0.0f;
+                            //Add a little more weight if the card is not a trump card. So the bot has less chance to waste its trumps
+                            if (key.Suit != trumpSuit)
+                            {
+                                proposals[key] += .25f;
+                            }
+                            //Add weight if the rank is higher than the attacking cards rank
+                            if (key.Rank > attackingCard.Rank)
+                            {
+                                proposals[key] += .25f - ((int)key.Rank / 100.0f);
+                            }
+                            //If the cards rank is less than the attacking card and the suits are the same remove weight (meaning trump cards with a lower rank will still have weight)
+                            else if (key.Rank < attackingCard.Rank && key.Suit == attackingCard.Suit)
+                            {
+                                proposals[key] = 0.0f;
+                            }
                         }
                     }
                 }
