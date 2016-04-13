@@ -117,7 +117,7 @@
     <Compile Include="GameStateVisualizer.Designer.cs">
       <DependentUpon>GameStateVisualizer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Server\IClientSettableState.cs" />
+    <Compile Include="Server\IClientStateSetValidator.cs" />
     <Compile Include="Server\IMoveSucessRule.cs" />
     <Compile Include="Server\Rules.cs" />
     <Compile Include="Common\ServerState.cs" />

@@ -38,12 +38,13 @@ namespace DurakGame.Rules
                 for (int index = 0; index < round; index++)
                 {
                     // Add to defenders hand
-                    defender.Hand.Add(state.GetValueCard(Names.ATTACKING_CARD, index));
+                    PlayingCard card1 = state.GetValueCard(Names.ATTACKING_CARD, index);
+                    if (card1 != null)
+                        defender.Hand.Add(card1);
 
-                    PlayingCard card = state.GetValueCard(Names.DEFENDING_CARD, index);
-
-                    if (card != null)
-                        defender.Hand.Add(card);
+                    PlayingCard card2 = state.GetValueCard(Names.DEFENDING_CARD, index);
+                    if (card2 != null)
+                        defender.Hand.Add(card2);
 
                     // Remove both from the state
                     state.Set<PlayingCard>(Names.ATTACKING_CARD, index, null);

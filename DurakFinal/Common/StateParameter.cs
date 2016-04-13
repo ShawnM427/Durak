@@ -67,7 +67,14 @@ namespace Durak.Common
             get { return isSynced; }
             set { isSynced = value; }
         }
-        
+        /// <summary>
+        /// Gets this state parameter's type
+        /// </summary>
+        public Type ParameterType
+        {
+            get { return myType; }
+        }
+
         /// <summary>
         /// Creates a new instance of a state parameter 
         /// </summary>
@@ -75,7 +82,17 @@ namespace Durak.Common
         {
             isSynced = false;
         }
-        
+
+        /// <summary>
+        /// Creates an empty state parameter
+        /// </summary>
+        /// <param name="sync">Whether the parameter is synched or not</param>
+        /// <returns>The empty state parameter</returns>
+        public static StateParameter CreateEmpty(bool sync = false)
+        {
+            return new StateParameter() { IsSynced = sync };
+        }
+
         /// <summary>
         /// Constructs a new state parameter of the given type
         /// </summary>
@@ -441,8 +458,8 @@ namespace Durak.Common
         public void Decode(NetIncomingMessage msg)
         {
             // Read the name and type
-            string name = msg.ReadString();
-            Type type = (Type)msg.ReadByte();
+            myName = msg.ReadString();
+            myType = (Type)msg.ReadByte();
             
             // Decode the value
             DecodeInternal(msg);
