@@ -67,11 +67,9 @@
             this.cbxPlayerAttack6 = new Durak.CardBox();
             this.grpBattles = new System.Windows.Forms.GroupBox();
             this.grpGarbage = new System.Windows.Forms.GroupBox();
-            this.lblPlayer1 = new System.Windows.Forms.Label();
             this.lblTrump = new System.Windows.Forms.Label();
             this.lblDeck = new System.Windows.Forms.Label();
             this.lblCardsLeft = new System.Windows.Forms.Label();
-            this.lblPlayer1CardsLeft = new System.Windows.Forms.Label();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.connectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -80,29 +78,32 @@
             this.controlsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.chatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.pnlPlayer1 = new System.Windows.Forms.Panel();
-            this.cbxPlayer1 = new Durak.CardBox();
-            this.pnlPlayer2 = new System.Windows.Forms.Panel();
-            this.cbxPlayer2 = new Durak.CardBox();
-            this.lblPlayer2 = new System.Windows.Forms.Label();
-            this.lblPlayer2CardsLeft = new System.Windows.Forms.Label();
-            this.pnlPlayer3 = new System.Windows.Forms.Panel();
-            this.cbxPlayer3 = new Durak.CardBox();
-            this.lblPlayer3 = new System.Windows.Forms.Label();
-            this.lblPlayer3CardsLeft = new System.Windows.Forms.Label();
-            this.pnlPlayer4 = new System.Windows.Forms.Panel();
-            this.cbxPlayer4 = new Durak.CardBox();
-            this.lblPlayer4 = new System.Windows.Forms.Label();
-            this.lblPlayer4CardsLeft = new System.Windows.Forms.Label();
-            this.pnlPlayer5 = new System.Windows.Forms.Panel();
+            this.cbxDeck = new Durak.CardBox();
+            this.cbxTrump = new Durak.CardBox();
+            this.btnForfeit = new System.Windows.Forms.Button();
+            this.btnReqHelp = new System.Windows.Forms.Button();
+            this.pnlMyView = new DurakGame.BorderPanel();
+            this.cplPlayersHand = new DurakGame.CardPlayer();
+            this.pnlPlayer5 = new DurakGame.BorderPanel();
             this.cbxPlayer5 = new Durak.CardBox();
             this.lblPlayer5 = new System.Windows.Forms.Label();
             this.lblPlayer5CardsLeft = new System.Windows.Forms.Label();
-            this.cbxDeck = new Durak.CardBox();
-            this.cbxTrump = new Durak.CardBox();
-            this.cplPlayersHand = new DurakGame.CardPlayer();
-            this.btnForfeit = new System.Windows.Forms.Button();
-            this.btnReqHelp = new System.Windows.Forms.Button();
+            this.pnlPlayer4 = new DurakGame.BorderPanel();
+            this.cbxPlayer4 = new Durak.CardBox();
+            this.lblPlayer4 = new System.Windows.Forms.Label();
+            this.lblPlayer4CardsLeft = new System.Windows.Forms.Label();
+            this.pnlPlayer3 = new DurakGame.BorderPanel();
+            this.cbxPlayer3 = new Durak.CardBox();
+            this.lblPlayer3 = new System.Windows.Forms.Label();
+            this.lblPlayer3CardsLeft = new System.Windows.Forms.Label();
+            this.pnlPlayer2 = new DurakGame.BorderPanel();
+            this.cbxPlayer2 = new Durak.CardBox();
+            this.lblPlayer2 = new System.Windows.Forms.Label();
+            this.lblPlayer2CardsLeft = new System.Windows.Forms.Label();
+            this.pnlPlayer1 = new DurakGame.BorderPanel();
+            this.cbxPlayer1 = new Durak.CardBox();
+            this.lblPlayer1 = new System.Windows.Forms.Label();
+            this.lblPlayer1CardsLeft = new System.Windows.Forms.Label();
             this.grpBattle1.SuspendLayout();
             this.grpBattle2.SuspendLayout();
             this.grpBattle3.SuspendLayout();
@@ -111,11 +112,12 @@
             this.grpBattle6.SuspendLayout();
             this.grpBattles.SuspendLayout();
             this.menuStrip1.SuspendLayout();
-            this.pnlPlayer1.SuspendLayout();
-            this.pnlPlayer2.SuspendLayout();
-            this.pnlPlayer3.SuspendLayout();
-            this.pnlPlayer4.SuspendLayout();
+            this.pnlMyView.SuspendLayout();
             this.pnlPlayer5.SuspendLayout();
+            this.pnlPlayer4.SuspendLayout();
+            this.pnlPlayer3.SuspendLayout();
+            this.pnlPlayer2.SuspendLayout();
+            this.pnlPlayer1.SuspendLayout();
             this.SuspendLayout();
             // 
             // grpBattle1
@@ -424,16 +426,6 @@
             this.grpGarbage.TabIndex = 23;
             this.grpGarbage.TabStop = false;
             // 
-            // lblPlayer1
-            // 
-            this.lblPlayer1.AutoSize = true;
-            this.lblPlayer1.Font = new System.Drawing.Font("Impact", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPlayer1.Location = new System.Drawing.Point(10, 0);
-            this.lblPlayer1.Name = "lblPlayer1";
-            this.lblPlayer1.Size = new System.Drawing.Size(59, 20);
-            this.lblPlayer1.TabIndex = 24;
-            this.lblPlayer1.Text = "Player 1";
-            // 
             // lblTrump
             // 
             this.lblTrump.AutoSize = true;
@@ -463,16 +455,6 @@
             this.lblCardsLeft.Size = new System.Drawing.Size(26, 20);
             this.lblCardsLeft.TabIndex = 31;
             this.lblCardsLeft.Text = "52";
-            // 
-            // lblPlayer1CardsLeft
-            // 
-            this.lblPlayer1CardsLeft.AutoSize = true;
-            this.lblPlayer1CardsLeft.Font = new System.Drawing.Font("Impact", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPlayer1CardsLeft.Location = new System.Drawing.Point(25, 133);
-            this.lblPlayer1CardsLeft.Name = "lblPlayer1CardsLeft";
-            this.lblPlayer1CardsLeft.Size = new System.Drawing.Size(26, 20);
-            this.lblPlayer1CardsLeft.TabIndex = 32;
-            this.lblPlayer1CardsLeft.Text = "52";
             // 
             // fileToolStripMenuItem
             // 
@@ -528,137 +510,150 @@
             this.aboutToolStripMenuItem1.Size = new System.Drawing.Size(52, 20);
             this.aboutToolStripMenuItem1.Text = "About";
             // 
-            // pnlPlayer1
+            // cbxDeck
             // 
-            this.pnlPlayer1.Controls.Add(this.cbxPlayer1);
-            this.pnlPlayer1.Controls.Add(this.lblPlayer1);
-            this.pnlPlayer1.Controls.Add(this.lblPlayer1CardsLeft);
-            this.pnlPlayer1.Location = new System.Drawing.Point(306, 35);
-            this.pnlPlayer1.Name = "pnlPlayer1";
-            this.pnlPlayer1.Size = new System.Drawing.Size(83, 157);
-            this.pnlPlayer1.TabIndex = 38;
-            // 
-            // cbxPlayer1
-            // 
-            this.cbxPlayer1.BackColor = System.Drawing.Color.Transparent;
+            this.cbxDeck.BackColor = System.Drawing.Color.Transparent;
             playingCard13.AlternateValue = null;
             playingCard13.CardValue = 1;
             playingCard13.FaceUp = false;
             playingCard13.Rank = Durak.Common.Cards.CardRank.Ace;
             playingCard13.Suit = Durak.Common.Cards.CardSuit.Hearts;
-            this.cbxPlayer1.Card = playingCard13;
-            this.cbxPlayer1.CardOrientation = System.Windows.Forms.Orientation.Vertical;
-            this.cbxPlayer1.FaceUp = false;
-            this.cbxPlayer1.Location = new System.Drawing.Point(3, 23);
-            this.cbxPlayer1.Name = "cbxPlayer1";
-            this.cbxPlayer1.Rank = Durak.Common.Cards.CardRank.Ace;
-            this.cbxPlayer1.Size = new System.Drawing.Size(75, 107);
-            this.cbxPlayer1.Suit = Durak.Common.Cards.CardSuit.Hearts;
-            this.cbxPlayer1.TabIndex = 9;
+            this.cbxDeck.Card = playingCard13;
+            this.cbxDeck.CardOrientation = System.Windows.Forms.Orientation.Vertical;
+            this.cbxDeck.FaceUp = false;
+            this.cbxDeck.Location = new System.Drawing.Point(113, 253);
+            this.cbxDeck.Name = "cbxDeck";
+            this.cbxDeck.Rank = Durak.Common.Cards.CardRank.Ace;
+            this.cbxDeck.Size = new System.Drawing.Size(75, 107);
+            this.cbxDeck.Suit = Durak.Common.Cards.CardSuit.Hearts;
+            this.cbxDeck.TabIndex = 2;
             // 
-            // pnlPlayer2
+            // cbxTrump
             // 
-            this.pnlPlayer2.Controls.Add(this.cbxPlayer2);
-            this.pnlPlayer2.Controls.Add(this.lblPlayer2);
-            this.pnlPlayer2.Controls.Add(this.lblPlayer2CardsLeft);
-            this.pnlPlayer2.Location = new System.Drawing.Point(395, 35);
-            this.pnlPlayer2.Name = "pnlPlayer2";
-            this.pnlPlayer2.Size = new System.Drawing.Size(83, 157);
-            this.pnlPlayer2.TabIndex = 39;
-            // 
-            // cbxPlayer2
-            // 
-            this.cbxPlayer2.BackColor = System.Drawing.Color.Transparent;
+            this.cbxTrump.BackColor = System.Drawing.Color.Transparent;
             playingCard14.AlternateValue = null;
             playingCard14.CardValue = 1;
             playingCard14.FaceUp = false;
             playingCard14.Rank = Durak.Common.Cards.CardRank.Ace;
             playingCard14.Suit = Durak.Common.Cards.CardSuit.Hearts;
-            this.cbxPlayer2.Card = playingCard14;
-            this.cbxPlayer2.CardOrientation = System.Windows.Forms.Orientation.Vertical;
-            this.cbxPlayer2.FaceUp = false;
-            this.cbxPlayer2.Location = new System.Drawing.Point(3, 23);
-            this.cbxPlayer2.Name = "cbxPlayer2";
-            this.cbxPlayer2.Rank = Durak.Common.Cards.CardRank.Ace;
-            this.cbxPlayer2.Size = new System.Drawing.Size(75, 107);
-            this.cbxPlayer2.Suit = Durak.Common.Cards.CardSuit.Hearts;
-            this.cbxPlayer2.TabIndex = 9;
+            this.cbxTrump.Card = playingCard14;
+            this.cbxTrump.CardOrientation = System.Windows.Forms.Orientation.Vertical;
+            this.cbxTrump.FaceUp = false;
+            this.cbxTrump.Location = new System.Drawing.Point(32, 253);
+            this.cbxTrump.Name = "cbxTrump";
+            this.cbxTrump.Rank = Durak.Common.Cards.CardRank.Ace;
+            this.cbxTrump.Size = new System.Drawing.Size(75, 107);
+            this.cbxTrump.Suit = Durak.Common.Cards.CardSuit.Hearts;
+            this.cbxTrump.TabIndex = 1;
             // 
-            // lblPlayer2
+            // btnForfeit
             // 
-            this.lblPlayer2.AutoSize = true;
-            this.lblPlayer2.Font = new System.Drawing.Font("Impact", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPlayer2.Location = new System.Drawing.Point(10, 0);
-            this.lblPlayer2.Name = "lblPlayer2";
-            this.lblPlayer2.Size = new System.Drawing.Size(61, 20);
-            this.lblPlayer2.TabIndex = 24;
-            this.lblPlayer2.Text = "Player 2";
+            this.btnForfeit.BackColor = System.Drawing.Color.DarkGreen;
+            this.btnForfeit.Font = new System.Drawing.Font("Impact", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnForfeit.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnForfeit.Location = new System.Drawing.Point(826, 421);
+            this.btnForfeit.Name = "btnForfeit";
+            this.btnForfeit.Size = new System.Drawing.Size(202, 45);
+            this.btnForfeit.TabIndex = 45;
+            this.btnForfeit.Text = "Forfeit";
+            this.btnForfeit.UseVisualStyleBackColor = false;
+            this.btnForfeit.Click += new System.EventHandler(this.btnForfeit_Click);
             // 
-            // lblPlayer2CardsLeft
+            // btnReqHelp
             // 
-            this.lblPlayer2CardsLeft.AutoSize = true;
-            this.lblPlayer2CardsLeft.Font = new System.Drawing.Font("Impact", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPlayer2CardsLeft.Location = new System.Drawing.Point(25, 133);
-            this.lblPlayer2CardsLeft.Name = "lblPlayer2CardsLeft";
-            this.lblPlayer2CardsLeft.Size = new System.Drawing.Size(26, 20);
-            this.lblPlayer2CardsLeft.TabIndex = 32;
-            this.lblPlayer2CardsLeft.Text = "52";
+            this.btnReqHelp.BackColor = System.Drawing.Color.DarkGreen;
+            this.btnReqHelp.Font = new System.Drawing.Font("Impact", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnReqHelp.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnReqHelp.Location = new System.Drawing.Point(826, 472);
+            this.btnReqHelp.Name = "btnReqHelp";
+            this.btnReqHelp.Size = new System.Drawing.Size(202, 45);
+            this.btnReqHelp.TabIndex = 46;
+            this.btnReqHelp.Text = "Request Help";
+            this.btnReqHelp.UseVisualStyleBackColor = false;
+            this.btnReqHelp.Click += new System.EventHandler(this.btnReqHelp_Click);
             // 
-            // pnlPlayer3
+            // pnlMyView
             // 
-            this.pnlPlayer3.Controls.Add(this.cbxPlayer3);
-            this.pnlPlayer3.Controls.Add(this.lblPlayer3);
-            this.pnlPlayer3.Controls.Add(this.lblPlayer3CardsLeft);
-            this.pnlPlayer3.Location = new System.Drawing.Point(484, 35);
-            this.pnlPlayer3.Name = "pnlPlayer3";
-            this.pnlPlayer3.Size = new System.Drawing.Size(83, 157);
-            this.pnlPlayer3.TabIndex = 40;
+            this.pnlMyView.BorderColor = System.Drawing.Color.Black;
+            this.pnlMyView.BorderWidth = 2F;
+            this.pnlMyView.Controls.Add(this.cplPlayersHand);
+            this.pnlMyView.Location = new System.Drawing.Point(235, 415);
+            this.pnlMyView.Name = "pnlMyView";
+            this.pnlMyView.ShowBorder = false;
+            this.pnlMyView.Size = new System.Drawing.Size(581, 174);
+            this.pnlMyView.TabIndex = 47;
             // 
-            // cbxPlayer3
+            // cplPlayersHand
             // 
-            this.cbxPlayer3.BackColor = System.Drawing.Color.Transparent;
+            this.cplPlayersHand.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.cplPlayersHand.Cards = null;
+            this.cplPlayersHand.Location = new System.Drawing.Point(5, 3);
+            this.cplPlayersHand.Name = "cplPlayersHand";
+            this.cplPlayersHand.Size = new System.Drawing.Size(573, 168);
+            this.cplPlayersHand.TabIndex = 43;
+            this.cplPlayersHand.OnCardSelected += new System.EventHandler<Durak.Common.Cards.CardEventArgs>(this.cplPlayersHand_OnCardSelected);
+            // 
+            // pnlPlayer5
+            // 
+            this.pnlPlayer5.BorderColor = System.Drawing.Color.Black;
+            this.pnlPlayer5.BorderWidth = 2F;
+            this.pnlPlayer5.Controls.Add(this.cbxPlayer5);
+            this.pnlPlayer5.Controls.Add(this.lblPlayer5);
+            this.pnlPlayer5.Controls.Add(this.lblPlayer5CardsLeft);
+            this.pnlPlayer5.Location = new System.Drawing.Point(662, 35);
+            this.pnlPlayer5.Name = "pnlPlayer5";
+            this.pnlPlayer5.ShowBorder = false;
+            this.pnlPlayer5.Size = new System.Drawing.Size(83, 157);
+            this.pnlPlayer5.TabIndex = 42;
+            // 
+            // cbxPlayer5
+            // 
+            this.cbxPlayer5.BackColor = System.Drawing.Color.Transparent;
             playingCard15.AlternateValue = null;
             playingCard15.CardValue = 1;
             playingCard15.FaceUp = false;
             playingCard15.Rank = Durak.Common.Cards.CardRank.Ace;
             playingCard15.Suit = Durak.Common.Cards.CardSuit.Hearts;
-            this.cbxPlayer3.Card = playingCard15;
-            this.cbxPlayer3.CardOrientation = System.Windows.Forms.Orientation.Vertical;
-            this.cbxPlayer3.FaceUp = false;
-            this.cbxPlayer3.Location = new System.Drawing.Point(3, 23);
-            this.cbxPlayer3.Name = "cbxPlayer3";
-            this.cbxPlayer3.Rank = Durak.Common.Cards.CardRank.Ace;
-            this.cbxPlayer3.Size = new System.Drawing.Size(75, 107);
-            this.cbxPlayer3.Suit = Durak.Common.Cards.CardSuit.Hearts;
-            this.cbxPlayer3.TabIndex = 9;
+            this.cbxPlayer5.Card = playingCard15;
+            this.cbxPlayer5.CardOrientation = System.Windows.Forms.Orientation.Vertical;
+            this.cbxPlayer5.FaceUp = false;
+            this.cbxPlayer5.Location = new System.Drawing.Point(3, 23);
+            this.cbxPlayer5.Name = "cbxPlayer5";
+            this.cbxPlayer5.Rank = Durak.Common.Cards.CardRank.Ace;
+            this.cbxPlayer5.Size = new System.Drawing.Size(75, 107);
+            this.cbxPlayer5.Suit = Durak.Common.Cards.CardSuit.Hearts;
+            this.cbxPlayer5.TabIndex = 9;
             // 
-            // lblPlayer3
+            // lblPlayer5
             // 
-            this.lblPlayer3.AutoSize = true;
-            this.lblPlayer3.Font = new System.Drawing.Font("Impact", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPlayer3.Location = new System.Drawing.Point(10, 0);
-            this.lblPlayer3.Name = "lblPlayer3";
-            this.lblPlayer3.Size = new System.Drawing.Size(61, 20);
-            this.lblPlayer3.TabIndex = 24;
-            this.lblPlayer3.Text = "Player 3";
+            this.lblPlayer5.AutoSize = true;
+            this.lblPlayer5.Font = new System.Drawing.Font("Impact", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPlayer5.Location = new System.Drawing.Point(10, 0);
+            this.lblPlayer5.Name = "lblPlayer5";
+            this.lblPlayer5.Size = new System.Drawing.Size(62, 20);
+            this.lblPlayer5.TabIndex = 24;
+            this.lblPlayer5.Text = "Player 5";
             // 
-            // lblPlayer3CardsLeft
+            // lblPlayer5CardsLeft
             // 
-            this.lblPlayer3CardsLeft.AutoSize = true;
-            this.lblPlayer3CardsLeft.Font = new System.Drawing.Font("Impact", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPlayer3CardsLeft.Location = new System.Drawing.Point(25, 133);
-            this.lblPlayer3CardsLeft.Name = "lblPlayer3CardsLeft";
-            this.lblPlayer3CardsLeft.Size = new System.Drawing.Size(26, 20);
-            this.lblPlayer3CardsLeft.TabIndex = 32;
-            this.lblPlayer3CardsLeft.Text = "52";
+            this.lblPlayer5CardsLeft.AutoSize = true;
+            this.lblPlayer5CardsLeft.Font = new System.Drawing.Font("Impact", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPlayer5CardsLeft.Location = new System.Drawing.Point(25, 133);
+            this.lblPlayer5CardsLeft.Name = "lblPlayer5CardsLeft";
+            this.lblPlayer5CardsLeft.Size = new System.Drawing.Size(26, 20);
+            this.lblPlayer5CardsLeft.TabIndex = 32;
+            this.lblPlayer5CardsLeft.Text = "52";
             // 
             // pnlPlayer4
             // 
+            this.pnlPlayer4.BorderColor = System.Drawing.Color.Black;
+            this.pnlPlayer4.BorderWidth = 2F;
             this.pnlPlayer4.Controls.Add(this.cbxPlayer4);
             this.pnlPlayer4.Controls.Add(this.lblPlayer4);
             this.pnlPlayer4.Controls.Add(this.lblPlayer4CardsLeft);
             this.pnlPlayer4.Location = new System.Drawing.Point(573, 35);
             this.pnlPlayer4.Name = "pnlPlayer4";
+            this.pnlPlayer4.ShowBorder = false;
             this.pnlPlayer4.Size = new System.Drawing.Size(83, 157);
             this.pnlPlayer4.TabIndex = 41;
             // 
@@ -700,125 +695,158 @@
             this.lblPlayer4CardsLeft.TabIndex = 32;
             this.lblPlayer4CardsLeft.Text = "52";
             // 
-            // pnlPlayer5
+            // pnlPlayer3
             // 
-            this.pnlPlayer5.Controls.Add(this.cbxPlayer5);
-            this.pnlPlayer5.Controls.Add(this.lblPlayer5);
-            this.pnlPlayer5.Controls.Add(this.lblPlayer5CardsLeft);
-            this.pnlPlayer5.Location = new System.Drawing.Point(662, 35);
-            this.pnlPlayer5.Name = "pnlPlayer5";
-            this.pnlPlayer5.Size = new System.Drawing.Size(83, 157);
-            this.pnlPlayer5.TabIndex = 42;
+            this.pnlPlayer3.BorderColor = System.Drawing.Color.Black;
+            this.pnlPlayer3.BorderWidth = 2F;
+            this.pnlPlayer3.Controls.Add(this.cbxPlayer3);
+            this.pnlPlayer3.Controls.Add(this.lblPlayer3);
+            this.pnlPlayer3.Controls.Add(this.lblPlayer3CardsLeft);
+            this.pnlPlayer3.Location = new System.Drawing.Point(484, 35);
+            this.pnlPlayer3.Name = "pnlPlayer3";
+            this.pnlPlayer3.ShowBorder = false;
+            this.pnlPlayer3.Size = new System.Drawing.Size(83, 157);
+            this.pnlPlayer3.TabIndex = 40;
             // 
-            // cbxPlayer5
+            // cbxPlayer3
             // 
-            this.cbxPlayer5.BackColor = System.Drawing.Color.Transparent;
+            this.cbxPlayer3.BackColor = System.Drawing.Color.Transparent;
             playingCard17.AlternateValue = null;
             playingCard17.CardValue = 1;
             playingCard17.FaceUp = false;
             playingCard17.Rank = Durak.Common.Cards.CardRank.Ace;
             playingCard17.Suit = Durak.Common.Cards.CardSuit.Hearts;
-            this.cbxPlayer5.Card = playingCard17;
-            this.cbxPlayer5.CardOrientation = System.Windows.Forms.Orientation.Vertical;
-            this.cbxPlayer5.FaceUp = false;
-            this.cbxPlayer5.Location = new System.Drawing.Point(3, 23);
-            this.cbxPlayer5.Name = "cbxPlayer5";
-            this.cbxPlayer5.Rank = Durak.Common.Cards.CardRank.Ace;
-            this.cbxPlayer5.Size = new System.Drawing.Size(75, 107);
-            this.cbxPlayer5.Suit = Durak.Common.Cards.CardSuit.Hearts;
-            this.cbxPlayer5.TabIndex = 9;
+            this.cbxPlayer3.Card = playingCard17;
+            this.cbxPlayer3.CardOrientation = System.Windows.Forms.Orientation.Vertical;
+            this.cbxPlayer3.FaceUp = false;
+            this.cbxPlayer3.Location = new System.Drawing.Point(3, 23);
+            this.cbxPlayer3.Name = "cbxPlayer3";
+            this.cbxPlayer3.Rank = Durak.Common.Cards.CardRank.Ace;
+            this.cbxPlayer3.Size = new System.Drawing.Size(75, 107);
+            this.cbxPlayer3.Suit = Durak.Common.Cards.CardSuit.Hearts;
+            this.cbxPlayer3.TabIndex = 9;
             // 
-            // lblPlayer5
+            // lblPlayer3
             // 
-            this.lblPlayer5.AutoSize = true;
-            this.lblPlayer5.Font = new System.Drawing.Font("Impact", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPlayer5.Location = new System.Drawing.Point(10, 0);
-            this.lblPlayer5.Name = "lblPlayer5";
-            this.lblPlayer5.Size = new System.Drawing.Size(62, 20);
-            this.lblPlayer5.TabIndex = 24;
-            this.lblPlayer5.Text = "Player 5";
+            this.lblPlayer3.AutoSize = true;
+            this.lblPlayer3.Font = new System.Drawing.Font("Impact", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPlayer3.Location = new System.Drawing.Point(10, 0);
+            this.lblPlayer3.Name = "lblPlayer3";
+            this.lblPlayer3.Size = new System.Drawing.Size(61, 20);
+            this.lblPlayer3.TabIndex = 24;
+            this.lblPlayer3.Text = "Player 3";
             // 
-            // lblPlayer5CardsLeft
+            // lblPlayer3CardsLeft
             // 
-            this.lblPlayer5CardsLeft.AutoSize = true;
-            this.lblPlayer5CardsLeft.Font = new System.Drawing.Font("Impact", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPlayer5CardsLeft.Location = new System.Drawing.Point(25, 133);
-            this.lblPlayer5CardsLeft.Name = "lblPlayer5CardsLeft";
-            this.lblPlayer5CardsLeft.Size = new System.Drawing.Size(26, 20);
-            this.lblPlayer5CardsLeft.TabIndex = 32;
-            this.lblPlayer5CardsLeft.Text = "52";
+            this.lblPlayer3CardsLeft.AutoSize = true;
+            this.lblPlayer3CardsLeft.Font = new System.Drawing.Font("Impact", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPlayer3CardsLeft.Location = new System.Drawing.Point(25, 133);
+            this.lblPlayer3CardsLeft.Name = "lblPlayer3CardsLeft";
+            this.lblPlayer3CardsLeft.Size = new System.Drawing.Size(26, 20);
+            this.lblPlayer3CardsLeft.TabIndex = 32;
+            this.lblPlayer3CardsLeft.Text = "52";
             // 
-            // cbxDeck
+            // pnlPlayer2
             // 
-            this.cbxDeck.BackColor = System.Drawing.Color.Transparent;
+            this.pnlPlayer2.BorderColor = System.Drawing.Color.Black;
+            this.pnlPlayer2.BorderWidth = 2F;
+            this.pnlPlayer2.Controls.Add(this.cbxPlayer2);
+            this.pnlPlayer2.Controls.Add(this.lblPlayer2);
+            this.pnlPlayer2.Controls.Add(this.lblPlayer2CardsLeft);
+            this.pnlPlayer2.Location = new System.Drawing.Point(395, 35);
+            this.pnlPlayer2.Name = "pnlPlayer2";
+            this.pnlPlayer2.ShowBorder = false;
+            this.pnlPlayer2.Size = new System.Drawing.Size(83, 157);
+            this.pnlPlayer2.TabIndex = 39;
+            // 
+            // cbxPlayer2
+            // 
+            this.cbxPlayer2.BackColor = System.Drawing.Color.Transparent;
             playingCard18.AlternateValue = null;
             playingCard18.CardValue = 1;
             playingCard18.FaceUp = false;
             playingCard18.Rank = Durak.Common.Cards.CardRank.Ace;
             playingCard18.Suit = Durak.Common.Cards.CardSuit.Hearts;
-            this.cbxDeck.Card = playingCard18;
-            this.cbxDeck.CardOrientation = System.Windows.Forms.Orientation.Vertical;
-            this.cbxDeck.FaceUp = false;
-            this.cbxDeck.Location = new System.Drawing.Point(113, 253);
-            this.cbxDeck.Name = "cbxDeck";
-            this.cbxDeck.Rank = Durak.Common.Cards.CardRank.Ace;
-            this.cbxDeck.Size = new System.Drawing.Size(75, 107);
-            this.cbxDeck.Suit = Durak.Common.Cards.CardSuit.Hearts;
-            this.cbxDeck.TabIndex = 2;
+            this.cbxPlayer2.Card = playingCard18;
+            this.cbxPlayer2.CardOrientation = System.Windows.Forms.Orientation.Vertical;
+            this.cbxPlayer2.FaceUp = false;
+            this.cbxPlayer2.Location = new System.Drawing.Point(3, 23);
+            this.cbxPlayer2.Name = "cbxPlayer2";
+            this.cbxPlayer2.Rank = Durak.Common.Cards.CardRank.Ace;
+            this.cbxPlayer2.Size = new System.Drawing.Size(75, 107);
+            this.cbxPlayer2.Suit = Durak.Common.Cards.CardSuit.Hearts;
+            this.cbxPlayer2.TabIndex = 9;
             // 
-            // cbxTrump
+            // lblPlayer2
             // 
-            this.cbxTrump.BackColor = System.Drawing.Color.Transparent;
+            this.lblPlayer2.AutoSize = true;
+            this.lblPlayer2.Font = new System.Drawing.Font("Impact", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPlayer2.Location = new System.Drawing.Point(10, 0);
+            this.lblPlayer2.Name = "lblPlayer2";
+            this.lblPlayer2.Size = new System.Drawing.Size(61, 20);
+            this.lblPlayer2.TabIndex = 24;
+            this.lblPlayer2.Text = "Player 2";
+            // 
+            // lblPlayer2CardsLeft
+            // 
+            this.lblPlayer2CardsLeft.AutoSize = true;
+            this.lblPlayer2CardsLeft.Font = new System.Drawing.Font("Impact", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPlayer2CardsLeft.Location = new System.Drawing.Point(25, 133);
+            this.lblPlayer2CardsLeft.Name = "lblPlayer2CardsLeft";
+            this.lblPlayer2CardsLeft.Size = new System.Drawing.Size(26, 20);
+            this.lblPlayer2CardsLeft.TabIndex = 32;
+            this.lblPlayer2CardsLeft.Text = "52";
+            // 
+            // pnlPlayer1
+            // 
+            this.pnlPlayer1.BorderColor = System.Drawing.Color.Black;
+            this.pnlPlayer1.BorderWidth = 2F;
+            this.pnlPlayer1.Controls.Add(this.cbxPlayer1);
+            this.pnlPlayer1.Controls.Add(this.lblPlayer1);
+            this.pnlPlayer1.Controls.Add(this.lblPlayer1CardsLeft);
+            this.pnlPlayer1.Location = new System.Drawing.Point(306, 35);
+            this.pnlPlayer1.Name = "pnlPlayer1";
+            this.pnlPlayer1.ShowBorder = false;
+            this.pnlPlayer1.Size = new System.Drawing.Size(83, 157);
+            this.pnlPlayer1.TabIndex = 38;
+            // 
+            // cbxPlayer1
+            // 
+            this.cbxPlayer1.BackColor = System.Drawing.Color.Transparent;
             playingCard19.AlternateValue = null;
             playingCard19.CardValue = 1;
             playingCard19.FaceUp = false;
             playingCard19.Rank = Durak.Common.Cards.CardRank.Ace;
             playingCard19.Suit = Durak.Common.Cards.CardSuit.Hearts;
-            this.cbxTrump.Card = playingCard19;
-            this.cbxTrump.CardOrientation = System.Windows.Forms.Orientation.Vertical;
-            this.cbxTrump.FaceUp = false;
-            this.cbxTrump.Location = new System.Drawing.Point(32, 253);
-            this.cbxTrump.Name = "cbxTrump";
-            this.cbxTrump.Rank = Durak.Common.Cards.CardRank.Ace;
-            this.cbxTrump.Size = new System.Drawing.Size(75, 107);
-            this.cbxTrump.Suit = Durak.Common.Cards.CardSuit.Hearts;
-            this.cbxTrump.TabIndex = 1;
+            this.cbxPlayer1.Card = playingCard19;
+            this.cbxPlayer1.CardOrientation = System.Windows.Forms.Orientation.Vertical;
+            this.cbxPlayer1.FaceUp = false;
+            this.cbxPlayer1.Location = new System.Drawing.Point(3, 23);
+            this.cbxPlayer1.Name = "cbxPlayer1";
+            this.cbxPlayer1.Rank = Durak.Common.Cards.CardRank.Ace;
+            this.cbxPlayer1.Size = new System.Drawing.Size(75, 107);
+            this.cbxPlayer1.Suit = Durak.Common.Cards.CardSuit.Hearts;
+            this.cbxPlayer1.TabIndex = 9;
             // 
-            // cplPlayersHand
+            // lblPlayer1
             // 
-            this.cplPlayersHand.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.cplPlayersHand.Cards = null;
-            this.cplPlayersHand.Location = new System.Drawing.Point(239, 421);
-            this.cplPlayersHand.Name = "cplPlayersHand";
-            this.cplPlayersHand.Size = new System.Drawing.Size(573, 168);
-            this.cplPlayersHand.TabIndex = 43;
-            this.cplPlayersHand.OnCardSelected += new System.EventHandler<Durak.Common.Cards.CardEventArgs>(this.cplPlayersHand_OnCardSelected);
+            this.lblPlayer1.AutoSize = true;
+            this.lblPlayer1.Font = new System.Drawing.Font("Impact", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPlayer1.Location = new System.Drawing.Point(10, 0);
+            this.lblPlayer1.Name = "lblPlayer1";
+            this.lblPlayer1.Size = new System.Drawing.Size(59, 20);
+            this.lblPlayer1.TabIndex = 24;
+            this.lblPlayer1.Text = "Player 1";
             // 
-            // btnForfeit
+            // lblPlayer1CardsLeft
             // 
-            this.btnForfeit.BackColor = System.Drawing.Color.DarkGreen;
-            this.btnForfeit.Font = new System.Drawing.Font("Impact", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnForfeit.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnForfeit.Location = new System.Drawing.Point(826, 421);
-            this.btnForfeit.Name = "btnForfeit";
-            this.btnForfeit.Size = new System.Drawing.Size(202, 45);
-            this.btnForfeit.TabIndex = 45;
-            this.btnForfeit.Text = "Forfeit";
-            this.btnForfeit.UseVisualStyleBackColor = false;
-            this.btnForfeit.Click += new System.EventHandler(this.btnForfeit_Click);
-            // 
-            // btnReqHelp
-            // 
-            this.btnReqHelp.BackColor = System.Drawing.Color.DarkGreen;
-            this.btnReqHelp.Font = new System.Drawing.Font("Impact", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnReqHelp.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnReqHelp.Location = new System.Drawing.Point(826, 472);
-            this.btnReqHelp.Name = "btnReqHelp";
-            this.btnReqHelp.Size = new System.Drawing.Size(202, 45);
-            this.btnReqHelp.TabIndex = 46;
-            this.btnReqHelp.Text = "Request Help";
-            this.btnReqHelp.UseVisualStyleBackColor = false;
-            this.btnReqHelp.Click += new System.EventHandler(this.btnReqHelp_Click);
+            this.lblPlayer1CardsLeft.AutoSize = true;
+            this.lblPlayer1CardsLeft.Font = new System.Drawing.Font("Impact", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPlayer1CardsLeft.Location = new System.Drawing.Point(25, 133);
+            this.lblPlayer1CardsLeft.Name = "lblPlayer1CardsLeft";
+            this.lblPlayer1CardsLeft.Size = new System.Drawing.Size(26, 20);
+            this.lblPlayer1CardsLeft.TabIndex = 32;
+            this.lblPlayer1CardsLeft.Text = "52";
             // 
             // frmDurakGame
             // 
@@ -826,9 +854,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkGreen;
             this.ClientSize = new System.Drawing.Size(1050, 601);
+            this.Controls.Add(this.pnlMyView);
             this.Controls.Add(this.btnReqHelp);
             this.Controls.Add(this.btnForfeit);
-            this.Controls.Add(this.cplPlayersHand);
             this.Controls.Add(this.pnlPlayer5);
             this.Controls.Add(this.pnlPlayer4);
             this.Controls.Add(this.pnlPlayer3);
@@ -858,16 +886,17 @@
             this.grpBattles.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.pnlPlayer1.ResumeLayout(false);
-            this.pnlPlayer1.PerformLayout();
-            this.pnlPlayer2.ResumeLayout(false);
-            this.pnlPlayer2.PerformLayout();
-            this.pnlPlayer3.ResumeLayout(false);
-            this.pnlPlayer3.PerformLayout();
-            this.pnlPlayer4.ResumeLayout(false);
-            this.pnlPlayer4.PerformLayout();
+            this.pnlMyView.ResumeLayout(false);
             this.pnlPlayer5.ResumeLayout(false);
             this.pnlPlayer5.PerformLayout();
+            this.pnlPlayer4.ResumeLayout(false);
+            this.pnlPlayer4.PerformLayout();
+            this.pnlPlayer3.ResumeLayout(false);
+            this.pnlPlayer3.PerformLayout();
+            this.pnlPlayer2.ResumeLayout(false);
+            this.pnlPlayer2.PerformLayout();
+            this.pnlPlayer1.ResumeLayout(false);
+            this.pnlPlayer1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -910,26 +939,27 @@
         private System.Windows.Forms.ToolStripMenuItem controlsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem chatToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem1;
-        private System.Windows.Forms.Panel pnlPlayer1;
-        private System.Windows.Forms.Panel pnlPlayer2;
+        private DurakGame.BorderPanel pnlPlayer1;
+        private DurakGame.BorderPanel pnlPlayer2;
         private Durak.CardBox cbxPlayer2;
         private System.Windows.Forms.Label lblPlayer2;
         private System.Windows.Forms.Label lblPlayer2CardsLeft;
-        private System.Windows.Forms.Panel pnlPlayer3;
+        private DurakGame.BorderPanel pnlPlayer3;
         private Durak.CardBox cbxPlayer3;
         private System.Windows.Forms.Label lblPlayer3;
         private System.Windows.Forms.Label lblPlayer3CardsLeft;
-        private System.Windows.Forms.Panel pnlPlayer4;
+        private DurakGame.BorderPanel pnlPlayer4;
         private Durak.CardBox cbxPlayer4;
         private System.Windows.Forms.Label lblPlayer4;
         private System.Windows.Forms.Label lblPlayer4CardsLeft;
-        private System.Windows.Forms.Panel pnlPlayer5;
+        private DurakGame.BorderPanel pnlPlayer5;
         private Durak.CardBox cbxPlayer5;
         private System.Windows.Forms.Label lblPlayer5;
         private System.Windows.Forms.Label lblPlayer5CardsLeft;
         private CardPlayer cplPlayersHand;
         private System.Windows.Forms.Button btnForfeit;
         private System.Windows.Forms.Button btnReqHelp;
+        private DurakGame.BorderPanel pnlMyView;
     }
 }
 

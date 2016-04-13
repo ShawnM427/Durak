@@ -26,7 +26,7 @@ namespace DurakGame.Rules
 
         public bool IsValidMove(PlayerCollection players, GameMove move, GameState currentState, ref string reason)
         {
-            if (currentState.GetValueBool(Names.IS_ATTACKING) && move.Player.PlayerId == currentState.GetValueByte(Names.ATTACKING_PLAYER))
+            if (currentState.GetValueBool(Names.IS_ATTACKING) && (move.Player.PlayerId == currentState.GetValueByte(Names.ATTACKING_PLAYER) || currentState.GetValueBool(Names.REQUEST_HELP)))
             {
                 if (move.Move == null)
                     return true;
@@ -41,7 +41,7 @@ namespace DurakGame.Rules
                 {
                     bool canPlay = false;
 
-                    for(int index = 0; index < round; index ++)
+                    for (int index = 0; index < round; index++)
                     {
                         if (
                             move.Move.Rank == currentState.GetValueCard(Names.ATTACKING_CARD, index).Rank ||
@@ -55,8 +55,10 @@ namespace DurakGame.Rules
                     return canPlay;
                 }
             }
-            // Make sure that the attacker is playing a valid card
-            return true;
+            else if (!currentState.GetValueBool(Names.IS_ATTACKING))
+                return true;
+            else
+                return false;
         }
     }
 }

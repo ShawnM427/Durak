@@ -20,7 +20,7 @@ namespace DurakGame
         //A struct to hold the ui items for a player
         private struct PlayerUITag
         {
-            public Panel Panel;
+            public BorderPanel Panel;
             public Label NameLabel;
             public Label CardCountLabel;
             public CardBox CardBox;
@@ -30,6 +30,9 @@ namespace DurakGame
         GameServer myServer;
 
         Dictionary<Player, PlayerUITag> myPlayerUIs;
+
+        BorderPanel myDefendingPlayerContainer;
+        BorderPanel myAttackingPlayerContainer;
 
         public frmDurakGame()
         {
@@ -73,6 +76,9 @@ namespace DurakGame
             myClient.LocalState.AddStateChangedEvent(Names.TRUMP_CARD, (X, Y) => { cbxTrump.Card = Y.GetValuePlayingCard(); });
 
             myClient.LocalState.AddStateChangedEvent(Names.DECK_COUNT, (X, Y) => { lblCardsLeft.Text = "" + Y.GetValueInt(); if (Y.GetValueInt() == 0) cbxDeck.Card = null; });
+
+            myClient.LocalState.AddStateChangedEvent(Names.ATTACKING_PLAYER, AttackingPlayersChanged);
+            myClient.LocalState.AddStateChangedEvent(Names.DEFENDING_PLAYER, AttackingPlayersChanged);
 
             //DebugClientView view = new DebugClientView();
             //view.SetGameState(myClient.LocalState);
@@ -132,16 +138,42 @@ namespace DurakGame
                 }
             }
 
+            myPlayerUIs.Add(myClient.KnownPlayers[myClient.PlayerId], new PlayerUITag() { Panel = pnlMyView });
+
             foreach(KeyValuePair<Player, PlayerUITag> pair in myPlayerUIs)
             {
                 PlayerUITag tag = pair.Value;
-                tag.NameLabel.Text = pair.Key.Name;
-                tag.CardCountLabel.Text = pair.Key.NumCards.ToString();
+
+                if (tag.NameLabel != null)
+                    tag.NameLabel.Text = pair.Key.Name;
+
+                if (tag.CardCountLabel != null)
+                    tag.CardCountLabel.Text = pair.Key.NumCards.ToString();
             }
 
             myClient.OnPlayerCardCountChanged += PlayerCardCountChanged;
 
             cplPlayersHand.Cards = myClient.Hand;
+        }
+        
+        private void AttackingPlayersChanged(object sender, StateParameter p)
+        {
+            if (myAttackingPlayerContainer != null)
+                myAttackingPlayerContainer.ShowBorder = false;
+            if (myDefendingPlayerContainer != null)
+                myDefendingPlayerContainer.ShowBorder = false;
+
+            Player attackingPlayer = myClient.KnownPlayers[myClient.LocalState.GetValueByte(Names.ATTACKING_PLAYER)];
+            Player defendingPlayer = myClient.KnownPlayers[myClient.LocalState.GetValueByte(Names.DEFENDING_PLAYER)];
+            
+            myAttackingPlayerContainer = myPlayerUIs[attackingPlayer].Panel;
+            myDefendingPlayerContainer = myPlayerUIs[defendingPlayer].Panel;
+
+            myAttackingPlayerContainer.ShowBorder = true;
+            myAttackingPlayerContainer.BorderColor = Color.Red;
+
+            myDefendingPlayerContainer.ShowBorder = true;
+            myDefendingPlayerContainer.BorderColor = Color.Blue;
         }
 
         private void ClientConnected(object sender, EventArgs e)

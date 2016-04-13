@@ -15,7 +15,7 @@ namespace Durak.Server
         /// <summary>
         /// Gets or sets whether bots should take time to make their decision
         /// </summary>
-        public static bool SimulateThinkTime = false;
+        public static bool SimulateThinkTime = true;
         /// <summary>
         ///  The minimum time for a bot to make a decision
         /// </summary>

@@ -130,7 +130,7 @@ namespace Durak.Common
         /// Get's this parameter's value as a byte
         /// </summary>
         /// <returns>myValue as a byte</returns>
-        public int GetValueByte()
+        public byte GetValueByte()
         {
             return GetValueInternal<byte>();
         }

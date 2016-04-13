@@ -97,6 +97,9 @@
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
     <Compile Include="AIRules\AIRules.cs" />
+    <Compile Include="BorderPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="CardPlayer.cs">
       <SubType>UserControl</SubType>
     </Compile>
