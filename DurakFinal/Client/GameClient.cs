@@ -699,7 +699,7 @@ namespace Durak.Client
             byte playerId = inMsg.ReadByte();
             string message = inMsg.ReadString();
             
-            OnPlayerChat?.Invoke(this, myKnownPlayers[playerId], message);
+            OnPlayerChat?.Invoke(this, playerId == 255 ? null : myKnownPlayers[playerId], message);
         }
 
         /// <summary>

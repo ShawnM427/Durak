@@ -15,10 +15,9 @@ namespace Durak.Server
         /// <summary>
         /// Tries setting the requested state parameter
         /// </summary>
-        /// <param name="parameter">The parameter that the client is requesting</param>
+        /// <param name="parameter">The parameter to try and set</param>
+        /// <param name="server">The server to excecute on</param>
         /// <param name="sender">The player that is requesting the state change</param>
-        /// <param name="players">The server's player collection</param>
-        /// <param name="state">The server's game state</param>
-        void TrySetState(StateParameter parameter, Player sender, PlayerCollection players, GameState state);
+        void TrySetState(StateParameter parameter, GameServer server, Player sender);
     }
 }

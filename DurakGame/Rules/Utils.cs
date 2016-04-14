@@ -1,5 +1,6 @@
 ﻿using Durak.Common;
 using Durak.Common.Cards;
+using Durak.Server;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +17,12 @@ namespace DurakGame.Rules
         /// <summary>
         /// Handles moving on to the next duel, this will also check for the end of the game as set the GAME_OVER param to true if needed
         /// </summary>
-        /// <param name="state">The state to update</param>
-        /// <param name="players">The current player collection</param>
-        public static void MoveNextDuel(GameState state, PlayerCollection players)
+        /// <param name="server">The server to excecute on</param>
+        public static void MoveNextDuel(GameServer server)
         {
+            GameState state = server.GameState;
+            PlayerCollection players = server.Players;
+
             if (!state.GetValueBool(Names.GAME_OVER))
             {
                 // Start by determining the number of active players

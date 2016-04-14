@@ -12,12 +12,14 @@ namespace DurakGame.Rules
     {
         /// <summary>
         /// Implements the bot state check interface
-        /// </summary>
-        /// <param name="state">The game state to verify against</param>
+        /// </summary>       
+        /// <param name="server">The server to execute on</param>
         /// <param name="player">The bot to verify for</param>
         /// <returns>True if the bot should pick a move, false if otherwise</returns>
-        public bool ShouldInvoke(GameState state, BotPlayer player)
+        public bool ShouldInvoke(GameServer server, BotPlayer player)
         {
+            GameState state = server.GameState;
+
             if (state.GetValueBool(Names.GAME_OVER))
                 return false;
 

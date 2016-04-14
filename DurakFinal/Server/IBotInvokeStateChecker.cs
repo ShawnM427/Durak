@@ -10,9 +10,9 @@ namespace Durak.Server
         /// <summary>
         /// Checks whether 
         /// </summary>
-        /// <param name="state">The current game state</param>
+        /// <param name="server">The server to execute on</param>
         /// <param name="player">The bot  player to check for</param>
         /// <returns>True if the bot should be invoked, false if otherwise</returns>
-        bool ShouldInvoke(GameState state, BotPlayer player);
+        bool ShouldInvoke(GameServer server, BotPlayer player);
     }
 }

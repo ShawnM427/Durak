@@ -67,6 +67,7 @@
             this.cbxPlayerAttack6 = new Durak.CardBox();
             this.grpBattles = new System.Windows.Forms.GroupBox();
             this.grpGarbage = new System.Windows.Forms.GroupBox();
+            this.dscDiscard = new Durak.DiscardPile();
             this.lblTrump = new System.Windows.Forms.Label();
             this.lblDeck = new System.Windows.Forms.Label();
             this.lblCardsLeft = new System.Windows.Forms.Label();
@@ -74,14 +75,14 @@
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.connectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.controlsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.chatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.cbxDeck = new Durak.CardBox();
             this.cbxTrump = new Durak.CardBox();
             this.btnForfeit = new System.Windows.Forms.Button();
             this.btnReqHelp = new System.Windows.Forms.Button();
+            this.lblAttackerReqHelp = new System.Windows.Forms.Label();
+            this.btnSend = new System.Windows.Forms.Button();
+            this.txtMessage = new System.Windows.Forms.TextBox();
+            this.rtbChatLog = new System.Windows.Forms.RichTextBox();
             this.pnlMyView = new DurakGame.BorderPanel();
             this.cplPlayersHand = new DurakGame.CardPlayer();
             this.pnlPlayer5 = new DurakGame.BorderPanel();
@@ -104,7 +105,6 @@
             this.cbxPlayer1 = new Durak.CardBox();
             this.lblPlayer1 = new System.Windows.Forms.Label();
             this.lblPlayer1CardsLeft = new System.Windows.Forms.Label();
-            this.dscDiscard = new Durak.DiscardPile();
             this.grpBattle1.SuspendLayout();
             this.grpBattle2.SuspendLayout();
             this.grpBattle3.SuspendLayout();
@@ -113,7 +113,6 @@
             this.grpBattle6.SuspendLayout();
             this.grpBattles.SuspendLayout();
             this.grpGarbage.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
             this.pnlMyView.SuspendLayout();
             this.pnlPlayer5.SuspendLayout();
             this.pnlPlayer4.SuspendLayout();
@@ -129,7 +128,7 @@
             this.grpBattle1.ForeColor = System.Drawing.SystemColors.Control;
             this.grpBattle1.Location = new System.Drawing.Point(6, 10);
             this.grpBattle1.Name = "grpBattle1";
-            this.grpBattle1.Size = new System.Drawing.Size(88, 206);
+            this.grpBattle1.Size = new System.Drawing.Size(88, 163);
             this.grpBattle1.TabIndex = 3;
             this.grpBattle1.TabStop = false;
             // 
@@ -157,14 +156,14 @@
             playingCard2.AlternateValue = null;
             playingCard2.CardValue = 1;
             playingCard2.FaceUp = true;
-            playingCard2.Rank = Durak.Common.Cards.CardRank.Three;
+            playingCard2.Rank = Durak.Common.Cards.CardRank.Four;
             playingCard2.Suit = Durak.Common.Cards.CardSuit.Spades;
             this.cbxPlayerAttack1.Card = playingCard2;
             this.cbxPlayerAttack1.CardOrientation = System.Windows.Forms.Orientation.Vertical;
             this.cbxPlayerAttack1.FaceUp = true;
             this.cbxPlayerAttack1.Location = new System.Drawing.Point(6, 50);
             this.cbxPlayerAttack1.Name = "cbxPlayerAttack1";
-            this.cbxPlayerAttack1.Rank = Durak.Common.Cards.CardRank.Three;
+            this.cbxPlayerAttack1.Rank = Durak.Common.Cards.CardRank.Four;
             this.cbxPlayerAttack1.Size = new System.Drawing.Size(75, 107);
             this.cbxPlayerAttack1.Suit = Durak.Common.Cards.CardSuit.Spades;
             this.cbxPlayerAttack1.TabIndex = 5;
@@ -176,7 +175,7 @@
             this.grpBattle2.ForeColor = System.Drawing.SystemColors.Control;
             this.grpBattle2.Location = new System.Drawing.Point(100, 10);
             this.grpBattle2.Name = "grpBattle2";
-            this.grpBattle2.Size = new System.Drawing.Size(88, 206);
+            this.grpBattle2.Size = new System.Drawing.Size(88, 163);
             this.grpBattle2.TabIndex = 6;
             this.grpBattle2.TabStop = false;
             // 
@@ -204,14 +203,14 @@
             playingCard4.AlternateValue = null;
             playingCard4.CardValue = 1;
             playingCard4.FaceUp = true;
-            playingCard4.Rank = Durak.Common.Cards.CardRank.Three;
+            playingCard4.Rank = Durak.Common.Cards.CardRank.Four;
             playingCard4.Suit = Durak.Common.Cards.CardSuit.Spades;
             this.cbxPlayerAttack2.Card = playingCard4;
             this.cbxPlayerAttack2.CardOrientation = System.Windows.Forms.Orientation.Vertical;
             this.cbxPlayerAttack2.FaceUp = true;
             this.cbxPlayerAttack2.Location = new System.Drawing.Point(6, 50);
             this.cbxPlayerAttack2.Name = "cbxPlayerAttack2";
-            this.cbxPlayerAttack2.Rank = Durak.Common.Cards.CardRank.Three;
+            this.cbxPlayerAttack2.Rank = Durak.Common.Cards.CardRank.Four;
             this.cbxPlayerAttack2.Size = new System.Drawing.Size(75, 107);
             this.cbxPlayerAttack2.Suit = Durak.Common.Cards.CardSuit.Spades;
             this.cbxPlayerAttack2.TabIndex = 5;
@@ -223,7 +222,7 @@
             this.grpBattle3.ForeColor = System.Drawing.SystemColors.Control;
             this.grpBattle3.Location = new System.Drawing.Point(194, 10);
             this.grpBattle3.Name = "grpBattle3";
-            this.grpBattle3.Size = new System.Drawing.Size(88, 206);
+            this.grpBattle3.Size = new System.Drawing.Size(88, 163);
             this.grpBattle3.TabIndex = 6;
             this.grpBattle3.TabStop = false;
             // 
@@ -251,14 +250,14 @@
             playingCard6.AlternateValue = null;
             playingCard6.CardValue = 1;
             playingCard6.FaceUp = true;
-            playingCard6.Rank = Durak.Common.Cards.CardRank.Three;
+            playingCard6.Rank = Durak.Common.Cards.CardRank.Four;
             playingCard6.Suit = Durak.Common.Cards.CardSuit.Spades;
             this.cbxPlayerAttack3.Card = playingCard6;
             this.cbxPlayerAttack3.CardOrientation = System.Windows.Forms.Orientation.Vertical;
             this.cbxPlayerAttack3.FaceUp = true;
             this.cbxPlayerAttack3.Location = new System.Drawing.Point(6, 50);
             this.cbxPlayerAttack3.Name = "cbxPlayerAttack3";
-            this.cbxPlayerAttack3.Rank = Durak.Common.Cards.CardRank.Three;
+            this.cbxPlayerAttack3.Rank = Durak.Common.Cards.CardRank.Four;
             this.cbxPlayerAttack3.Size = new System.Drawing.Size(75, 107);
             this.cbxPlayerAttack3.Suit = Durak.Common.Cards.CardSuit.Spades;
             this.cbxPlayerAttack3.TabIndex = 5;
@@ -270,7 +269,7 @@
             this.grpBattle4.ForeColor = System.Drawing.SystemColors.Control;
             this.grpBattle4.Location = new System.Drawing.Point(288, 10);
             this.grpBattle4.Name = "grpBattle4";
-            this.grpBattle4.Size = new System.Drawing.Size(88, 206);
+            this.grpBattle4.Size = new System.Drawing.Size(88, 163);
             this.grpBattle4.TabIndex = 6;
             this.grpBattle4.TabStop = false;
             // 
@@ -298,14 +297,14 @@
             playingCard8.AlternateValue = null;
             playingCard8.CardValue = 1;
             playingCard8.FaceUp = true;
-            playingCard8.Rank = Durak.Common.Cards.CardRank.Three;
+            playingCard8.Rank = Durak.Common.Cards.CardRank.Four;
             playingCard8.Suit = Durak.Common.Cards.CardSuit.Spades;
             this.cbxPlayerAttack4.Card = playingCard8;
             this.cbxPlayerAttack4.CardOrientation = System.Windows.Forms.Orientation.Vertical;
             this.cbxPlayerAttack4.FaceUp = true;
             this.cbxPlayerAttack4.Location = new System.Drawing.Point(6, 50);
             this.cbxPlayerAttack4.Name = "cbxPlayerAttack4";
-            this.cbxPlayerAttack4.Rank = Durak.Common.Cards.CardRank.Three;
+            this.cbxPlayerAttack4.Rank = Durak.Common.Cards.CardRank.Four;
             this.cbxPlayerAttack4.Size = new System.Drawing.Size(75, 107);
             this.cbxPlayerAttack4.Suit = Durak.Common.Cards.CardSuit.Spades;
             this.cbxPlayerAttack4.TabIndex = 5;
@@ -317,7 +316,7 @@
             this.grpBattle5.ForeColor = System.Drawing.SystemColors.Control;
             this.grpBattle5.Location = new System.Drawing.Point(383, 10);
             this.grpBattle5.Name = "grpBattle5";
-            this.grpBattle5.Size = new System.Drawing.Size(88, 206);
+            this.grpBattle5.Size = new System.Drawing.Size(88, 163);
             this.grpBattle5.TabIndex = 6;
             this.grpBattle5.TabStop = false;
             // 
@@ -345,14 +344,14 @@
             playingCard10.AlternateValue = null;
             playingCard10.CardValue = 1;
             playingCard10.FaceUp = true;
-            playingCard10.Rank = Durak.Common.Cards.CardRank.Three;
+            playingCard10.Rank = Durak.Common.Cards.CardRank.Four;
             playingCard10.Suit = Durak.Common.Cards.CardSuit.Spades;
             this.cbxPlayerAttack5.Card = playingCard10;
             this.cbxPlayerAttack5.CardOrientation = System.Windows.Forms.Orientation.Vertical;
             this.cbxPlayerAttack5.FaceUp = true;
             this.cbxPlayerAttack5.Location = new System.Drawing.Point(6, 50);
             this.cbxPlayerAttack5.Name = "cbxPlayerAttack5";
-            this.cbxPlayerAttack5.Rank = Durak.Common.Cards.CardRank.Three;
+            this.cbxPlayerAttack5.Rank = Durak.Common.Cards.CardRank.Four;
             this.cbxPlayerAttack5.Size = new System.Drawing.Size(75, 107);
             this.cbxPlayerAttack5.Suit = Durak.Common.Cards.CardSuit.Spades;
             this.cbxPlayerAttack5.TabIndex = 5;
@@ -364,7 +363,7 @@
             this.grpBattle6.ForeColor = System.Drawing.SystemColors.Control;
             this.grpBattle6.Location = new System.Drawing.Point(478, 10);
             this.grpBattle6.Name = "grpBattle6";
-            this.grpBattle6.Size = new System.Drawing.Size(88, 206);
+            this.grpBattle6.Size = new System.Drawing.Size(88, 163);
             this.grpBattle6.TabIndex = 6;
             this.grpBattle6.TabStop = false;
             // 
@@ -392,14 +391,14 @@
             playingCard12.AlternateValue = null;
             playingCard12.CardValue = 1;
             playingCard12.FaceUp = true;
-            playingCard12.Rank = Durak.Common.Cards.CardRank.Three;
+            playingCard12.Rank = Durak.Common.Cards.CardRank.Four;
             playingCard12.Suit = Durak.Common.Cards.CardSuit.Spades;
             this.cbxPlayerAttack6.Card = playingCard12;
             this.cbxPlayerAttack6.CardOrientation = System.Windows.Forms.Orientation.Vertical;
             this.cbxPlayerAttack6.FaceUp = true;
             this.cbxPlayerAttack6.Location = new System.Drawing.Point(6, 51);
             this.cbxPlayerAttack6.Name = "cbxPlayerAttack6";
-            this.cbxPlayerAttack6.Rank = Durak.Common.Cards.CardRank.Three;
+            this.cbxPlayerAttack6.Rank = Durak.Common.Cards.CardRank.Four;
             this.cbxPlayerAttack6.Size = new System.Drawing.Size(75, 107);
             this.cbxPlayerAttack6.Suit = Durak.Common.Cards.CardSuit.Spades;
             this.cbxPlayerAttack6.TabIndex = 5;
@@ -414,9 +413,9 @@
             this.grpBattles.Controls.Add(this.grpBattle4);
             this.grpBattles.Controls.Add(this.grpBattle5);
             this.grpBattles.ForeColor = System.Drawing.Color.DarkGreen;
-            this.grpBattles.Location = new System.Drawing.Point(239, 193);
+            this.grpBattles.Location = new System.Drawing.Point(239, 230);
             this.grpBattles.Name = "grpBattles";
-            this.grpBattles.Size = new System.Drawing.Size(573, 222);
+            this.grpBattles.Size = new System.Drawing.Size(573, 185);
             this.grpBattles.TabIndex = 7;
             this.grpBattles.TabStop = false;
             // 
@@ -428,6 +427,14 @@
             this.grpGarbage.Size = new System.Drawing.Size(217, 222);
             this.grpGarbage.TabIndex = 23;
             this.grpGarbage.TabStop = false;
+            // 
+            // dscDiscard
+            // 
+            this.dscDiscard.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dscDiscard.Location = new System.Drawing.Point(3, 16);
+            this.dscDiscard.Name = "dscDiscard";
+            this.dscDiscard.Size = new System.Drawing.Size(211, 203);
+            this.dscDiscard.TabIndex = 0;
             // 
             // lblTrump
             // 
@@ -482,36 +489,6 @@
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
             this.aboutToolStripMenuItem.Text = "About";
-            // 
-            // menuStrip1
-            // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.controlsToolStripMenuItem,
-            this.chatToolStripMenuItem,
-            this.aboutToolStripMenuItem1});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1050, 24);
-            this.menuStrip1.TabIndex = 37;
-            this.menuStrip1.Text = "mnuMain";
-            // 
-            // controlsToolStripMenuItem
-            // 
-            this.controlsToolStripMenuItem.Name = "controlsToolStripMenuItem";
-            this.controlsToolStripMenuItem.Size = new System.Drawing.Size(64, 20);
-            this.controlsToolStripMenuItem.Text = "Controls";
-            // 
-            // chatToolStripMenuItem
-            // 
-            this.chatToolStripMenuItem.Name = "chatToolStripMenuItem";
-            this.chatToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.chatToolStripMenuItem.Text = "Chat";
-            // 
-            // aboutToolStripMenuItem1
-            // 
-            this.aboutToolStripMenuItem1.Name = "aboutToolStripMenuItem1";
-            this.aboutToolStripMenuItem1.Size = new System.Drawing.Size(52, 20);
-            this.aboutToolStripMenuItem1.Text = "About";
             // 
             // cbxDeck
             // 
@@ -575,6 +552,50 @@
             this.btnReqHelp.UseVisualStyleBackColor = false;
             this.btnReqHelp.Click += new System.EventHandler(this.btnReqHelp_Click);
             // 
+            // lblAttackerReqHelp
+            // 
+            this.lblAttackerReqHelp.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lblAttackerReqHelp.AutoSize = true;
+            this.lblAttackerReqHelp.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAttackerReqHelp.ForeColor = System.Drawing.Color.White;
+            this.lblAttackerReqHelp.Location = new System.Drawing.Point(326, 195);
+            this.lblAttackerReqHelp.Name = "lblAttackerReqHelp";
+            this.lblAttackerReqHelp.Size = new System.Drawing.Size(402, 37);
+            this.lblAttackerReqHelp.TabIndex = 48;
+            this.lblAttackerReqHelp.Text = "Attacker Requesting Help";
+            this.lblAttackerReqHelp.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // btnSend
+            // 
+            this.btnSend.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnSend.Location = new System.Drawing.Point(154, 566);
+            this.btnSend.Name = "btnSend";
+            this.btnSend.Size = new System.Drawing.Size(75, 23);
+            this.btnSend.TabIndex = 50;
+            this.btnSend.Text = "Send";
+            this.btnSend.UseVisualStyleBackColor = true;
+            this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
+            // 
+            // txtMessage
+            // 
+            this.txtMessage.BackColor = System.Drawing.Color.DarkGreen;
+            this.txtMessage.ForeColor = System.Drawing.SystemColors.Window;
+            this.txtMessage.Location = new System.Drawing.Point(12, 568);
+            this.txtMessage.Name = "txtMessage";
+            this.txtMessage.Size = new System.Drawing.Size(136, 20);
+            this.txtMessage.TabIndex = 49;
+            // 
+            // rtbChatLog
+            // 
+            this.rtbChatLog.BackColor = System.Drawing.Color.DarkGreen;
+            this.rtbChatLog.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rtbChatLog.ForeColor = System.Drawing.Color.White;
+            this.rtbChatLog.Location = new System.Drawing.Point(12, 415);
+            this.rtbChatLog.Name = "rtbChatLog";
+            this.rtbChatLog.Size = new System.Drawing.Size(217, 147);
+            this.rtbChatLog.TabIndex = 51;
+            this.rtbChatLog.Text = "";
+            // 
             // pnlMyView
             // 
             this.pnlMyView.BorderColor = System.Drawing.Color.Black;
@@ -590,7 +611,7 @@
             // 
             this.cplPlayersHand.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.cplPlayersHand.Cards = null;
-            this.cplPlayersHand.Location = new System.Drawing.Point(5, 3);
+            this.cplPlayersHand.Location = new System.Drawing.Point(5, 4);
             this.cplPlayersHand.Name = "cplPlayersHand";
             this.cplPlayersHand.Size = new System.Drawing.Size(573, 168);
             this.cplPlayersHand.TabIndex = 43;
@@ -851,20 +872,16 @@
             this.lblPlayer1CardsLeft.TabIndex = 32;
             this.lblPlayer1CardsLeft.Text = "52";
             // 
-            // dscDiscard
-            // 
-            this.dscDiscard.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dscDiscard.Location = new System.Drawing.Point(3, 16);
-            this.dscDiscard.Name = "dscDiscard";
-            this.dscDiscard.Size = new System.Drawing.Size(211, 203);
-            this.dscDiscard.TabIndex = 0;
-            // 
             // frmDurakGame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkGreen;
             this.ClientSize = new System.Drawing.Size(1050, 601);
+            this.Controls.Add(this.rtbChatLog);
+            this.Controls.Add(this.btnSend);
+            this.Controls.Add(this.txtMessage);
+            this.Controls.Add(this.lblAttackerReqHelp);
             this.Controls.Add(this.pnlMyView);
             this.Controls.Add(this.btnReqHelp);
             this.Controls.Add(this.btnForfeit);
@@ -880,7 +897,6 @@
             this.Controls.Add(this.grpBattles);
             this.Controls.Add(this.cbxDeck);
             this.Controls.Add(this.cbxTrump);
-            this.Controls.Add(this.menuStrip1);
             this.ForeColor = System.Drawing.SystemColors.Control;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
@@ -895,8 +911,6 @@
             this.grpBattle6.ResumeLayout(false);
             this.grpBattles.ResumeLayout(false);
             this.grpGarbage.ResumeLayout(false);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
             this.pnlMyView.ResumeLayout(false);
             this.pnlPlayer5.ResumeLayout(false);
             this.pnlPlayer5.PerformLayout();
@@ -946,10 +960,6 @@
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem connectToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem controlsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem chatToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem1;
         private BorderPanel pnlPlayer1;
         private BorderPanel pnlPlayer2;
         private Durak.CardBox cbxPlayer2;
@@ -972,6 +982,10 @@
         private System.Windows.Forms.Button btnReqHelp;
         private BorderPanel pnlMyView;
         private Durak.DiscardPile dscDiscard;
+        private System.Windows.Forms.Label lblAttackerReqHelp;
+        private System.Windows.Forms.Button btnSend;
+        private System.Windows.Forms.TextBox txtMessage;
+        private System.Windows.Forms.RichTextBox rtbChatLog;
     }
 }
 

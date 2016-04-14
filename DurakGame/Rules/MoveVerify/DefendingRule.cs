@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DurakGame.Rules
 {
-    class DefendingRule : IGamePlayRule
+    public class DefendingRule : IGamePlayRule
     {
         public bool IsEnabled
         {
@@ -25,17 +25,17 @@ namespace DurakGame.Rules
             }
         }
 
-        public bool IsValidMove(PlayerCollection players, GameMove move, GameState currentState, ref string reason)
+        public bool IsValidMove(GameServer server, GameMove move, ref string reason)
         {
             if (move.Move == null)
                 return true;
 
-            if (!currentState.GetValueBool(Names.IS_ATTACKING))
+            if (!server.GameState.GetValueBool(Names.IS_ATTACKING))
             {
-                if (currentState.GetValueByte(Names.DEFENDING_PLAYER) == move.Player.PlayerId)
+                if (server.GameState.GetValueByte(Names.DEFENDING_PLAYER) == move.Player.PlayerId)
                 {
-                    PlayingCard attacking = currentState.GetValueCard(Names.ATTACKING_CARD, currentState.GetValueInt(Names.CURRENT_ROUND));
-                    PlayingCard trump = currentState.GetValueCard(Names.TRUMP_CARD);
+                    PlayingCard attacking = server.GameState.GetValueCard(Names.ATTACKING_CARD, server.GameState.GetValueInt(Names.CURRENT_ROUND));
+                    PlayingCard trump = server.GameState.GetValueCard(Names.TRUMP_CARD);
 
                     if (move.Move.Rank > attacking.Rank)
                     {

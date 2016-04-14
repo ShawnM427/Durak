@@ -31,8 +31,7 @@ namespace Durak.Server
         /// <summary>
         /// Validates the game state
         /// </summary>
-        /// <param name="players">The player collection for this game</param>
-        /// <param name="state">The game state to validate</param>
-        void InitState(PlayerCollection players, GameState state);
+        /// <param name="server">The server to execute on</param>
+        void InitState(GameServer server);
     }
 }

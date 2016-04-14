@@ -18,11 +18,11 @@ namespace Durak.Common
         /// <summary>
         /// Gets the default server timeout
         /// </summary>
-        public const float DEFAULT_SERVER_TIMEOUT = 5.0f;
+        public const float DEFAULT_SERVER_TIMEOUT = 30.0f;
         /// <summary>
         /// Gets the identifier for the app
         /// </summary>
-        public const string APP_IDENTIFIER = "DURAK_0.0";
+        public const string APP_IDENTIFIER = "DURAK_1.0";
         /// <summary>
         /// Gets the shutdown message for servers
         /// </summary>

@@ -40,14 +40,14 @@
             this.txtDirect = new System.Windows.Forms.TextBox();
             this.btnDirect = new System.Windows.Forms.Button();
             this.lstServers = new System.Windows.Forms.ListView();
+            this.clmServerName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmNumPlayers = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btnListConnect = new System.Windows.Forms.Button();
             this.txtSelected = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.clmServerName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.clmNumPlayers = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // label1
@@ -74,6 +74,7 @@
             this.btnDirect.TabIndex = 2;
             this.btnDirect.Text = "Direct Connect";
             this.btnDirect.UseVisualStyleBackColor = true;
+            this.btnDirect.Click += new System.EventHandler(this.btnDirect_Click);
             // 
             // lstServers
             // 
@@ -94,6 +95,14 @@
             this.lstServers.Size = new System.Drawing.Size(335, 209);
             this.lstServers.TabIndex = 3;
             this.lstServers.UseCompatibleStateImageBehavior = false;
+            // 
+            // clmServerName
+            // 
+            this.clmServerName.Text = "Name";
+            // 
+            // clmNumPlayers
+            // 
+            this.clmNumPlayers.Text = "Players";
             // 
             // btnListConnect
             // 
@@ -146,14 +155,6 @@
             this.label5.Size = new System.Drawing.Size(41, 13);
             this.label5.TabIndex = 9;
             this.label5.Text = "Players";
-            // 
-            // clmServerName
-            // 
-            this.clmServerName.Text = "Name";
-            // 
-            // clmNumPlayers
-            // 
-            this.clmNumPlayers.Text = "Players";
             // 
             // frmServerBrowser
             // 

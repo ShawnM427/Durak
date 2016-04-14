@@ -99,6 +99,13 @@ namespace Durak.Server
             get { return myAddress; }
         }
         /// <summary>
+        /// Gets the servers player collection
+        /// </summary>
+        public PlayerCollection Players
+        {
+            get { return myPlayers; }
+        }
+        /// <summary>
         /// Gets or sets whether this server should long each rule
         /// </summary>
         public bool LogLongRules
@@ -364,7 +371,7 @@ namespace Durak.Server
             for (int index = 0; index < myPlayRules.Count; index++)
             {
                 // If the move is valid, continue, otherwise a rule was violated
-                if (!myPlayRules[index].IsValidMove(myPlayers, move, myGameState, ref failReason))
+                if (!myPlayRules[index].IsValidMove(this, move, ref failReason))
                 {
                     return false;
                 }
@@ -437,7 +444,7 @@ namespace Durak.Server
 
                     // Call all the init rules
                     for (int index = 0; index < myInitRules.Count; index++)
-                        myInitRules[index].InitState(myPlayers, myGameState);
+                        myInitRules[index].InitState(this);
 
                     // Disable silent mode
                     myGameState.SilentSets = false;
@@ -719,7 +726,7 @@ namespace Durak.Server
             for (int index = 0; index < myPlayRules.Count; index++)
             {
                 // If the move is valid, continue, otherwise a rule was violated
-                if (!myPlayRules[index].IsValidMove(myPlayers, move, myGameState, ref failReason))
+                if (!myPlayRules[index].IsValidMove(this, move, ref failReason))
                 {
                     // If the person who made the rule sucked at making rules, we catch their mistake
                     if (failReason == "Unknown")
@@ -753,7 +760,7 @@ namespace Durak.Server
             // Update all the sucessfull move states
             for (int index = 0; index < Rules.MOVE_SUCCESS_RULES.Count; index++)
             {
-                Rules.MOVE_SUCCESS_RULES[index].UpdateState(move, myPlayers, myGameState);
+                Rules.MOVE_SUCCESS_RULES[index].UpdateState(this, move);
             }
         }
 
@@ -787,6 +794,24 @@ namespace Durak.Server
             // Send the packet
             if (move.Player.Connection != null)
                 myServer.SendMessage(outMsg, move.Player.Connection, NetDeliveryMethod.ReliableOrdered);
+        }
+
+        /// <summary>
+        /// Sends a message to all clients from the server
+        /// </summary>
+        /// <param name="message">The message to send</param>
+        public void SendServerMessage(string message)
+        {
+            // Prepare message
+            NetOutgoingMessage send = myServer.CreateMessage();
+            send.Write((byte)MessageType.PlayerChat);
+            send.Write((byte)255);
+            send.Write(message);
+
+            Log("[Server]: {0}", message);
+
+            // Forward to all clients
+            SendToAll(send);
         }
 
         /// <summary>
@@ -917,25 +942,33 @@ namespace Durak.Server
                 Logger.Write(e);
             }
 
+            PumpMessages();
+        }
+
+        /// <summary>
+        /// Pumps the message queue, updating serverside state checks and bots
+        /// </summary>
+        public void PumpMessages()
+        {
             // If we are in game, we should update the state
             if (myState == ServerState.InGame && isInitialized)
             {
                 // Iterate over the rules and validate them all
                 foreach (IGameStateRule stateRule in Rules.STATE_RULES)
                 {
-                    stateRule.ValidateState(myPlayers, myGameState);
+                    stateRule.ValidateState(this);
                 }
 
                 // Handle the bots
                 foreach (BotPlayer botPlayer in myBots)
                 {
                     // Make bots detect if they are in a valid place to move
-                    botPlayer.StateUpdated(myGameState);
+                    botPlayer.StateUpdated();
 
                     // If the bot's move is ready
                     if (botPlayer.ShouldInvoke)
                     {
-                        if (botPlayer.InstantValidateCheck(myGameState))
+                        if (botPlayer.InstantValidateCheck())
                         {
                             // Get and play the move
                             PlayingCard move = botPlayer.DetermineMove();
@@ -982,7 +1015,7 @@ namespace Durak.Server
 
             for(int index = 0; index < Rules.CLIENT_STATE_REQ_VALIDATORS.Count; index ++)
             {
-                Rules.CLIENT_STATE_REQ_VALIDATORS[index].TrySetState(parameter, myPlayers[msg.SenderConnection], myPlayers, myGameState);
+                Rules.CLIENT_STATE_REQ_VALIDATORS[index].TrySetState(parameter, this, myPlayers[msg.SenderConnection]);
             }
         }
 

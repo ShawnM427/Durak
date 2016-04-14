@@ -30,12 +30,11 @@ namespace DurakTester.Rules
         /// <summary>
         /// Determines if a given move is valid
         /// </summary>
-        /// <param name="players">The server's player collection</param>
+        /// <param name="server">The server to excecute on</param>
         /// <param name="move">The move being played</param>
-        /// <param name="currentState">The server's game state</param>
         /// <param name="reason">The reason that the move is invalid</param>
         /// <returns>True if the room is valid, false if otherwise</returns>
-        public bool IsValidMove(PlayerCollection players, GameMove move, GameState currentState, ref string reason)
+        public bool IsValidMove(GameServer server, GameMove move, ref string reason)
         {
             if (move.Move == null)
                 return true;

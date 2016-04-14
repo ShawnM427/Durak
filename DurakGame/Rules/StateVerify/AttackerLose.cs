@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DurakGame.Rules
 {
-    class AttackerLose : IGameStateRule
+    public class AttackerLose : IGameStateRule
     {
         public bool IsEnabled
         {
@@ -25,32 +25,35 @@ namespace DurakGame.Rules
             }
         }
 
-        public void ValidateState(PlayerCollection players, GameState state)
+        public void ValidateState(GameServer server)
         {
             // Only run this state update if the attacker is forfeiting
-            if (state.GetValueBool(Names.ATTACKER_FORFEIT))
+            if (server.GameState.GetValueBool(Names.ATTACKER_FORFEIT))
             {
                 // Get the current round and the discard pile from the state
-                int round = state.GetValueInt(Names.CURRENT_ROUND);
-                CardCollection discard = state.GetValueCardCollection(Names.DISCARD);
+                int round = server.GameState.GetValueInt(Names.CURRENT_ROUND);
+                CardCollection discard = server.GameState.GetValueCardCollection(Names.DISCARD);
 
                 // Iterate over over all the previous rounds, as this round has no attacking or defending cards
                 for (int index = 0; index < round; index++)
                 {
                     // Add the cards to the discard pile
-                    discard.Add(state.GetValueCard(Names.ATTACKING_CARD, index));
-                    discard.Add(state.GetValueCard(Names.DEFENDING_CARD, index));
+                    discard.Add(server.GameState.GetValueCard(Names.ATTACKING_CARD, index));
+                    discard.Add(server.GameState.GetValueCard(Names.DEFENDING_CARD, index));
 
                     // Remove the cards from the state
-                    state.Set<PlayingCard>(Names.ATTACKING_CARD, index, null);
-                    state.Set<PlayingCard>(Names.DEFENDING_CARD, index, null);
+                    server.GameState.Set<PlayingCard>(Names.ATTACKING_CARD, index, null);
+                    server.GameState.Set<PlayingCard>(Names.DEFENDING_CARD, index, null);
                 }
 
+                // Send the message
+                server.SendServerMessage(server.Players[server.GameState.GetValueByte(Names.ATTACKING_PLAYER)].Name + " has forfeited");
+
                 // Update the discard pile
-                state.Set(Names.DISCARD, discard);
+                server.GameState.Set(Names.DISCARD, discard);
 
                 // Move to next match
-                Utils.MoveNextDuel(state, players);
+                Utils.MoveNextDuel(server);
             }
         }
     }

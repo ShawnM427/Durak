@@ -10,13 +10,19 @@ namespace DurakGame.Rules
 {
     class ClientRequestHelp : IClientStateSetValidator
     {
-        public void TrySetState(StateParameter parameter, Player sender, PlayerCollection players, GameState state)
+        /// <summary>
+        /// Tries setting the requested state parameter
+        /// </summary>
+        /// <param name="parameter">The state parameter that is being requested</param>
+        /// <param name="server">The server to excecute on</param>
+        /// <param name="sender">The player that is requesting the state change</param>
+        public void TrySetState(StateParameter parameter, GameServer server, Player sender)
         {
             if (parameter.Name == Names.REQUEST_HELP && parameter.ParameterType == StateParameter.Type.Bool)
             {
-                if (state.GetValueInt(Names.ATTACKING_PLAYER) == sender.PlayerId)
+                if (server.GameState.GetValueInt(Names.ATTACKING_PLAYER) == sender.PlayerId)
                 {
-                    state.Set(Names.REQUEST_HELP, parameter.GetValueBool());
+                    server.GameState.Set(Names.REQUEST_HELP, parameter.GetValueBool());
                 }
             }
         }

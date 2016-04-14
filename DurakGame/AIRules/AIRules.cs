@@ -14,11 +14,13 @@ namespace DurakGame.Rules
         /// <summary>
         /// A method that finds what the player bot should be doing and acts accordingly
         /// </summary>
-        /// <param name="proposals"></param>
-        /// <param name="state"></param>
-        /// <param name="hand"></param>
-        public void Propose(Dictionary<PlayingCard, float> proposals, GameState state, CardCollection hand)
+        /// <param name="proposals">The dictionary of all cards in the bots hand, and their confidence in playing that card</param>        
+        /// <param name="server">The server to execute on</param>
+        /// <param name="hand">The bot's hand</param>
+        public void Propose(Dictionary<PlayingCard, float> proposals, GameServer server, CardCollection hand)
         {
+            GameState state = server.GameState;
+
             // Get trump card suit
             CardSuit trumpSuit = state.GetValueCard(Names.TRUMP_CARD).Suit;
 

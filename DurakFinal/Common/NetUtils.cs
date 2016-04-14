@@ -75,22 +75,9 @@ namespace Durak.Common
         /// <returns>This machine's IP address</returns>
         public static IPAddress GetAddress()
         {
-            // Gets the IP's associated with this server
-            IPAddress[] IpList = Dns.GetHostAddresses(Dns.GetHostName());
+            IPAddress ip = System.Net.Dns.GetHostEntry(Environment.MachineName).AddressList.Where(i => i.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork).FirstOrDefault();
 
-            // Iterate over them
-            foreach (IPAddress IP in IpList)
-            {
-                // Gets the Internetwork IP
-                if (IP.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
-                {
-                    // Assign to myAddress
-                    return IP;
-                }
-            }
-
-            // We didn't have any InterNetwork IP
-            throw new NetworkInformationException();
+            return ip;
         }
 
         /// <summary>

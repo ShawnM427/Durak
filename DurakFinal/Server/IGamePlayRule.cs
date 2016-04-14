@@ -22,11 +22,10 @@ namespace Durak.Server
         /// <summary>
         /// Checks a proposed game move agains the current game state and returns whether it is valid
         /// </summary>
-        /// <param name="players">The players collection</param>
+        /// <param name="server">The server to execute on</param>
         /// <param name="move">The move to check</param>
-        /// <param name="currentState">The current game state</param>
         /// <param name="reason">The reason why this move is invalid, should be set before returning</param>
         /// <returns>Tru if the move is valid, false if otherwise</returns>
-        bool IsValidMove(PlayerCollection players, GameMove move, GameState currentState, ref string reason);
+        bool IsValidMove(GameServer server, GameMove move, ref string reason);
     }
 }

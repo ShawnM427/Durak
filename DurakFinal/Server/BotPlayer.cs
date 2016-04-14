@@ -19,11 +19,11 @@ namespace Durak.Server
         /// <summary>
         ///  The minimum time for a bot to make a decision
         /// </summary>
-        public static int ThinkSleepMinTime = 0;
+        public static int ThinkSleepMinTime = 1000;
         /// <summary>
         /// The maximum time for a bot to make a decision
         /// </summary>
-        public static int ThinkSleepMaxTime = 5000;
+        public static int ThinkSleepMaxTime = 4000;
 
         /// <summary>
         /// Stores whether or not this bot should invoke on the end of the current message pump
@@ -139,16 +139,17 @@ namespace Durak.Server
         {
             shouldInvoke = true;
             myTimer.Stop();
+            myServer.PumpMessages();
         }
 
         /// <summary>
         /// Invoked when a game state has been updated
         /// </summary>
         /// <param name="state">The game state</param>
-        public void StateUpdated(GameState state)
+        public void StateUpdated()
         {
             // Override the shouldInvoke so we can't accidentally set it
-            bool shouldInvoke = InstantValidateCheck(state);
+            bool shouldInvoke = InstantValidateCheck();
 
             if (shouldInvoke & !myTimer.Enabled)
             {
@@ -169,9 +170,9 @@ namespace Durak.Server
         /// <summary>
         /// Instantly validates that this bot can play, this is used with think timers to make sure it is still the bots turn to play
         /// </summary>
-        /// <param name="state">The state to check against</param>
+        /// <param name="server">The server to excecute on</param>
         /// <returns>True if this bot can invoke, false if otherwise</returns>
-        public bool InstantValidateCheck(GameState state)
+        public bool InstantValidateCheck()
         {
             // Override the shouldInvoke so we can't accidentally set it
             bool shouldInvoke = Rules.BOT_INVOKE_RULES.Count > 0;
@@ -180,7 +181,7 @@ namespace Durak.Server
             foreach (IBotInvokeStateChecker stateChecker in Rules.BOT_INVOKE_RULES)
             {
                 // If one state check fails, they all fail
-                if (!stateChecker.ShouldInvoke(state, this))
+                if (!stateChecker.ShouldInvoke(myServer, this))
                 {
                     shouldInvoke = false;
                     break;
@@ -207,7 +208,7 @@ namespace Durak.Server
             foreach(IAIRule rule in Rules.AI_RULES)
             {
                 // Get the proposed move
-                rule.Propose(myProposedMoves, myServer.GameState, myPlayer.Hand);             
+                rule.Propose(myProposedMoves, myServer, myPlayer.Hand);             
             }
 
             for(int index = 0; index < myProposedMoves.Count; index ++)

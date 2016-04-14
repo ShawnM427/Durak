@@ -135,5 +135,9 @@ namespace DurakGame
         {
             myServers.AddItem(tag);
         }
+
+        private void btnDirect_Click(object sender, EventArgs e)
+        {
+        }
     }
 }

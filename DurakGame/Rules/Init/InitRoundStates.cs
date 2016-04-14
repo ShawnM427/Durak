@@ -42,47 +42,46 @@ namespace DurakGame.Rules
         /// <summary>
         /// Initializes the game state, including building the deck and dealing initial cards
         /// </summary>
-        /// <param name="players">The server's player collection</param>
-        /// <param name="state">The server's game state</param>
-        public void InitState(PlayerCollection players, GameState state)
+        /// <param name="server">The server to excecute on</param>
+        public void InitState(GameServer server)
         {
-            state.Set(Names.IS_ATTACKING, true);
-            state.Set(Names.ATTACKER_FORFEIT, false);
-            state.Set(Names.DEFENDER_FORFEIT, false);
-            state.Set(Names.REQUEST_HELP, false);
+            server.GameState.Set(Names.IS_ATTACKING, true);
+            server.GameState.Set(Names.ATTACKER_FORFEIT, false);
+            server.GameState.Set(Names.DEFENDER_FORFEIT, false);
+            server.GameState.Set(Names.REQUEST_HELP, false);
 
             // Determine starting attacking and defending players
             byte attackingPlayerId = 0;
             byte defendingPlayerId = 1;
 
-            while (players[attackingPlayerId] == null)
-                attackingPlayerId = (byte)(attackingPlayerId + 1 >= players.Count ? 0 : attackingPlayerId + 1);
+            while (server.Players[attackingPlayerId] == null)
+                attackingPlayerId = (byte)(attackingPlayerId + 1 >= server.Players.Count ? 0 : attackingPlayerId + 1);
 
-            while (players[defendingPlayerId] == null)
-                defendingPlayerId = (byte)(defendingPlayerId + 1 >= players.Count ? 0 : defendingPlayerId + 1);
+            while (server.Players[defendingPlayerId] == null)
+                defendingPlayerId = (byte)(defendingPlayerId + 1 >= server.Players.Count ? 0 : defendingPlayerId + 1);
 
-            state.Set(Names.ATTACKING_PLAYER, attackingPlayerId);
-            state.Set(Names.DEFENDING_PLAYER, defendingPlayerId);
+            server.GameState.Set(Names.ATTACKING_PLAYER, attackingPlayerId);
+            server.GameState.Set(Names.DEFENDING_PLAYER, defendingPlayerId);
 
             // Build the deck
             Deck deck = new Deck(CardRank.Six, CardRank.Ace);
             deck.Shuffle();
 
             // Draw the trump card
-            state.Set<PlayingCard>(Names.TRUMP_CARD, deck.Draw());
+            server.GameState.Set<PlayingCard>(Names.TRUMP_CARD, deck.Draw());
 
             // Set the deck on the state to be serverside
-            state.Set<int>(Names.DECK_COUNT, deck.CardsInDeck);
-            state.Set<CardCollection>(Names.DECK, deck.GetCards(), true);
+            server.GameState.Set<int>(Names.DECK_COUNT, deck.CardsInDeck);
+            server.GameState.Set<CardCollection>(Names.DECK, deck.GetCards(), true);
 
             // Make the discard pile
-            state.Set(Names.DISCARD, new CardCollection());
+            server.GameState.Set(Names.DISCARD, new CardCollection());
 
             // Initialize the battle slots
             for (int index = 0; index < 6; index ++)
             {
-                state.Set<PlayingCard>(Names.DEFENDING_CARD, index, null);
-                state.Set<PlayingCard>(Names.ATTACKING_CARD, index, null);
+                server.GameState.Set<PlayingCard>(Names.DEFENDING_CARD, index, null);
+                server.GameState.Set<PlayingCard>(Names.ATTACKING_CARD, index, null);
             }
         }
     }

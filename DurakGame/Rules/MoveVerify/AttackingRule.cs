@@ -24,14 +24,14 @@ namespace DurakGame.Rules
             }
         }
 
-        public bool IsValidMove(PlayerCollection players, GameMove move, GameState currentState, ref string reason)
+        public bool IsValidMove(GameServer server, GameMove move, ref string reason)
         {
-            if (currentState.GetValueBool(Names.IS_ATTACKING) && (move.Player.PlayerId == currentState.GetValueByte(Names.ATTACKING_PLAYER) || currentState.GetValueBool(Names.REQUEST_HELP)))
+            if (server.GameState.GetValueBool(Names.IS_ATTACKING) && (move.Player.PlayerId == server.GameState.GetValueByte(Names.ATTACKING_PLAYER) || server.GameState.GetValueBool(Names.REQUEST_HELP)))
             {
                 if (move.Move == null)
                     return true;
 
-                int round = currentState.GetValueInt(Names.CURRENT_ROUND);
+                int round = server.GameState.GetValueInt(Names.CURRENT_ROUND);
 
                 if (round == 0)
                 {
@@ -44,8 +44,8 @@ namespace DurakGame.Rules
                     for (int index = 0; index < round; index++)
                     {
                         if (
-                            move.Move.Rank == currentState.GetValueCard(Names.ATTACKING_CARD, index).Rank ||
-                            move.Move.Rank == currentState.GetValueCard(Names.DEFENDING_CARD, index).Rank)
+                            move.Move.Rank == server.GameState.GetValueCard(Names.ATTACKING_CARD, index).Rank ||
+                            move.Move.Rank == server.GameState.GetValueCard(Names.DEFENDING_CARD, index).Rank)
                             canPlay = true;
                     }
 
@@ -55,7 +55,7 @@ namespace DurakGame.Rules
                     return canPlay;
                 }
             }
-            else if (!currentState.GetValueBool(Names.IS_ATTACKING))
+            else if (!server.GameState.GetValueBool(Names.IS_ATTACKING))
                 return true;
             else
                 return false;

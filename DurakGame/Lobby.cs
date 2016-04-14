@@ -173,7 +173,7 @@ namespace DurakGame
         /// <param name="message">The message that the player sent</param>
         private void PlayerChat(object sender, Player player, string message)
         {
-            txtChat.AppendText(string.Format("{0}: {1}\n", player.Name, message));
+            txtChat.AppendText(string.Format("[{0}]: {1}\n", player == null ? "Server" :  player.Name, message));
         }
 
         /// <summary>

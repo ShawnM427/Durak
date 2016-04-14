@@ -11,6 +11,7 @@ using System.Drawing;
 using System.Windows.Forms;
 
 using Durak.Common.Cards;
+using System.Drawing.Imaging;
 
 namespace Durak
 {
@@ -171,7 +172,17 @@ namespace Durak
         /// An event the client program can handle when the card flips face up/down
         /// </summary>
         public event EventHandler CardFlipped;
-        
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnEnabledChanged(EventArgs e)
+        {
+            base.OnEnabledChanged(e);
+            Invalidate();
+        }
+
         /// <summary>
         /// Overrides the onPaint event, rendering this card
         /// </summary>
@@ -179,7 +190,12 @@ namespace Durak
         protected override void OnPaint(PaintEventArgs e)
         {
             if (myCard != null && myCard.GetCardImage() != null)
+            {
+                Color disabledColor = Color.FromArgb(Enabled ? 0 : 128, 255, 255, 255);
+                
                 e.Graphics.DrawImage(myCard.GetCardImage(), 0, 0, Width, Height);
+                e.Graphics.FillRectangle(new SolidBrush(disabledColor), 0, 0, Width, Height);
+            }
         }
 
         #endregion

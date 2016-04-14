@@ -30,26 +30,26 @@ namespace DurakGame.Rules
             get { return "Deal cards"; }
         }
 
-        public void InitState(PlayerCollection players, GameState state)
+        public void InitState(GameServer server)
         {
             // Get the deck
-            Deck toDrawFrom = new Deck(state.GetValueCardCollection(Names.DECK));
+            Deck toDrawFrom = new Deck(server.GameState.GetValueCardCollection(Names.DECK));
 
             // Iterate over all players
-            for (byte index = 0; index < players.Count; index++)
+            for (byte index = 0; index < server.Players.Count; index++)
             {
                 // If the player exists
-                if (players[index] != null)
+                if (server.Players[index] != null)
                 {
                     // Add 6 cards to their hand
                     for (int cIndex = 0; cIndex < 6; cIndex++)
-                        players[index].Hand.Add(toDrawFrom.Draw());
+                        server.Players[index].Hand.Add(toDrawFrom.Draw());
                 }
             }
 
             // Update the deck and the count in the state
-            state.Set<CardCollection>(Names.DECK, toDrawFrom.Cards);
-            state.Set<int>(Names.DECK_COUNT, toDrawFrom.CardsInDeck);
+            server.GameState.Set<CardCollection>(Names.DECK, toDrawFrom.Cards);
+            server.GameState.Set<int>(Names.DECK_COUNT, toDrawFrom.CardsInDeck);
         }
     }
 }
