@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -22,7 +23,7 @@ namespace DurakGame
         Timer myTimer;
         DiscoveredServerCollection myServers;
 
-        Dictionary<ServerTag, ListViewItem> myListItems;
+        Dictionary<ServerTag, DataGridViewRow> myListItems;
 
         /// <summary>
         /// Creates and initializes a new server browser form
@@ -39,10 +40,29 @@ namespace DurakGame
         /// </summary>
         public void Initialize()
         {
+            InitClient();
+
+            myServers = new DiscoveredServerCollection();
+            myServers.OnNewServerDiscovered += NewServerDiscovered;
+            myServers.OnServerUpdated += ServerUpdated;
+
+            myListItems = new Dictionary<ServerTag, DataGridViewRow>();
+
+
+            dgvServers.MouseDoubleClick += ServerListDoubleClicked;
+        }
+        
+        /// <summary>
+        /// Handles setting up the game client
+        /// </summary>
+        private void InitClient()
+        {
             myClient = new GameClient(new ClientTag(Settings.Default.UserName));
             myClient.OnServerDiscovered += ServerDiscovered;
 
             myClient.Run();
+
+            myClient.OnConnected += ClientConnected;
 
             myClient.DiscoverServers();
             myTimer = new Timer();
@@ -50,14 +70,6 @@ namespace DurakGame
             myTimer.Enabled = true;
             myTimer.Tick += PollServersEvent;
             myTimer.Start();
-
-            myServers = new DiscoveredServerCollection();
-            myServers.OnNewServerDiscovered += NewServerDiscovered;
-            myServers.OnServerUpdated += ServerUpdated;
-
-            myListItems = new Dictionary<ServerTag, ListViewItem>();
-
-            lstServers.MouseDoubleClick += ServerListDoubleClicked;
         }
 
         /// <summary>
@@ -67,29 +79,54 @@ namespace DurakGame
         /// <param name="e">The mouse event argument containing the mouse information</param>
         private void ServerListDoubleClicked(object sender, MouseEventArgs e)
         {
-            ListViewItem item = lstServers.HitTest(e.Location).Item;
+            int row = dgvServers.HitTest(e.X, e.Y).RowIndex;
 
-            if (item != null)
+            if (row >= 0 && row < dgvServers.RowCount)
             {
-                if (!myClient.IsReady)
-                    myClient.Run();
+                DataGridViewRow dataRow = dgvServers.Rows[row];
 
-                ServerTag tag = (ServerTag)item.Tag;
-
-                Hide();
-
-                frmLobby lobby = new frmLobby();
-                lobby.InitMultiplayer(myClient, tag);
-                DialogResult result = lobby.ShowDialog();
-
-                if (result == DialogResult.OK)
-                    Close();
-                else
+                if (dataRow != null)
                 {
-                    Show();
-                    myClient.Run();
+                    if (!myClient.IsReady)
+                        myClient.Run();
+
+
+                    ServerTag tag = (ServerTag)dataRow.Tag;
+
+                    string password = "";
+
+                    if (tag.PasswordProtected)
+                    {
+                        password = Prompt.ShowDialog("Enter password", "Enter Password");
+                    }
+
+                    myClient.ConnectTo(tag);
                 }
             }
+        }
+
+        private void ClientConnected(object sender, EventArgs e)
+        {
+            myTimer.Stop();
+
+            Hide();
+
+            frmLobby lobby = new frmLobby();
+            lobby.InitMultiplayer(myClient);
+            DialogResult result = lobby.ShowDialog();
+
+            if (!myClient.IsReady)
+                myClient.Run();
+
+            System.Threading.Thread.Sleep(25);
+
+            myServers.Clear();
+            dgvServers.Rows.Clear();
+            myClient.OnServerDiscovered += ServerDiscovered;
+            myClient.DiscoverServers();
+            myTimer.Start();
+
+            Show();
         }
 
         /// <summary>
@@ -99,8 +136,8 @@ namespace DurakGame
         /// <param name="e">The server tag that was updated</param>
         private void ServerUpdated(object sender, ServerTag e)
         {
-            myListItems[e].SubItems[0].Text = e.Name;
-            myListItems[e].SubItems[1].Text = e.PlayerCount + "/" + e.SupportedPlayerCount;
+            myListItems[e].Cells[0].Value = e.Name;
+            myListItems[e].Cells[1].Value = e.PlayerCount + "/" + e.SupportedPlayerCount;
         }
 
         /// <summary>
@@ -110,10 +147,19 @@ namespace DurakGame
         /// <param name="tag">The server tag that was discovered</param>
         private void NewServerDiscovered(object sender, ServerTag tag)
         {
-            ListViewItem item = new ListViewItem(new string[] { tag.Name, tag.PlayerCount + "/" + tag.SupportedPlayerCount });
-            item.Tag = tag;
-            myListItems.Add(tag, item);
-            lstServers.Items.Add(item);
+            DataGridViewRow row = new DataGridViewRow();
+            row.Tag = tag;
+            row.CreateCells(dgvServers);
+            row.Cells[0].Value = tag.Name;
+            row.Cells[1].Value = tag.PlayerCount + "/" + tag.SupportedPlayerCount;
+
+            dgvServers.Rows.Add(row);
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            myTimer.Tick -= PollServersEvent;
+            myTimer.Stop();
         }
 
         /// <summary>
@@ -138,6 +184,26 @@ namespace DurakGame
 
         private void btnDirect_Click(object sender, EventArgs e)
         {
+            IPAddress address = null;
+
+            if (IPAddress.TryParse(txtDirect.Text, out address))
+            {
+                myClient.TryDirectConnect(address);
+            }
+            else
+            {
+                MessageBox.Show("Could not parse IP, please ensure it was entered correctly");
+                txtDirect.Focus();
+                txtDirect.SelectAll();
+            }
+        }
+
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            myClient.Stop();
+            myClient = null;
+
+            Close();
         }
     }
 }

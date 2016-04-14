@@ -191,10 +191,13 @@ namespace Durak
         {
             if (myCard != null && myCard.GetCardImage() != null)
             {
-                Color disabledColor = Color.FromArgb(Enabled ? 0 : 128, 255, 255, 255);
-                
-                e.Graphics.DrawImage(myCard.GetCardImage(), 0, 0, Width, Height);
-                e.Graphics.FillRectangle(new SolidBrush(disabledColor), 0, 0, Width, Height);
+                Color disabledColor = Color.FromArgb(Enabled ? 0 : 128, 128, 128, 128);
+
+                using (Brush brush = new SolidBrush(disabledColor))
+                {
+                    e.Graphics.DrawImage(myCard.GetCardImage(), 0, 0, Width, Height);
+                    e.Graphics.FillRectangle(brush, 0, 0, Width, Height);
+                }
             }
         }
 

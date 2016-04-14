@@ -38,6 +38,17 @@ namespace Durak.Common
         private bool isPasswordProtected;
 
         /// <summary>
+        /// Creates a new empty server tag for attempting to connect to a remote server
+        /// </summary>
+        /// <param name="address">The server's IP address</param>
+        public ServerTag(IPAddress address) : this()
+        {
+            myAddress = new IPEndPoint(address, NetSettings.DEFAULT_SERVER_PORT);
+            myName = "Unkown";
+            myDescription = "Unknown";
+        }
+
+        /// <summary>
         /// Gets the player count for this server
         /// </summary>
         public int PlayerCount
@@ -100,10 +111,12 @@ namespace Durak.Common
         public void WriteToPacket(NetOutgoingMessage outMessage)
         {
             outMessage.Write(myPlayerCount);
+            outMessage.Write(mySupportedPlayerCount);
             outMessage.Write((byte)myState);
             outMessage.Write(myName);
             outMessage.Write(myDescription);
             outMessage.Write(isPasswordProtected);
+            outMessage.WritePadBits();
         }
 
         /// <summary>
@@ -116,10 +129,12 @@ namespace Durak.Common
             ServerTag result = new ServerTag();
 
             result.myPlayerCount = inMessage.ReadInt32();
+            result.mySupportedPlayerCount = inMessage.ReadInt32();
             result.myState = (ServerState)inMessage.ReadByte();
             result.myName = inMessage.ReadString();
             result.myDescription = inMessage.ReadString();
             result.isPasswordProtected = inMessage.ReadBoolean();
+            inMessage.ReadPadBits();
             result.myAddress = inMessage.SenderEndPoint;
 
             return result;

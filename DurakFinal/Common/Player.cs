@@ -1,6 +1,5 @@
 ﻿using System;
 using Durak.Common.Cards;
-using Durak.Server;
 using Lidgren.Network;
 
 namespace Durak.Common
@@ -170,18 +169,6 @@ namespace Durak.Common
         {
             Player result = new Player(PlayerId, Name, true);
             return result;
-        }
-
-        /// <summary>
-        /// Creates a bot player for this player
-        /// </summary>
-        /// <param name="gameServer">The server that the bot exists on</param>
-        /// <param name="difficulty">The bots difficulty level from 0-1</param>
-        /// <returns>A bot for this player</returns>
-        public BotPlayer CreateBot(GameServer gameServer, float difficulty)
-        {
-            Player player = this.Clone();
-            return new BotPlayer(gameServer, player, difficulty);
         }
     }
 }

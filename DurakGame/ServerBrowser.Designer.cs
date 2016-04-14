@@ -28,32 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
-            "",
-            "TEst",
-            "0 / 5"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("");
-            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("");
-            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem("");
-            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem("");
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label1 = new System.Windows.Forms.Label();
             this.txtDirect = new System.Windows.Forms.TextBox();
             this.btnDirect = new System.Windows.Forms.Button();
-            this.lstServers = new System.Windows.Forms.ListView();
-            this.clmServerName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.clmNumPlayers = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.btnListConnect = new System.Windows.Forms.Button();
-            this.txtSelected = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
+            this.dgvServers = new System.Windows.Forms.DataGridView();
+            this.btnBack = new System.Windows.Forms.Button();
+            this.clmServerName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmServerPlayers = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvServers)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(14, 15);
+            this.label1.Location = new System.Drawing.Point(14, 272);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(89, 13);
             this.label1.TabIndex = 0;
@@ -61,14 +50,14 @@
             // 
             // txtDirect
             // 
-            this.txtDirect.Location = new System.Drawing.Point(109, 12);
+            this.txtDirect.Location = new System.Drawing.Point(109, 269);
             this.txtDirect.Name = "txtDirect";
-            this.txtDirect.Size = new System.Drawing.Size(108, 20);
+            this.txtDirect.Size = new System.Drawing.Size(106, 20);
             this.txtDirect.TabIndex = 1;
             // 
             // btnDirect
             // 
-            this.btnDirect.Location = new System.Drawing.Point(223, 10);
+            this.btnDirect.Location = new System.Drawing.Point(221, 267);
             this.btnDirect.Name = "btnDirect";
             this.btnDirect.Size = new System.Drawing.Size(102, 23);
             this.btnDirect.TabIndex = 2;
@@ -76,98 +65,65 @@
             this.btnDirect.UseVisualStyleBackColor = true;
             this.btnDirect.Click += new System.EventHandler(this.btnDirect_Click);
             // 
-            // lstServers
+            // dgvServers
             // 
-            this.lstServers.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.dgvServers.AllowUserToAddRows = false;
+            this.dgvServers.AllowUserToDeleteRows = false;
+            this.dgvServers.AllowUserToOrderColumns = true;
+            this.dgvServers.AllowUserToResizeColumns = false;
+            this.dgvServers.AllowUserToResizeRows = false;
+            this.dgvServers.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvServers.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.dgvServers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvServers.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.clmServerName,
-            this.clmNumPlayers});
-            this.lstServers.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.lstServers.FullRowSelect = true;
-            this.lstServers.GridLines = true;
-            this.lstServers.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1,
-            listViewItem2,
-            listViewItem3,
-            listViewItem4,
-            listViewItem5});
-            this.lstServers.Location = new System.Drawing.Point(0, 93);
-            this.lstServers.Name = "lstServers";
-            this.lstServers.Size = new System.Drawing.Size(335, 209);
-            this.lstServers.TabIndex = 3;
-            this.lstServers.UseCompatibleStateImageBehavior = false;
+            this.clmServerPlayers});
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.Desktop;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvServers.DefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvServers.Location = new System.Drawing.Point(17, 39);
+            this.dgvServers.Name = "dgvServers";
+            this.dgvServers.RowHeadersVisible = false;
+            this.dgvServers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvServers.Size = new System.Drawing.Size(306, 222);
+            this.dgvServers.TabIndex = 10;
+            // 
+            // btnBack
+            // 
+            this.btnBack.Location = new System.Drawing.Point(17, 10);
+            this.btnBack.Name = "btnBack";
+            this.btnBack.Size = new System.Drawing.Size(102, 23);
+            this.btnBack.TabIndex = 11;
+            this.btnBack.Text = "Back";
+            this.btnBack.UseVisualStyleBackColor = true;
+            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
             // clmServerName
             // 
-            this.clmServerName.Text = "Name";
+            this.clmServerName.FillWeight = 150F;
+            this.clmServerName.HeaderText = "Server Name";
+            this.clmServerName.Name = "clmServerName";
+            this.clmServerName.ReadOnly = true;
             // 
-            // clmNumPlayers
+            // clmServerPlayers
             // 
-            this.clmNumPlayers.Text = "Players";
-            // 
-            // btnListConnect
-            // 
-            this.btnListConnect.Location = new System.Drawing.Point(223, 45);
-            this.btnListConnect.Name = "btnListConnect";
-            this.btnListConnect.Size = new System.Drawing.Size(102, 23);
-            this.btnListConnect.TabIndex = 4;
-            this.btnListConnect.Text = "List Connect";
-            this.btnListConnect.UseVisualStyleBackColor = true;
-            // 
-            // txtSelected
-            // 
-            this.txtSelected.Location = new System.Drawing.Point(109, 47);
-            this.txtSelected.Name = "txtSelected";
-            this.txtSelected.Size = new System.Drawing.Size(108, 20);
-            this.txtSelected.TabIndex = 5;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(4, 50);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(99, 13);
-            this.label2.TabIndex = 6;
-            this.label2.Text = "Selected Server IP:";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(4, 77);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(69, 13);
-            this.label3.TabIndex = 7;
-            this.label3.Text = "Server Name";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(137, 77);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(58, 13);
-            this.label4.TabIndex = 8;
-            this.label4.Text = "IP Address";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(282, 77);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(41, 13);
-            this.label5.TabIndex = 9;
-            this.label5.Text = "Players";
+            this.clmServerPlayers.FillWeight = 50F;
+            this.clmServerPlayers.HeaderText = "Players";
+            this.clmServerPlayers.Name = "clmServerPlayers";
+            this.clmServerPlayers.ReadOnly = true;
             // 
             // frmServerBrowser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(335, 302);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.txtSelected);
-            this.Controls.Add(this.btnListConnect);
-            this.Controls.Add(this.lstServers);
+            this.Controls.Add(this.btnBack);
+            this.Controls.Add(this.dgvServers);
             this.Controls.Add(this.btnDirect);
             this.Controls.Add(this.txtDirect);
             this.Controls.Add(this.label1);
@@ -176,6 +132,7 @@
             this.MinimizeBox = false;
             this.Name = "frmServerBrowser";
             this.Text = "Select Server";
+            ((System.ComponentModel.ISupportInitialize)(this.dgvServers)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -186,14 +143,9 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtDirect;
         private System.Windows.Forms.Button btnDirect;
-        private System.Windows.Forms.ListView lstServers;
-        private System.Windows.Forms.Button btnListConnect;
-        private System.Windows.Forms.TextBox txtSelected;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.ColumnHeader clmServerName;
-        private System.Windows.Forms.ColumnHeader clmNumPlayers;
+        private System.Windows.Forms.DataGridView dgvServers;
+        private System.Windows.Forms.Button btnBack;
+        private System.Windows.Forms.DataGridViewTextBoxColumn clmServerName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn clmServerPlayers;
     }
 }

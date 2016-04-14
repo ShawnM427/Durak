@@ -73,5 +73,14 @@ namespace DurakGame
 
             this.Show();
         }
+
+        private void btnSettings_Click(object sender, EventArgs e)
+        {
+            Hide();
+
+            new frmSettings().ShowDialog();
+
+            Show();
+        }
     }
 }

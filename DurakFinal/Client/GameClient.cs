@@ -63,6 +63,10 @@ namespace Durak.Client
         /// Stores the client's hand
         /// </summary>
         private CardCollection myHand;
+        /// <summary>
+        /// Stores whether we are currently awaiting approval to connect
+        /// </summary>
+        private bool isApproving;
 
         #endregion
 
@@ -156,6 +160,10 @@ namespace Durak.Client
         /// Invoked when the game host cannot start the game
         /// </summary>
         public event EventHandler<string> OnCannotStartGame;
+        /// <summary>
+        /// Invoked when the server has sucessfully updated the bot settings
+        /// </summary>
+        public event EventHandler OnBotSettingsUpdated;
 
         #endregion
 
@@ -316,6 +324,7 @@ namespace Durak.Client
             myMessageHandlers.Add(MessageType.PlayerHandChanged, HandleCardChanged);
 
             myMessageHandlers.Add(MessageType.CannotStart, HandleCannotStart);
+            myMessageHandlers.Add(MessageType.HostReqBotSettings, HandleBotSettingsChanged);
         }
 
         /// <summary>
@@ -323,8 +332,13 @@ namespace Durak.Client
         /// </summary>
         public void Run()
         {
-            // Start listening to messages
-            myPeer.Start();
+            if (myPeer.Status == NetPeerStatus.NotRunning || myPeer.Status == NetPeerStatus.ShutdownRequested)
+            {
+                myPeer.Configuration.Port = NetUtils.GetOpenPort(NetSettings.DEFAULT_SERVER_PORT + 1);
+
+                // Start listening to messages
+                myPeer.Start();
+            }
         }
 
         /// <summary>
@@ -375,17 +389,19 @@ namespace Durak.Client
                                 {
                                     OnConnectionTimedOut?.Invoke(this, EventArgs.Empty);
 
-                                    OnConnectionFailed?.Invoke(this, reason);
-
                                     OnDisconnected?.Invoke(this, EventArgs.Empty);
                                 }
                                 // Otherwise the connection failed for some other reason
                                 else
                                 {
-                                    OnConnectionFailed?.Invoke(this, reason);
 
                                     OnDisconnected?.Invoke(this, EventArgs.Empty);
                                 }
+
+                                if (isApproving)
+                                    OnConnectionFailed?.Invoke(this, reason);
+
+                                isApproving = false;
 
                                 // Clear local state and forget connected server tag
                                 myLocalState.Clear();
@@ -395,11 +411,15 @@ namespace Durak.Client
 
                                 break;
 
+                            case NetConnectionStatus.RespondedAwaitingApproval:
+                                isApproving = true;
+                                break;
+
                             // We connected 
                             case NetConnectionStatus.Connected:
+                                isApproving = false;
                                 // invoked the onConnected event
                                 OnConnected?.Invoke(this, EventArgs.Empty);
-
                                 break;
 
                         }
@@ -502,6 +522,18 @@ namespace Durak.Client
         {
             StateParameter.Decode(inMsg, myLocalState);
         }
+        
+        /// <summary>
+        /// Handles when the servers bot settings have been updated
+        /// </summary>
+        /// <param name="msg">The message to decode from</param>
+        private void HandleBotSettingsChanged(NetIncomingMessage msg)
+        {
+            msg.ReadBoolean();
+            msg.ReadPadBits();
+
+            OnBotSettingsUpdated?.Invoke(this, EventArgs.Empty);
+        }
 
         /// <summary>
         /// Handles when the connection info packet was recevied
@@ -512,6 +544,8 @@ namespace Durak.Client
             myPlayerId = inMsg.ReadByte();
             isHost = inMsg.ReadBoolean();
             inMsg.ReadPadBits();
+
+            myConnectedServer = ServerTag.ReadFromPacket(inMsg);
 
             int supportedPlayers = inMsg.ReadInt32();
             int numPlayers = inMsg.ReadByte();
@@ -729,7 +763,7 @@ namespace Durak.Client
                 if (myConnectedServer != null)
                 {
                     // Disconnect and set the server tag to null
-                    myPeer.GetConnection(myConnectedServer.Value.Address).Disconnect(NetSettings.DEFAULT_CLIENT_SHUTDOWN_MESSAGE);
+                    myPeer.Connections.ForEach( X => X.Disconnect(NetSettings.DEFAULT_CLIENT_SHUTDOWN_MESSAGE));
                     myConnectedServer = null;
                 }
             }
@@ -758,6 +792,34 @@ namespace Durak.Client
 
                 // Attempt the connection
                 myPeer.Connect(new IPEndPoint(server.IP, NetSettings.DEFAULT_SERVER_PORT), hailMessage);
+            }
+            else
+                throw new InvalidOperationException("Cannot connect when this client is already connected");
+        }
+
+        /// <summary>
+        /// attempts to connect to the server at the given address
+        /// </summary>
+        /// <param name="address">The address of the server to connect to</param>
+        /// <param name="serverPassword">The SHA256 encrypted password to connect to the server</param>
+        public void TryDirectConnect(IPAddress address, string serverPassword = "")
+        {
+            if (myConnectedServer == null)
+            {
+                // Hash the password before sending
+                if (!string.IsNullOrWhiteSpace(serverPassword))
+                    serverPassword = SecurityUtils.Hash(serverPassword);
+
+                // Write the hail message and send it
+                NetOutgoingMessage hailMessage = myPeer.CreateMessage();
+                myTag.WriteToPacket(hailMessage);
+                hailMessage.Write(serverPassword);
+
+                // Update our connected tag
+                myConnectedServer = new ServerTag(address);
+
+                // Attempt the connection
+                myPeer.Connect(new IPEndPoint(address, NetSettings.DEFAULT_SERVER_PORT), hailMessage);
             }
             else
                 throw new InvalidOperationException("Cannot connect when this client is already connected");
@@ -846,6 +908,28 @@ namespace Durak.Client
                 NetOutgoingMessage msg = myPeer.CreateMessage();
                 msg.Write((byte)MessageType.RequestState);
                 param.Encode(msg);
+                Send(msg);
+            }
+        }
+
+        /// <summary>
+        /// Requests the server to set a state to a given value
+        /// </summary>
+        /// <param name="thinkEnabled">True if the server should simulate bot thinking time</param>
+        /// <param name="minThinkTime">The minimum time for bots to think in milliseconds</param>
+        /// <param name="maxThinkTime">The maximum time for bots to think in milliseconds</param>
+        /// <param name="defaultDifficulty">The default difficulty for new bots and player bots</param>
+        public void RequestBotSettings(bool thinkEnabled, int minThinkTime, int maxThinkTime, float defaultDifficulty)
+        {
+            if (IsConnected)
+            {
+                NetOutgoingMessage msg = myPeer.CreateMessage();
+                msg.Write((byte)MessageType.HostReqBotSettings);
+                msg.Write(thinkEnabled);
+                msg.WritePadBits();
+                msg.Write(minThinkTime);
+                msg.Write(maxThinkTime);
+                msg.Write(defaultDifficulty);
                 Send(msg);
             }
         }

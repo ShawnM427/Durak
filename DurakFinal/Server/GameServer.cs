@@ -144,7 +144,7 @@ namespace Durak.Server
         /// </summary>
         public string Password
         {
-            set { myPassword = SecurityUtils.Hash(value); }
+            set { SetPassword(value); }
         }
         /// <summary>
         /// Gets this server instance's tag
@@ -310,6 +310,7 @@ namespace Durak.Server
             myMessageHandlers.Add(MessageType.HostReqKick, HandleHostReqKick);
             myMessageHandlers.Add(MessageType.PlayerChat, HandlePlayerChat);
             myMessageHandlers.Add(MessageType.RequestState, HandleGameStateRequest);
+            myMessageHandlers.Add(MessageType.HostReqBotSettings, HandleHostReqBotSettings);
         }
 
         /// <summary>
@@ -556,15 +557,18 @@ namespace Durak.Server
             }
             else
             {
-                // Add a bot
-                BotPlayer bot = player.CreateBot(this, 0.5f);
+                if (State != ServerState.InLobby && !player.IsBot)
+                {
+                    // Add a bot
+                    BotPlayer bot = BotPlayer.CreateBot(player, this);
 
-                bot.Player.OnCardAddedToHand += PlayerGainedCard;
-                bot.Player.OnCardRemovedFromHand += PlayerRemovedCard;
+                    bot.Player.OnCardAddedToHand += PlayerGainedCard;
+                    bot.Player.OnCardRemovedFromHand += PlayerRemovedCard;
 
-                myBots.Add(bot);
-                myPlayers[bot.Player.PlayerId] = bot.Player;
-                NotifyPlayerJoined(bot.Player);
+                    myBots.Add(bot);
+                    myPlayers[bot.Player.PlayerId] = bot.Player;
+                    NotifyPlayerJoined(bot.Player);
+                }
             }
         }
 
@@ -708,6 +712,8 @@ namespace Durak.Server
             msg.Write((byte)playerId);
             msg.Write((bool)(player == myGameHost));
             msg.WritePadBits();
+
+            myTag.WriteToPacket(msg);
 
             msg.Write(myPlayers.Count);
             msg.Write(myPlayers.PlayerCount);
@@ -930,6 +936,10 @@ namespace Durak.Server
                     // Handle when the server has received a discovery request
                     case NetIncomingMessageType.DiscoveryRequest:
 
+                        // Make sure our tag is up to date
+                        myTag.PlayerCount = myPlayers.PlayerCount;
+                        myTag.SupportedPlayerCount = myPlayers.Count;
+
                         // Prepare the response
                         NetOutgoingMessage msg = myServer.CreateMessage();
                         // Write the tag to the response
@@ -963,6 +973,9 @@ namespace Durak.Server
         /// </summary>
         public void PumpMessages()
         {
+            myTag.PlayerCount = myPlayers.PlayerCount;
+            myTag.SupportedPlayerCount = myPlayers.Count;
+
             // If we are in game, we should update the state
             if (myState == ServerState.InGame && isInitialized)
             {
@@ -1014,6 +1027,29 @@ namespace Durak.Server
                     Log("Invalid message received from \"{0}\" ({1})", myPlayers[inMessage.SenderConnection].Name, inMessage.SenderEndPoint);
                     inMessage.ReadBytes(inMessage.LengthBytes - inMessage.PositionInBytes);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Handles the host requesting bot settings to be applied
+        /// </summary>
+        /// <param name="msg">The message to decode</param>
+        private void HandleHostReqBotSettings(NetIncomingMessage msg)
+        {
+            if (myPlayers[msg.SenderConnection] == myGameHost)
+            {
+                BotPlayer.SimulateThinkTime = msg.ReadBoolean();
+                msg.ReadPadBits();
+                BotPlayer.ThinkSleepMinTime = msg.ReadInt32();
+                BotPlayer.ThinkSleepMaxTime = msg.ReadInt32();
+                BotPlayer.DefaultDifficulty = msg.ReadSingle();
+
+                NetOutgoingMessage response = myServer.CreateMessage();
+                response.Write((byte)MessageType.HostReqBotSettings);
+                response.Write(true);
+                response.WritePadBits();
+
+                myServer.SendMessage(response, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered);
             }
         }
 

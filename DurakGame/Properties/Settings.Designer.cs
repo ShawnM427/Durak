@@ -46,5 +46,65 @@ namespace DurakGame.Properties {
                 this["DefaultServerPassword"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Durak Server")]
+        public string DefaultServerName {
+            get {
+                return ((string)(this["DefaultServerName"]));
+            }
+            set {
+                this["DefaultServerName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("A durak server")]
+        public string DefaultServerDescription {
+            get {
+                return ((string)(this["DefaultServerDescription"]));
+            }
+            set {
+                this["DefaultServerDescription"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.5")]
+        public float DefaultBotDifficulty {
+            get {
+                return ((float)(this["DefaultBotDifficulty"]));
+            }
+            set {
+                this["DefaultBotDifficulty"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool DefaultBotsThink {
+            get {
+                return ((bool)(this["DefaultBotsThink"]));
+            }
+            set {
+                this["DefaultBotsThink"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("6")]
+        public int DefaultMaxPlayers {
+            get {
+                return ((int)(this["DefaultMaxPlayers"]));
+            }
+            set {
+                this["DefaultMaxPlayers"] = value;
+            }
+        }
     }
 }

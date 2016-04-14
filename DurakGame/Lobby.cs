@@ -28,6 +28,8 @@ namespace DurakGame
         /// </summary>
         private GameClient myClient;
 
+        private bool isParentControllingClient;
+
         /// <summary>
         /// Stores a list of all the player views
         /// </summary>
@@ -50,8 +52,13 @@ namespace DurakGame
         /// </summary>
         public void InitSinglePlayer()
         {
-            myServer = new GameServer(6);
+            myServer = new GameServer(Settings.Default.DefaultMaxPlayers);
             myServer.IsSinglePlayerMode = true;
+            
+            myServer.Name = Settings.Default.DefaultServerName;
+            myServer.Description = Settings.Default.DefaultServerDescription;
+            myServer.Password = Settings.Default.DefaultServerPassword;
+
             myServer.Run();
 
             InitClient();
@@ -64,10 +71,12 @@ namespace DurakGame
         /// </summary>
         public void InitMultiplayer()
         {
-            myServer = new GameServer(6);
-            myServer.Name = "Durak Game";
-            myServer.Description = "";
-            myServer.SetPassword(Settings.Default.DefaultServerPassword);
+            myServer = new GameServer(Settings.Default.DefaultMaxPlayers);
+            
+            myServer.Name = Settings.Default.DefaultServerName;
+            myServer.Description = Settings.Default.DefaultServerDescription;
+            myServer.Password = Settings.Default.DefaultServerPassword;
+
             myServer.Run();
 
             InitClient();
@@ -106,6 +115,7 @@ namespace DurakGame
             myServer = null;
 
             myClient = client;
+            isParentControllingClient = true;
 
             InitClient();
 
@@ -118,6 +128,23 @@ namespace DurakGame
             
             myClient.ConnectTo(tag, password);
             btnStart.Text = "Ready";
+        }
+
+        /// <summary>
+        /// Initializes the lobby in multiplayer mode, with the client already connected to the server
+        /// </summary>
+        /// <param name="client">The client to connect with</param>
+        public void InitMultiplayer(GameClient client)
+        {
+            myServer = null;
+
+            myClient = client;
+
+            isParentControllingClient = true;
+
+            InitClient();
+
+            ClientConnected(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -148,7 +175,7 @@ namespace DurakGame
         /// <param name="e">The default event arguments</param>
         private void ClientDisconnected(object sender, EventArgs e)
         {
-            MessageBox.Show("Disconnected from server", "Server Connection failed");
+            MessageBox.Show("Disconnected from server", "Disconnected");
             DialogResult = DialogResult.Abort;
             Close();
         }
@@ -226,6 +253,9 @@ namespace DurakGame
                 myViews.Add(view);
             }
             UpdatePlayerView();
+
+            lblServerName.Text = myClient.ConnectedServer.Value.Name;
+            lblServerDescription.Text = myClient.ConnectedServer.Value.Description;
         }
 
         /// <summary>
@@ -286,14 +316,20 @@ namespace DurakGame
 
                 mainForm.ShowDialog();
 
-                myClient.OnDisconnected += ClientDisconnected;
-                myClient.OnConnectionFailed += ClientConnectFailed;
-                myClient.OnConnected += ClientConnected;
+                System.Threading.Thread.Sleep(15);
 
                 if (myClient.ConnectedServer == null)
+                {
                     this.Close();
+                }
                 else
+                {
                     this.Show();
+
+                    myClient.OnDisconnected += ClientDisconnected;
+                    myClient.OnConnectionFailed += ClientConnectFailed;
+                    myClient.OnConnected += ClientConnected;
+                }
             }
         }
 
@@ -308,11 +344,12 @@ namespace DurakGame
             myClient.OnDisconnected -= ClientDisconnected;
             myClient.OnConnectionFailed -= ClientConnectFailed;
 
-            myServer?.Stop();
-            myClient?.Stop();
+            myClient?.Disconnect();
 
-            myServer = null;
-            myClient = null;
+            if (!isParentControllingClient)
+                myClient?.Stop();
+
+            myServer?.Stop();
         }
 
         /// <summary>
@@ -332,7 +369,7 @@ namespace DurakGame
         /// <param name="e">An empty event args</param>
         private void btnAddBot_Click(object sender, EventArgs e)
         {
-            myClient.RequestBot(128, txtBotName.Text);
+            myClient.RequestBot((byte)(Settings.Default.DefaultBotDifficulty * 255), txtBotName.Text);
         }
 
         /// <summary>

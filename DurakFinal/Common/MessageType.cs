@@ -29,6 +29,16 @@ namespace Durak.Common
         ///     string - reason
         /// </summary>
         HostReqKick                 = 33,
+        /// <summary>
+        /// Sent by host client to request serverside bot settings
+        /// 
+        /// Payload:
+        ///     boolean - Simulate think time
+        ///     int32   - Minimum think time
+        ///     int32   - Maximum think time
+        ///     float   - Default bot difficulty
+        /// </summary>
+        HostReqBotSettings          = 34,
 
         /// <summary>
         /// Sent by the server to notify that a game state parameter has changed

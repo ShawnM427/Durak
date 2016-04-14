@@ -34,26 +34,26 @@
             this.label7 = new System.Windows.Forms.Label();
             this.txtBotName = new System.Windows.Forms.TextBox();
             this.btnBack = new System.Windows.Forms.Button();
-            this.pnlGameSettings = new System.Windows.Forms.Panel();
+            this.grpGameSettings = new System.Windows.Forms.GroupBox();
             this.radioButton4 = new System.Windows.Forms.RadioButton();
             this.radioButton3 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.btnStart = new System.Windows.Forms.Button();
             this.txtMessage = new System.Windows.Forms.TextBox();
             this.btnSend = new System.Windows.Forms.Button();
-            this.pnlServerInfo = new System.Windows.Forms.Panel();
+            this.grpServerInfo = new System.Windows.Forms.GroupBox();
             this.lblServerDescription = new System.Windows.Forms.Label();
             this.lblServerName = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.txtChat = new System.Windows.Forms.TextBox();
+            this.chkSimulateBotThinkTime = new System.Windows.Forms.CheckBox();
             this.pnlPlayers.SuspendLayout();
             this.pnlAddBot.SuspendLayout();
-            this.pnlGameSettings.SuspendLayout();
-            this.pnlServerInfo.SuspendLayout();
+            this.grpGameSettings.SuspendLayout();
+            this.grpServerInfo.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlPlayers
@@ -113,25 +113,25 @@
             this.btnBack.UseVisualStyleBackColor = true;
             this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
-            // pnlGameSettings
+            // grpGameSettings
             // 
-            this.pnlGameSettings.AutoScroll = true;
-            this.pnlGameSettings.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlGameSettings.Controls.Add(this.radioButton4);
-            this.pnlGameSettings.Controls.Add(this.radioButton3);
-            this.pnlGameSettings.Controls.Add(this.radioButton2);
-            this.pnlGameSettings.Controls.Add(this.radioButton1);
-            this.pnlGameSettings.Controls.Add(this.label3);
-            this.pnlGameSettings.Controls.Add(this.label2);
-            this.pnlGameSettings.Location = new System.Drawing.Point(290, 119);
-            this.pnlGameSettings.Name = "pnlGameSettings";
-            this.pnlGameSettings.Size = new System.Drawing.Size(190, 398);
-            this.pnlGameSettings.TabIndex = 3;
+            this.grpGameSettings.Controls.Add(this.chkSimulateBotThinkTime);
+            this.grpGameSettings.Controls.Add(this.radioButton4);
+            this.grpGameSettings.Controls.Add(this.radioButton3);
+            this.grpGameSettings.Controls.Add(this.radioButton2);
+            this.grpGameSettings.Controls.Add(this.radioButton1);
+            this.grpGameSettings.Controls.Add(this.label3);
+            this.grpGameSettings.Location = new System.Drawing.Point(290, 151);
+            this.grpGameSettings.Name = "grpGameSettings";
+            this.grpGameSettings.Size = new System.Drawing.Size(190, 366);
+            this.grpGameSettings.TabIndex = 3;
+            this.grpGameSettings.TabStop = false;
+            this.grpGameSettings.Text = "Game Settings";
             // 
             // radioButton4
             // 
             this.radioButton4.AutoSize = true;
-            this.radioButton4.Location = new System.Drawing.Point(47, 93);
+            this.radioButton4.Location = new System.Drawing.Point(47, 276);
             this.radioButton4.Name = "radioButton4";
             this.radioButton4.Size = new System.Drawing.Size(80, 17);
             this.radioButton4.TabIndex = 5;
@@ -142,7 +142,7 @@
             // radioButton3
             // 
             this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(47, 70);
+            this.radioButton3.Location = new System.Drawing.Point(47, 253);
             this.radioButton3.Name = "radioButton3";
             this.radioButton3.Size = new System.Drawing.Size(94, 17);
             this.radioButton3.TabIndex = 4;
@@ -153,7 +153,7 @@
             // radioButton2
             // 
             this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(47, 47);
+            this.radioButton2.Location = new System.Drawing.Point(47, 230);
             this.radioButton2.Name = "radioButton2";
             this.radioButton2.Size = new System.Drawing.Size(70, 17);
             this.radioButton2.TabIndex = 3;
@@ -164,7 +164,7 @@
             // radioButton1
             // 
             this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(47, 24);
+            this.radioButton1.Location = new System.Drawing.Point(47, 207);
             this.radioButton1.Name = "radioButton1";
             this.radioButton1.Size = new System.Drawing.Size(73, 17);
             this.radioButton1.TabIndex = 2;
@@ -175,20 +175,11 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(4, 6);
+            this.label3.Location = new System.Drawing.Point(4, 189);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(88, 13);
             this.label3.TabIndex = 1;
             this.label3.Text = "Number of cards:";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(4, 135);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(76, 13);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "Game Settings";
             // 
             // btnStart
             // 
@@ -217,30 +208,31 @@
             this.btnSend.UseVisualStyleBackColor = true;
             this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
             // 
-            // pnlServerInfo
+            // grpServerInfo
             // 
-            this.pnlServerInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlServerInfo.Controls.Add(this.lblServerDescription);
-            this.pnlServerInfo.Controls.Add(this.lblServerName);
-            this.pnlServerInfo.Controls.Add(this.label5);
-            this.pnlServerInfo.Controls.Add(this.label4);
-            this.pnlServerInfo.Location = new System.Drawing.Point(290, 13);
-            this.pnlServerInfo.Name = "pnlServerInfo";
-            this.pnlServerInfo.Size = new System.Drawing.Size(190, 100);
-            this.pnlServerInfo.TabIndex = 7;
+            this.grpServerInfo.Controls.Add(this.lblServerDescription);
+            this.grpServerInfo.Controls.Add(this.lblServerName);
+            this.grpServerInfo.Controls.Add(this.label5);
+            this.grpServerInfo.Controls.Add(this.label4);
+            this.grpServerInfo.Location = new System.Drawing.Point(290, 13);
+            this.grpServerInfo.Name = "grpServerInfo";
+            this.grpServerInfo.Size = new System.Drawing.Size(190, 132);
+            this.grpServerInfo.TabIndex = 7;
+            this.grpServerInfo.TabStop = false;
+            this.grpServerInfo.Text = "Info";
             // 
             // lblServerDescription
             // 
-            this.lblServerDescription.Location = new System.Drawing.Point(4, 39);
+            this.lblServerDescription.Location = new System.Drawing.Point(6, 49);
             this.lblServerDescription.Name = "lblServerDescription";
-            this.lblServerDescription.Size = new System.Drawing.Size(183, 50);
+            this.lblServerDescription.Size = new System.Drawing.Size(183, 73);
             this.lblServerDescription.TabIndex = 3;
             this.lblServerDescription.Text = "DESCRIPTION";
             // 
             // lblServerName
             // 
             this.lblServerName.AutoSize = true;
-            this.lblServerName.Location = new System.Drawing.Point(82, 4);
+            this.lblServerName.Location = new System.Drawing.Point(84, 16);
             this.lblServerName.Name = "lblServerName";
             this.lblServerName.Size = new System.Drawing.Size(38, 13);
             this.lblServerName.TabIndex = 2;
@@ -249,7 +241,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(4, 21);
+            this.label5.Location = new System.Drawing.Point(6, 32);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(63, 13);
             this.label5.TabIndex = 1;
@@ -258,7 +250,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(4, 4);
+            this.label4.Location = new System.Drawing.Point(6, 16);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(72, 13);
             this.label4.TabIndex = 0;
@@ -272,17 +264,27 @@
             this.txtChat.Size = new System.Drawing.Size(271, 101);
             this.txtChat.TabIndex = 8;
             // 
+            // chkSimulateBotThinkTime
+            // 
+            this.chkSimulateBotThinkTime.AutoSize = true;
+            this.chkSimulateBotThinkTime.Location = new System.Drawing.Point(7, 20);
+            this.chkSimulateBotThinkTime.Name = "chkSimulateBotThinkTime";
+            this.chkSimulateBotThinkTime.Size = new System.Drawing.Size(141, 17);
+            this.chkSimulateBotThinkTime.TabIndex = 6;
+            this.chkSimulateBotThinkTime.Text = "Simulate Bot Think Time";
+            this.chkSimulateBotThinkTime.UseVisualStyleBackColor = true;
+            // 
             // frmLobby
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(491, 559);
             this.Controls.Add(this.txtChat);
-            this.Controls.Add(this.pnlServerInfo);
+            this.Controls.Add(this.grpServerInfo);
             this.Controls.Add(this.btnSend);
             this.Controls.Add(this.txtMessage);
             this.Controls.Add(this.btnStart);
-            this.Controls.Add(this.pnlGameSettings);
+            this.Controls.Add(this.grpGameSettings);
             this.Controls.Add(this.btnBack);
             this.Controls.Add(this.pnlPlayers);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
@@ -293,10 +295,10 @@
             this.pnlPlayers.ResumeLayout(false);
             this.pnlAddBot.ResumeLayout(false);
             this.pnlAddBot.PerformLayout();
-            this.pnlGameSettings.ResumeLayout(false);
-            this.pnlGameSettings.PerformLayout();
-            this.pnlServerInfo.ResumeLayout(false);
-            this.pnlServerInfo.PerformLayout();
+            this.grpGameSettings.ResumeLayout(false);
+            this.grpGameSettings.PerformLayout();
+            this.grpServerInfo.ResumeLayout(false);
+            this.grpServerInfo.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -306,13 +308,12 @@
 
         private System.Windows.Forms.Panel pnlPlayers;
         private System.Windows.Forms.Button btnBack;
-        private System.Windows.Forms.Panel pnlGameSettings;
+        private System.Windows.Forms.GroupBox grpGameSettings;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnStart;
         private System.Windows.Forms.TextBox txtMessage;
         private System.Windows.Forms.Button btnSend;
-        private System.Windows.Forms.Panel pnlServerInfo;
+        private System.Windows.Forms.GroupBox grpServerInfo;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Panel pnlAddBot;
@@ -326,5 +327,6 @@
         private System.Windows.Forms.Label lblServerName;
         private System.Windows.Forms.TextBox txtChat;
         private System.Windows.Forms.Button btnAddBot;
+        private System.Windows.Forms.CheckBox chkSimulateBotThinkTime;
     }
 }

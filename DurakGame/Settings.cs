@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DurakGame.Properties;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,12 +16,118 @@ namespace DurakGame
     /// </summary>
     public partial class frmSettings : Form
     {
+        private bool changesMade = false;
+
         /// <summary>
         /// Creates the new settings form
         /// </summary>
         public frmSettings()
         {
             InitializeComponent();
+
+            LoadSettingsView();
+        }
+
+        /// <summary>
+        /// Handles populating the controls with data from the settings
+        /// </summary>
+        private void LoadSettingsView()
+        {
+            txtPlayerName.Text = Settings.Default.UserName;
+
+            txtServerName.Text = Settings.Default.DefaultServerName;
+            txtServerDescription.Text = Settings.Default.DefaultServerDescription;
+            trkBotDifficulty.Value = (int)(Settings.Default.DefaultBotDifficulty * 100);
+            chkSimulateBotThink.Checked = Settings.Default.DefaultBotsThink;
+            trkNumPlayers.Value = Settings.Default.DefaultMaxPlayers;
+        }
+
+        /// <summary>
+        /// Handles populating the settings from the controls on the form
+        /// </summary>
+        private void ApplySettingsView()
+        {
+            Settings.Default.UserName = txtPlayerName.Text;
+
+            Settings.Default.DefaultServerName = txtServerName.Text;
+            Settings.Default.DefaultServerDescription = txtServerDescription.Text;
+            Settings.Default.DefaultBotDifficulty = trkBotDifficulty.Value / 100.0f;
+            Settings.Default.DefaultBotsThink = chkSimulateBotThink.Checked;
+            Settings.Default.DefaultMaxPlayers = trkNumPlayers.Value;
+        }
+
+        /// <summary>
+        /// Invoked by all settings controls when their value changes.
+        /// This 'dirties' the state and will make settigns be marked for updating
+        /// </summary>
+        /// <param name="sender">The control that invoked the event</param>
+        /// <param name="e">The empty event arguments</param>
+        private void InputValueChanged(object sender, EventArgs e)
+        {
+            changesMade = true;
+        }
+
+        /// <summary>
+        /// Invoked when the reset default button has been pressed
+        /// </summary>
+        /// <param name="sender">The button that invoked the event</param>
+        /// <param name="e">The empty event arguments</param>
+        private void btnSetDefaults_Click(object sender, EventArgs e)
+        {
+            Settings.Default.Reset();
+            changesMade = true;
+            LoadSettingsView();
+        }
+
+        /// <summary>
+        /// Invoked when the cancel button has been pressed
+        /// </summary>
+        /// <param name="sender">The button that invoked the event</param>
+        /// <param name="e">The empty event arguments</param>
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            if (changesMade)
+            {
+                DialogResult result = MessageBox.Show("You have unsaved changes, are you sure you want to leave?", "Confirm", MessageBoxButtons.YesNo);
+
+                if (result == DialogResult.Yes)
+                {
+                    Close();
+                }
+            }
+            else
+            {
+                Close();
+            }
+        }
+
+        /// <summary>
+        /// Invoked when the apply button has been pressed
+        /// </summary>
+        /// <param name="sender">The button that invoked the event</param>
+        /// <param name="e">The empty event arguments</param>
+        private void btnApply_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Are you sure you want to apply these settings?", "Confirm", MessageBoxButtons.YesNo);
+
+            if (result == DialogResult.Yes)
+            {
+                ApplySettingsView();
+                Settings.Default.Save();
+                Close();
+            }
+        }
+
+        /// <summary>
+        /// Invoked when the max players trackbar value has updated,
+        /// this will update it's label
+        /// </summary>
+        /// <param name="sender">The object that invoked the event</param>
+        /// <param name="e">The empty event arguments</param>
+        private void NumPlayersTRackUpdated(object sender, EventArgs e)
+        {
+            InputValueChanged(sender, e);
+            lblNumPlayers.Text = trkNumPlayers.Value.ToString();
         }
     }
 }

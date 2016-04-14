@@ -24,6 +24,10 @@ namespace Durak.Server
         /// The maximum time for a bot to make a decision
         /// </summary>
         public static int ThinkSleepMaxTime = 4000;
+        /// <summary>
+        /// The default bot difficulty from 0 to 1
+        /// </summary>
+        public static float DefaultDifficulty = 0.5f;
 
         /// <summary>
         /// Stores whether or not this bot should invoke on the end of the current message pump
@@ -145,7 +149,6 @@ namespace Durak.Server
         /// <summary>
         /// Invoked when a game state has been updated
         /// </summary>
-        /// <param name="state">The game state</param>
         public void StateUpdated()
         {
             // Override the shouldInvoke so we can't accidentally set it
@@ -170,7 +173,6 @@ namespace Durak.Server
         /// <summary>
         /// Instantly validates that this bot can play, this is used with think timers to make sure it is still the bots turn to play
         /// </summary>
-        /// <param name="server">The server to excecute on</param>
         /// <returns>True if this bot can invoke, false if otherwise</returns>
         public bool InstantValidateCheck()
         {
@@ -230,6 +232,19 @@ namespace Durak.Server
 
             // If there was no good move, return null
             return null;
+        }
+
+
+        /// <summary>
+        /// Creates a bot player for this player
+        /// </summary>
+        /// <param name="player">The player that this bot is representing</param>
+        /// <param name="gameServer">The server that the bot exists on</param>
+        /// <returns>A bot for this player</returns>
+        public static BotPlayer CreateBot(Player player, GameServer gameServer)
+        {
+            Player clone = player.Clone();
+            return new BotPlayer(gameServer, player, DefaultDifficulty);
         }
     }
 }

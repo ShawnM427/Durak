@@ -115,7 +115,7 @@ namespace DurakGame
             myClient.LocalState.AddStateChangedEvent(Names.TRUMP_CARD, (X, Y) => { cbxTrump.Card = Y.GetValuePlayingCard(); });
 
 
-            myClient.LocalState.AddStateChangedEvent(Names.TRUMP_CARD_USED, (X, Y) => { cbxTrump.Enabled = Y.GetValueBool(); });
+            myClient.LocalState.AddStateChangedEvent(Names.TRUMP_CARD_USED, TrumpPickedUp);
 
 
             myClient.LocalState.AddStateChangedEvent(Names.DISCARD, (X, Y) => { dscDiscard.Clear(); foreach (PlayingCard card in Y.GetValueCardCollection()) dscDiscard.AddCard(card); });
@@ -211,6 +211,11 @@ namespace DurakGame
             myClient.OnPlayerCardCountChanged += PlayerCardCountChanged;
 
             cplPlayersHand.Cards = myClient.Hand;
+        }
+
+        private void TrumpPickedUp(object sender, StateParameter p)
+        {
+            cbxTrump.Enabled = false;
         }
 
         /// <summary>
@@ -336,13 +341,8 @@ namespace DurakGame
                 myClient.OnDisconnected -= ClientDisconnected;
                 myClient.OnConnected -= ClientConnected;
 
-                myClient?.Stop();
+                myClient.Disconnect();
                 myServer?.Stop();
-
-                myClient.OnDisconnected -= ClientDisconnected;
-
-                myClient = null;
-                myServer = null;
             }
         }
 

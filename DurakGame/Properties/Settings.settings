@@ -8,5 +8,20 @@
     <Setting Name="DefaultServerPassword" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="DefaultServerName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Durak Server</Value>
+    </Setting>
+    <Setting Name="DefaultServerDescription" Type="System.String" Scope="User">
+      <Value Profile="(Default)">A durak server</Value>
+    </Setting>
+    <Setting Name="DefaultBotDifficulty" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">0.5</Value>
+    </Setting>
+    <Setting Name="DefaultBotsThink" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="DefaultMaxPlayers" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">6</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
