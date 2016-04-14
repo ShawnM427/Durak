@@ -252,7 +252,10 @@ namespace DurakGame
 
                 mainForm.ShowDialog();
 
-                this.Close();
+                if (myClient.ConnectedServer == null)
+                    this.Close();
+                else
+                    this.Show();
             }
         }
 

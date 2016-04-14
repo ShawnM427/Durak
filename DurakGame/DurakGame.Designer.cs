@@ -104,6 +104,7 @@
             this.cbxPlayer1 = new Durak.CardBox();
             this.lblPlayer1 = new System.Windows.Forms.Label();
             this.lblPlayer1CardsLeft = new System.Windows.Forms.Label();
+            this.dscDiscard = new Durak.DiscardPile();
             this.grpBattle1.SuspendLayout();
             this.grpBattle2.SuspendLayout();
             this.grpBattle3.SuspendLayout();
@@ -111,6 +112,7 @@
             this.grpBattle5.SuspendLayout();
             this.grpBattle6.SuspendLayout();
             this.grpBattles.SuspendLayout();
+            this.grpGarbage.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.pnlMyView.SuspendLayout();
             this.pnlPlayer5.SuspendLayout();
@@ -420,6 +422,7 @@
             // 
             // grpGarbage
             // 
+            this.grpGarbage.Controls.Add(this.dscDiscard);
             this.grpGarbage.Location = new System.Drawing.Point(818, 193);
             this.grpGarbage.Name = "grpGarbage";
             this.grpGarbage.Size = new System.Drawing.Size(217, 222);
@@ -848,6 +851,15 @@
             this.lblPlayer1CardsLeft.TabIndex = 32;
             this.lblPlayer1CardsLeft.Text = "52";
             // 
+            // dscDiscard
+            // 
+            this.dscDiscard.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dscDiscard.Location = new System.Drawing.Point(3, 16);
+            this.dscDiscard.Name = "dscDiscard";
+            this.dscDiscard.Size = new System.Drawing.Size(211, 203);
+            this.dscDiscard.TabIndex = 0;
+            this.dscDiscard.Load += new System.EventHandler(this.dscDiscard_Load);
+            // 
             // frmDurakGame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -884,6 +896,7 @@
             this.grpBattle5.ResumeLayout(false);
             this.grpBattle6.ResumeLayout(false);
             this.grpBattles.ResumeLayout(false);
+            this.grpGarbage.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.pnlMyView.ResumeLayout(false);
@@ -939,27 +952,28 @@
         private System.Windows.Forms.ToolStripMenuItem controlsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem chatToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem1;
-        private DurakGame.BorderPanel pnlPlayer1;
-        private DurakGame.BorderPanel pnlPlayer2;
+        private BorderPanel pnlPlayer1;
+        private BorderPanel pnlPlayer2;
         private Durak.CardBox cbxPlayer2;
         private System.Windows.Forms.Label lblPlayer2;
         private System.Windows.Forms.Label lblPlayer2CardsLeft;
-        private DurakGame.BorderPanel pnlPlayer3;
+        private BorderPanel pnlPlayer3;
         private Durak.CardBox cbxPlayer3;
         private System.Windows.Forms.Label lblPlayer3;
         private System.Windows.Forms.Label lblPlayer3CardsLeft;
-        private DurakGame.BorderPanel pnlPlayer4;
+        private BorderPanel pnlPlayer4;
         private Durak.CardBox cbxPlayer4;
         private System.Windows.Forms.Label lblPlayer4;
         private System.Windows.Forms.Label lblPlayer4CardsLeft;
-        private DurakGame.BorderPanel pnlPlayer5;
+        private BorderPanel pnlPlayer5;
         private Durak.CardBox cbxPlayer5;
         private System.Windows.Forms.Label lblPlayer5;
         private System.Windows.Forms.Label lblPlayer5CardsLeft;
         private CardPlayer cplPlayersHand;
         private System.Windows.Forms.Button btnForfeit;
         private System.Windows.Forms.Button btnReqHelp;
-        private DurakGame.BorderPanel pnlMyView;
+        private BorderPanel pnlMyView;
+        private Durak.DiscardPile dscDiscard;
     }
 }
 

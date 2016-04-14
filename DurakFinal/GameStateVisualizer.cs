@@ -65,7 +65,7 @@ namespace DurakCommon
 
             for (int index = 0; index < dgvMainView.Rows.Count; index++)
             {
-                if (dgvMainView.Rows[index].Cells[0].Value == e.Name)
+                if (dgvMainView.Rows[index].Cells[0].Value.Equals(e.Name))
                 {
                     dgvMainView.Rows[index].Cells[1].Value = e.RawValue;
                     exists = true;

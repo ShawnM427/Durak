@@ -927,9 +927,14 @@ namespace Durak.Server
                     // If the bot's move is ready
                     if (botPlayer.ShouldInvoke)
                     {
-                        // Get and play the move
-                        PlayingCard move = botPlayer.DetermineMove();
-                        HandleMove(new GameMove(botPlayer.Player, move));
+                        if (botPlayer.InstantValidateCheck(myGameState))
+                        {
+                            // Get and play the move
+                            PlayingCard move = botPlayer.DetermineMove();
+                            HandleMove(new GameMove(botPlayer.Player, move));
+                        }
+                        else
+                            botPlayer.ShouldInvoke = false;
                     }
                 }
             }
@@ -1052,15 +1057,9 @@ namespace Durak.Server
         /// <param name="msg">The message to handle</param>
         private void HandleStateRequest(NetIncomingMessage msg)
         {
-            // Create the message
-            NetOutgoingMessage outMsg = myServer.CreateMessage();
+            ServerState state = (ServerState)msg.ReadByte();
 
-            // Write the header and the bad move to the packet
-            outMsg.Write((byte)MessageType.NotifyServerStateChanged);
-            outMsg.Write((byte)myState);
-
-            // Send the packet
-            myServer.SendMessage(outMsg, msg.SenderConnection, NetDeliveryMethod.ReliableOrdered);
+            SetServerState(state);
         }
 
         /// <summary>

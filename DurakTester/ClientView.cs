@@ -108,6 +108,7 @@ namespace DurakTester
             
             if (myClient != null)
             {
+#if DEBUG
                 NetOutgoingMessage msg = myClient.PrepareDebugMessage();
 
                 ComboBox box;
@@ -171,6 +172,7 @@ namespace DurakTester
                 }
 
                 myClient.SendMessageDebug(msg);
+#endif
             }
         }
         

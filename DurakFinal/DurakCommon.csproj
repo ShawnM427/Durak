@@ -111,6 +111,12 @@
     <Compile Include="Common\Logger.cs" />
     <Compile Include="Common\NetSettings.cs" />
     <Compile Include="Common\NetUtils.cs" />
+    <Compile Include="DiscardPile.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DiscardPile.Designer.cs">
+      <DependentUpon>DiscardPile.cs</DependentUpon>
+    </Compile>
     <Compile Include="GameStateVisualizer.cs">
       <SubType>UserControl</SubType>
     </Compile>

@@ -1,6 +1,7 @@
 ﻿using Durak;
 using Durak.Client;
 using Durak.Common;
+using Durak.Common.Cards;
 using Durak.Server;
 using System;
 using System.Collections.Generic;
@@ -33,6 +34,11 @@ namespace DurakGame
 
         BorderPanel myDefendingPlayerContainer;
         BorderPanel myAttackingPlayerContainer;
+
+        /// <summary>
+        /// We use this to track if we are hard closing
+        /// </summary>
+        bool isHardClose = true;
 
         public frmDurakGame()
         {
@@ -75,7 +81,13 @@ namespace DurakGame
 
             myClient.LocalState.AddStateChangedEvent(Names.TRUMP_CARD, (X, Y) => { cbxTrump.Card = Y.GetValuePlayingCard(); });
 
+            myClient.LocalState.AddStateChangedEvent(Names.DISCARD, (X, Y) => { dscDiscard.Clear(); foreach (PlayingCard card in Y.GetValueCardCollection()) dscDiscard.AddCard(card); });
+
             myClient.LocalState.AddStateChangedEvent(Names.DECK_COUNT, (X, Y) => { lblCardsLeft.Text = "" + Y.GetValueInt(); if (Y.GetValueInt() == 0) cbxDeck.Card = null; });
+
+            myClient.LocalState.AddStateChangedEvent(Names.GAME_OVER, GameOver);
+
+            myClient.OnServerStateUpdated += (X, Y) => { if (Y == ServerState.InLobby) { isHardClose = false; this.Close(); } };
 
             myClient.LocalState.AddStateChangedEvent(Names.ATTACKING_PLAYER, AttackingPlayersChanged);
             myClient.LocalState.AddStateChangedEvent(Names.DEFENDING_PLAYER, AttackingPlayersChanged);
@@ -155,13 +167,39 @@ namespace DurakGame
 
             cplPlayersHand.Cards = myClient.Hand;
         }
+
+        private void GameOver(object sender, StateParameter p)
+        {
+            string message = "Game Over!\n";
+
+            if (myClient.LocalState.GetValueBool(Names.IS_TIE))
+                message += "It's a tie!";
+            else
+            {
+                Player durak = myClient.KnownPlayers[myClient.LocalState.GetValueByte(Names.LOSER_ID)];
+
+                message += durak.Name + " is the Durak";
+            }
+
+            message += myClient.IsHost ? "\nPress OK to exit to lobby" : "";
+
+            DialogResult result = MessageBox.Show(message, "Game over", MessageBoxButtons.OK);
+
+            if (myClient.IsHost && result == DialogResult.OK)
+            {
+                myClient.RequestServerState(ServerState.InLobby);
+            }
+        }
         
         private void AttackingPlayersChanged(object sender, StateParameter p)
         {
-            if (myAttackingPlayerContainer != null)
-                myAttackingPlayerContainer.ShowBorder = false;
-            if (myDefendingPlayerContainer != null)
-                myDefendingPlayerContainer.ShowBorder = false;
+            foreach (KeyValuePair<Player, PlayerUITag> pair in myPlayerUIs)
+            {
+                PlayerUITag tag = pair.Value;
+
+                if (tag.Panel != null)
+                    tag.Panel.ShowBorder = false;
+            }
 
             Player attackingPlayer = myClient.KnownPlayers[myClient.LocalState.GetValueByte(Names.ATTACKING_PLAYER)];
             Player defendingPlayer = myClient.KnownPlayers[myClient.LocalState.GetValueByte(Names.DEFENDING_PLAYER)];
@@ -191,13 +229,16 @@ namespace DurakGame
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            myClient?.Stop();
-            myServer?.Stop();
+            if (isHardClose)
+            {
+                myClient?.Stop();
+                myServer?.Stop();
 
-            myClient.OnDisconnected -= ClientDisconnected;
+                myClient.OnDisconnected -= ClientDisconnected;
 
-            myClient = null;
-            myServer = null;
+                myClient = null;
+                myServer = null;
+            }
         }
 
         private void PlayerCardCountChanged(Durak.Common.Player player, int newCardCount)
@@ -230,6 +271,11 @@ namespace DurakGame
         {
             StateParameter param = StateParameter.Construct<bool>(Names.REQUEST_HELP, true, true);
             myClient.RequestState(param);
+        }
+
+        private void dscDiscard_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

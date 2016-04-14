@@ -192,7 +192,7 @@ namespace Durak.Common.Cards
         /// <returns>true of the card values are equal</returns>
         public override bool Equals(object obj)
         {
-            return obj is PlayingCard && (this.CardValue == (obj as PlayingCard).CardValue);
+            return obj is PlayingCard && (this.Rank == (obj as PlayingCard).Rank && this.Suit == (obj as PlayingCard).Suit);
         }
 
         /// <summary>

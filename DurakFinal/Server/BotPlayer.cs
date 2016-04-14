@@ -70,11 +70,12 @@ namespace Durak.Server
             }
         }
         /// <summary>
-        /// Gets whether this bot should be updating it's logic
+        /// Gets or sets whether this bot should be updating it's logic
         /// </summary>
         public bool ShouldInvoke
         {
             get { return shouldInvoke; }
+            set { shouldInvoke = value; }
         }
         /// <summary>
         /// Gets the player this bot is representing
@@ -146,18 +147,7 @@ namespace Durak.Server
         public void StateUpdated(GameState state)
         {
             // Override the shouldInvoke so we can't accidentally set it
-            bool shouldInvoke = Rules.BOT_INVOKE_RULES.Count > 0;
-            
-            // Iterate over each state rule and set to false if one of them fails
-            foreach(IBotInvokeStateChecker stateChecker in Rules.BOT_INVOKE_RULES)
-            {
-                // If one state check fails, they all fail
-                if (!stateChecker.ShouldInvoke(state, this))
-                {
-                    shouldInvoke = false;
-                    break;
-                }
-            }
+            bool shouldInvoke = InstantValidateCheck(state);
 
             if (shouldInvoke & !myTimer.Enabled)
             {
@@ -173,6 +163,30 @@ namespace Durak.Server
                     // Copy method local to instance member
                     this.shouldInvoke = shouldInvoke;
             }
+        }
+
+        /// <summary>
+        /// Instantly validates that this bot can play, this is used with think timers to make sure it is still the bots turn to play
+        /// </summary>
+        /// <param name="state">The state to check against</param>
+        /// <returns>True if this bot can invoke, false if otherwise</returns>
+        public bool InstantValidateCheck(GameState state)
+        {
+            // Override the shouldInvoke so we can't accidentally set it
+            bool shouldInvoke = Rules.BOT_INVOKE_RULES.Count > 0;
+
+            // Iterate over each state rule and set to false if one of them fails
+            foreach (IBotInvokeStateChecker stateChecker in Rules.BOT_INVOKE_RULES)
+            {
+                // If one state check fails, they all fail
+                if (!stateChecker.ShouldInvoke(state, this))
+                {
+                    shouldInvoke = false;
+                    break;
+                }
+            }
+
+            return shouldInvoke;
         }
 
         /// <summary>

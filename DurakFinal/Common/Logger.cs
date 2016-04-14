@@ -60,7 +60,7 @@ namespace Durak.Common
             myStream = new StreamWriter(fileName);
         }
 
-        private void WriteLine(string line)
+        new private void WriteLine(string line)
         {
             myStream.WriteLine(line);
             mySingleton.myStream.Flush();
@@ -82,7 +82,7 @@ namespace Durak.Common
         /// Writes single line of unformatted text to the log file
         /// </summary>
         /// <param name="rawText">The line to write</param>
-        public static void Write(string rawText)
+        new public static void Write(string rawText)
         {
             mySingleton.WriteLine(rawText);
         }
@@ -92,7 +92,7 @@ namespace Durak.Common
         /// </summary>
         /// <param name="format">The format string</param>
         /// <param name="parameters">The parameters for the format</param>
-        public static void Write(string format, params object[] parameters)
+        new public static void Write(string format, params object[] parameters)
         {
             mySingleton.WriteLine(string.Format("[{0}] {1}", DateTime.Now.ToString(LOG_TIME_FORMAT), string.Format(format, parameters)));
         }

@@ -12,6 +12,9 @@ namespace DurakGame.Rules
     {
         public bool ShouldInvoke(GameState state, BotPlayer player)
         {
+            if (state.GetValueBool(Names.GAME_OVER))
+                return false;
+
             byte attackingPlayerID = state.GetValueByte(Names.ATTACKING_PLAYER);
             byte defendingPlayerId = state.GetValueByte(Names.DEFENDING_PLAYER);
             bool isAttacking = state.GetValueBool(Names.IS_ATTACKING);

@@ -849,6 +849,21 @@ namespace Durak.Client
         }
 
         /// <summary>
+        /// Requests the server to move to a given state
+        /// </summary>
+        /// <param name="param">The parameter to request</param>
+        public void RequestServerState(ServerState param)
+        {
+            if (IsConnected && IsHost)
+            {
+                NetOutgoingMessage msg = myPeer.CreateMessage();
+                msg.Write((byte)MessageType.RequestServerState);
+                msg.Write((byte)param);
+                Send(msg);
+            }
+        }
+
+        /// <summary>
         /// Sends a chat message to the server
         /// </summary>
         /// <param name="message">The message to send</param>

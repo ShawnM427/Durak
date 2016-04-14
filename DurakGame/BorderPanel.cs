@@ -12,6 +12,7 @@ namespace DurakGame
     {
         private float myBorderWidth;
         private Color myBorderColor;
+        private bool showBorder;
 
         public float BorderWidth
         {
@@ -36,8 +37,12 @@ namespace DurakGame
         }
         public bool ShowBorder
         {
-            get;
-            set;
+            get { return showBorder; }
+            set
+            {
+                showBorder = value;
+                Invalidate();
+            }
         }
 
         public BorderPanel()
