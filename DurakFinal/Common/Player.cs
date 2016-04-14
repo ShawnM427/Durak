@@ -1,5 +1,6 @@
 ﻿using System;
 using Durak.Common.Cards;
+using Durak.Server;
 using Lidgren.Network;
 
 namespace Durak.Common
@@ -113,6 +114,25 @@ namespace Durak.Common
         }
 
         /// <summary>
+        /// Overrides the equality check for this object
+        /// </summary>
+        /// <param name="obj">The object to check equality against</param>
+        /// <returns></returns>
+        public override bool Equals(object obj)
+        {
+            return (obj is Player && (obj as Player).PlayerId == PlayerId);
+        }
+
+        /// <summary>
+        /// Overrides the hash code for this object, returning a semi-unique value
+        /// </summary>
+        /// <returns>A semi-unique value</returns>
+        public override int GetHashCode()
+        {
+            return PlayerId;
+        }
+
+        /// <summary>
         /// Encodes this instance to a network message
         /// </summary>
         /// <param name="msg">The message to encode to</param>
@@ -140,6 +160,28 @@ namespace Durak.Common
             IsReady = msg.ReadBoolean();
             IsHost = msg.ReadBoolean();
             msg.ReadPadBits();
+        }
+
+        /// <summary>
+        /// Creates a new clone of this player instance
+        /// </summary>
+        /// <returns>A clone of this player</returns>
+        public Player Clone()
+        {
+            Player result = new Player(PlayerId, Name, true);
+            return result;
+        }
+
+        /// <summary>
+        /// Creates a bot player for this player
+        /// </summary>
+        /// <param name="gameServer">The server that the bot exists on</param>
+        /// <param name="difficulty">The bots difficulty level from 0-1</param>
+        /// <returns>A bot for this player</returns>
+        public BotPlayer CreateBot(GameServer gameServer, float difficulty)
+        {
+            Player player = this.Clone();
+            return new BotPlayer(gameServer, player, difficulty);
         }
     }
 }

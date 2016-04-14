@@ -148,9 +148,9 @@ namespace DurakGame
         /// <param name="e">The default event arguments</param>
         private void ClientDisconnected(object sender, EventArgs e)
         {
-            //MessageBox.Show("Disconnected from server", "Server Connection failed");
-            //DialogResult = DialogResult.Abort;
-            //Close();
+            MessageBox.Show("Disconnected from server", "Server Connection failed");
+            DialogResult = DialogResult.Abort;
+            Close();
         }
 
         /// <summary>
@@ -276,11 +276,19 @@ namespace DurakGame
             {
                 this.Hide();
 
+                myClient.OnDisconnected -= ClientDisconnected;
+                myClient.OnConnectionFailed -= ClientConnectFailed;
+                myClient.OnConnected -= ClientConnected;
+
                 frmDurakGame mainForm = new frmDurakGame();
                 mainForm.SetClient(myClient);
                 mainForm.SetServer(myServer);
 
                 mainForm.ShowDialog();
+
+                myClient.OnDisconnected += ClientDisconnected;
+                myClient.OnConnectionFailed += ClientConnectFailed;
+                myClient.OnConnected += ClientConnected;
 
                 if (myClient.ConnectedServer == null)
                     this.Close();
@@ -296,6 +304,9 @@ namespace DurakGame
         protected override void OnClosing(CancelEventArgs e)
         {
             base.OnClosing(e);
+
+            myClient.OnDisconnected -= ClientDisconnected;
+            myClient.OnConnectionFailed -= ClientConnectFailed;
 
             myServer?.Stop();
             myClient?.Stop();
@@ -349,7 +360,9 @@ namespace DurakGame
                 if (myClient.ConnectedServer == null)
                     MessageBox.Show("Error, client not connected to local server");
                 else
+                {
                     myClient.RequestStart();
+                }
             }
             else
             {

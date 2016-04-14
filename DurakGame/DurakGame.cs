@@ -333,6 +333,9 @@ namespace DurakGame
         {
             if (isHardClose)
             {
+                myClient.OnDisconnected -= ClientDisconnected;
+                myClient.OnConnected -= ClientConnected;
+
                 myClient?.Stop();
                 myServer?.Stop();
 

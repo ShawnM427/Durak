@@ -56,8 +56,19 @@ namespace Durak.Common
         /// </summary>
         public Logger()
         {
-            string fileName = "log_" + DateTime.Now.ToString(LOG_FILE_TIME_FORMAT) + ".txt";
-            myStream = new StreamWriter(fileName);
+            bool didOpen = false;
+            int index = 0;
+
+            while (!didOpen)
+            {
+                try
+                {
+                    string fileName = "log_" + DateTime.Now.ToString(LOG_FILE_TIME_FORMAT) + (index > 0 ? "(" + index + ")" : "") + ".txt";
+                    myStream = new StreamWriter(fileName);
+                    didOpen = true;
+                }
+                catch (IOException) { index++; }
+            }
         }
 
         new private void WriteLine(string line)

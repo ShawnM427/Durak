@@ -172,9 +172,9 @@ namespace DurakGame
         /// </summary>
         private void DetermineReadyImage()
         {
-            if (Client.IsHost && Player.IsBot)
-                imgReady.Image = Resources.delete;
-            if (!Player.IsHost)
+            if (Player.IsBot)
+                imgReady.Image = Client.IsHost ? Resources.delete : null;
+            else if (!Player.IsHost)
                 imgReady.Image = IsReady ? Resources.ready : Resources.notReady;
             else
                 imgReady.Image = null;

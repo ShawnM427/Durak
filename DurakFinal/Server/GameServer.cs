@@ -511,6 +511,7 @@ namespace Durak.Server
             // Remove that player!
             myPlayers.Remove(player);
 
+
             // Create the outgioing message
             NetOutgoingMessage outMsg = myServer.CreateMessage();
 
@@ -552,6 +553,18 @@ namespace Durak.Server
             {
                 Log("All players left, returning to lobby");
                 SetServerState(ServerState.InLobby, "Game empty");
+            }
+            else
+            {
+                // Add a bot
+                BotPlayer bot = player.CreateBot(this, 0.5f);
+
+                bot.Player.OnCardAddedToHand += PlayerGainedCard;
+                bot.Player.OnCardRemovedFromHand += PlayerRemovedCard;
+
+                myBots.Add(bot);
+                myPlayers[bot.Player.PlayerId] = bot.Player;
+                NotifyPlayerJoined(bot.Player);
             }
         }
 

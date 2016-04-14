@@ -43,7 +43,16 @@ namespace DurakGame.Rules
                 {
                     // Add 6 cards to their hand
                     for (int cIndex = 0; cIndex < 6; cIndex++)
-                        server.Players[index].Hand.Add(toDrawFrom.Draw());
+                    {
+                        if (toDrawFrom.CardsInDeck > 0)
+                            server.Players[index].Hand.Add(toDrawFrom.Draw());
+                        else if (!server.GameState.GetValueBool(Names.TRUMP_CARD_USED))
+                        {
+                            server.Players[index].Hand.Add(server.GameState.GetValueCard(Names.TRUMP_CARD));
+                            server.GameState.Set(Names.TRUMP_CARD_USED, true);
+                        }
+
+                    }
                 }
             }
 
