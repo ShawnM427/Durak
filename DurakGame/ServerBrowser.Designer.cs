@@ -94,7 +94,6 @@
             this.lstServers.Size = new System.Drawing.Size(335, 209);
             this.lstServers.TabIndex = 3;
             this.lstServers.UseCompatibleStateImageBehavior = false;
-            this.lstServers.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
             // 
             // btnListConnect
             // 
@@ -104,7 +103,6 @@
             this.btnListConnect.TabIndex = 4;
             this.btnListConnect.Text = "List Connect";
             this.btnListConnect.UseVisualStyleBackColor = true;
-            this.btnListConnect.Click += new System.EventHandler(this.button1_Click);
             // 
             // txtSelected
             // 
@@ -121,7 +119,6 @@
             this.label2.Size = new System.Drawing.Size(99, 13);
             this.label2.TabIndex = 6;
             this.label2.Text = "Selected Server IP:";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // label3
             // 
@@ -140,7 +137,6 @@
             this.label4.Size = new System.Drawing.Size(58, 13);
             this.label4.TabIndex = 8;
             this.label4.Text = "IP Address";
-            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // label5
             // 
@@ -150,7 +146,6 @@
             this.label5.Size = new System.Drawing.Size(41, 13);
             this.label5.TabIndex = 9;
             this.label5.Text = "Players";
-            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // clmServerName
             // 

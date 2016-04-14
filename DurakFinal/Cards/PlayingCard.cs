@@ -1,4 +1,4 @@
-﻿/**
+﻿/*
  * Playing Card.cs - The PlayingCard Class
  *
  * This class represents everything there is to see and know about a simple playing card
@@ -13,16 +13,21 @@ using System.Drawing;
 
 namespace Durak.Common.Cards
 {
+    /// <summary>
+    /// Represents a simple multi-use playing card
+    /// </summary>
     public class PlayingCard : ICloneable, IComparable
     {
 
         #region FIELDS AND PROPERTIES
 
         /// <summary>
-        /// Suit property
-        /// Used to set or get the card suit
+        /// Backing field for Suit
         /// </summary>
         protected CardSuit mySuit;
+        /// <summary>
+        /// Gets or sets the suit for this playing card
+        /// </summary>
         public CardSuit Suit
         {
             get { return mySuit; } // return the suit
@@ -30,10 +35,12 @@ namespace Durak.Common.Cards
         }
 
         /// <summary>
-        /// Rank Property
-        /// Used to set or get the Card rank
+        /// Backing field for Rank
         /// </summary>
         protected CardRank myRank;
+        /// <summary>
+        /// Gets or sets the rank for this playing card
+        /// </summary>
         public CardRank Rank
         {
             get { return myRank; } // return the rank
@@ -41,10 +48,12 @@ namespace Durak.Common.Cards
         }
 
         /// <summary>
-        /// CardValue Property
-        /// Used to set or get the Card Value
+        /// The backing field for the CardValue
         /// </summary>
         protected int myValue;
+        /// <summary>
+        /// Gets or sets the Value of this card
+        /// </summary>
         public int CardValue
         {
             get { return myValue; } // return my value
@@ -52,10 +61,12 @@ namespace Durak.Common.Cards
         }
 
         /// <summary>
-        /// Alternate Value Property
-        /// Used to set or get an alternate value for certain games. Set to null by default
+        /// The backing field for AlternateValue
         /// </summary>
         protected int? altValue = null; // nullable type
+        /// <summary>
+        /// Gets or sets the alternative value of this card
+        /// </summary>
         public int? AlternateValue
         {
             get { return altValue; } // return alt value
@@ -63,11 +74,12 @@ namespace Durak.Common.Cards
         }
 
         /// <summary>
-        /// FaceUp Property
-        /// Used to set or get whether the card is face up.
-        /// Set to false by default.
+        /// The backing field for FaceUp
         /// </summary>
         protected bool faceUp = false;
+        /// <summary>
+        /// Gets or sets whether this card is face up
+        /// </summary>
         public bool FaceUp
         {
             get { return faceUp; } // return faceup value
@@ -78,6 +90,9 @@ namespace Durak.Common.Cards
 
         #region CONSTRUCTORS
 
+        /// <summary>
+        /// Create a new default playing card, this will be the Ace of Spades
+        /// </summary>
         public PlayingCard() : this(CardRank.Ace, CardSuit.Spades)
         {
 

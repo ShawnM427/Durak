@@ -8,8 +8,17 @@ using Durak.Common;
 
 namespace DurakGame.Rules
 {
+    /// <summary>
+    /// Represents the rule that is invoked after a card is successfully played
+    /// </summary>
     public class CardPlayed : IMoveSucessRule
     {
+        /// <summary>
+        /// Updates the game state after the card has been played
+        /// </summary>
+        /// <param name="move">The move that was played</param>
+        /// <param name="players">The player collection for the server</param>
+        /// <param name="state">The server's game state</param>
         public void UpdateState(GameMove move, PlayerCollection players, GameState state)
         {
             // Remove the card from the players hand

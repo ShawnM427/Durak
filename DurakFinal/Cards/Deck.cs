@@ -38,7 +38,7 @@ namespace Durak.Common.Cards
         /// </summary>
         public Deck()
         {
-            InsertCards(1, 14);
+            InsertCards(3, 14);
         }
 
 
@@ -54,11 +54,11 @@ namespace Durak.Common.Cards
         /// <summary>
         /// Paramaterized Constructor - Creates a new card deck
         /// </summary>
-        /// <param name="minRankIndex">The minimum rank</param>
-        /// <param name="maxRankIndex">The maximum rank</param>
-        public Deck(CardRank minRankIndex, CardRank maxRank)
+        /// <param name="minRank">The minimum rank</param>
+        /// <param name="maxRank">The maximum rank</param>
+        public Deck(CardRank minRank, CardRank maxRank)
         {
-            InsertCards((int)minRankIndex, (int)maxRank + 1);
+            InsertCards((int)minRank, (int)maxRank + 1);
         }
 
         /// <summary>

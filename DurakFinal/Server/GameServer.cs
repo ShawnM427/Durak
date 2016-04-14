@@ -180,6 +180,9 @@ namespace Durak.Server
                 }
             }
         }
+        /// <summary>
+        /// Gets the server's current ServerState
+        /// </summary>
         public ServerState State
         {
             get
@@ -393,6 +396,7 @@ namespace Durak.Server
         /// Log a message
         /// </summary>
         /// <param name="message">The message to log</param>
+        /// <param name="format">The objects to format into the string</param>
         private void Log(string message, params object[] format)
         {
             // Log it
@@ -448,8 +452,11 @@ namespace Durak.Server
                 {
                     // We clear the game state
                     myGameState.Clear();
-                    myBots.Clear();
-                    myPlayers.Clear();
+
+                    // If there are no human players, clear out the bots
+                    if (myPlayers.Where(X => !X.IsBot).Count() == 0)
+                        myBots.Clear();
+
                     isInitialized = false;
                 }
             }
@@ -766,6 +773,7 @@ namespace Durak.Server
         /// Notifies a client that they made an invalid move
         /// </summary>
         /// <param name="move">The move that was determined to be invalid</param>
+        /// <param name="reason">The reason that the move was invalid</param>
         private void NotifyInvalidMove(GameMove move, string reason)
         {
             // Create the message

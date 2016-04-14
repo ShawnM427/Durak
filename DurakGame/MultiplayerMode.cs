@@ -10,19 +10,35 @@ using System.Windows.Forms;
 
 namespace DurakGame
 {
+    /// <summary>
+    /// Represents a form that allows you to select a mode to play in multiplayer
+    /// </summary>
     public partial class frmMultiplayerMode : Form
     {
+        /// <summary>
+        /// Creates a new multiplayer mode form
+        /// </summary>
         public frmMultiplayerMode()
         {
             InitializeComponent();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Invoked when the back button has been clicked
+        /// </summary>
+        /// <param name="sender">The button that raised the event</param>
+        /// <param name="e">The blank event arguments</param>
+        private void BackClick(object sender, EventArgs e)
         {
             Close();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Invoked when the host button has been clicked
+        /// </summary>
+        /// <param name="sender">The button that raised the event</param>
+        /// <param name="e">The blank event arguments</param>
+        private void HostClick(object sender, EventArgs e)
         {
             this.Hide();
 
@@ -33,7 +49,12 @@ namespace DurakGame
             this.Close();
         }
 
-        private void btnPlaySingle_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Invoked when the join button has been clicked
+        /// </summary>
+        /// <param name="sender">The button that raised the event</param>
+        /// <param name="e">The blank event arguments</param>
+        private void JoinClick(object sender, EventArgs e)
         {
             this.Hide();
 

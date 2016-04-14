@@ -90,6 +90,7 @@ namespace Durak.Server
         /// </summary>
         /// <param name="server">The server this bot runs on</param>
         /// <param name="player">The player to wrap for this bot</param>
+        /// <param name="difficulty">The bots difficulty from 0 to 1</param>
         public BotPlayer(GameServer server, Player player, float difficulty)
         {
             myServer = server;

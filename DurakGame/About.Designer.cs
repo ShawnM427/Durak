@@ -1,5 +1,8 @@
 ﻿namespace DurakGame
 {
+    /// <summary>
+    /// The designer side class definition for the About form
+    /// </summary>
     partial class About
     {
         /// <summary>

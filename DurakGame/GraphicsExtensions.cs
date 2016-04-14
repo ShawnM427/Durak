@@ -8,8 +8,18 @@ using System.Threading.Tasks;
 
 namespace DurakGame
 {
+    /// <summary>
+    /// A collection of utility and extension methods for the Winforms Graphics device
+    /// </summary>
     public static class GraphicsExtensions
     {
+        /// <summary>
+        /// Draws a rounded rectangle
+        /// </summary>
+        /// <param name="g">The graphics device to render with</param>
+        /// <param name="pen">The pen to draw with</param>
+        /// <param name="rect">The rectangle to draw</param>
+        /// <param name="radius">The radius of the rounding, in pixels</param>
         public static void DrawRoundedRectangle(this Graphics g, Pen pen, RectangleF rect, float radius)
         {
             GraphicsPath path = GetRoundedRect(rect, radius);
@@ -108,7 +118,7 @@ namespace DurakGame
                     path.AddEllipse(baseRect);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 path.AddEllipse(baseRect);
             }

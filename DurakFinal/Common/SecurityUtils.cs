@@ -31,6 +31,12 @@ namespace Durak.Common
             return Encoding.ASCII.GetString(myHashAlgorithm.ComputeHash(Encoding.ASCII.GetBytes(text)));
         }
 
+        /// <summary>
+        /// Returns the bit at the given index in a byte
+        /// </summary>
+        /// <param name="b">The byte to get the bit at</param>
+        /// <param name="index">The index in the byte to get</param>
+        /// <returns>True if the bit at <i>index</i> is set</returns>
         public static bool BitAt(this byte b, int index)
         {
             return (b & (1 << (7 - index))) != 0;

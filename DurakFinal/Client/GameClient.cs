@@ -224,7 +224,9 @@ namespace Durak.Client
         {
             get { return myHand; }
         }
-
+        /// <summary>
+        /// Gets whether this client is the current game host
+        /// </summary>
         public bool IsHost
         {
             get { return isHost; }

@@ -136,7 +136,7 @@ namespace Durak.Common
         /// <summary>
         /// Converts an integer IP to a string
         /// </summary>
-        /// <see cref="http://stackoverflow.com/questions/14327022/calculate-ip-range-by-subnet-mask"/>
+        /// <see href="http://stackoverflow.com/questions/14327022/calculate-ip-range-by-subnet-mask"/>
         /// <param name="value">The IP to convert</param>
         /// <returns>The IP in the format #.#.#.#</returns>
         public static string ToIpString(this uint value)
@@ -155,7 +155,7 @@ namespace Durak.Common
         /// <summary>
         /// Parses an integer IP from a string
         /// </summary>
-        /// <see cref="http://stackoverflow.com/questions/14327022/calculate-ip-range-by-subnet-mask"/>
+        /// <see href="http://stackoverflow.com/questions/14327022/calculate-ip-range-by-subnet-mask"/>
         /// <param name="ipAddress">The IP address to parse</param>
         /// <returns>An integer representation of the IP</returns>
         public static uint ParseIp(this string ipAddress)
@@ -173,7 +173,7 @@ namespace Durak.Common
     /// <summary>
     /// Represents a range of IP addresses
     /// </summary>
-    /// <see cref="http://stackoverflow.com/questions/14327022/calculate-ip-range-by-subnet-mask"/>
+    /// <see href="http://stackoverflow.com/questions/14327022/calculate-ip-range-by-subnet-mask"/>
     public class IPSegment
     { 
         /// <summary>

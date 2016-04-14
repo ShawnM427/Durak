@@ -208,7 +208,7 @@ namespace Durak.Common
         /// Gets the state parameter with the given name
         /// </summary>
         /// <param name="name">The name of the parameter</param>
-        /// <param name="defaultType">The type to use if the parameter does not exist</param>
+        /// <param name="serverSide">Whether or not this game state is not syncronized</param>
         /// <returns>The parameter with the given name</returns>
         public StateParameter GetParameter<T>(string name, bool serverSide = false)
         {
@@ -226,6 +226,7 @@ namespace Durak.Common
         /// <typeparam name="T">The type of the parameter to set</typeparam>
         /// <param name="name">The name of the parameter to set</param>
         /// <param name="value">The value to set</param>
+        /// <param name="serverSide">True if this parameter should be NOT syncronized with peers</param>
         private void InternalSet<T>(string name, T value, bool serverSide)
         {
             // If the parameter does not exist, add it, otherwise update it
@@ -250,12 +251,13 @@ namespace Durak.Common
             else
                 myParameters.Add(parameter.Name, parameter);
         }
-        
+
         /// <summary>
         /// Sets the given parameter to a value
         /// </summary>
         /// <param name="name">The name of the parameter to set</param>
         /// <param name="value">The value to set</param>
+        /// <param name="serverSide">True if this parameter should be NOT syncronized with peers</param>
         public void Set<T>(string name, T value, bool serverSide = false)
         {
             if (string.IsNullOrWhiteSpace(name) || name[0] == '@')
@@ -273,6 +275,7 @@ namespace Durak.Common
         /// <param name="name">The name of the parameter to set</param>
         /// <param name="index">The index in the array</param>
         /// <param name="value">The value to set</param>
+        /// <param name="serverSide">True if this parameter should be NOT syncronized with peers</param>
         public void Set<T>(string name, int index, T value, bool serverSide = false)
         {
             if (!StateParameter.SUPPORTED_TYPES.ContainsKey(typeof(T)))
@@ -287,6 +290,7 @@ namespace Durak.Common
         /// </summary>
         /// <typeparam name="T">The type of the parameter to get</typeparam>
         /// <param name="name">The name of the parameter to get</param>
+        /// <param name="serverSide">True if this parameter should be NOT syncronized with peers</param>
         private T GetValueInternal<T>(string name, bool serverSide = false)
         {
             // If we have that parameter, then get it
@@ -422,6 +426,7 @@ namespace Durak.Common
         /// Gets the parameter in an array with the given name as a card rank
         /// </summary>
         /// <param name="name">The name of the parameter to get</param>
+        /// <param name="index">The index of the element with the array</param>
         /// <returns>The parameter with the given name</returns>
         public CardRank GetValueCardRank(string name, int index)
         {

@@ -28,50 +28,50 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnPlaySingle = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.btnJoin = new System.Windows.Forms.Button();
+            this.btnHost = new System.Windows.Forms.Button();
+            this.btnBack = new System.Windows.Forms.Button();
             this.lblTitle = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // btnPlaySingle
+            // btnJoin
             // 
-            this.btnPlaySingle.BackColor = System.Drawing.Color.DarkGreen;
-            this.btnPlaySingle.Font = new System.Drawing.Font("Impact", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPlaySingle.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnPlaySingle.Location = new System.Drawing.Point(74, 120);
-            this.btnPlaySingle.Name = "btnPlaySingle";
-            this.btnPlaySingle.Size = new System.Drawing.Size(202, 45);
-            this.btnPlaySingle.TabIndex = 3;
-            this.btnPlaySingle.Text = "JOIN";
-            this.btnPlaySingle.UseVisualStyleBackColor = false;
-            this.btnPlaySingle.Click += new System.EventHandler(this.btnPlaySingle_Click);
+            this.btnJoin.BackColor = System.Drawing.Color.DarkGreen;
+            this.btnJoin.Font = new System.Drawing.Font("Impact", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnJoin.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnJoin.Location = new System.Drawing.Point(74, 120);
+            this.btnJoin.Name = "btnJoin";
+            this.btnJoin.Size = new System.Drawing.Size(202, 45);
+            this.btnJoin.TabIndex = 3;
+            this.btnJoin.Text = "JOIN";
+            this.btnJoin.UseVisualStyleBackColor = false;
+            this.btnJoin.Click += new System.EventHandler(this.JoinClick);
             // 
-            // button1
+            // btnHost
             // 
-            this.button1.BackColor = System.Drawing.Color.DarkGreen;
-            this.button1.Font = new System.Drawing.Font("Impact", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.button1.Location = new System.Drawing.Point(74, 69);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(202, 45);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "HOST";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnHost.BackColor = System.Drawing.Color.DarkGreen;
+            this.btnHost.Font = new System.Drawing.Font("Impact", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnHost.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnHost.Location = new System.Drawing.Point(74, 69);
+            this.btnHost.Name = "btnHost";
+            this.btnHost.Size = new System.Drawing.Size(202, 45);
+            this.btnHost.TabIndex = 4;
+            this.btnHost.Text = "HOST";
+            this.btnHost.UseVisualStyleBackColor = false;
+            this.btnHost.Click += new System.EventHandler(this.HostClick);
             // 
-            // button2
+            // btnBack
             // 
-            this.button2.BackColor = System.Drawing.Color.DarkGreen;
-            this.button2.Font = new System.Drawing.Font("Impact", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.button2.Location = new System.Drawing.Point(74, 171);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(202, 45);
-            this.button2.TabIndex = 5;
-            this.button2.Text = "BACK";
-            this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.btnBack.BackColor = System.Drawing.Color.DarkGreen;
+            this.btnBack.Font = new System.Drawing.Font("Impact", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBack.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnBack.Location = new System.Drawing.Point(74, 171);
+            this.btnBack.Name = "btnBack";
+            this.btnBack.Size = new System.Drawing.Size(202, 45);
+            this.btnBack.TabIndex = 5;
+            this.btnBack.Text = "BACK";
+            this.btnBack.UseVisualStyleBackColor = false;
+            this.btnBack.Click += new System.EventHandler(this.BackClick);
             // 
             // lblTitle
             // 
@@ -91,9 +91,9 @@
             this.BackColor = System.Drawing.Color.DarkGreen;
             this.ClientSize = new System.Drawing.Size(352, 239);
             this.Controls.Add(this.lblTitle);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.btnPlaySingle);
+            this.Controls.Add(this.btnBack);
+            this.Controls.Add(this.btnHost);
+            this.Controls.Add(this.btnJoin);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -106,9 +106,9 @@
 
         #endregion
 
-        private System.Windows.Forms.Button btnPlaySingle;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnJoin;
+        private System.Windows.Forms.Button btnHost;
+        private System.Windows.Forms.Button btnBack;
         private System.Windows.Forms.Label lblTitle;
     }
 }

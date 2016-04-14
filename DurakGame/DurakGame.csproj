@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\DurakGame.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -106,12 +107,6 @@
     <Compile Include="CardPlayer.Designer.cs">
       <DependentUpon>CardPlayer.cs</DependentUpon>
     </Compile>
-    <Compile Include="DebugClientView.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DebugClientView.Designer.cs">
-      <DependentUpon>DebugClientView.cs</DependentUpon>
-    </Compile>
     <Compile Include="DurakGame.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -189,9 +184,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CardPlayer.resx">
       <DependentUpon>CardPlayer.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DebugClientView.resx">
-      <DependentUpon>DebugClientView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DurakGame.resx">
       <DependentUpon>DurakGame.cs</DependentUpon>

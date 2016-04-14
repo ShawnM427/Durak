@@ -13,13 +13,31 @@ using Durak.Client;
 
 namespace DurakGame
 {
+    /// <summary>
+    /// A custom control used to draw a player in to lobby view
+    /// </summary>
     public partial class PlayerView : UserControl
     {
+        /// <summary>
+        /// The backing field for HasControl
+        /// </summary>
         private bool hasControl;
+        /// <summary>
+        /// The backing field for IsReady
+        /// </summary>
         private bool isReady;
+        /// <summary>
+        /// The backing field for Player
+        /// </summary>
         private Player myPlayer;
+        /// <summary>
+        /// The backing field for Client
+        /// </summary>
         private GameClient myClient;
 
+        /// <summary>
+        /// Gets or sets whether the client has control over the player
+        /// </summary>
         public bool HasControl
         {
             get { return hasControl; }
@@ -40,6 +58,9 @@ namespace DurakGame
                 }
             }
         }
+        /// <summary>
+        /// Gets or sets whether the player this view represents is ready
+        /// </summary>
         public bool IsReady
         {
             get { return isReady; }
@@ -49,6 +70,9 @@ namespace DurakGame
                 DetermineReadyImage();
             }
         }
+        /// <summary>
+        /// Gets or sets the player that this view represents
+        /// </summary>
         public Player Player
         {
             get { return myPlayer; }
@@ -77,6 +101,9 @@ namespace DurakGame
                 }
             }
         }
+        /// <summary>
+        /// Gets or sets the client that is rendering this view
+        /// </summary>
         public GameClient Client
         {
             get { return myClient; }
@@ -90,8 +117,24 @@ namespace DurakGame
             }
         }
 
+        /// <summary>
+        /// Invoked when the IsReady value has changed
+        /// </summary>
         public event EventHandler<bool> OnReadinessChanged;
+        
+        /// <summary>
+        /// Creates a new empty player view
+        /// </summary>
+        public PlayerView()
+        {
+            InitializeComponent();
+        }
 
+        /// <summary>
+        /// Invoked when the ready button is clicked
+        /// </summary>
+        /// <param name="sender">The button that invoked the event</param>
+        /// <param name="e">The blank event arguments</param>
         private void ReadyClicked(object sender, EventArgs e)
         {
             if (myPlayer.IsBot && Client.IsHost)
@@ -113,24 +156,28 @@ namespace DurakGame
             }
         }
 
-
+        /// <summary>
+        /// Invoked when the player's readiness has changed
+        /// </summary>
+        /// <param name="sender">The object that invoked the event</param>
+        /// <param name="e">The player that the event is raised for</param>
         private void OnPlayerReady(object sender, Player e)
         {
             if (e == Player)
                 IsReady = Player.IsReady;
         }
 
+        /// <summary>
+        /// Determines the ready image for this view
+        /// </summary>
         private void DetermineReadyImage()
         {
+            if (Client.IsHost && Player.IsBot)
+                imgReady.Image = Resources.delete;
             if (!Player.IsHost)
                 imgReady.Image = IsReady ? Resources.ready : Resources.notReady;
             else
                 imgReady.Image = null;
-        }
-
-        public PlayerView()
-        {
-            InitializeComponent();
         }
     }
 }

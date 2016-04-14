@@ -1,4 +1,4 @@
-﻿/**
+﻿/*
  * CardBox.cs - The CardBox Class
  *
  * @author      Ryan Schuette
@@ -104,6 +104,9 @@ namespace Durak
         /// the height and width of the control and updates the image.
         /// </summary>
         private Orientation myOrientation;
+        /// <summary>
+        /// Gets or sets the orientation of the card
+        /// </summary>
         public Orientation CardOrientation
         {
             get { return myOrientation; }

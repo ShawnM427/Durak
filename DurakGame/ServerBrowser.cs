@@ -13,6 +13,9 @@ using System.Windows.Forms;
 
 namespace DurakGame
 {
+    /// <summary>
+    /// Represents the form used to browse for servers
+    /// </summary>
     public partial class frmServerBrowser : Form
     {
         GameClient myClient;
@@ -21,6 +24,9 @@ namespace DurakGame
 
         Dictionary<ServerTag, ListViewItem> myListItems;
 
+        /// <summary>
+        /// Creates and initializes a new server browser form
+        /// </summary>
         public frmServerBrowser()
         {
             InitializeComponent();
@@ -28,6 +34,9 @@ namespace DurakGame
             Initialize();
         }
 
+        /// <summary>
+        /// Initializes this server browser form
+        /// </summary>
         public void Initialize()
         {
             myClient = new GameClient(new ClientTag(Settings.Default.UserName));
@@ -51,6 +60,11 @@ namespace DurakGame
             lstServers.MouseDoubleClick += ServerListDoubleClicked;
         }
 
+        /// <summary>
+        /// Invoked when a server list item has been double clicked
+        /// </summary>
+        /// <param name="sender">The object to be invoked</param>
+        /// <param name="e">The mouse event argument containing the mouse information</param>
         private void ServerListDoubleClicked(object sender, MouseEventArgs e)
         {
             ListViewItem item = lstServers.HitTest(e.Location).Item;
@@ -78,12 +92,22 @@ namespace DurakGame
             }
         }
 
+        /// <summary>
+        /// Invoked when a server tag has been updated
+        /// </summary>
+        /// <param name="sender">The object that raised the event</param>
+        /// <param name="e">The server tag that was updated</param>
         private void ServerUpdated(object sender, ServerTag e)
         {
             myListItems[e].SubItems[0].Text = e.Name;
             myListItems[e].SubItems[1].Text = e.PlayerCount + "/" + e.SupportedPlayerCount;
         }
 
+        /// <summary>
+        /// Invoked when a new server has been discovered
+        /// </summary>
+        /// <param name="sender">The object that raised the event</param>
+        /// <param name="tag">The server tag that was discovered</param>
         private void NewServerDiscovered(object sender, ServerTag tag)
         {
             ListViewItem item = new ListViewItem(new string[] { tag.Name, tag.PlayerCount + "/" + tag.SupportedPlayerCount });
@@ -92,39 +116,24 @@ namespace DurakGame
             lstServers.Items.Add(item);
         }
 
+        /// <summary>
+        /// Invoked when the server timer tick has been invoked
+        /// </summary>
+        /// <param name="sender">The sender that raised the event (the timer)</param>
+        /// <param name="e">The default event arguments</param>
         private void PollServersEvent(object sender, EventArgs e)
         {
             myClient.DiscoverServers();
         }
 
+        /// <summary>
+        /// Invoked when a client has received a discovery response from a server
+        /// </summary>
+        /// <param name="sender">The object that raised the event</param>
+        /// <param name="tag">The server tag that was discovered</param>
         private void ServerDiscovered(object sender, ServerTag tag)
         {
             myServers.AddItem(tag);
-        }
-
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

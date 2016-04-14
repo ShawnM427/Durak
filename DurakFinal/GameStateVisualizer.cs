@@ -11,10 +11,19 @@ using Durak.Common;
 
 namespace DurakCommon
 {
+    /// <summary>
+    /// Represents a control that can be used to render a game state
+    /// </summary>
     public partial class GameStateVisualizer : UserControl
     {
+        /// <summary>
+        /// The game state to render
+        /// </summary>
         private GameState myState;
         
+        /// <summary>
+        /// Creates a new empty game state visualizer
+        /// </summary>
         public GameStateVisualizer()
         {
             InitializeComponent();
@@ -28,6 +37,10 @@ namespace DurakCommon
             }
         }
 
+        /// <summary>
+        /// Overrides the OnResize event, this will resize the volumns
+        /// </summary>
+        /// <param name="e">The blank event arguments for the event</param>
         protected override void OnResize(EventArgs e)
         {
             base.OnResize(e);
@@ -39,6 +52,10 @@ namespace DurakCommon
             }
         }
 
+        /// <summary>
+        /// Sets the game state for this visualizer to render
+        /// </summary>
+        /// <param name="state">The state to render</param>
         public void SetState(GameState state)
         {
             myState = state;
@@ -54,11 +71,21 @@ namespace DurakCommon
             myState.OnCleared += StateCleared;
         }
 
+        /// <summary>
+        /// Invoked when the state has been cleared
+        /// </summary>
+        /// <param name="sender">The object to invoke the event (the GameState)</param>
+        /// <param name="e">The empty event argument</param>
         private void StateCleared(object sender, EventArgs e)
         {
             dgvMainView.Rows.Clear();
         }
 
+        /// <summary>
+        /// Invoked when a state parameter has changed
+        /// </summary>
+        /// <param name="sender">The object to invoke the event (the GameState)</param>
+        /// <param name="e">The state parameter that has been updated</param>
         private void StateChanged(object sender, StateParameter e)
         {
             bool exists = false;

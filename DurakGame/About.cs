@@ -10,8 +10,14 @@ using System.Windows.Forms;
 
 namespace DurakGame
 {
+    /// <summary>
+    /// The form for showing information about this app,
+    /// </summary>
     public partial class About : Form
     {
+        /// <summary>
+        /// Creates a new About form
+        /// </summary>
         public About()
         {
             InitializeComponent();

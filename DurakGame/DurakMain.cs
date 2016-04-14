@@ -10,24 +10,44 @@ using System.Windows.Forms;
 
 namespace DurakGame
 {
+    /// <summary>
+    /// Represents the main entry form for the application
+    /// </summary>
     public partial class frmDurakMain : Form
     {
+        /// <summary>
+        /// Creates a new main form
+        /// </summary>
         public frmDurakMain()
         {
             InitializeComponent();
         }
 
-
-        private void btnPlaySingle_MouseLeave(object sender, EventArgs e)
+        /// <summary>
+        /// Invoked when the mouse has left the bounds of a button
+        /// </summary>
+        /// <param name="sender">The button that the event is invoked for</param>
+        /// <param name="e">The blank event arguments</param>
+        private void ButtonMouseLeft(object sender, EventArgs e)
         {
             (sender as Button).BackColor =  Color.DarkGreen;
         }
 
-        private void btnPlaySingle_MouseEnter(object sender, EventArgs e)
+        /// <summary>
+        /// Invoked when the mouse has left the bounds of a button
+        /// </summary>
+        /// <param name="sender">The button that the event is invoked for</param>
+        /// <param name="e">The blank event arguments</param>
+        private void ButtonMouseEntered(object sender, EventArgs e)
         {
             (sender as Button).BackColor = Color.White;
         }
 
+        /// <summary>
+        /// Invoked when the play singleplayer button has been pressed
+        /// </summary>
+        /// <param name="sender">The button that the event is invoked for</param>
+        /// <param name="e">The blank event arguments</param>
         private void btnPlaySingle_Click(object sender, EventArgs e)
         {
             this.Hide();
@@ -39,6 +59,11 @@ namespace DurakGame
             this.Show();
         }
 
+        /// <summary>
+        /// Invoked when the play multiplayer button has been pressed
+        /// </summary>
+        /// <param name="sender">The button that the event is invoked for</param>
+        /// <param name="e">The blank event arguments</param>
         private void btnPlayMulti_Click(object sender, EventArgs e)
         {
             this.Hide();

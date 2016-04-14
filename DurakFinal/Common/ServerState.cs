@@ -15,6 +15,9 @@ namespace Durak.Common
         /// The server is in game
         /// </summary>
         InGame,
+        /// <summary>
+        /// The server is currently not running
+        /// </summary>
         NotRunning
     }
 }

@@ -858,7 +858,6 @@
             this.dscDiscard.Name = "dscDiscard";
             this.dscDiscard.Size = new System.Drawing.Size(211, 203);
             this.dscDiscard.TabIndex = 0;
-            this.dscDiscard.Load += new System.EventHandler(this.dscDiscard_Load);
             // 
             // frmDurakGame
             // 
@@ -888,7 +887,6 @@
             this.MinimizeBox = false;
             this.Name = "frmDurakGame";
             this.Text = "Durak";
-            this.Load += new System.EventHandler(this.frmDurakGame_Load);
             this.grpBattle1.ResumeLayout(false);
             this.grpBattle2.ResumeLayout(false);
             this.grpBattle3.ResumeLayout(false);

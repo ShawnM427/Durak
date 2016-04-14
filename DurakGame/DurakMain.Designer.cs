@@ -67,8 +67,8 @@
             this.btnPlaySingle.Text = "Single Player";
             this.btnPlaySingle.UseVisualStyleBackColor = false;
             this.btnPlaySingle.Click += new System.EventHandler(this.btnPlaySingle_Click);
-            this.btnPlaySingle.MouseEnter += new System.EventHandler(this.btnPlaySingle_MouseEnter);
-            this.btnPlaySingle.MouseLeave += new System.EventHandler(this.btnPlaySingle_MouseLeave);
+            this.btnPlaySingle.MouseEnter += new System.EventHandler(this.ButtonMouseEntered);
+            this.btnPlaySingle.MouseLeave += new System.EventHandler(this.ButtonMouseLeft);
             // 
             // btnPlayMulti
             // 
@@ -82,8 +82,8 @@
             this.btnPlayMulti.Text = "Multiplayer";
             this.btnPlayMulti.UseVisualStyleBackColor = false;
             this.btnPlayMulti.Click += new System.EventHandler(this.btnPlayMulti_Click);
-            this.btnPlayMulti.MouseEnter += new System.EventHandler(this.btnPlaySingle_MouseEnter);
-            this.btnPlayMulti.MouseLeave += new System.EventHandler(this.btnPlaySingle_MouseLeave);
+            this.btnPlayMulti.MouseEnter += new System.EventHandler(this.ButtonMouseEntered);
+            this.btnPlayMulti.MouseLeave += new System.EventHandler(this.ButtonMouseLeft);
             // 
             // btnAbout
             // 
@@ -96,8 +96,8 @@
             this.btnAbout.TabIndex = 4;
             this.btnAbout.Text = "About";
             this.btnAbout.UseVisualStyleBackColor = false;
-            this.btnAbout.MouseEnter += new System.EventHandler(this.btnPlaySingle_MouseEnter);
-            this.btnAbout.MouseLeave += new System.EventHandler(this.btnPlaySingle_MouseLeave);
+            this.btnAbout.MouseEnter += new System.EventHandler(this.ButtonMouseEntered);
+            this.btnAbout.MouseLeave += new System.EventHandler(this.ButtonMouseLeft);
             // 
             // btnSettings
             // 

@@ -99,6 +99,7 @@ namespace Durak.Common
         /// <typeparam name="T">The type of parameter to create</typeparam>
         /// <param name="name">The name of the parameter</param>
         /// <param name="value">The value of the parameter</param>
+        /// <param name="syncronize">True if this parameter should be syncronized across all peers</param>
         public static StateParameter Construct<T>(string name, T value, bool syncronize)
         {
             StateParameter result = new StateParameter();
@@ -384,9 +385,6 @@ namespace Durak.Common
         /// <summary>
         /// Decodes the value from a message
         /// </summary>
-        /// <param name="name">The parameter name</param>
-        /// <param name="type">The parameter type</param>
-        /// <param name="result">The value to store the result in</param>
         /// <param name="msg">The message to read from</param>
         private void DecodeInternal(NetIncomingMessage msg)
         {
@@ -537,15 +535,45 @@ namespace Durak.Common
         /// </summary>
         public enum Type
         {
+            /// <summary>
+            /// This state parameter is of System.Byte
+            /// </summary>
             Byte,
+            /// <summary>
+            /// This state parameter is of System.Char
+            /// </summary>
             Char,
+            /// <summary>
+            /// This state parameter is of System.Int16
+            /// </summary>
             Short,
+            /// <summary>
+            /// This state parameter is of System.Int32
+            /// </summary>
             Int,
+            /// <summary>
+            /// This state parameter is of System.Boolean
+            /// </summary>
             Bool,
+            /// <summary>
+            /// This state parameter is of DurakCommom.Cards.CardSuit
+            /// </summary>
             CardSuit,
+            /// <summary>
+            /// This state parameter is of DurakCommom.Cards.CardRank
+            /// </summary>
             CardRank,
+            /// <summary>
+            /// This state parameter is of System.String
+            /// </summary>
             String,
+            /// <summary>
+            /// This state parameter is of DurakCommom.Cards.PlayingCard
+            /// </summary>
             PlayingCard,
+            /// <summary>
+            /// This state parameter is of DurakCommom.Cards.CardCollection
+            /// </summary>
             CardCollection
         }
     }

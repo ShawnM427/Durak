@@ -66,6 +66,10 @@ namespace Durak.Common
             mySingleton.myStream.Flush();
         }
 
+        /// <summary>
+        /// Writes an exception to the log
+        /// </summary>
+        /// <param name="e">The exception to log</param>
         public static void Write(Exception e)
         {
             Write("Encounted {0} at:", e.GetType().Name);

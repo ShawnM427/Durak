@@ -1,4 +1,4 @@
-﻿/**
+﻿/*
  * CardSuit.cs - The CardSuit Enumeration
  *
  * This enumeration represents all the different suits in a deck of cards
@@ -16,9 +16,21 @@ namespace Durak.Common.Cards
     /// </summary>
     public enum CardSuit : byte
     {
+        /// <summary>
+        /// The card rank is Spades
+        /// </summary>
         Spades,
+        /// <summary>
+        /// The card rank is Hearts
+        /// </summary>
         Hearts,
+        /// <summary>
+        /// The card rank is Diamonds
+        /// </summary>
         Diamonds,
+        /// <summary>
+        /// The card rank is Clubs
+        /// </summary>
         Clubs
     }
 }

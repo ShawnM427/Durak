@@ -5,14 +5,22 @@ using Durak.Common.Cards;
 
 namespace DurakGame.Rules
 {
+    /// <summary>
+    /// Rule for setting up the initial state
+    /// </summary>
     public class InitRoundStates : IGameInitRule
     {
+        /// <summary>
+        /// Gets or sets whether this rule is enabled
+        /// </summary>
         public bool IsEnabled
         {
             get;
             set;
         }
-
+        /// <summary>
+        /// Gets the priority for this rule, higher priorities are excecuted first
+        /// </summary>
         public int Priority
         {
             get
@@ -20,7 +28,9 @@ namespace DurakGame.Rules
                 return 100;
             }
         }
-
+        /// <summary>
+        /// Gets the human readable name for this state rule
+        /// </summary>
         public string ReadableName
         {
             get
@@ -29,6 +39,11 @@ namespace DurakGame.Rules
             }
         }
 
+        /// <summary>
+        /// Initializes the game state, including building the deck and dealing initial cards
+        /// </summary>
+        /// <param name="players">The server's player collection</param>
+        /// <param name="state">The server's game state</param>
         public void InitState(PlayerCollection players, GameState state)
         {
             state.Set(Names.IS_ATTACKING, true);
@@ -50,7 +65,7 @@ namespace DurakGame.Rules
             state.Set(Names.DEFENDING_PLAYER, defendingPlayerId);
 
             // Build the deck
-            Deck deck = new Deck(CardRank.Six, CardRank.King);
+            Deck deck = new Deck(CardRank.Six, CardRank.Ace);
             deck.Shuffle();
 
             // Draw the trump card

@@ -164,6 +164,10 @@ namespace DurakGame
             Invalidate();
         }
 
+        /// <summary>
+        /// Overrides the mouse clicked event, this is where cards get actually played
+        /// </summary>
+        /// <param name="e">The mouse event arguments, with the mouse's information</param>
         protected override void OnMouseClick(MouseEventArgs e)
         {
             base.OnMouseClick(e);

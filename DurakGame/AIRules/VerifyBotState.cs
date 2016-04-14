@@ -10,6 +10,12 @@ namespace DurakGame.Rules
     /// </summary>
     public class VerifyBotState : IBotInvokeStateChecker
     {
+        /// <summary>
+        /// Implements the bot state check interface
+        /// </summary>
+        /// <param name="state">The game state to verify against</param>
+        /// <param name="player">The bot to verify for</param>
+        /// <returns>True if the bot should pick a move, false if otherwise</returns>
         public bool ShouldInvoke(GameState state, BotPlayer player)
         {
             if (state.GetValueBool(Names.GAME_OVER))

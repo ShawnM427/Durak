@@ -15,31 +15,56 @@ using System.Windows.Forms;
 
 namespace DurakGame
 {
+    /// <summary>
+    /// Represents the main game form for Durak
+    /// </summary>
     public partial class frmDurakGame : Form
     {
-
-        //A struct to hold the ui items for a player
+        /// <summary>
+        /// A struct to hold the ui items for a player
+        /// </summary>        
         private struct PlayerUITag
         {
+            /// <summary>
+            /// Gets or sets the panel that this player is sitting on
+            /// </summary>
             public BorderPanel Panel;
+            /// <summary>
+            /// Gets or sets the label that shows the player's name
+            /// </summary>
             public Label NameLabel;
+            /// <summary>
+            /// Gets or sets the label that shows the player's card count
+            /// </summary>
             public Label CardCountLabel;
+            /// <summary>
+            /// Gets or sets the card box that show's this player's card box
+            /// </summary>
             public CardBox CardBox;
         }
 
-        GameClient myClient;
-        GameServer myServer;
+        /// <summary>
+        /// Stores the game client for this game
+        /// </summary>
+        private GameClient myClient;
+        /// <summary>
+        /// Stores the game server for this game, if this person is host
+        /// </summary>
+        private GameServer myServer;
 
-        Dictionary<Player, PlayerUITag> myPlayerUIs;
-
-        BorderPanel myDefendingPlayerContainer;
-        BorderPanel myAttackingPlayerContainer;
-
+        /// <summary>
+        /// Stores the list of player UI tags
+        /// </summary>
+        private Dictionary<Player, PlayerUITag> myPlayerUIs;
+        
         /// <summary>
         /// We use this to track if we are hard closing
         /// </summary>
         bool isHardClose = true;
 
+        /// <summary>
+        /// Creates a new Game client form
+        /// </summary>
         public frmDurakGame()
         {
             InitializeComponent();
@@ -54,11 +79,19 @@ namespace DurakGame
             pnlPlayer5.Visible = false;
         }
 
+        /// <summary>
+        /// Sets the server for this game
+        /// </summary>
+        /// <param name="server">The server for this host</param>
         public void SetServer(GameServer server)
         {
             myServer = server;
         }
 
+        /// <summary>
+        /// Sets the Game client for this game
+        /// </summary>
+        /// <param name="client">The client to represent</param>
         public void SetClient(GameClient client)
         {
             myClient = client;
@@ -168,6 +201,11 @@ namespace DurakGame
             cplPlayersHand.Cards = myClient.Hand;
         }
 
+        /// <summary>
+        /// Invoked when the game is over
+        /// </summary>
+        /// <param name="sender">The that raised the event (The GameState)</param>
+        /// <param name="p">The state parameter that was updated</param>
         private void GameOver(object sender, StateParameter p)
         {
             string message = "Game Over!\n";
@@ -190,7 +228,12 @@ namespace DurakGame
                 myClient.RequestServerState(ServerState.InLobby);
             }
         }
-        
+
+        /// <summary>
+        /// Invoked when the attacking or defending player has changed
+        /// </summary>
+        /// <param name="sender">The that raised the event (The GameState)</param>
+        /// <param name="p">The state parameter that was updated</param>
         private void AttackingPlayersChanged(object sender, StateParameter p)
         {
             foreach (KeyValuePair<Player, PlayerUITag> pair in myPlayerUIs)
@@ -203,9 +246,9 @@ namespace DurakGame
 
             Player attackingPlayer = myClient.KnownPlayers[myClient.LocalState.GetValueByte(Names.ATTACKING_PLAYER)];
             Player defendingPlayer = myClient.KnownPlayers[myClient.LocalState.GetValueByte(Names.DEFENDING_PLAYER)];
-            
-            myAttackingPlayerContainer = myPlayerUIs[attackingPlayer].Panel;
-            myDefendingPlayerContainer = myPlayerUIs[defendingPlayer].Panel;
+
+            BorderPanel myAttackingPlayerContainer = myPlayerUIs[attackingPlayer].Panel;
+            BorderPanel myDefendingPlayerContainer = myPlayerUIs[defendingPlayer].Panel;
 
             myAttackingPlayerContainer.ShowBorder = true;
             myAttackingPlayerContainer.BorderColor = Color.Red;
@@ -214,12 +257,21 @@ namespace DurakGame
             myDefendingPlayerContainer.BorderColor = Color.Blue;
         }
 
+        /// <summary>
+        /// Invoked when the client has successfully connected to the server
+        /// </summary>
+        /// <param name="sender">The object that invoked the event (the GameClient)</param>
+        /// <param name="e">The blank event arguments</param>
         private void ClientConnected(object sender, EventArgs e)
         {
             cplPlayersHand.Cards = myClient.Hand;
         }
 
-        //Throw when a client disconnects
+        /// <summary>
+        /// Invoked when the client has disconnected from the server
+        /// </summary>
+        /// <param name="sender">The object that invoked the event (the GameClient)</param>
+        /// <param name="e">The blank event arguments</param>
         private void ClientDisconnected(object sender, EventArgs e)
         {
             MessageBox.Show("Server has disconnected, returning to main menu");
@@ -227,6 +279,10 @@ namespace DurakGame
             this.Close();
         }
 
+        /// <summary>
+        /// Overrides the OnClosing event for this form, will kill the client and server if this is a hard close
+        /// </summary>
+        /// <param name="e">The event arguments that lets us cancel the close</param>
         protected override void OnClosing(CancelEventArgs e)
         {
             if (isHardClose)
@@ -241,6 +297,11 @@ namespace DurakGame
             }
         }
 
+        /// <summary>
+        /// Invoked when the player's card count has changed
+        /// </summary>
+        /// <param name="player">The player whose card count has cahnged</param>
+        /// <param name="newCardCount">The player's new card count</param>
         private void PlayerCardCountChanged(Durak.Common.Player player, int newCardCount)
         {
             if (player.PlayerId != myClient.PlayerId)
@@ -251,31 +312,36 @@ namespace DurakGame
             }
         }
 
-        private void frmDurakGame_Load(object sender, EventArgs e)
-        {
-
-        }
-
+        /// <summary>
+        /// Invoked when the Card Picker has had a card selected
+        /// </summary>
+        /// <param name="sender">The object that invoked the event (the Card Picker)</param>
+        /// <param name="e">The card event arguments for the event, containing the card that was selected</param>
         private void cplPlayersHand_OnCardSelected(object sender, Durak.Common.Cards.CardEventArgs e)
         {
             if (myClient != null)
                 myClient.RequestMove(e.Card);
         }
 
+        /// <summary>
+        /// Invoked when the forfeit button has been clicked
+        /// </summary>
+        /// <param name="sender">The object that raised the event (the button)</param>
+        /// <param name="e">The blank event arguments</param>
         private void btnForfeit_Click(object sender, EventArgs e)
         {
             myClient.RequestMove(null);
         }
 
+        /// <summary>
+        /// Invoked when the request help button is clicked
+        /// </summary>
+        /// <param name="sender">The object that raised the event (the button)</param>
+        /// <param name="e">The blank event arguments</param>
         private void btnReqHelp_Click(object sender, EventArgs e)
         {
             StateParameter param = StateParameter.Construct<bool>(Names.REQUEST_HELP, true, true);
             myClient.RequestState(param);
-        }
-
-        private void dscDiscard_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

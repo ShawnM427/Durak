@@ -14,13 +14,28 @@ using System.Windows.Forms;
 
 namespace DurakGame
 {
+    /// <summary>
+    /// The form to display for singleplayer and multiplayer lobbies
+    /// </summary>
     public partial class frmLobby : Form
     {
-        GameServer myServer;
-        GameClient myClient;
+        /// <summary>
+        /// Stores the game server if this game is host
+        /// </summary>
+        private GameServer myServer;
+        /// <summary>
+        /// Stores the game client
+        /// </summary>
+        private GameClient myClient;
 
-        List<PlayerView> myViews;
+        /// <summary>
+        /// Stores a list of all the player views
+        /// </summary>
+        private List<PlayerView> myViews;
 
+        /// <summary>
+        /// Creates a new lobby form
+        /// </summary>
         public frmLobby()
         {
             InitializeComponent();
@@ -63,7 +78,7 @@ namespace DurakGame
         /// <summary>
         /// Initializes the lobby in multiplayer mode, with the player connecting to another server
         /// </summary>
-        /// <param name="tag"></param>
+        /// <param name="tag">The tag to connect to</param>
         public void InitMultiplayer(ServerTag tag)
         {
             myServer = null;
@@ -81,6 +96,11 @@ namespace DurakGame
             btnStart.Text = "Ready";
         }
 
+        /// <summary>
+        /// Initializes the lobby in multiplayer mode, with the player connecting to another server
+        /// </summary>
+        /// <param name="client">The client to connect with</param>
+        /// <param name="tag">The tag to connect to</param>
         public void InitMultiplayer(GameClient client, ServerTag tag)
         {
             myServer = null;
@@ -121,13 +141,23 @@ namespace DurakGame
                 myClient.Run();
         }
 
+        /// <summary>
+        /// Invoked when the client has disconnected from the server
+        /// </summary>
+        /// <param name="sender">The object that invoked the event (the GameClient)</param>
+        /// <param name="e">The default event arguments</param>
         private void ClientDisconnected(object sender, EventArgs e)
         {
-            MessageBox.Show("Disconnected from server", "Server Connection failed");
-            DialogResult = DialogResult.Abort;
-            Close();
+            //MessageBox.Show("Disconnected from server", "Server Connection failed");
+            //DialogResult = DialogResult.Abort;
+            //Close();
         }
 
+        /// <summary>
+        /// Invoked when the client has failed to connect to a server
+        /// </summary>
+        /// <param name="sender">The object that invoked the event (the GameClient)</param>
+        /// <param name="e">The reason that the connection failed</param>
         private void ClientConnectFailed(object sender, string e)
         {
             MessageBox.Show(e, "Server Connection failed");

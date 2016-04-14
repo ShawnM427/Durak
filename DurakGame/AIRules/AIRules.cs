@@ -6,6 +6,9 @@ using System.Collections.Generic;
 
 namespace DurakGame.Rules
 {
+    /// <summary>
+    /// Represents the Core AI rule that determines the best card to play
+    /// </summary>
     public class AIRules : IAIRule
     {
         /// <summary>
