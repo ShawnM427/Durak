@@ -33,15 +33,31 @@ namespace DurakGame.Rules
                 {
                     // Start by getting a round idea of the new attackers and defenders
                     byte attackingPlayerId = (byte)(state.GetValueByte(Names.ATTACKING_PLAYER) + 1);
-                    byte defendingPlayerId = (byte)(state.GetValueByte(Names.DEFENDING_PLAYER) + 1);
 
-                    // Iterate over each player until we come across a valid attacker
-                    while (players[attackingPlayerId] == null || players[attackingPlayerId]?.Hand?.Count <= 0)
-                        attackingPlayerId = (byte)(attackingPlayerId + 1 >= players.Count ? 0 : attackingPlayerId + 1);
+                    // Iterate over each player until we come across a valid attacker                    
+                    for(byte index = attackingPlayerId, iterations = 0; iterations < players.Count; index ++, iterations ++)
+                    {
+                        index = (byte)(index >= players.Count ? players.Count - index : index);
 
-                    // Iterate over each player until we come across a valid defender
-                    while (players[defendingPlayerId] == null || players[defendingPlayerId]?.Hand?.Count <= 0)
-                        defendingPlayerId = (byte)(defendingPlayerId + 1 >= players.Count ? 0 : defendingPlayerId + 1);
+                        if (players[index] != null && players[index].Hand.Count > 0)
+                        {
+                            attackingPlayerId = index;
+                            break;
+                        }
+                    }
+                    byte defendingPlayerId = (byte)(attackingPlayerId + 1 >= players.Count ? players.Count - (attackingPlayerId + 1) : attackingPlayerId + 1);
+
+                    // Iterate over each player until we come across a valid defender       
+                    for (byte index = defendingPlayerId, iterations = 0; iterations < players.Count; index++, iterations++)
+                    {
+                        index = (byte)(index >= players.Count ? players.Count - index : index);
+
+                        if (players[index] != null && players[index].Hand.Count > 0)
+                        {
+                            defendingPlayerId = index;
+                            break;
+                        }
+                    }
 
                     // Update the attacker and defenders
                     state.Set(Names.ATTACKING_PLAYER, attackingPlayerId);

@@ -263,7 +263,6 @@ namespace DurakGame
         /// <param name="e">An empty event argument</param>
         private void ClientConnected(object sender, EventArgs e)
         {
-            pnlPlayers.Controls.Clear();
             myViews.Clear();
 
             foreach(Player p in myClient.KnownPlayers)

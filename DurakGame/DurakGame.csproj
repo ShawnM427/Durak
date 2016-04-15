@@ -156,6 +156,7 @@
     <Compile Include="Rules\Init\InitCardsRule.cs" />
     <Compile Include="Rules\Init\InitRoundStates.cs" />
     <Compile Include="Names.cs" />
+    <Compile Include="Rules\StateVerify\VerifyHasPlayers.cs" />
     <Compile Include="Rules\Utils.cs" />
     <Compile Include="Rules\StateVerify\VerifyBattleWin.cs" />
     <Compile Include="Rules\MoveVerify\VerifyCardInHand.cs" />

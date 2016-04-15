@@ -39,10 +39,7 @@ namespace DurakGame.Rules
         /// </summary>
         /// <param name="server">The server to execute on</param>
         public void ValidateState(GameServer server)
-        {
-            if (server.Players[server.GameState.GetValueByte(Names.DEFENDING_PLAYER)].Hand.Count == 0)
-                server.GameState.Set(Names.ATTACKER_FORFEIT, true);
-
+        { 
             // Only run this state update if the attacker is forfeiting
             if (server.GameState.GetValueBool(Names.ATTACKER_FORFEIT))
             {
