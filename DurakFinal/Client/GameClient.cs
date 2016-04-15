@@ -414,6 +414,9 @@ namespace Durak.Client
                                 myConnectedServer = null;
                                 isReady = false;
                                 isHost = false;
+                                myKnownPlayers.Clear();
+                                myLocalState.Clear();
+                                myHand.Clear();
 
                                 break;
 
@@ -775,6 +778,8 @@ namespace Durak.Client
                     myKnownPlayers.Clear();
                     myLocalState.Clear();
                     myHand.Clear();
+                    isReady = false;
+                    isHost = false;
                 }
             }
         }
