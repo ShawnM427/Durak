@@ -1,0 +1,194 @@
+<html>
+	<head>
+		<style media="screen" type="text/css">
+			a:link, a:visited, a:hover, a:active{
+				color: #000;
+				text-decoration: none;
+				font-size: 1.15em;
+				font-weight: bold;
+				text-decoration: underline;
+			}
+			
+			a:hover, a:active {
+				text-decoration: underline;
+				font-weight: bolder;
+			}
+			
+			a:active {
+				font-color: #CCC;
+			}
+		</style>
+	</head>
+	<body style="text-align: center;">
+		<h1><u>Durak Troubleshooting</u></h1>
+		<div style="width: 50%; margin: 0 auto; text-align: left;">
+			<ul>
+				<li><a href="#firewall">Singleplayer lobby shows no players connected</a></li>
+				<li><a href="#network_config">Program Crashes on Attempting to Make or join a Game</a></li>
+				<li><a href="#port_forwarding">Players cannot connect from outside my network</a></li>
+				<li><a href="#multi_server">Program Crashes when running Multiple Servers</a></li>
+				<li><a href="#bug_reports">Reporting a Bug</a></li>
+			</ul>
+		</div>
+		
+		<h3><u>Singleplayer lobby shows no players connected</u></h3>
+		<div id="firewall" style="width: 50%; margin: 0 auto; margin-bottom: 4em;  text-align: left;">
+			<p>
+				This is usually due to a misconfigured firewall. Durak requires ports to be forwarded on the computer in order to
+				function. In windows, these ports can be configured as follows:
+				<h4>Windows 10</h4>
+				<ol>
+					<li>Open the search menu</li>
+					<li>Enter "Allow an app through Windows Firewall", and select the result</li>
+					<li>Press the "Change settings" button at the top, you may be prompted for Administrative rights</li>
+					<li>After allowing changes to be made, press the "Allow another app..." button at the bottom of the screen</li>
+					<li>If Durak is not listed, press "Browse", otherwise select it from the list and continue
+						<ul>
+							<li>Locate "DurakGame.exe" on your machine</li>
+						</ul>
+					</li>
+					<li>Press the "Add" button</li>
+				</ol>
+				<h4>Windows 8/8.1</h4>
+				<ol>
+					<li>Open the search menu (swipe left or Windows key + Q to bring up charms bar)</li>
+					<li>Enter "Control Panel" in the search panel and hit enter</li>
+					<li>Select "Windows Firewall"</li>
+					<li>Select "Allow a program or feature through Windows Firewall" from the left hand side</li>
+					<li>Press the "Change settings" button at the top, you may be prompted for Administrative rights</li>
+					<li>After allowing changes to be made, press the "Allow another app..." button at the bottom of the screen</li>
+					<li>If Durak is not listed, press "Browse", otherwise select it from the list and continue
+						<ul>
+							<li>Locate "DurakGame.exe" on your machine</li>
+						</ul>
+					</li>
+					<li>Press the "Add" button</li>
+				</ol>
+				<h4>Windows 7</h4>
+				<ol>
+					<li>Open the start menu</li>
+					<li>Open the Control Panel</li>
+					<li>Select "Windows Firewall"</li>
+					<li>Select "Allow a program or feature through Windows Firewall" from the left hand side</li>
+					<li>Press the "Change settings" button at the top, you may be prompted for Administrative rights</li>
+					<li>After allowing changes to be made, press the "Allow another app..." button at the bottom of the screen</li>
+					<li>If Durak is not listed, press "Browse", otherwise select it from the list and continue
+						<ul>
+							<li>Locate "DurakGame.exe" on your machine</li>
+						</ul>
+					</li>
+					<li>Press the "Add" button</li>
+				</ol>
+			</p>
+		</div>
+		
+		<h3><u>Players cannot connect from outside my network</u></h3>
+		<div id="port_forwarding" style="width: 50%; margin: 0 auto; margin-bottom: 4em;  text-align: left;">
+			<p>
+				To connect to a remote server via Direct Connect, a few steps must be taken to properly set up the server:
+				
+				<ul>
+					<li>The host's ports need to be forwarded</li>
+					<li>The client needs to know the host's <a href="https://www.google.ca/#q=whats+my+IP&gws_rd=cr" target="_blank">Public IP Address</a></li>
+				</ul>
+				
+				This requires configuring both the host's machine and the host's router. First off the host needs to allow the game through the local
+				firewall using the following steps:				
+				<h4>Windows 10</h4>
+				<ol>
+					<li>Open the search menu</li>
+					<li>Enter "Allow an app through Windows Firewall", and select the result</li>
+					<li>Press the "Change settings" button at the top, you may be prompted for Administrative rights</li>
+					<li>After allowing changes to be made, press the "Allow another app..." button at the bottom of the screen</li>
+					<li>If Durak is not listed, press "Browse", otherwise select it from the list and continue
+						<ul>
+							<li>Locate "DurakGame.exe" on your machine</li>
+						</ul>
+					</li>
+					<li>Press the "Add" button</li>
+				</ol>
+				<h4>Windows 8/8.1</h4>
+				<ol>
+					<li>Open the search menu (swipe left or Windows key + Q to bring up charms bar)</li>
+					<li>Enter "Control Panel" in the search panel and hit enter</li>
+					<li>Select "Windows Firewall"</li>
+					<li>Select "Allow a program or feature through Windows Firewall" from the left hand side</li>
+					<li>Press the "Change settings" button at the top, you may be prompted for Administrative rights</li>
+					<li>After allowing changes to be made, press the "Allow another app..." button at the bottom of the screen</li>
+					<li>If Durak is not listed, press "Browse", otherwise select it from the list and continue
+						<ul>
+							<li>Locate "DurakGame.exe" on your machine</li>
+						</ul>
+					</li>
+					<li>Press the "Add" button</li>
+				</ol>
+				<h4>Windows 7</h4>
+				<ol>
+					<li>Open the start menu</li>
+					<li>Open the Control Panel</li>
+					<li>Select "Windows Firewall"</li>
+					<li>Select "Allow a program or feature through Windows Firewall" from the left hand side</li>
+					<li>Press the "Change settings" button at the top, you may be prompted for Administrative rights</li>
+					<li>After allowing changes to be made, press the "Allow another app..." button at the bottom of the screen</li>
+					<li>If Durak is not listed, press "Browse", otherwise select it from the list and continue
+						<ul>
+							<li>Locate "DurakGame.exe" on your machine</li>
+						</ul>
+					</li>
+					<li>Press the "Add" button</li>
+				</ol>
+				
+				Afterwards, the host will need to port forward port <strong>55440</strong> on their router. This process differs for 
+				different router manufacturers and models. We recommend following the tutorials on 
+				<a href="http://portforward.com/english/routers/port_forwarding/#double_column_data" target="_blank">PortForward.com</a> for your specific router model.
+			</p>
+		</div>
+				
+		<h3><u>Program Crashes on Attempting to Make or join a Game</u></h3>
+		<div id="network_config" style="width: 50%; margin: 0 auto; margin-bottom: 4em;  text-align: left;">
+			<p>
+				The most common cause of this bug is an incorrect network setup. The most common way to fix this
+				is to disable all unused network adapters. <br/>
+				In Windows, you can use the following steps to view and disable your adapters:
+				<h4>Windows 10</h4>
+				<ol>
+					<li>Open the search menu</li>
+					<li>Enter "View Network Connections", and select the control panel app</li>
+					<li>Right click the adapter to disable and select "Disable"</li>
+				</ol>
+				<h4>Windows 8/8.1</h4>
+				<ol>
+					<li>Open the search menu (swipe left or Windows key + Q to bring up charms bar)</li>
+					<li>Enter "Control Panel" in the search panel and hit enter</li>
+					<li>Select "View Network Connections" from the left hand side</li>
+					<li>Right click the adapter to disable and select "Disable"</li>
+				</ol>
+				<h4>Windows 7</h4>
+				<ol>
+					<li>Open the start menu</li>
+					<li>Open the Control Panel</li>
+					<li>Select "Network and Sharing Center"</li>
+					<li>Select "View Network Connections" from the left hand side</li>
+					<li>Right click the adapter to disable and select "Disable"</li>
+				</ol>
+			</p>
+		</div>
+		
+		<h3><u>Program Crashes when running Multiple Servers</u></h3>
+		<div id="multi_server" style="width: 50%; margin: 0 auto; margin-bottom: 4em;  text-align: left;">
+			<p>
+				Running multiple servers on one machine is currently not supported by the Durak game engine. We hope to 
+				release a fix for this in the future.
+			</p>
+		</div>
+		
+		<h3><u>Reporting a Bug</u></h3>
+		<div id="bug_reports"  style="width: 50%; margin: 0 auto; margin-bottom: 4em; text-align: left;">			
+			<p>
+				If you find a bug in the application, you can make an issue on our Github page. To do this, you will need
+				to <a href="https://github.com/join?source=header-repo" target="_blank">create a Github account</a>. Once you have a Github 
+				account, you can post on our <a href="https://github.com/StormweaverGames/Durak/issues" target="_blank">Issues</a> page.
+			</p>
+		</div>
+	</body>
+</html>
