@@ -23,6 +23,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\DurakGame.XML</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -72,6 +73,9 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Lidgren.Network, Version=3.5.1.1679, Culture=neutral, processorArchitecture=MSIL">
@@ -156,7 +160,6 @@
     <Compile Include="Rules\Init\InitCardsRule.cs" />
     <Compile Include="Rules\Init\InitRoundStates.cs" />
     <Compile Include="Names.cs" />
-    <Compile Include="Rules\StateVerify\VerifyHasPlayers.cs" />
     <Compile Include="Rules\Utils.cs" />
     <Compile Include="Rules\StateVerify\VerifyBattleWin.cs" />
     <Compile Include="Rules\MoveVerify\VerifyCardInHand.cs" />
@@ -236,9 +239,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Help.rtf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="sandbox\names-corrected.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -263,9 +263,11 @@
     <None Include="sandbox\delete.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\help.html">
+    <Content Include="logo.ico" />
+    <Content Include="Resources\about.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="sandbox\logo.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

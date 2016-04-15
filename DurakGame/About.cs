@@ -22,7 +22,7 @@ namespace DurakGame
         {
             InitializeComponent();
 
-            wbrMain.Navigate(Environment.CurrentDirectory + "/Resources/help.html");
+            wbrMain.Navigate(Environment.CurrentDirectory + "/Resources/about.html");
         }
 
         private void rtbMain_LinkClicked(object sender, LinkClickedEventArgs e)

@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmServerBrowser));
             this.label1 = new System.Windows.Forms.Label();
             this.txtDirect = new System.Windows.Forms.TextBox();
             this.btnDirect = new System.Windows.Forms.Button();
@@ -128,6 +129,7 @@
             this.Controls.Add(this.txtDirect);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmServerBrowser";

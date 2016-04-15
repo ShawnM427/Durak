@@ -31,38 +31,6 @@ namespace DurakGame.Rules
                 // If there are more than 1 players left, keep playing
                 if (activePlayers > 1)
                 {
-                    // Start by getting a round idea of the new attackers and defenders
-                    byte attackingPlayerId = (byte)(state.GetValueByte(Names.ATTACKING_PLAYER) + 1);
-
-                    // Iterate over each player until we come across a valid attacker                    
-                    for(byte index = attackingPlayerId, iterations = 0; iterations < players.Count; index ++, iterations ++)
-                    {
-                        index = (byte)(index >= players.Count ? players.Count - index : index);
-
-                        if (players[index] != null && players[index].Hand.Count > 0)
-                        {
-                            attackingPlayerId = index;
-                            break;
-                        }
-                    }
-                    byte defendingPlayerId = (byte)(attackingPlayerId + 1 >= players.Count ? players.Count - (attackingPlayerId + 1) : attackingPlayerId + 1);
-
-                    // Iterate over each player until we come across a valid defender       
-                    for (byte index = defendingPlayerId, iterations = 0; iterations < players.Count; index++, iterations++)
-                    {
-                        index = (byte)(index >= players.Count ? players.Count - index : index);
-
-                        if (players[index] != null && players[index].Hand.Count > 0)
-                        {
-                            defendingPlayerId = index;
-                            break;
-                        }
-                    }
-
-                    // Update the attacker and defenders
-                    state.Set(Names.ATTACKING_PLAYER, attackingPlayerId);
-                    state.Set(Names.DEFENDING_PLAYER, defendingPlayerId);
-
                     // Clear the battle-specific states
                     state.Set(Names.IS_ATTACKING, true);
                     state.Set(Names.ATTACKER_FORFEIT, false);
@@ -111,6 +79,38 @@ namespace DurakGame.Rules
                         if (id == startId)
                             break;
                     }
+
+                    // Start by getting a round idea of the new attackers and defenders
+                    byte attackingPlayerId = (byte)(state.GetValueByte(Names.ATTACKING_PLAYER) + 1);
+
+                    // Iterate over each player until we come across a valid attacker                    
+                    for (byte index = attackingPlayerId, iterations = 0; iterations < players.Count; index++, iterations++)
+                    {
+                        index = (byte)(index >= players.Count ? players.Count - index : index);
+
+                        if (players[index] != null && players[index].Hand.Count > 0)
+                        {
+                            attackingPlayerId = index;
+                            break;
+                        }
+                    }
+                    byte defendingPlayerId = (byte)(attackingPlayerId + 1 >= players.Count ? players.Count - (attackingPlayerId + 1) : attackingPlayerId + 1);
+
+                    // Iterate over each player until we come across a valid defender       
+                    for (byte index = defendingPlayerId, iterations = 0; iterations < players.Count; index++, iterations++)
+                    {
+                        index = (byte)(index >= players.Count ? players.Count - index : index);
+
+                        if (players[index] != null && players[index].Hand.Count > 0)
+                        {
+                            defendingPlayerId = index;
+                            break;
+                        }
+                    }
+
+                    // Update the attacker and defenders
+                    state.Set(Names.ATTACKING_PLAYER, attackingPlayerId);
+                    state.Set(Names.DEFENDING_PLAYER, defendingPlayerId);
 
                     state.Set(Names.DECK, deck.Cards);
                     state.Set(Names.DECK_COUNT, deck.CardsInDeck);

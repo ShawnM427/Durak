@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmDurakMain));
             this.lblTitle = new System.Windows.Forms.Label();
             this.lblCopyRight = new System.Windows.Forms.Label();
             this.btnPlaySingle = new System.Windows.Forms.Button();
@@ -94,7 +95,7 @@
             this.btnAbout.Name = "btnAbout";
             this.btnAbout.Size = new System.Drawing.Size(202, 45);
             this.btnAbout.TabIndex = 4;
-            this.btnAbout.Text = "Help / Rules";
+            this.btnAbout.Text = "Rules / About";
             this.btnAbout.UseVisualStyleBackColor = false;
             this.btnAbout.Click += new System.EventHandler(this.btnAbout_Click);
             this.btnAbout.MouseEnter += new System.EventHandler(this.ButtonMouseEntered);
@@ -128,6 +129,7 @@
             this.Controls.Add(this.lblCopyRight);
             this.Controls.Add(this.lblTitle);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmDurakMain";

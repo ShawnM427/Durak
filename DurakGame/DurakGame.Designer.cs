@@ -47,6 +47,7 @@
             Durak.Common.Cards.PlayingCard playingCard17 = new Durak.Common.Cards.PlayingCard();
             Durak.Common.Cards.PlayingCard playingCard18 = new Durak.Common.Cards.PlayingCard();
             Durak.Common.Cards.PlayingCard playingCard19 = new Durak.Common.Cards.PlayingCard();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmDurakGame));
             this.grpBattle1 = new System.Windows.Forms.GroupBox();
             this.cbxDefence1 = new Durak.CardBox();
             this.cbxPlayerAttack1 = new Durak.CardBox();
@@ -985,6 +986,7 @@
             this.Controls.Add(this.cbxTrump);
             this.ForeColor = System.Drawing.SystemColors.Control;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmDurakGame";
