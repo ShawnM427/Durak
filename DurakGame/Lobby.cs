@@ -45,6 +45,8 @@ namespace DurakGame
             myViews = new List<PlayerView>();
 
             DialogResult = DialogResult.OK;
+
+            chkSimulateBotThinkTime.Checked = Settings.Default.DefaultBotsThink;
         }
 
         /// <summary>
@@ -256,6 +258,9 @@ namespace DurakGame
 
             lblServerName.Text = myClient.ConnectedServer.Value.Name;
             lblServerDescription.Text = myClient.ConnectedServer.Value.Description;
+
+            if (!myClient.IsHost)
+                grpGameSettings.Visible = false;
         }
 
         /// <summary>
@@ -398,6 +403,16 @@ namespace DurakGame
                     MessageBox.Show("Error, client not connected to local server");
                 else
                 {
+                    myClient.RequestBotSettings(chkSimulateBotThinkTime.Checked, 1000, 4000, Settings.Default.DefaultBotDifficulty);
+
+                    int numCards = 36;
+
+                    if (rbn20Cards.Checked)
+                        numCards = 20;
+                    else if (rbn52Cards.Checked)
+                        numCards = 52;
+
+                    myClient.RequestState(StateParameter.Construct<int>(Names.NUM_INIT_CARDS, numCards, true));
                     myClient.RequestStart();
                 }
             }

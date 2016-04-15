@@ -97,5 +97,10 @@ namespace DurakGame
         /// This is of type Boolean
         /// </summary>
         public const string TRUMP_CARD_USED = "trump_card_used";
+        /// <summary>
+        /// The name of the initial card count field
+        /// This is of type int
+        /// </summary>
+        public const string NUM_INIT_CARDS = "number_init_cards";
     }
 }

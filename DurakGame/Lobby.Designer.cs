@@ -35,10 +35,9 @@
             this.txtBotName = new System.Windows.Forms.TextBox();
             this.btnBack = new System.Windows.Forms.Button();
             this.grpGameSettings = new System.Windows.Forms.GroupBox();
-            this.radioButton4 = new System.Windows.Forms.RadioButton();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.rbn52Cards = new System.Windows.Forms.RadioButton();
+            this.rbn20Cards = new System.Windows.Forms.RadioButton();
+            this.rbn36Cards = new System.Windows.Forms.RadioButton();
             this.label3 = new System.Windows.Forms.Label();
             this.btnStart = new System.Windows.Forms.Button();
             this.txtMessage = new System.Windows.Forms.TextBox();
@@ -116,10 +115,9 @@
             // grpGameSettings
             // 
             this.grpGameSettings.Controls.Add(this.chkSimulateBotThinkTime);
-            this.grpGameSettings.Controls.Add(this.radioButton4);
-            this.grpGameSettings.Controls.Add(this.radioButton3);
-            this.grpGameSettings.Controls.Add(this.radioButton2);
-            this.grpGameSettings.Controls.Add(this.radioButton1);
+            this.grpGameSettings.Controls.Add(this.rbn52Cards);
+            this.grpGameSettings.Controls.Add(this.rbn20Cards);
+            this.grpGameSettings.Controls.Add(this.rbn36Cards);
             this.grpGameSettings.Controls.Add(this.label3);
             this.grpGameSettings.Location = new System.Drawing.Point(290, 151);
             this.grpGameSettings.Name = "grpGameSettings";
@@ -128,54 +126,42 @@
             this.grpGameSettings.TabStop = false;
             this.grpGameSettings.Text = "Game Settings";
             // 
-            // radioButton4
+            // rbn52Cards
             // 
-            this.radioButton4.AutoSize = true;
-            this.radioButton4.Location = new System.Drawing.Point(47, 276);
-            this.radioButton4.Name = "radioButton4";
-            this.radioButton4.Size = new System.Drawing.Size(80, 17);
-            this.radioButton4.TabIndex = 5;
-            this.radioButton4.TabStop = true;
-            this.radioButton4.Text = "Two Decks";
-            this.radioButton4.UseVisualStyleBackColor = true;
+            this.rbn52Cards.AutoSize = true;
+            this.rbn52Cards.Location = new System.Drawing.Point(49, 104);
+            this.rbn52Cards.Name = "rbn52Cards";
+            this.rbn52Cards.Size = new System.Drawing.Size(67, 17);
+            this.rbn52Cards.TabIndex = 4;
+            this.rbn52Cards.Text = "52 Cards";
+            this.rbn52Cards.UseVisualStyleBackColor = true;
             // 
-            // radioButton3
+            // rbn20Cards
             // 
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(47, 253);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(94, 17);
-            this.radioButton3.TabIndex = 4;
-            this.radioButton3.TabStop = true;
-            this.radioButton3.Text = "Deck and Half";
-            this.radioButton3.UseVisualStyleBackColor = true;
+            this.rbn20Cards.AutoSize = true;
+            this.rbn20Cards.Location = new System.Drawing.Point(49, 58);
+            this.rbn20Cards.Name = "rbn20Cards";
+            this.rbn20Cards.Size = new System.Drawing.Size(67, 17);
+            this.rbn20Cards.TabIndex = 3;
+            this.rbn20Cards.Text = "20 Cards";
+            this.rbn20Cards.UseVisualStyleBackColor = true;
             // 
-            // radioButton2
+            // rbn36Cards
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(47, 230);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(70, 17);
-            this.radioButton2.TabIndex = 3;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "Full Deck";
-            this.radioButton2.UseVisualStyleBackColor = true;
-            // 
-            // radioButton1
-            // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(47, 207);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(73, 17);
-            this.radioButton1.TabIndex = 2;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Half Deck";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.rbn36Cards.AutoSize = true;
+            this.rbn36Cards.Checked = true;
+            this.rbn36Cards.Location = new System.Drawing.Point(49, 81);
+            this.rbn36Cards.Name = "rbn36Cards";
+            this.rbn36Cards.Size = new System.Drawing.Size(67, 17);
+            this.rbn36Cards.TabIndex = 2;
+            this.rbn36Cards.TabStop = true;
+            this.rbn36Cards.Text = "36 Cards";
+            this.rbn36Cards.UseVisualStyleBackColor = true;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(4, 189);
+            this.label3.Location = new System.Drawing.Point(6, 40);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(88, 13);
             this.label3.TabIndex = 1;
@@ -319,10 +305,9 @@
         private System.Windows.Forms.Panel pnlAddBot;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox txtBotName;
-        private System.Windows.Forms.RadioButton radioButton4;
-        private System.Windows.Forms.RadioButton radioButton3;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.RadioButton rbn52Cards;
+        private System.Windows.Forms.RadioButton rbn20Cards;
+        private System.Windows.Forms.RadioButton rbn36Cards;
         private System.Windows.Forms.Label lblServerDescription;
         private System.Windows.Forms.Label lblServerName;
         private System.Windows.Forms.TextBox txtChat;

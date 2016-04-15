@@ -64,7 +64,17 @@ namespace DurakGame.Rules
             server.GameState.Set(Names.DEFENDING_PLAYER, defendingPlayerId);
 
             // Build the deck
-            Deck deck = new Deck(CardRank.Six, CardRank.Ace);
+            Deck deck;
+
+            int numInitCards = server.GameState.GetValueInt(Names.NUM_INIT_CARDS);
+            
+            if (numInitCards == 20)
+                deck = new Deck(CardRank.Ten, CardRank.Ace);
+            else if (numInitCards == 52)
+                deck = new Deck(CardRank.Two, CardRank.Ace);
+            else
+                deck = new Deck(CardRank.Six, CardRank.Ace);
+
             deck.Shuffle();
 
             // Draw the trump card

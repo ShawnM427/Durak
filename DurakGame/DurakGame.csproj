@@ -146,6 +146,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Rules\HostReqCardState.cs" />
     <Compile Include="Rules\ClientRequestHelp.cs" />
     <Compile Include="Rules\StateVerify\DefenderLose.cs" />
     <Compile Include="Rules\StateVerify\AttackerLose.cs" />
