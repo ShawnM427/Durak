@@ -391,6 +391,12 @@ namespace Durak.Client
 
                                     OnDisconnected?.Invoke(this, EventArgs.Empty);
                                 }
+                                else if (reason.StartsWith("You have been kicked:"))
+                                {
+                                    OnKicked?.Invoke(this, reason);
+
+                                    OnDisconnected?.Invoke(this, EventArgs.Empty);
+                                }
                                 // Otherwise the connection failed for some other reason
                                 else
                                 {

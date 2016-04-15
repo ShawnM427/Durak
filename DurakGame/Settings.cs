@@ -45,15 +45,45 @@ namespace DurakGame
         /// <summary>
         /// Handles populating the settings from the controls on the form
         /// </summary>
-        private void ApplySettingsView()
+        private bool ApplySettingsView()
         {
-            Settings.Default.UserName = txtPlayerName.Text;
+            if (VerifyNotEmpty(txtPlayerName, "Player name"))
+                Settings.Default.UserName = txtPlayerName.Text;
+            else
+                return false;
 
-            Settings.Default.DefaultServerName = txtServerName.Text;
-            Settings.Default.DefaultServerDescription = txtServerDescription.Text;
+            if (VerifyNotEmpty(txtServerName, "Server name"))
+                Settings.Default.DefaultServerName = txtServerName.Text;
+            else
+                return false;
+
+            if (VerifyNotEmpty(txtServerDescription, "Server description"))
+                Settings.Default.DefaultServerDescription = txtServerDescription.Text;
+            else
+                return false;
+            
             Settings.Default.DefaultBotDifficulty = trkBotDifficulty.Value / 100.0f;
             Settings.Default.DefaultBotsThink = chkSimulateBotThink.Checked;
             Settings.Default.DefaultMaxPlayers = trkNumPlayers.Value;
+
+            return true;
+        }
+
+        /// <summary>
+        /// Utility method to show a dialoge box if an input is empty
+        /// </summary>
+        /// <param name="textBox">The text input to check</param>
+        /// <param name="paramName">The name of the parameter in the message</param>
+        /// <returns>True if the input is not empty, false if otherwise</returns>
+        private bool VerifyNotEmpty(TextBox textBox, string paramName)
+        {
+            if (string.IsNullOrEmpty(textBox.Text))
+            {
+                MessageBox.Show(paramName + " cannot be empty", "Error", MessageBoxButtons.OK);
+                return false;
+            }
+            else
+                return true;
         }
 
         /// <summary>

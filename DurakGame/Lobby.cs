@@ -160,6 +160,7 @@ namespace DurakGame
             myClient.OnServerStateUpdated += ServerStateUpdated;
             myClient.OnFinishedConnect += ClientConnected;
             myClient.OnPlayerConnected += PlayerConnected;
+            myClient.OnKicked += ClientKicked;
             myClient.OnPlayerLeft += PlayerLeft;
             myClient.OnPlayerChat += PlayerChat;
             myClient.OnConnectionFailed += ClientConnectFailed;
@@ -170,6 +171,12 @@ namespace DurakGame
                 myClient.Run();
         }
 
+        private void ClientKicked(object sender, string e)
+        {
+            MessageBox.Show(e, "You have been kicked", MessageBoxButtons.OK);
+            Close();
+        }
+        
         /// <summary>
         /// Invoked when the client has disconnected from the server
         /// </summary>

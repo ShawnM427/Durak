@@ -819,15 +819,16 @@ namespace Durak.Server
         /// Sends a message to all clients from the server
         /// </summary>
         /// <param name="message">The message to send</param>
-        public void SendServerMessage(string message)
+        /// <param name="parameters">The parameters to format into the message</param>
+        public void SendServerMessage(string message, params object[] parameters)
         {
             // Prepare message
             NetOutgoingMessage send = myServer.CreateMessage();
             send.Write((byte)MessageType.PlayerChat);
             send.Write((byte)255);
-            send.Write(message);
+            send.Write(string.Format(message, parameters));
 
-            Log("[Server]: {0}", message);
+            Log("[Server]: {0}", string.Format(message, parameters));
 
             // Forward to all clients
             SendToAll(send);
@@ -889,9 +890,13 @@ namespace Durak.Server
                     // Handle when a player is trying to join
                     case NetIncomingMessageType.ConnectionApproval:
 
-                        if (IsSinglePlayerMode & inMsg.SenderEndPoint.Address.ToString() != myAddress.ToString())
+                        if (IsSinglePlayerMode & (inMsg.SenderEndPoint.Address.ToString() != myAddress.ToString() || myPlayers.Where(X => !X.IsBot).Count() > 0))
+                        {
                             inMsg.SenderConnection.Deny("Server is in singleplayer mode");
+                            break;
+                        }
 
+                   
                         // Get the client's info an hashed password from the packet
                         ClientTag clientTag = ClientTag.ReadFromPacket(inMsg);
                         string hashedPass = inMsg.ReadString();
@@ -940,14 +945,17 @@ namespace Durak.Server
                         myTag.PlayerCount = myPlayers.PlayerCount;
                         myTag.SupportedPlayerCount = myPlayers.Count;
 
-                        // Prepare the response
-                        NetOutgoingMessage msg = myServer.CreateMessage();
-                        // Write the tag to the response
-                        myTag.WriteToPacket(msg);
-                        // Send the response
-                        myServer.SendDiscoveryResponse(msg, inMsg.SenderEndPoint);
+                        if (!IsSinglePlayerMode && State == ServerState.InLobby)
+                        {
+                            // Prepare the response
+                            NetOutgoingMessage msg = myServer.CreateMessage();
+                            // Write the tag to the response
+                            myTag.WriteToPacket(msg);
+                            // Send the response
+                            myServer.SendDiscoveryResponse(msg, inMsg.SenderEndPoint);
 
-                        Log("Pinged discovery response to {0}", inMsg.SenderEndPoint);
+                            Log("Pinged discovery response to {0}", inMsg.SenderEndPoint);
+                        }   
 
                         break;
 
@@ -1274,6 +1282,8 @@ namespace Durak.Server
 
                 // Kick the player
                 myPlayers[playerId].Connection.Disconnect("You have been kicked: " + reason);
+
+                SendServerMessage("{0} has been kicked", myPlayers[playerId].Name);
 
                 // Send the message to all clients
                 SendToAll(send);

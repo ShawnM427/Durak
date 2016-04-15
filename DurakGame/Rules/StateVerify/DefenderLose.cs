@@ -9,14 +9,23 @@ using System.Threading.Tasks;
 
 namespace DurakGame.Rules
 {
+    /// <summary>
+    /// Checks to see if the defender has lost, and updates the game state accordingly
+    /// </summary>
     public class DefenderLose : IGameStateRule
     {
+        /// <summary>
+        /// Gets or sets whether this rule is enabled
+        /// </summary>
         public bool IsEnabled
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets the human readable name for this rule
+        /// </summary>
         public string ReadableName
         {
             get
@@ -25,6 +34,10 @@ namespace DurakGame.Rules
             }
         }
 
+        /// <summary>
+        /// Handles validating the server state. If the defender has lost, this handles moving to the next round
+        /// </summary>
+        /// <param name="server">The server to execute on</param>
         public void ValidateState(GameServer server)
         {
             // Only run this state update if the defender is forfeiting

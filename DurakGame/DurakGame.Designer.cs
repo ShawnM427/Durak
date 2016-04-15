@@ -105,6 +105,12 @@
             this.cbxPlayer1 = new Durak.CardBox();
             this.lblPlayer1 = new System.Windows.Forms.Label();
             this.lblPlayer1CardsLeft = new System.Windows.Forms.Label();
+            this.grpKickPlayers = new System.Windows.Forms.GroupBox();
+            this.btnKickPlayer5 = new System.Windows.Forms.Button();
+            this.btnKickPlayer4 = new System.Windows.Forms.Button();
+            this.btnKickPlayer3 = new System.Windows.Forms.Button();
+            this.btnKickPlayer2 = new System.Windows.Forms.Button();
+            this.btnKickPlayer1 = new System.Windows.Forms.Button();
             this.grpBattle1.SuspendLayout();
             this.grpBattle2.SuspendLayout();
             this.grpBattle3.SuspendLayout();
@@ -119,6 +125,7 @@
             this.pnlPlayer3.SuspendLayout();
             this.pnlPlayer2.SuspendLayout();
             this.pnlPlayer1.SuspendLayout();
+            this.grpKickPlayers.SuspendLayout();
             this.SuspendLayout();
             // 
             // grpBattle1
@@ -872,12 +879,89 @@
             this.lblPlayer1CardsLeft.TabIndex = 32;
             this.lblPlayer1CardsLeft.Text = "52";
             // 
+            // grpKickPlayers
+            // 
+            this.grpKickPlayers.Controls.Add(this.btnKickPlayer5);
+            this.grpKickPlayers.Controls.Add(this.btnKickPlayer4);
+            this.grpKickPlayers.Controls.Add(this.btnKickPlayer3);
+            this.grpKickPlayers.Controls.Add(this.btnKickPlayer2);
+            this.grpKickPlayers.Controls.Add(this.btnKickPlayer1);
+            this.grpKickPlayers.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.grpKickPlayers.ForeColor = System.Drawing.Color.White;
+            this.grpKickPlayers.Location = new System.Drawing.Point(821, 12);
+            this.grpKickPlayers.Name = "grpKickPlayers";
+            this.grpKickPlayers.Size = new System.Drawing.Size(211, 175);
+            this.grpKickPlayers.TabIndex = 52;
+            this.grpKickPlayers.TabStop = false;
+            this.grpKickPlayers.Text = "Kick Players";
+            // 
+            // btnKickPlayer5
+            // 
+            this.btnKickPlayer5.BackColor = System.Drawing.Color.DarkGreen;
+            this.btnKickPlayer5.Font = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnKickPlayer5.ForeColor = System.Drawing.Color.White;
+            this.btnKickPlayer5.Location = new System.Drawing.Point(5, 141);
+            this.btnKickPlayer5.Name = "btnKickPlayer5";
+            this.btnKickPlayer5.Size = new System.Drawing.Size(199, 23);
+            this.btnKickPlayer5.TabIndex = 4;
+            this.btnKickPlayer5.UseVisualStyleBackColor = false;
+            this.btnKickPlayer5.Click += new System.EventHandler(this.KickPlayerPressed);
+            // 
+            // btnKickPlayer4
+            // 
+            this.btnKickPlayer4.BackColor = System.Drawing.Color.DarkGreen;
+            this.btnKickPlayer4.Font = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnKickPlayer4.ForeColor = System.Drawing.Color.White;
+            this.btnKickPlayer4.Location = new System.Drawing.Point(5, 112);
+            this.btnKickPlayer4.Name = "btnKickPlayer4";
+            this.btnKickPlayer4.Size = new System.Drawing.Size(199, 23);
+            this.btnKickPlayer4.TabIndex = 3;
+            this.btnKickPlayer4.UseVisualStyleBackColor = false;
+            this.btnKickPlayer4.Click += new System.EventHandler(this.KickPlayerPressed);
+            // 
+            // btnKickPlayer3
+            // 
+            this.btnKickPlayer3.BackColor = System.Drawing.Color.DarkGreen;
+            this.btnKickPlayer3.Font = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnKickPlayer3.ForeColor = System.Drawing.Color.White;
+            this.btnKickPlayer3.Location = new System.Drawing.Point(6, 83);
+            this.btnKickPlayer3.Name = "btnKickPlayer3";
+            this.btnKickPlayer3.Size = new System.Drawing.Size(199, 23);
+            this.btnKickPlayer3.TabIndex = 2;
+            this.btnKickPlayer3.UseVisualStyleBackColor = false;
+            this.btnKickPlayer3.Click += new System.EventHandler(this.KickPlayerPressed);
+            // 
+            // btnKickPlayer2
+            // 
+            this.btnKickPlayer2.BackColor = System.Drawing.Color.DarkGreen;
+            this.btnKickPlayer2.Font = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnKickPlayer2.ForeColor = System.Drawing.Color.White;
+            this.btnKickPlayer2.Location = new System.Drawing.Point(6, 54);
+            this.btnKickPlayer2.Name = "btnKickPlayer2";
+            this.btnKickPlayer2.Size = new System.Drawing.Size(199, 23);
+            this.btnKickPlayer2.TabIndex = 1;
+            this.btnKickPlayer2.UseVisualStyleBackColor = false;
+            this.btnKickPlayer2.Click += new System.EventHandler(this.KickPlayerPressed);
+            // 
+            // btnKickPlayer1
+            // 
+            this.btnKickPlayer1.BackColor = System.Drawing.Color.DarkGreen;
+            this.btnKickPlayer1.Font = new System.Drawing.Font("Arial Narrow", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnKickPlayer1.ForeColor = System.Drawing.Color.White;
+            this.btnKickPlayer1.Location = new System.Drawing.Point(6, 25);
+            this.btnKickPlayer1.Name = "btnKickPlayer1";
+            this.btnKickPlayer1.Size = new System.Drawing.Size(199, 23);
+            this.btnKickPlayer1.TabIndex = 0;
+            this.btnKickPlayer1.UseVisualStyleBackColor = false;
+            this.btnKickPlayer1.Click += new System.EventHandler(this.KickPlayerPressed);
+            // 
             // frmDurakGame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkGreen;
             this.ClientSize = new System.Drawing.Size(1050, 601);
+            this.Controls.Add(this.grpKickPlayers);
             this.Controls.Add(this.rtbChatLog);
             this.Controls.Add(this.btnSend);
             this.Controls.Add(this.txtMessage);
@@ -922,6 +1006,7 @@
             this.pnlPlayer2.PerformLayout();
             this.pnlPlayer1.ResumeLayout(false);
             this.pnlPlayer1.PerformLayout();
+            this.grpKickPlayers.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -986,6 +1071,12 @@
         private System.Windows.Forms.Button btnSend;
         private System.Windows.Forms.TextBox txtMessage;
         private System.Windows.Forms.RichTextBox rtbChatLog;
+        private System.Windows.Forms.GroupBox grpKickPlayers;
+        private System.Windows.Forms.Button btnKickPlayer5;
+        private System.Windows.Forms.Button btnKickPlayer4;
+        private System.Windows.Forms.Button btnKickPlayer3;
+        private System.Windows.Forms.Button btnKickPlayer2;
+        private System.Windows.Forms.Button btnKickPlayer1;
     }
 }
 

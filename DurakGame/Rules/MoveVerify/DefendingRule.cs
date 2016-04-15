@@ -9,14 +9,23 @@ using System.Threading.Tasks;
 
 namespace DurakGame.Rules
 {
+    /// <summary>
+    /// The rule that defines what cards are valid for a defender to play
+    /// </summary>
     public class DefendingRule : IGamePlayRule
     {
+        /// <summary>
+        /// Gets or sets whether this rule is enabled
+        /// </summary>
         public bool IsEnabled
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets the human readable name for this rule
+        /// </summary>
         public string ReadableName
         {
             get
@@ -25,6 +34,13 @@ namespace DurakGame.Rules
             }
         }
 
+        /// <summary>
+        /// Checks to see if the given move is valid
+        /// </summary>
+        /// <param name="server">The server to execute on</param>
+        /// <param name="move">The move being played</param>
+        /// <param name="reason">The reason the move is invalid</param>
+        /// <returns>TRue if the move was sucessfull, false if otherwise</returns>
         public bool IsValidMove(GameServer server, GameMove move, ref string reason)
         {
             if (move.Move == null)

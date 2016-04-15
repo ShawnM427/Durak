@@ -114,6 +114,8 @@ namespace DurakGame
 
                 myClient = value;
                 myClient.OnPlayerReady += OnPlayerReady;
+
+                cmsContextMenu.Enabled = myClient.IsHost;
             }
         }
 
@@ -178,6 +180,33 @@ namespace DurakGame
                 imgReady.Image = IsReady ? Resources.ready : Resources.notReady;
             else
                 imgReady.Image = null;
+        }
+
+        /// <summary>
+        /// Overrides the OnMouseClick event, this lets us show our context menu
+        /// </summary>
+        /// <param name="e">The event arguments containing the mouse data</param>
+        protected override void OnMouseClick(MouseEventArgs e)
+        {
+            base.OnMouseClick(e);
+
+            if (e.Button == MouseButtons.Right)
+                cmsContextMenu.Show(this, e.Location, ToolStripDropDownDirection.Default);
+        }
+
+        /// <summary>
+        /// Handles when the kick player context menu is pressed
+        /// </summary>
+        /// <param name="sender">The object that raised the event</param>
+        /// <param name="e">The empty event arguments</param>
+        private void KickPlayerPressed(object sender, EventArgs e)
+        {
+            DialogResult result = DialogResult.Yes;
+            if (!Player.IsBot)
+                result = MessageBox.Show(string.Format("Are you sure you want to kick {0}?", Player.Name), "Confirm", MessageBoxButtons.YesNo);
+
+            if (result == DialogResult.Yes)
+                Client.RequestKick(Player, "Kicked by host");
         }
     }
 }

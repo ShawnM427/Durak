@@ -105,6 +105,11 @@ namespace DurakGame
             }
         }
 
+        /// <summary>
+        /// Invoked when the client has successfully connected to a server
+        /// </summary>
+        /// <param name="sender">The object that invoked the event (the Game Client)</param>
+        /// <param name="e">The empty event arguments</param>
         private void ClientConnected(object sender, EventArgs e)
         {
             myTimer.Stop();
@@ -156,10 +161,18 @@ namespace DurakGame
             dgvServers.Rows.Add(row);
         }
 
+        /// <summary>
+        /// Overrides the on closing event for the server browser,
+        /// this lets us gracefully kill the game client
+        /// </summary>
+        /// <param name="e">The event arguments that lets us cancel the closing if desired</param>
         protected override void OnClosing(CancelEventArgs e)
         {
             myTimer.Tick -= PollServersEvent;
             myTimer.Stop();
+
+            myClient.Stop();
+            myClient = null;
         }
 
         /// <summary>
@@ -182,6 +195,11 @@ namespace DurakGame
             myServers.AddItem(tag);
         }
 
+        /// <summary>
+        /// Invoked when the direct connect button is pressed, this will attempt to connect the client to the provided IP
+        /// </summary>
+        /// <param name="sender">The object that invoked the event</param>
+        /// <param name="e">The empty event arguments</param>
         private void btnDirect_Click(object sender, EventArgs e)
         {
             IPAddress address = null;
@@ -198,11 +216,13 @@ namespace DurakGame
             }
         }
 
+        /// <summary>
+        /// Invoked when the back button is pressed, this will close the server browser
+        /// </summary>
+        /// <param name="sender">The object that invoked the event</param>
+        /// <param name="e">The empty event arguments</param>
         private void btnBack_Click(object sender, EventArgs e)
         {
-            myClient.Stop();
-            myClient = null;
-
             Close();
         }
     }

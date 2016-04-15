@@ -56,7 +56,11 @@ namespace DurakGame
         /// Stores the list of player UI tags
         /// </summary>
         private Dictionary<Player, PlayerUITag> myPlayerUIs;
-        
+        /// <summary>
+        /// Stores the buttons that the host uses to kick players
+        /// </summary>
+        private Button[] myKickButtons;
+
         /// <summary>
         /// We use this to track if we are hard closing
         /// </summary>
@@ -77,6 +81,14 @@ namespace DurakGame
             pnlPlayer3.Visible = false;
             pnlPlayer4.Visible = false;
             pnlPlayer5.Visible = false;
+
+            myKickButtons = new Button[5];
+
+            myKickButtons[0] = btnKickPlayer1;
+            myKickButtons[1] = btnKickPlayer2;
+            myKickButtons[2] = btnKickPlayer3;
+            myKickButtons[3] = btnKickPlayer4;
+            myKickButtons[4] = btnKickPlayer5;
         }
 
         /// <summary>
@@ -133,6 +145,7 @@ namespace DurakGame
             } );
 
             myClient.OnPlayerChat += ReceivedChat;
+            myClient.OnPlayerLeft += PlayerLeft;
 
             myClient.LocalState.AddStateChangedEvent(Names.ATTACKING_PLAYER, AttackingPlayersChanged);
             myClient.LocalState.AddStateChangedEvent(Names.DEFENDING_PLAYER, AttackingPlayersChanged);
@@ -145,6 +158,9 @@ namespace DurakGame
 
             myClient.OnConnected += ClientConnected;
 
+            if (!myClient.IsHost)
+                grpKickPlayers.Visible = false;
+
             int localIndex = 0;
             for(byte index = 0; index < myClient.KnownPlayers.Count; index ++)
             {
@@ -152,7 +168,7 @@ namespace DurakGame
                 if (player != null && player.PlayerId != myClient.PlayerId)
                 {
                     PlayerUITag tag = new PlayerUITag();
-
+                    
                     switch (localIndex)
                     {
                         case 0:
@@ -207,12 +223,84 @@ namespace DurakGame
                 if (tag.CardCountLabel != null)
                     tag.CardCountLabel.Text = pair.Key.NumCards.ToString();
             }
-
+            
             myClient.OnPlayerCardCountChanged += PlayerCardCountChanged;
 
             cplPlayersHand.Cards = myClient.Hand;
+
+            DetermineKickButtons();
         }
 
+        /// <summary>
+        /// Invoked when another player has left the game
+        /// </summary>
+        /// <param name="sender">The object that raised the event (the GameClient)</param>
+        /// <param name="player">The player that has left</param>
+        /// <param name="reason">The reason the player left</param>
+        private void PlayerLeft(object sender, Player player, string reason)
+        {
+            DetermineKickButtons();
+        }
+
+        /// <summary>
+        /// Determine which kick player buttons to show
+        /// </summary>
+        private void DetermineKickButtons()
+        {
+            foreach(Button b in myKickButtons)
+            {
+                b.Visible = false;
+                b.Tag = null;
+                b.Text = "";
+            }
+
+            if (myClient.IsHost)
+            {
+                foreach(Player player in myClient.KnownPlayers)
+                {
+                    if (!player.IsBot && !player.IsHost)
+                    {
+                        Button button = myKickButtons.FirstOrDefault(X => string.IsNullOrEmpty(X.Text));
+
+                        if (button != null)
+                        {
+                            button.Tag = player;
+                            button.Text = player.Name;
+                            button.Visible = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Invoked when a kick player button is pressed
+        /// </summary>
+        /// <param name="sender">The button to invoked the event</param>
+        /// <param name="e">The empty event arguments</param>
+        private void KickPlayerPressed(object sender, EventArgs e)
+        {
+            Button button = sender as Button;
+
+            if (button != null)
+            {
+                Player player = button.Tag as Player;
+
+                if (player != null)
+                {
+                    DialogResult result = MessageBox.Show(string.Format("Are you sure you want to kick {0}?", player.Name), "Confirm", MessageBoxButtons.YesNo);
+
+                    if (result == DialogResult.Yes)
+                        myClient.RequestKick(player, "Kicked by host");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Invoked when the trump card has been picked up
+        /// </summary>
+        /// <param name="sender">The game state that invoked the event</param>
+        /// <param name="p">The state parameter that has been updated</param>
         private void TrumpPickedUp(object sender, StateParameter p)
         {
             cbxTrump.Enabled = false;

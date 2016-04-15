@@ -28,11 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.lblPlayerName = new System.Windows.Forms.Label();
             this.imgPlayerType = new System.Windows.Forms.PictureBox();
             this.imgReady = new System.Windows.Forms.PictureBox();
+            this.cmsContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.kickToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.imgPlayerType)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgReady)).BeginInit();
+            this.cmsContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblPlayerName
@@ -64,6 +68,20 @@
             this.imgReady.TabIndex = 1;
             this.imgReady.TabStop = false;
             // 
+            // cmsContextMenu
+            // 
+            this.cmsContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.kickToolStripMenuItem});
+            this.cmsContextMenu.Name = "cmsContextMenu";
+            this.cmsContextMenu.Size = new System.Drawing.Size(153, 48);
+            // 
+            // kickToolStripMenuItem
+            // 
+            this.kickToolStripMenuItem.Name = "kickToolStripMenuItem";
+            this.kickToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.kickToolStripMenuItem.Text = "Kick";
+            this.kickToolStripMenuItem.Click += new System.EventHandler(this.KickPlayerPressed);
+            // 
             // PlayerView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -76,6 +94,7 @@
             this.Size = new System.Drawing.Size(260, 60);
             ((System.ComponentModel.ISupportInitialize)(this.imgPlayerType)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgReady)).EndInit();
+            this.cmsContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -86,5 +105,7 @@
         private System.Windows.Forms.Label lblPlayerName;
         private System.Windows.Forms.PictureBox imgReady;
         private System.Windows.Forms.PictureBox imgPlayerType;
+        private System.Windows.Forms.ContextMenuStrip cmsContextMenu;
+        private System.Windows.Forms.ToolStripMenuItem kickToolStripMenuItem;
     }
 }
