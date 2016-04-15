@@ -33,9 +33,9 @@
             this.txtDirect = new System.Windows.Forms.TextBox();
             this.btnDirect = new System.Windows.Forms.Button();
             this.dgvServers = new System.Windows.Forms.DataGridView();
-            this.btnBack = new System.Windows.Forms.Button();
             this.clmServerName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmServerPlayers = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnBack = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvServers)).BeginInit();
             this.SuspendLayout();
             // 
@@ -93,16 +93,6 @@
             this.dgvServers.Size = new System.Drawing.Size(306, 222);
             this.dgvServers.TabIndex = 10;
             // 
-            // btnBack
-            // 
-            this.btnBack.Location = new System.Drawing.Point(17, 10);
-            this.btnBack.Name = "btnBack";
-            this.btnBack.Size = new System.Drawing.Size(102, 23);
-            this.btnBack.TabIndex = 11;
-            this.btnBack.Text = "Back";
-            this.btnBack.UseVisualStyleBackColor = true;
-            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
-            // 
             // clmServerName
             // 
             this.clmServerName.FillWeight = 150F;
@@ -116,6 +106,16 @@
             this.clmServerPlayers.HeaderText = "Players";
             this.clmServerPlayers.Name = "clmServerPlayers";
             this.clmServerPlayers.ReadOnly = true;
+            // 
+            // btnBack
+            // 
+            this.btnBack.Location = new System.Drawing.Point(17, 10);
+            this.btnBack.Name = "btnBack";
+            this.btnBack.Size = new System.Drawing.Size(102, 23);
+            this.btnBack.TabIndex = 11;
+            this.btnBack.Text = "Back";
+            this.btnBack.UseVisualStyleBackColor = true;
+            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
             // frmServerBrowser
             // 
@@ -131,6 +131,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmServerBrowser";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Select Server";
             ((System.ComponentModel.ISupportInitialize)(this.dgvServers)).EndInit();
             this.ResumeLayout(false);

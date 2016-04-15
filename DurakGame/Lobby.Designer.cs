@@ -278,6 +278,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmLobby";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Lobby";
             this.pnlPlayers.ResumeLayout(false);
             this.pnlAddBot.ResumeLayout(false);

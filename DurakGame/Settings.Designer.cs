@@ -242,6 +242,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmSettings";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Settings";
             this.grpPlayerSettings.ResumeLayout(false);
             this.grpPlayerSettings.PerformLayout();
