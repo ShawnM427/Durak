@@ -410,17 +410,32 @@ namespace DurakGame
                     MessageBox.Show("Error, client not connected to local server");
                 else
                 {
-                    myClient.RequestBotSettings(chkSimulateBotThinkTime.Checked, 1000, 4000, Settings.Default.DefaultBotDifficulty);
+                    if (myClient.KnownPlayers.PlayerCount > 1)
+                    {
 
-                    int numCards = 36;
+                        int numCards = 36;
 
-                    if (rbn20Cards.Checked)
-                        numCards = 20;
-                    else if (rbn52Cards.Checked)
-                        numCards = 52;
+                        if (rbn20Cards.Checked)
+                            numCards = 20;
+                        else if (rbn52Cards.Checked)
+                            numCards = 52;
 
-                    myClient.RequestState(StateParameter.Construct<int>(Names.NUM_INIT_CARDS, numCards, true));
-                    myClient.RequestStart();
+                        if (numCards / myClient.KnownPlayers.PlayerCount >= 6)
+                        {
+                            myClient.RequestBotSettings(chkSimulateBotThinkTime.Checked, 1000, 4000, Settings.Default.DefaultBotDifficulty);
+
+                            myClient.RequestState(StateParameter.Construct<int>(Names.NUM_INIT_CARDS, numCards, true));
+                            myClient.RequestStart();
+                        }
+                        else
+                        {
+                            MessageBox.Show("You do not have enough cards for that number of players\nPlease ensure theres at least enough cards for 6 cards per player", "Alert", MessageBoxButtons.OK);
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("You need at least 2 players to play", "Alert", MessageBoxButtons.OK);
+                    }
                 }
             }
             else

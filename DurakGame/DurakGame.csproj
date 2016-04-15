@@ -235,6 +235,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Help.rtf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="sandbox\names-corrected.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -257,6 +260,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="sandbox\delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\help.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

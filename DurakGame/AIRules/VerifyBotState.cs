@@ -36,7 +36,9 @@ namespace DurakGame.Rules
                 if (attackingPlayerID == player.Player.PlayerId)
                     return true;
                 else if (isRequestingHelp & player.Player.PlayerId != defendingPlayerId)
+                {
                     return true;
+                }
             }
             else
             {

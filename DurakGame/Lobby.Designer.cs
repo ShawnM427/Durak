@@ -35,6 +35,7 @@
             this.txtBotName = new System.Windows.Forms.TextBox();
             this.btnBack = new System.Windows.Forms.Button();
             this.grpGameSettings = new System.Windows.Forms.GroupBox();
+            this.chkSimulateBotThinkTime = new System.Windows.Forms.CheckBox();
             this.rbn52Cards = new System.Windows.Forms.RadioButton();
             this.rbn20Cards = new System.Windows.Forms.RadioButton();
             this.rbn36Cards = new System.Windows.Forms.RadioButton();
@@ -48,7 +49,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.txtChat = new System.Windows.Forms.TextBox();
-            this.chkSimulateBotThinkTime = new System.Windows.Forms.CheckBox();
             this.pnlPlayers.SuspendLayout();
             this.pnlAddBot.SuspendLayout();
             this.grpGameSettings.SuspendLayout();
@@ -125,6 +125,16 @@
             this.grpGameSettings.TabIndex = 3;
             this.grpGameSettings.TabStop = false;
             this.grpGameSettings.Text = "Game Settings";
+            // 
+            // chkSimulateBotThinkTime
+            // 
+            this.chkSimulateBotThinkTime.AutoSize = true;
+            this.chkSimulateBotThinkTime.Location = new System.Drawing.Point(7, 20);
+            this.chkSimulateBotThinkTime.Name = "chkSimulateBotThinkTime";
+            this.chkSimulateBotThinkTime.Size = new System.Drawing.Size(141, 17);
+            this.chkSimulateBotThinkTime.TabIndex = 6;
+            this.chkSimulateBotThinkTime.Text = "Simulate Bot Think Time";
+            this.chkSimulateBotThinkTime.UseVisualStyleBackColor = true;
             // 
             // rbn52Cards
             // 
@@ -247,18 +257,9 @@
             this.txtChat.Location = new System.Drawing.Point(13, 390);
             this.txtChat.Multiline = true;
             this.txtChat.Name = "txtChat";
+            this.txtChat.ReadOnly = true;
             this.txtChat.Size = new System.Drawing.Size(271, 101);
             this.txtChat.TabIndex = 8;
-            // 
-            // chkSimulateBotThinkTime
-            // 
-            this.chkSimulateBotThinkTime.AutoSize = true;
-            this.chkSimulateBotThinkTime.Location = new System.Drawing.Point(7, 20);
-            this.chkSimulateBotThinkTime.Name = "chkSimulateBotThinkTime";
-            this.chkSimulateBotThinkTime.Size = new System.Drawing.Size(141, 17);
-            this.chkSimulateBotThinkTime.TabIndex = 6;
-            this.chkSimulateBotThinkTime.Text = "Simulate Bot Think Time";
-            this.chkSimulateBotThinkTime.UseVisualStyleBackColor = true;
             // 
             // frmLobby
             // 

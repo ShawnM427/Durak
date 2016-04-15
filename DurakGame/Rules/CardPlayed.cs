@@ -24,6 +24,10 @@ namespace DurakGame.Rules
             if (move.Move != null)
                 move.Player.Hand.Discard(move.Move);
 
+            // If this was an assist, notify players
+            if (move.Move !=null && move.Player.PlayerId != server.GameState.GetValueByte(Names.DEFENDING_PLAYER) && move.Player.PlayerId != server.GameState.GetValueByte(Names.ATTACKING_PLAYER))
+                server.SendServerMessage("{0} helped {1}", move.Player.Name, server.Players[server.GameState.GetValueByte(Names.ATTACKING_PLAYER)].Name);
+
             // We need to switch on whether we are attacking
             if (server.GameState.GetValueBool(Names.IS_ATTACKING))
             {

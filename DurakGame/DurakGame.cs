@@ -477,7 +477,7 @@ namespace DurakGame
         /// <param name="e">The blank event arguments</param>
         private void btnReqHelp_Click(object sender, EventArgs e)
         {
-            StateParameter param = StateParameter.Construct<bool>(Names.REQUEST_HELP, true, true);
+            StateParameter param = StateParameter.Construct<bool>(Names.REQUEST_HELP, !myClient.LocalState.GetValueBool(Names.REQUEST_HELP), true);
             myClient.RequestState(param);
         }
     }

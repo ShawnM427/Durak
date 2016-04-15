@@ -13,14 +13,21 @@ namespace DurakGame
     /// <summary>
     /// The form for showing information about this app,
     /// </summary>
-    public partial class About : Form
+    public partial class frmAbout : Form
     {
         /// <summary>
         /// Creates a new About form
         /// </summary>
-        public About()
+        public frmAbout()
         {
             InitializeComponent();
+
+            wbrMain.Navigate(Environment.CurrentDirectory + "/Resources/help.html");
+        }
+
+        private void rtbMain_LinkClicked(object sender, LinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(e.LinkText);
         }
     }
 }

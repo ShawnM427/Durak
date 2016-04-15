@@ -94,8 +94,9 @@
             this.btnAbout.Name = "btnAbout";
             this.btnAbout.Size = new System.Drawing.Size(202, 45);
             this.btnAbout.TabIndex = 4;
-            this.btnAbout.Text = "About";
+            this.btnAbout.Text = "Help / Rules";
             this.btnAbout.UseVisualStyleBackColor = false;
+            this.btnAbout.Click += new System.EventHandler(this.btnAbout_Click);
             this.btnAbout.MouseEnter += new System.EventHandler(this.ButtonMouseEntered);
             this.btnAbout.MouseLeave += new System.EventHandler(this.ButtonMouseLeft);
             // 
@@ -111,6 +112,8 @@
             this.btnSettings.Text = "Settings";
             this.btnSettings.UseVisualStyleBackColor = false;
             this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
+            this.btnSettings.MouseEnter += new System.EventHandler(this.ButtonMouseEntered);
+            this.btnSettings.MouseLeave += new System.EventHandler(this.ButtonMouseLeft);
             // 
             // frmDurakMain
             // 

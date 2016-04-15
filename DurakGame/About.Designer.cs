@@ -3,7 +3,7 @@
     /// <summary>
     /// The designer side class definition for the About form
     /// </summary>
-    partial class About
+    partial class frmAbout
     {
         /// <summary>
         /// Required designer variable.
@@ -31,22 +31,74 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.btnBack = new System.Windows.Forms.Button();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.wbrMain = new System.Windows.Forms.WebBrowser();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // About
+            // btnBack
+            // 
+            this.btnBack.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnBack.Location = new System.Drawing.Point(12, 12);
+            this.btnBack.Name = "btnBack";
+            this.btnBack.Size = new System.Drawing.Size(75, 23);
+            this.btnBack.TabIndex = 1;
+            this.btnBack.Text = "Back";
+            this.btnBack.UseVisualStyleBackColor = true;
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Name = "splitContainer1";
+            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.btnBack);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.wbrMain);
+            this.splitContainer1.Size = new System.Drawing.Size(1257, 594);
+            this.splitContainer1.SplitterDistance = 48;
+            this.splitContainer1.TabIndex = 2;
+            // 
+            // wbrMain
+            // 
+            this.wbrMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.wbrMain.Location = new System.Drawing.Point(0, 0);
+            this.wbrMain.MinimumSize = new System.Drawing.Size(20, 20);
+            this.wbrMain.Name = "wbrMain";
+            this.wbrMain.Size = new System.Drawing.Size(1257, 542);
+            this.wbrMain.TabIndex = 0;
+            // 
+            // frmAbout
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(375, 388);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.CancelButton = this.btnBack;
+            this.ClientSize = new System.Drawing.Size(1257, 594);
+            this.Controls.Add(this.splitContainer1);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "About";
-            this.Text = "About";
+            this.Name = "frmAbout";
+            this.Text = "Help";
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
+        private System.Windows.Forms.Button btnBack;
+        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.WebBrowser wbrMain;
     }
 }
