@@ -40,6 +40,8 @@ namespace DurakGame
             trkBotDifficulty.Value = (int)(Settings.Default.DefaultBotDifficulty * 100);
             chkSimulateBotThink.Checked = Settings.Default.DefaultBotsThink;
             trkNumPlayers.Value = Settings.Default.DefaultMaxPlayers;
+            
+            changesMade = false;
         }
 
         /// <summary>
