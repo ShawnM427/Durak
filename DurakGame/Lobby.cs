@@ -160,6 +160,7 @@ namespace DurakGame
             myClient.OnServerStateUpdated += ServerStateUpdated;
             myClient.OnFinishedConnect += ClientConnected;
             myClient.OnPlayerConnected += PlayerConnected;
+            myClient.OnPlayerKicked += PlayerKicked;
             myClient.OnKicked += ClientKicked;
             myClient.OnPlayerLeft += PlayerLeft;
             myClient.OnPlayerChat += PlayerChat;
@@ -169,6 +170,17 @@ namespace DurakGame
 
             if (!myClient.IsReady)
                 myClient.Run();
+        }
+
+        /// <summary>
+        /// Invoked when another player has been kicked from the game
+        /// </summary>
+        /// <param name="sender">The object to invoke the event (the client)</param>
+        /// <param name="player">The player that has been kicked</param>
+        /// <param name="reason">The reason they were kicked</param>
+        private void PlayerKicked(object sender, Player player, string reason)
+        {
+            PlayerLeft(sender, player, reason);
         }
 
         private void ClientKicked(object sender, string e)
@@ -251,6 +263,9 @@ namespace DurakGame
         /// <param name="e">An empty event argument</param>
         private void ClientConnected(object sender, EventArgs e)
         {
+            pnlPlayers.Controls.Clear();
+            myViews.Clear();
+
             foreach(Player p in myClient.KnownPlayers)
             {
                 PlayerView view = BuildView(p);

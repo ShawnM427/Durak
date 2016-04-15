@@ -696,6 +696,7 @@ namespace Durak.Client
             if (playerId != myPlayerId)
             {
                 OnPlayerKicked?.Invoke(this, myKnownPlayers[playerId], reason);
+                OnPlayerLeft?.Invoke(this, myKnownPlayers[playerId], reason);
 
                 myKnownPlayers[playerId] = null;
             }
@@ -771,6 +772,9 @@ namespace Durak.Client
                     // Disconnect and set the server tag to null
                     myPeer.Connections.ForEach( X => X.Disconnect(NetSettings.DEFAULT_CLIENT_SHUTDOWN_MESSAGE));
                     myConnectedServer = null;
+                    myKnownPlayers.Clear();
+                    myLocalState.Clear();
+                    myHand.Clear();
                 }
             }
         }
