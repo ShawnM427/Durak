@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace Durak.Client
 {
@@ -334,10 +335,12 @@ namespace Durak.Client
         {
             if (myPeer.Status == NetPeerStatus.NotRunning || myPeer.Status == NetPeerStatus.ShutdownRequested)
             {
-                myPeer.Configuration.Port = NetUtils.GetOpenPort(NetSettings.DEFAULT_SERVER_PORT + 1);
+                myPeer.Configuration.Port = NetUtils.GetOpenPort(NetSettings.DEFAULT_SERVER_PORT + 4);
 
                 // Start listening to messages
                 myPeer.Start();
+
+                Logger.Write("Starting game client on port {0}", myPeer.Configuration.Port);
             }
         }
 
@@ -789,7 +792,8 @@ namespace Durak.Client
         /// </summary>
         /// <param name="server">The server tag to connect to</param>
         /// <param name="serverPassword">The SHA256 encrypted password to connect to the server</param>
-        public void ConnectTo(GameServer server, string serverPassword = "")
+        /// <param name="port">The port that the server is running on</param>
+        public void ConnectTo(GameServer server, string serverPassword = "", int port = NetSettings.DEFAULT_SERVER_PORT)
         {
             if (myConnectedServer == null)
             {
@@ -806,7 +810,7 @@ namespace Durak.Client
                 myConnectedServer = server.Tag;
 
                 // Attempt the connection
-                myPeer.Connect(new IPEndPoint(server.IP, NetSettings.DEFAULT_SERVER_PORT), hailMessage);
+                myPeer.Connect(new IPEndPoint(server.IP, port), hailMessage);
             }
             else
                 throw new InvalidOperationException("Cannot connect when this client is already connected");
@@ -883,16 +887,27 @@ namespace Durak.Client
         {
             // Discover local peers :D
             myPeer.DiscoverLocalPeers(NetSettings.DEFAULT_SERVER_PORT);
+            myPeer.DiscoverLocalPeers(NetSettings.DEFAULT_SERVER_PORT + 1);
+            myPeer.DiscoverLocalPeers(NetSettings.DEFAULT_SERVER_PORT + 2);
+            myPeer.DiscoverLocalPeers(NetSettings.DEFAULT_SERVER_PORT + 3);
 
-            // Get the IP range to ping
-            IPSegment segment = new IPSegment(NetUtils.GetGateway(myAddress).ToString(), NetUtils.GetSubnetMask(myAddress).ToString());
+            try
+            {
+                // Get the IP range to ping
+                IPSegment segment = new IPSegment(NetUtils.GetGateway(myAddress).ToString(), NetUtils.GetSubnetMask(myAddress).ToString());
 
-            // Get an enumerable result
-            IEnumerable<uint> hosts = segment.Hosts();
+                // Get an enumerable result
+                IEnumerable<uint> hosts = segment.Hosts();
 
-            // Iterate and ping each one
-            foreach(uint host in hosts)
-                myPeer.DiscoverKnownPeer(host.ToIpString(), NetSettings.DEFAULT_SERVER_PORT);
+                // Iterate and ping each one
+                foreach (uint host in hosts)
+                    myPeer.DiscoverKnownPeer(host.ToIpString(), NetSettings.DEFAULT_SERVER_PORT);
+            }
+            catch (Exception e)
+            {
+                Logger.Write("Failed to ping local servers");
+                MessageBox.Show("Failed to discover local servers, please make sure you don't have any weird networking", "Whoops", MessageBoxButtons.OK);
+            }
         }
         
         /// <summary>

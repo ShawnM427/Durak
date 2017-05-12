@@ -65,7 +65,8 @@ namespace DurakGame
 
             InitClient();
 
-            myClient.ConnectTo(myServer, "");
+            myClient.ConnectTo(myServer, "", myServer.Port);
+            Logger.Write("Connecting to server on port {0}", myServer.Port);
         }
 
         /// <summary>
@@ -83,7 +84,7 @@ namespace DurakGame
 
             InitClient();
 
-            myClient.ConnectTo(myServer);
+            myClient.ConnectTo(myServer, "", myServer.Port);
         }
 
         /// <summary>

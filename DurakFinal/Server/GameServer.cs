@@ -86,6 +86,8 @@ namespace Durak.Server
         /// </summary>
         private bool isSinglePlayer;
 
+        private NetPeerConfiguration myNetConfig;
+
         /// <summary>
         /// Stores whether this server is set up for the current game
         /// </summary>
@@ -202,6 +204,14 @@ namespace Durak.Server
         }
 
         /// <summary>
+        /// Gets the port that the game server has managed to bind to
+        /// </summary>
+        public int Port
+        {
+            get { return myNetConfig.Port; }
+        }
+
+        /// <summary>
         /// Creates a new instance of a game server
         /// </summary>
         public GameServer(int numPlayers = 4)
@@ -277,7 +287,7 @@ namespace Durak.Server
             // Set the maximum number of connections to the number of players
             netConfig.MaximumConnections = myPlayers.Count;
             // Set the port to use
-            netConfig.Port = NetSettings.DEFAULT_SERVER_PORT;
+            netConfig.Port = NetUtils.GetOpenPort(NetSettings.DEFAULT_SERVER_PORT + 1);
             // We want to recycle old messages (improves performance)
             netConfig.UseMessageRecycling = true;
 
@@ -291,6 +301,8 @@ namespace Durak.Server
             netConfig.EnableMessageType(NetIncomingMessageType.StatusChanged);
             // We want the connection latency updates (heartbeats)
             netConfig.EnableMessageType(NetIncomingMessageType.ConnectionLatencyUpdated);
+
+            myNetConfig = netConfig;
 
             // Create the network peer
             myServer = new NetServer(netConfig);
@@ -330,8 +342,27 @@ namespace Durak.Server
         {
             Log("Starting server");
 
-            // Simply start the server
-            myServer.Start();
+            int port = myNetConfig.Port;
+            int maxClients = 1000;
+            int index = 0;
+
+            while (index < maxClients)
+            {
+                try
+                {
+                    // Simply start the server
+                    myServer.Start();
+                    break;
+                }
+                catch(Exception e)
+                {
+                    myNetConfig = myNetConfig.Clone();
+                    port++;
+                    myNetConfig.Port = port;
+                    myServer = new NetServer(myNetConfig);
+                    index++;
+                }
+            }
 
             Log("Server Started on {0}:{1}", myAddress, myServer.Configuration.Port);
         }
